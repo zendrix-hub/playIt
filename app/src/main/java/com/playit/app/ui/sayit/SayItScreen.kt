@@ -32,6 +32,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playit.app.ui.components.PlayItLearningScaffold
+import com.playit.app.PlayItApplication
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 
@@ -53,6 +54,7 @@ fun SayItScreen(
     viewModel: SayItViewModel = viewModel(
         factory = SayItViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
+            repository = (LocalContext.current.applicationContext as PlayItApplication).repository, // ADDED
             phonemeId   = phonemeId
         )
     )

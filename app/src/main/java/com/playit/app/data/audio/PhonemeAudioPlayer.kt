@@ -9,33 +9,35 @@ class PhonemeAudioPlayer(private val context: Context) {
 
     fun playAssetAudio(fileName: String, onComplete: () -> Unit = {}) {
         try {
-            release() // Stop anything currently playing
-            mediaPlayer = MediaPlayer()
+            // Safe reset: ensure we don't crash if it's already released or idle
+            mediaPlayer?.let {
+                if (it.isPlaying) it.stop()
+                it.reset()
+            } ?: run {
+                mediaPlayer = MediaPlayer()
+            }
 
-            // Open the file from the assets folder
             val descriptor = context.assets.openFd(fileName)
-
-            // Give it to the media player
             mediaPlayer?.setDataSource(
                 descriptor.fileDescriptor,
                 descriptor.startOffset,
                 descriptor.length
             )
-
-            // THE FIX: Explicitly close the descriptor so it doesn't leak memory!
             descriptor.close()
 
-            // Trigger the callback when the audio finishes playing
             mediaPlayer?.setOnCompletionListener {
                 onComplete()
             }
 
-            mediaPlayer?.prepare()
-            mediaPlayer?.start()
+            // Use prepareAsync for smoother performance in chains
+            mediaPlayer?.setOnPreparedListener {
+                it.start()
+            }
+            mediaPlayer?.prepareAsync()
 
         } catch (e: Exception) {
             e.printStackTrace()
-            onComplete() // Failsafe: if the audio fails to load, let the user proceed anyway
+            onComplete() // Failsafe
         }
     }
 

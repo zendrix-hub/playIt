@@ -149,7 +149,11 @@ fun TopStatsBar(profileName: String, totalStars: Int, currentStreak: Int) {
 
 @Composable
 fun LetterNode(node: MapNodeState, onClick: () -> Unit) {
-    val backgroundColor = if (node.isUnlocked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+    val backgroundColor = if (node.isUnlocked) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
     val contentColor = if (node.isUnlocked) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {

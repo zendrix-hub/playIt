@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.playit.app.data.repository.PlayItRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,6 +33,7 @@ data class SayItUiState(
 
 class SayItViewModel(
     private val application: Application,
+    private val repository: PlayItRepository, // Injected Repository
     private val phonemeId: String
 ) : ViewModel(), RecognitionListener {
 
@@ -46,8 +48,6 @@ class SayItViewModel(
         initModel()
     }
 
-    // ─── Model Loading (no StorageService — copies manually to avoid hang) ───
-
     fun initModel() {
         _uiState.update { it.copy(isModelLoading = true, isModelReady = false, errorMessage = null) }
 
@@ -58,7 +58,7 @@ class SayItViewModel(
                     if (!destDir.exists() || destDir.list().isNullOrEmpty()) {
                         copyAssetFolder(srcName = "model", destDir = destDir)
                     }
-                    Model(destDir.absolutePath)   // throws if model files are wrong/missing
+                    Model(destDir.absolutePath)
                 }
                 voskModel = model
                 _uiState.update { it.copy(isModelLoading = false, isModelReady = true) }
@@ -75,27 +75,21 @@ class SayItViewModel(
         }
     }
 
-    /**
-     * Recursively copies assets/[srcName] → [destDir].
-     * Skips files that already exist so re-installs are fast.
-     */
     private fun copyAssetFolder(srcName: String, destDir: File) {
         destDir.mkdirs()
         val assets   = application.assets
         val children = assets.list(srcName) ?: emptyArray()
 
         if (children.isEmpty()) {
-            // It's a file — copy it
-            val destFile = destDir   // destDir IS the file in this case (called from child loop)
+            val destFile = destDir
             assets.open(srcName).use { input ->
                 destFile.outputStream().use { output -> input.copyTo(output) }
             }
         } else {
-            // It's a folder — recurse
             for (child in children) {
                 val childSrc  = "$srcName/$child"
                 val childDest = File(destDir, child)
-                if (childDest.exists()) continue        // already copied
+                if (childDest.exists()) continue
                 val grandchildren = assets.list(childSrc) ?: emptyArray()
                 if (grandchildren.isEmpty()) {
                     assets.open(childSrc).use { input ->
@@ -107,8 +101,6 @@ class SayItViewModel(
             }
         }
     }
-
-    // ─── Recording ───────────────────────────────────────────────────────────
 
     fun onRecordButtonClicked() {
         if (_uiState.value.isRecording) stopRecording()
@@ -142,8 +134,6 @@ class SayItViewModel(
         _uiState.update { it.copy(isRecording = false) }
     }
 
-    // ─── Vosk Callbacks ──────────────────────────────────────────────────────
-
     override fun onPartialResult(hypothesis: String) {
         val text = parseVoskJson(hypothesis, "partial")
         if (text.isNotEmpty()) _uiState.update { it.copy(partialText = text) }
@@ -173,33 +163,68 @@ class SayItViewModel(
 
     override fun onTimeout() { stopRecording() }
 
-    // ─── Evaluation ──────────────────────────────────────────────────────────
-
     private fun evaluateSpeech(heardText: String) {
-        val isMatch = heardText.lowercase().contains(phonemeId.lowercase())
+        val target = phonemeId.lowercase()
+
+        // Phonetic map for Vosk interpreting young children
+        val pronunciationMap = mapOf(
+            "m" to listOf("m", "em", "um", "am"),
+            "s" to listOf("s", "es", "suh", "is"),
+            "a" to listOf("a", "ah", "uh", "apple")
+        )
+
+        val validSounds = pronunciationMap[target] ?: listOf(target)
+        val isMatch = validSounds.any { heardText.lowercase().contains(it) }
+
+        // Failsafe: Stop listening immediately upon parsing a definitive result
+        // to prevent the AudioRecord thread from throwing buffer exceptions.
+        stopRecording()
+
         _uiState.update { current ->
             if (isMatch) {
                 val newConsecutive = current.consecutiveCorrect + 1
                 val heartBonus     = if (newConsecutive % 3 == 0) 1 else 0
+
+                viewModelScope.launch {
+                    repository.updateLessonProgress(
+                        com.playit.app.data.local.entity.LessonProgress(
+                            phonemeId = phonemeId,
+                            isCompleted = false,   // Not fully complete until Find It is done
+                            starsEarned = 0
+                        )
+                    )
+                }
+
                 current.copy(
-                    isSuccess          = true,
+                    isSuccess = true,
                     consecutiveCorrect = newConsecutive,
                     activeHearts       = minOf(5, current.activeHearts + heartBonus)
                 )
             } else {
                 val newHearts = current.activeHearts - 1
-                if (newHearts <= 0)
-                    current.copy(activeHearts = 3, consecutiveCorrect = 0)
-                else
-                    current.copy(activeHearts = newHearts, consecutiveCorrect = 0)
+
+                // If hearts empty out, reset back to 3 confidence-building hearts
+                if (newHearts <= 0) {
+                    current.copy(
+                        activeHearts = 3,
+                        consecutiveCorrect = 0,
+                        partialText = "",
+                        resultText = "Try again! 🎧"
+                    )
+                } else {
+                    current.copy(
+                        activeHearts = newHearts,
+                        consecutiveCorrect = 0,
+                        partialText = "",
+                        resultText = "Not quite! Try again 🎧"
+                    )
+                }
             }
         }
     }
 
     private fun parseVoskJson(json: String, key: String) =
         try { JSONObject(json).getString(key).trim() } catch (e: Exception) { "" }
-
-    // ─── Cleanup ─────────────────────────────────────────────────────────────
 
     override fun onCleared() {
         super.onCleared()
@@ -212,12 +237,13 @@ class SayItViewModel(
 
 class SayItViewModelFactory(
     private val application: Application,
+    private val repository: PlayItRepository,
     private val phonemeId: String
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SayItViewModel::class.java))
-            return SayItViewModel(application, phonemeId) as T
+            return SayItViewModel(application, repository, phonemeId) as T
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
