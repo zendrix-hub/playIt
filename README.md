@@ -7,7 +7,7 @@ Digital literacy tools often fail in rural or resource-constrained environments 
 ### Tech Stack & Engineering Decisions
 * **Language:** Kotlin 
 * **Architecture:** MVVM (Model-View-ViewModel) - *Chosen to strictly decouple the UI from business logic, ensuring high testability and preventing the accumulation of technical debt.*
-* **Edge-AI:** PocketSphinx - *Integrated for offline, zero-latency voice recognition.*
+* **Edge-AI:** Vosk - *Integrated for offline, zero-latency voice recognition.*
 * **Media:** ExoPlayer - *Handles local audio delivery and playback.*
 
 ### Setup & Build Instructions
