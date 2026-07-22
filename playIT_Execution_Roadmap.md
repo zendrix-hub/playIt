@@ -206,8 +206,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Low. **Expected Duration:** 0.5h.
 - **Stop Condition:** Stop after status is recorded — this task never touches code.
 
-**Quality Gate 0 → 1:** ☐ Baseline build recorded ☐ All 9 blocking-bug locations confirmed or flagged ☐ T-01–T-14 status recorded ☐ Git commit(s) made. **Do not enter Phase 1 until all four boxes are checked.**
-
+**Quality Gate 0 → 1:** [x] Baseline build recorded [x] All 9 blocking-bug locations confirmed or flagged [x] T-01–T-14 status recorded [x] Git commit(s) made.
 ---
 
 ## 6. PHASE 1 — Critical Engineering Fixes (GA-Blocking)
