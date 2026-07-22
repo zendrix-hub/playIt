@@ -941,7 +941,8 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium. **Expected Duration:** 2h.
 - **Stop Condition:** Stop once the full export flow is confirmed non-silent end to end.
 
-**Quality Gate 5 → 6:** ☐ All 12 screens committed individually ☐ Full app walkthrough (every screen visited at least once) shows zero raw Material defaults, zero hardcoded token literals ☐ Each screen's specific Design System Violations list (from the source audit) confirmed closed ☐ Build green.
+**Quality Gate 5 → 6:** [x] All 12 screens committed individually [x] Full app walkthrough (every screen visited at least once) shows zero raw Material defaults, zero hardcoded token literals [x] Each screen's specific Design System Violations list (from the source audit) confirmed closed [x] Build green.
+```
 
 ---
 
