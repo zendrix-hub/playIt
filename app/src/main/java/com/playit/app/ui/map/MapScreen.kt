@@ -73,6 +73,17 @@ fun MapScreen(
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize()) {
+            val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+            val activePulseScale by infiniteTransition.animateFloat(
+                initialValue = 0.95f,
+                targetValue = 1.05f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(800, easing = LinearOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse
+                ),
+                label = "activePulse"
+            )
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -88,6 +99,8 @@ fun MapScreen(
                         else -> Alignment.CenterEnd
                     }
 
+                    val nodeScale = if (node.isActiveNode) activePulseScale else 1f
+
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -95,9 +108,9 @@ fun MapScreen(
                         contentAlignment = alignment
                     ) {
                         if (node.isBlendIt) {
-                            BlendItChallengeNode(node = node, onClick = { onNodeTapped(node) })
+                            BlendItChallengeNode(node = node, scale = nodeScale, onClick = { onNodeTapped(node) })
                         } else {
-                            LetterNode(node = node, onClick = { onNodeTapped(node) })
+                            LetterNode(node = node, scale = nodeScale, onClick = { onNodeTapped(node) })
                         }
                     }
 
@@ -225,7 +238,11 @@ fun TopStatsBar(
 }
 
 @Composable
-fun LetterNode(node: MapNodeState, onClick: () -> Unit) {
+fun LetterNode(
+    node: MapNodeState,
+    scale: Float = 1f,
+    onClick: () -> Unit
+) {
     val backgroundColor = if (node.isUnlocked) {
         MaterialTheme.colorScheme.primary
     } else {
@@ -233,25 +250,12 @@ fun LetterNode(node: MapNodeState, onClick: () -> Unit) {
     }
     val contentColor = if (node.isUnlocked) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
 
-    // Breathing pulse scale animation for active node
-    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-    val scaleVal by infiniteTransition.animateFloat(
-        initialValue = 0.95f,
-        targetValue = 1.05f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(800, easing = LinearOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "activePulse"
-    )
-    val finalScale = if (node.isActiveNode) scaleVal else 1f
-
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(72.dp)
-                .scale(finalScale)
+                .scale(scale)
                 .background(backgroundColor, CircleShape)
                 .border(4.dp, MaterialTheme.colorScheme.surface, CircleShape)
                 .clickable(enabled = node.isUnlocked) { onClick() }
@@ -288,28 +292,19 @@ fun LetterNode(node: MapNodeState, onClick: () -> Unit) {
 }
 
 @Composable
-fun BlendItChallengeNode(node: MapNodeState, onClick: () -> Unit) {
+fun BlendItChallengeNode(
+    node: MapNodeState,
+    scale: Float = 1f,
+    onClick: () -> Unit
+) {
     val backgroundColor = if (node.isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant
-
-    // Breathing pulse scale animation for active node
-    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-    val scaleVal by infiniteTransition.animateFloat(
-        initialValue = 0.96f,
-        targetValue = 1.04f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(800, easing = LinearOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "activePulse"
-    )
-    val finalScale = if (node.isActiveNode) scaleVal else 1f
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .height(64.dp)
             .width(120.dp)
-            .scale(finalScale)
+            .scale(scale)
             .background(backgroundColor, RoundedCornerShape(16.dp))
             .border(4.dp, MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
             .clickable(enabled = node.isUnlocked) { onClick() }
