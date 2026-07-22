@@ -1,10 +1,6 @@
 package com.playit.app.domain.usecase
 
-data class LetterCard(
-    val id: Int,
-    val char: String,
-    val isUsed: Boolean = false
-)
+import com.playit.app.domain.model.LetterCard
 
 /**
  * Pure domain class to handle word scrambling and spelling correctness validation.

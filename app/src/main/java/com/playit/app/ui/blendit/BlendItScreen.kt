@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.playit.app.domain.usecase.LetterCard
+import com.playit.app.domain.model.LetterCard
 import com.playit.app.ui.components.PlayItLearningScaffold
 import kotlinx.coroutines.delay
 

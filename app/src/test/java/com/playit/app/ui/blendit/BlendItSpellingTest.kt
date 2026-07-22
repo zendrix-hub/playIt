@@ -1,6 +1,6 @@
 package com.playit.app.ui.blendit
 
-import com.playit.app.domain.usecase.LetterCard
+import com.playit.app.domain.model.LetterCard
 import com.playit.app.domain.usecase.SpellingEngine
 import org.junit.Assert.*
 import org.junit.Test

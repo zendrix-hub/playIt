@@ -108,3 +108,9 @@ data class PhonemeWithStatus(
     val isCompleted: Boolean,
     val starsEarned: Int
 )
+
+data class LetterCard(
+    val id: Int,
+    val char: String,
+    val isUsed: Boolean = false
+)

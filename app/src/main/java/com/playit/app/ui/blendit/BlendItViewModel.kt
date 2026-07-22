@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.playit.app.data.audio.PhonemeAudioPlayer
 import com.playit.app.domain.repository.PlayItRepository
-import com.playit.app.domain.usecase.LetterCard
+import com.playit.app.domain.model.LetterCard
 import com.playit.app.domain.usecase.SpellingEngine
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
