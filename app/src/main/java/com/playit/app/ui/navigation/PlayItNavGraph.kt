@@ -57,7 +57,7 @@ fun PlayItNavGraph(
             val app = context.applicationContext as PlayItApplication
 
             val profileViewModel: ProfileViewModel = viewModel(
-                factory = ProfileViewModel.ProfileViewModelFactory(app, app.repository)
+                factory = ProfileViewModel.ProfileViewModelFactory(app.repository)
             )
 
             ProfileSelectScreen(
@@ -79,7 +79,7 @@ fun PlayItNavGraph(
             val app = context.applicationContext as PlayItApplication
 
             val profileViewModel: ProfileViewModel = viewModel(
-                factory = ProfileViewModel.ProfileViewModelFactory(app, app.repository)
+                factory = ProfileViewModel.ProfileViewModelFactory(app.repository)
             )
 
             NamePromptScreen(

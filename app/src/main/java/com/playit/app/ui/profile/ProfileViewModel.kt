@@ -1,11 +1,8 @@
 package com.playit.app.ui.profile
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.playit.app.PlayItApplication
 import com.playit.app.data.preferences.SessionManager
 import com.playit.app.domain.model.Profile
 import com.playit.app.domain.repository.PlayItRepository
@@ -15,9 +12,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    application: Application,
     private val repository: PlayItRepository
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     // Automatically observe database profiles
     val profiles: StateFlow<List<Profile>> = repository.getAllProfiles()
@@ -61,12 +57,12 @@ class ProfileViewModel(
     }
 
     class ProfileViewModelFactory(
-        private val application: Application,
         private val repository: PlayItRepository
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ProfileViewModel(application, repository) as T
+            return ProfileViewModel(repository) as T
         }
     }
 }
+
