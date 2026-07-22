@@ -144,7 +144,7 @@ class BlendItViewModel(
                 com.playit.app.domain.model.BlendItProgress(
                     id = 0L,
                     profileId = activeProfileId,
-                    groupId = phonemeId,
+                    groupId = phonemeId.replace("BLEND_", ""),
                     starsEarned = 3,
                     heartsLost = 0,
                     isCompleted = true,
