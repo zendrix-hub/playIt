@@ -66,13 +66,7 @@ fun PlayItLearningScaffold(
                 )
 
                 if (activeHearts != null) {
-                    Surface(shape = RoundedCornerShape(50), color = CardWhite.copy(alpha = 0.5f)) {
-                        Row(modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                            repeat(activeHearts) {
-                                Icon(Icons.Filled.Favorite, contentDescription = null, tint = HeartRed, modifier = Modifier.size(24.dp))
-                            }
-                        }
-                    }
+                    HeartDisplay(activeHearts = activeHearts)
                 }
             }
 
