@@ -277,7 +277,10 @@ data class LetterGroupMemberEntity(
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("groupId")]
+    indices = [
+        Index("groupId"),
+        Index(value = ["groupId", "word"], unique = true)
+    ]
 )
 data class BlendItWordEntity(
     @PrimaryKey(autoGenerate = true) val wordId: Long = 0,
