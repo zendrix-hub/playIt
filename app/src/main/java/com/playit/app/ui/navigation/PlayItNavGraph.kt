@@ -189,11 +189,13 @@ fun PlayItNavGraph(
             val phonemeId = backStackEntry.arguments?.getString("phonemeId") ?: ""
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
+            val activeProfileId = SessionManager.activeProfileId
             val viewModel: BlendItViewModel = viewModel(
                 factory = BlendItViewModel.BlendItViewModelFactory(
                     application = app,
                     repository = app.repository,
-                    phonemeId = phonemeId
+                    phonemeId = phonemeId,
+                    profileId = activeProfileId
                 )
             )
 

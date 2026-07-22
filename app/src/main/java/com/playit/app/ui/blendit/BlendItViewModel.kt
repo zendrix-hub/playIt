@@ -28,7 +28,8 @@ data class BlendItUiState(
 class BlendItViewModel(
     private val application: Application,
     private val repository: PlayItRepository,
-    private val phonemeId: String
+    private val phonemeId: String,
+    private val profileId: Long
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BlendItUiState())
@@ -138,12 +139,11 @@ class BlendItViewModel(
     }
 
     fun completeSession() {
-        val activeProfileId = com.playit.app.data.preferences.SessionManager.activeProfileId
         viewModelScope.launch {
             repository.updateBlendItProgress(
                 com.playit.app.domain.model.BlendItProgress(
                     id = 0L,
-                    profileId = activeProfileId,
+                    profileId = profileId,
                     groupId = phonemeId.replace("BLEND_", ""),
                     starsEarned = 3,
                     heartsLost = 0,
@@ -162,13 +162,14 @@ class BlendItViewModel(
     class BlendItViewModelFactory(
         private val application: Application,
         private val repository: PlayItRepository,
-        private val phonemeId: String
+        private val phonemeId: String,
+        private val profileId: Long
     ) : ViewModelProvider.Factory {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(BlendItViewModel::class.java)) {
-                return BlendItViewModel(application, repository, phonemeId) as T
+                return BlendItViewModel(application, repository, phonemeId, profileId) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
