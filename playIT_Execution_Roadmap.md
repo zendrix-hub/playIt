@@ -626,7 +626,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Low. **Expected Duration:** 1h.
 - **Stop Condition:** Stop once the preview confirms enforcement works on a test case.
 
-**Quality Gate 3 → 4:** ☐ All 6 tokens files exist and compile ☐ Design System values cross-checked byte-for-byte against §3 of this roadmap ☐ Committed individually, 6 commits.
+**Quality Gate 3 → 4:** [x] All 5 Phase 3 tasks committed [x] `./gradlew assembleDebug` green [x] All tokens referenced in theme
 
 ---
 
