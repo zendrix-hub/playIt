@@ -49,6 +49,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests.all { testTask ->
+            val cleanPath = (System.getenv("PATH") ?: "").replace("\"", "")
+            testTask.environment("PATH", cleanPath)
+            testTask.environment("Path", cleanPath)
+        }
+    }
 }
 
 dependencies {

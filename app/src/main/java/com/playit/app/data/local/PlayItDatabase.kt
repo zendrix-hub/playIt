@@ -10,6 +10,7 @@ import com.playit.app.data.local.entity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @Database(
     entities = [
@@ -64,7 +65,7 @@ abstract class PlayItDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
-                CoroutineScope(Dispatchers.IO).launch {
+                runBlocking(Dispatchers.IO) {
                     seedDatabase(database)
                 }
             }
