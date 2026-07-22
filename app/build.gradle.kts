@@ -78,6 +78,9 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     // 1. ADD THIS for collectAsStateWithLifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 
