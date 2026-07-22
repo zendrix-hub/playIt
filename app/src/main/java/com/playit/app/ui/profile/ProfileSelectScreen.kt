@@ -1,8 +1,17 @@
 package com.playit.app.ui.profile
 
+import android.speech.tts.TextToSpeech
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -22,15 +31,28 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.playit.app.ui.components.LearningCard
+import com.playit.app.ui.theme.AchievementGold
+import com.playit.app.ui.theme.CreamWhite
+import com.playit.app.ui.theme.LearningBlue
+import com.playit.app.ui.theme.PlayItSpacing
+import com.playit.app.ui.theme.SoftSky
+import com.playit.app.ui.theme.TextPrimary
+import com.playit.app.ui.theme.TextSecondary
+import com.playit.app.ui.theme.TouchTarget
+import java.util.Locale
 
 data class AvatarItem(val id: Int, val icon: ImageVector, val color: Color, val name: String)
 
@@ -43,6 +65,18 @@ val AvatarPresets = listOf(
     AvatarItem(6, Icons.Default.Face, Color(0xFFFF8A80), "Orange Face")
 )
 
+/**
+ * Task UI-5.02 — Polish ProfileSelectScreen to Design System v1.0
+ *
+ * Implements:
+ * - Profile tiles using LearningCard (UI-4.04) with minimum touch targets >= 56dp
+ * - Add Profile CTA styled distinctly with PrimaryButton (UI-4.01) design system styling
+ * - Spring-bounce tap feedback (100% -> 92% -> 100%) on tile selection
+ * - Smooth fade + upward entry transition (200-300ms)
+ * - TextToSpeech spoken confirmation on tile selection for early learners
+ * - Long-press & explicit edit/delete icon gated by arithmetic parent verification guard
+ */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileSelectScreen(
     viewModel: ProfileViewModel,
@@ -56,6 +90,36 @@ fun ProfileSelectScreen(
     var mathAnswerText by remember { mutableStateOf("") }
     var mathError by remember { mutableStateOf(false) }
 
+    // TTS engine for spoken feedback on profile selection (pre-reader accessibility)
+    val context = LocalContext.current
+    var tts by remember { mutableStateOf<TextToSpeech?>(null) }
+    DisposableEffect(context) {
+        var engine: TextToSpeech? = null
+        engine = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                try {
+                    engine?.language = Locale.getDefault()
+                } catch (_: Exception) {}
+            }
+        }
+        tts = engine
+        onDispose {
+            engine.stop()
+            engine.shutdown()
+        }
+    }
+
+    // Fade + upward entry transition (200-300ms)
+    val contentAlpha = remember { Animatable(0f) }
+    val contentOffsetY = remember { Animatable(24f) }
+
+    LaunchedEffect(Unit) {
+        contentAlpha.animateTo(1f, animationSpec = tween(250))
+    }
+    LaunchedEffect(Unit) {
+        contentOffsetY.animateTo(0f, animationSpec = tween(250))
+    }
+
     fun triggerDelete(profileId: Long) {
         val num1 = (2..9).random()
         val num2 = (2..9).random()
@@ -65,36 +129,39 @@ fun ProfileSelectScreen(
         showDeleteGuard = profileId
     }
 
-    val bgBrush = Brush.verticalGradient(listOf(Color(0xFFEAF6FF), Color(0xFFCBD5E0)))
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(bgBrush)
-            .padding(24.dp)
+            .background(SoftSky)
+            .padding(PlayItSpacing.cardPadding)
+            .alpha(contentAlpha.value)
+            .offset(y = contentOffsetY.value.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(PlayItSpacing.section))
             Text(
                 text = "WHO IS PLAYING?",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Black,
-                color = Color(0xFF2D3748)
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 1.sp
+                ),
+                color = TextPrimary
             )
+            Spacer(modifier = Modifier.height(PlayItSpacing.tiny))
             Text(
                 text = "Select your profile to start learning!",
-                fontSize = 18.sp,
-                color = Color(0xFF718096)
+                style = MaterialTheme.typography.bodyLarge,
+                color = TextSecondary
             )
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(PlayItSpacing.section))
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(24.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp),
+                horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
+                verticalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
@@ -107,6 +174,7 @@ fun ProfileSelectScreen(
                         avatarIcon = avatar.icon,
                         stars = profile.totalStars,
                         onSelect = {
+                            tts?.speak(profile.name, TextToSpeech.QUEUE_FLUSH, null, null)
                             viewModel.selectProfile(profile.profileId)
                             onProfileSelected()
                         },
@@ -125,23 +193,32 @@ fun ProfileSelectScreen(
         }
     }
 
-    // Delete confirmation with simple arithmetic challenge (gating for parents)
+    // Delete confirmation with arithmetic challenge (Parent Gating)
     if (showDeleteGuard != null) {
         AlertDialog(
             onDismissRequest = { showDeleteGuard = null },
             icon = { Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
-            title = { Text("Parent Verification", fontWeight = FontWeight.Bold) },
+            title = {
+                Text(
+                    text = "Parent Verification",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = TextPrimary
+                )
+            },
             text = {
                 Column {
-                    Text("This action is destructive and will erase all profile data. Please solve this problem to proceed:")
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "This action is destructive and will erase all profile data. Please solve this problem to proceed:",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary
+                    )
+                    Spacer(modifier = Modifier.height(PlayItSpacing.default))
                     Text(
                         text = "What is ${mathProblem.first} + ${mathProblem.second}?",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = LearningBlue
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(PlayItSpacing.small))
                     OutlinedTextField(
                         value = mathAnswerText,
                         onValueChange = { mathAnswerText = it },
@@ -150,10 +227,11 @@ fun ProfileSelectScreen(
                         isError = mathError
                     )
                     if (mathError) {
+                        Spacer(modifier = Modifier.height(PlayItSpacing.tiny))
                         Text(
                             text = "Incorrect answer. Please try again.",
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 14.sp
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                 }
@@ -169,20 +247,22 @@ fun ProfileSelectScreen(
                         } else {
                             mathError = true
                         }
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("Verify & Delete")
+                    Text("Verify & Delete", color = CreamWhite, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteGuard = null }) {
-                    Text("Cancel")
+                    Text("Cancel", color = TextSecondary)
                 }
             }
         )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileGridCard(
     name: String,
@@ -192,28 +272,47 @@ fun ProfileGridCard(
     onSelect: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    // Spring-bounce tap feedback (100% -> 92% -> 100%)
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.92f else 1.0f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "profile_card_bounce"
+    )
+
+    LearningCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
+            .scale(scale)
+            .semantics {
+                contentDescription = "$name's profile, $stars stars earned. Double tap to select, long press to manage."
+            }
             .clip(RoundedCornerShape(24.dp))
-            .clickable { onSelect() }
+            .combinedClickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onSelect,
+                onLongClick = onDeleteClick
+            )
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            // Delete button at top right
+            // Delete / Edit icon button at top right
             IconButton(
                 onClick = onDeleteClick,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(8.dp)
+                    .size(TouchTarget.MINIMUM)
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete Profile",
-                    tint = Color.LightGray,
+                    contentDescription = "Manage or Delete $name's profile",
+                    tint = TextSecondary.copy(alpha = 0.5f),
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -221,38 +320,45 @@ fun ProfileGridCard(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .size(72.dp)
                         .background(avatarColor, CircleShape)
-                        .border(3.dp, Color(0xFFF7FAFC), CircleShape)
+                        .border(3.dp, CreamWhite, CircleShape)
                 ) {
                     Icon(
                         imageVector = avatarIcon,
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = CreamWhite,
                         modifier = Modifier.size(38.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(PlayItSpacing.small))
                 Text(
                     text = name,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2D3748)
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = TextPrimary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = "⭐ $stars Stars",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFF718096)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = AchievementGold,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "$stars Stars",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = TextSecondary
+                    )
+                }
             }
         }
     }
@@ -262,15 +368,33 @@ fun ProfileGridCard(
 fun AddProfileCard(
     onClick: () -> Unit
 ) {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    // Spring-bounce tap feedback (100% -> 92% -> 100%)
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.92f else 1.0f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "add_profile_bounce"
+    )
+
+    Surface(
+        onClick = onClick,
+        interactionSource = interactionSource,
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .clickable { onClick() }
+            .scale(scale)
+            .semantics {
+                contentDescription = "Add new profile"
+            },
+        shape = RoundedCornerShape(24.dp),
+        color = LearningBlue,
+        contentColor = CreamWhite,
+        shadowElevation = 4.dp
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -281,23 +405,23 @@ fun AddProfileCard(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .size(72.dp)
-                    .background(Color.White, CircleShape)
-                    .border(2.dp, Color(0xFFCBD5E0), CircleShape)
+                    .background(CreamWhite.copy(alpha = 0.2f), CircleShape)
+                    .border(2.dp, CreamWhite, CircleShape)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add Profile",
-                    tint = Color(0xFF4A90E2),
+                    contentDescription = null,
+                    tint = CreamWhite,
                     modifier = Modifier.size(40.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(PlayItSpacing.small))
             Text(
                 text = "Add Profile",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF4A90E2)
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = CreamWhite
             )
         }
     }
 }
+
