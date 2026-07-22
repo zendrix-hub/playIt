@@ -207,19 +207,11 @@ class SayItViewModel(
     private fun evaluateSpeech(heardText: String, confidence: Double) {
         val target = phonemeId.lowercase()
 
-        // Phonetic map for Vosk interpreting young children
-        val pronunciationMap = mapOf(
-            "m" to listOf("m", "em", "um", "am"),
-            "s" to listOf("s", "es", "suh", "is"),
-            "a" to listOf("a", "ah", "uh", "apple")
-        )
-
         // Delegate matches to the domain SpeechValidator use case
         val isMatch = speechValidator.validatePronunciation(
             targetSound = target,
             recognizedText = heardText,
-            confidence = confidence,
-            pronunciationMap = pronunciationMap
+            confidence = confidence
         )
 
         // Failsafe: Stop listening immediately upon parsing a result

@@ -4,13 +4,15 @@ package com.playit.app.domain.usecase
  * Domain usecase to validate speech recognition.
  * Matches recognized text to target sound mapping and checks confidence score.
  */
-class SpeechValidator {
+class SpeechValidator(
+    private val defaultMap: Map<String, List<String>> = PhonemePronunciationMap.map
+) {
 
     fun validatePronunciation(
         targetSound: String,
         recognizedText: String,
         confidence: Double,
-        pronunciationMap: Map<String, List<String>>
+        pronunciationMap: Map<String, List<String>> = defaultMap
     ): Boolean {
         val target = targetSound.lowercase().trim()
         val heard = recognizedText.lowercase().trim()
