@@ -15,28 +15,42 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-// 1. Define the Light Theme Mapping
+// 1. Define the Light Theme Mapping (Design System v1.0)
 private val LightColorScheme = lightColorScheme(
-    primary = TangerineOrange,
-    onPrimary = CleanWhite,
-    secondary = ActiveBlue,
-    background = SoftSkyBlue, // Now safely resolves to the restored color
-    surface = CleanWhite,
-    onBackground = DeepCharcoal,
-    onSurface = DeepCharcoal,
-    error = GentleCoralRed
+    primary = LearningBlue,
+    onPrimary = CreamWhite,
+    secondary = EnergyOrange,
+    onSecondary = CreamWhite,
+    tertiary = AchievementGold,
+    onTertiary = TextPrimary,
+    background = SoftSky,
+    onBackground = TextPrimary,
+    surface = CreamWhite,
+    onSurface = TextPrimary,
+    surfaceVariant = Border,
+    onSurfaceVariant = TextSecondary,
+    error = GentleCorrectionOrange,
+    onError = CreamWhite,
+    outline = Border
 )
 
 // 2. Define the Dark Theme Mapping
 private val DarkColorScheme = darkColorScheme(
-    primary = TangerineOrange,
-    onPrimary = DeepCharcoal,
-    secondary = ActiveBlue,
-    background = DigitalBackground,
-    surface = DeepCharcoal,
-    onBackground = CleanWhite,
-    onSurface = CleanWhite,
-    error = GentleCoralRed
+    primary = LearningBlue,
+    onPrimary = TextPrimary,
+    secondary = EnergyOrange,
+    onSecondary = TextPrimary,
+    tertiary = AchievementGold,
+    onTertiary = TextPrimary,
+    background = TextPrimary,
+    onBackground = CreamWhite,
+    surface = TextPrimary,
+    onSurface = CreamWhite,
+    surfaceVariant = Border,
+    onSurfaceVariant = TextSecondary,
+    error = GentleCorrectionOrange,
+    onError = TextPrimary,
+    outline = Border
 )
 
 @Composable
@@ -52,7 +66,6 @@ fun PlayItTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
         // Force the light theme by default for testing the child-friendly UI
-        // Change back to `darkTheme -> DarkColorScheme` if you want dynamic system switching
         darkTheme -> LightColorScheme
         else -> LightColorScheme
     }
