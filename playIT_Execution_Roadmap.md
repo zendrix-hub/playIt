@@ -778,8 +778,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium. **Expected Duration:** 1.5h.
 - **Stop Condition:** Stop once all 3 buttons are confirmed identical post-refactor. Do not apply this modifier to map nodes/tiles yet — that's Phase 5.
 
-**Quality Gate 4 → 5:** ☐ All 11 components committed ☐ Each has a passing `@Preview` ☐ `HeartDisplay`/`MascotBubble`/`SubLevelProgressBar` confirmed genuinely single-sourced (no orphaned per-screen forks remaining) ☐ Build green.
-
+**Quality Gate 4 → 5:** [x] All 11 components committed [x] Each has a passing `@Preview` [x] `HeartDisplay`/`MascotBubble`/`SubLevelProgressBar` confirmed genuinely single-sourced (no orphaned per-screen forks remaining) [x] Build green.
 ---
 
 ## 10. PHASE 5 — Screen-by-Screen UI Refinement
