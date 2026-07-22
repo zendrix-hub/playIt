@@ -16,6 +16,7 @@ import com.playit.app.PlayItApplication
 import com.playit.app.data.preferences.SessionManager
 import com.playit.app.ui.blendit.BlendItScreen
 import com.playit.app.ui.blendit.BlendItViewModel
+import com.playit.app.ui.completion.LetterCompleteScreen
 import com.playit.app.ui.findit.FindItScreen
 import com.playit.app.ui.findit.FindItViewModel
 import com.playit.app.ui.findit.FindItViewModelFactory
@@ -175,9 +176,30 @@ fun PlayItNavGraph(
                 phonemeId = phoneme,
                 onBack = { navController.popBackStack() },
                 onNext = {
-                    navController.popBackStack(Routes.MAP, inclusive = false)
+                    navController.navigate(Routes.letterComplete(phoneme, 3)) {
+                        popUpTo(Routes.FIND_IT) { inclusive = true }
+                    }
                 },
                 viewModel = viewModel
+            )
+        }
+
+        // ── 3.5 LETTER COMPLETE ─────────────────────────────────────────────
+        composable(
+            route = Routes.LETTER_COMPLETE,
+            arguments = listOf(
+                navArgument("phonemeId") { type = NavType.StringType },
+                navArgument("stars") { type = NavType.IntType; defaultValue = 3 }
+            )
+        ) { backStackEntry ->
+            val phonemeId = backStackEntry.arguments?.getString("phonemeId") ?: "m"
+            val stars = backStackEntry.arguments?.getInt("stars") ?: 3
+            LetterCompleteScreen(
+                phonemeId = phonemeId,
+                starsEarned = stars,
+                onContinueToMap = {
+                    navController.popBackStack(Routes.MAP, inclusive = false)
+                }
             )
         }
 

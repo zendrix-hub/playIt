@@ -11,9 +11,11 @@ object Routes {
     const val SAY_IT = "say_it/{phonemeId}"
     const val FIND_IT = "find_it/{phonemeId}"
     const val BLEND_IT = "blend_it/{phonemeId}"
+    const val LETTER_COMPLETE = "letter_complete/{phonemeId}/{stars}"
 
     fun hearIt(phonemeId: String): String = "hear_it/$phonemeId"
     fun sayIt(phonemeId: String): String = "say_it/$phonemeId"
     fun findIt(phonemeId: String): String = "find_it/$phonemeId"
     fun blendIt(phonemeId: String): String = "blend_it/$phonemeId"
+    fun letterComplete(phonemeId: String, stars: Int = 3): String = "letter_complete/$phonemeId/$stars"
 }
