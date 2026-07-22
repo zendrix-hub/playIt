@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.playit.app.domain.model.LetterCard
+import com.playit.app.ui.components.AnswerFeedback
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PlayItLearningScaffold
@@ -196,51 +197,59 @@ fun BlendItContent(
                     }
 
                     // ── 1. Target Spelling Slots ──
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(letterSpacing),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        for (i in 0 until word.length) {
-                            val spelledCard = spelledLetters.getOrNull(i)
-                            if (spelledCard != null) {
-                                Card(
-                                    shape = RoundedCornerShape(cornerRadius),
-                                    colors = CardDefaults.cardColors(
-                                        containerColor = if (isError) GentleOrangeBg else Color.White
-                                    ),
-                                    border = if (isError) BorderStroke(3.dp, GentleOrange) else BorderStroke(1.dp, BorderColor),
-                                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                                    modifier = Modifier
-                                        .width(76.dp)
-                                        .height(110.dp)
-                                ) {
-                                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                                        if (isSnapped) {
-                                            Box(modifier = Modifier.fillMaxSize().background(AchievementGold.copy(alpha = 0.2f)))
+                    val feedbackState = when {
+                        hasCompleted -> true
+                        isError -> false
+                        else -> null
+                    }
+
+                    AnswerFeedback(isCorrect = feedbackState) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(letterSpacing),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            for (i in 0 until word.length) {
+                                val spelledCard = spelledLetters.getOrNull(i)
+                                if (spelledCard != null) {
+                                    Card(
+                                        shape = RoundedCornerShape(cornerRadius),
+                                        colors = CardDefaults.cardColors(
+                                            containerColor = if (isError) GentleOrangeBg else Color.White
+                                        ),
+                                        border = if (isError) BorderStroke(3.dp, GentleOrange) else BorderStroke(1.dp, BorderColor),
+                                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                                        modifier = Modifier
+                                            .width(76.dp)
+                                            .height(110.dp)
+                                    ) {
+                                        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                                            if (isSnapped) {
+                                                Box(modifier = Modifier.fillMaxSize().background(AchievementGold.copy(alpha = 0.2f)))
+                                            }
+                                            Text(
+                                                text = spelledCard.char.uppercase(),
+                                                fontSize = 48.sp,
+                                                fontWeight = FontWeight.Black,
+                                                color = TextPrimary
+                                            )
                                         }
+                                    }
+                                } else {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(76.dp)
+                                            .height(110.dp)
+                                            .background(Color.White.copy(alpha = 0.6f), RoundedCornerShape(20.dp))
+                                            .border(BorderStroke(2.dp, FriendlyPurple.copy(alpha = 0.4f)), RoundedCornerShape(20.dp)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
                                         Text(
-                                            text = spelledCard.char.uppercase(),
-                                            fontSize = 48.sp,
-                                            fontWeight = FontWeight.Black,
-                                            color = TextPrimary
+                                            text = "?",
+                                            color = FriendlyPurple.copy(alpha = 0.6f),
+                                            fontSize = 32.sp,
+                                            fontWeight = FontWeight.Bold
                                         )
                                     }
-                                }
-                            } else {
-                                Box(
-                                    modifier = Modifier
-                                        .width(76.dp)
-                                        .height(110.dp)
-                                        .background(Color.White.copy(alpha = 0.6f), RoundedCornerShape(20.dp))
-                                        .border(BorderStroke(2.dp, FriendlyPurple.copy(alpha = 0.4f)), RoundedCornerShape(20.dp)),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "?",
-                                        color = FriendlyPurple.copy(alpha = 0.6f),
-                                        fontSize = 32.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
                                 }
                             }
                         }

@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playit.app.PlayItApplication
+import com.playit.app.ui.components.AnswerFeedback
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PlayItLearningScaffold
@@ -160,31 +161,39 @@ fun SayItContent(
                     else                                  -> Color.Transparent
                 }
 
-                Card(
-                    shape = RoundedCornerShape(32.dp),
-                    colors = CardDefaults.cardColors(containerColor = CreamWhite),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                    border = if (cardBorderColor != Color.Transparent)
-                        BorderStroke(4.dp, cardBorderColor)
-                    else null,
-                    modifier = Modifier.size(200.dp)
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
+                val answerFeedbackState = when {
+                    isSuccess                             -> true
+                    resultText.isNotEmpty() && !isSuccess -> false
+                    else                                  -> null
+                }
+
+                AnswerFeedback(isCorrect = answerFeedbackState) {
+                    Card(
+                        shape = RoundedCornerShape(32.dp),
+                        colors = CardDefaults.cardColors(containerColor = CreamWhite),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        border = if (cardBorderColor != Color.Transparent)
+                            BorderStroke(4.dp, cardBorderColor)
+                        else null,
+                        modifier = Modifier.size(200.dp)
                     ) {
                         Box(
-                            modifier = Modifier
-                                .size(130.dp)
-                                .clip(CircleShape)
-                                .background(AchievementGold.copy(alpha = 0.25f))
-                        )
-                        Text(
-                            text       = phonemeId.uppercase(),
-                            fontSize   = 100.sp,
-                            fontWeight = FontWeight.Black,
-                            color      = TextPrimary
-                        )
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(130.dp)
+                                    .clip(CircleShape)
+                                    .background(AchievementGold.copy(alpha = 0.25f))
+                            )
+                            Text(
+                                text       = phonemeId.uppercase(),
+                                fontSize   = 100.sp,
+                                fontWeight = FontWeight.Black,
+                                color      = TextPrimary
+                            )
+                        }
                     }
                 }
 

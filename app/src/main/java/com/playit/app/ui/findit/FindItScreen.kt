@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playit.app.PlayItApplication
+import com.playit.app.ui.components.AnswerFeedback
 import com.playit.app.ui.components.LearningCard
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
@@ -185,65 +186,73 @@ fun FindItContent(
                         }
                         val accessibilityDesc = "Letter ${option.uppercase()}, $cdState"
 
-                        LearningCard(
-                            onClick = if (!isSuccess && !isTapped) {
-                                { onOptionSelected(option) }
-                            } else null,
-                            enabled = !isSuccess && !isTapped,
-                            modifier = Modifier
-                                .size(100.dp)
-                                .alpha(if (isWrong) 0.6f else 1.0f)
-                                .semantics { contentDescription = accessibilityDesc }
-                        ) {
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(animatedBgColor)
-                            ) {
-                                Text(
-                                    text = option.uppercase(),
-                                    fontSize = 54.sp,
-                                    fontWeight = FontWeight.Black,
-                                    color = when {
-                                        isCorrect -> Color.White
-                                        isWrong -> TextSecondary
-                                        else -> TextPrimary
-                                    }
-                                )
+                        val feedbackState = when {
+                            isCorrect -> true
+                            isWrong -> false
+                            else -> null
+                        }
 
-                                // Non-color icon indicators for accessibility (grayscale legibility)
-                                if (isCorrect) {
-                                    Box(
-                                        modifier = Modifier
-                                            .align(Alignment.TopEnd)
-                                            .padding(4.dp)
-                                            .size(24.dp)
-                                            .background(Color.White, CircleShape),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Check,
-                                            contentDescription = "Correct",
-                                            tint = GrowthGreen,
-                                            modifier = Modifier.size(18.dp)
-                                        )
-                                    }
-                                } else if (isWrong) {
-                                    Box(
-                                        modifier = Modifier
-                                            .align(Alignment.TopEnd)
-                                            .padding(4.dp)
-                                            .size(24.dp)
-                                            .background(TextSecondary, CircleShape),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Close,
-                                            contentDescription = "Incorrect",
-                                            tint = Color.White,
-                                            modifier = Modifier.size(16.dp)
-                                        )
+                        AnswerFeedback(isCorrect = feedbackState) {
+                            LearningCard(
+                                onClick = if (!isSuccess && !isTapped) {
+                                    { onOptionSelected(option) }
+                                } else null,
+                                enabled = !isSuccess && !isTapped,
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .alpha(if (isWrong) 0.6f else 1.0f)
+                                    .semantics { contentDescription = accessibilityDesc }
+                            ) {
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(animatedBgColor)
+                                ) {
+                                    Text(
+                                        text = option.uppercase(),
+                                        fontSize = 54.sp,
+                                        fontWeight = FontWeight.Black,
+                                        color = when {
+                                            isCorrect -> Color.White
+                                            isWrong -> TextSecondary
+                                            else -> TextPrimary
+                                        }
+                                    )
+
+                                    // Non-color icon indicators for accessibility (grayscale legibility)
+                                    if (isCorrect) {
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.TopEnd)
+                                                .padding(4.dp)
+                                                .size(24.dp)
+                                                .background(Color.White, CircleShape),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Check,
+                                                contentDescription = "Correct",
+                                                tint = GrowthGreen,
+                                                modifier = Modifier.size(18.dp)
+                                            )
+                                        }
+                                    } else if (isWrong) {
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.TopEnd)
+                                                .padding(4.dp)
+                                                .size(24.dp)
+                                                .background(TextSecondary, CircleShape),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Close,
+                                                contentDescription = "Incorrect",
+                                                tint = Color.White,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }
