@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.playit.app.ui.components.LearningCard
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
+import com.playit.app.ui.components.StreakFlame
 import com.playit.app.ui.theme.*
 import kotlinx.coroutines.delay
 
@@ -364,12 +365,7 @@ fun TopStatsBar(
                     color = TextPrimary
                 )
                 Spacer(modifier = Modifier.width(PlayItSpacing.default))
-                Text(
-                    text = "🔥 ${currentStreak}d",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = EnergyOrange
-                )
+                StreakFlame(currentStreak = currentStreak)
             }
         }
     }

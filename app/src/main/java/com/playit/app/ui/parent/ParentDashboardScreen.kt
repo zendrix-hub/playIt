@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.playit.app.ui.components.MilestoneBadgesRow
 import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.theme.Border
 import com.playit.app.ui.theme.CreamWhite
@@ -186,6 +187,20 @@ fun ParentDashboardScreen(
                                     iconColor = MasteredGreenText
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            HorizontalDivider(color = Border.copy(alpha = 0.5f))
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Text(
+                                text = "Streak Milestone Badges",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = HighContrastMutedText,
+                                modifier = Modifier.align(Alignment.Start)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            MilestoneBadgesRow(currentStreak = profile.currentStreak)
                         }
                     }
                 }
