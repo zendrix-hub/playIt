@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.playit.app.PlayItApplication
 import com.playit.app.data.preferences.SessionManager
+import com.playit.app.ui.blendit.BlendItCompleteScreen
 import com.playit.app.ui.blendit.BlendItScreen
 import com.playit.app.ui.blendit.BlendItViewModel
 import com.playit.app.ui.completion.LetterCompleteScreen
@@ -225,6 +226,34 @@ fun PlayItNavGraph(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onSessionComplete = {
+                    navController.navigate(Routes.blendItComplete(phonemeId, stars = 3, wordsCorrect = 3, heartsUsed = 0)) {
+                        popUpTo(Routes.BLEND_IT) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // ── 4.5 BLEND IT COMPLETE ───────────────────────────────────────────
+        composable(
+            route = Routes.BLEND_IT_COMPLETE,
+            arguments = listOf(
+                navArgument("phonemeId") { type = NavType.StringType },
+                navArgument("stars") { type = NavType.IntType; defaultValue = 3 },
+                navArgument("wordsCorrect") { type = NavType.IntType; defaultValue = 3 },
+                navArgument("heartsUsed") { type = NavType.IntType; defaultValue = 0 }
+            )
+        ) { backStackEntry ->
+            val phonemeId = backStackEntry.arguments?.getString("phonemeId") ?: "GROUP_1"
+            val stars = backStackEntry.arguments?.getInt("stars") ?: 3
+            val wordsCorrect = backStackEntry.arguments?.getInt("wordsCorrect") ?: 3
+            val heartsUsed = backStackEntry.arguments?.getInt("heartsUsed") ?: 0
+
+            BlendItCompleteScreen(
+                phonemeId = phonemeId,
+                starsEarned = stars,
+                wordsCorrect = wordsCorrect,
+                heartsUsed = heartsUsed,
+                onBackToMap = {
                     navController.popBackStack(Routes.MAP, inclusive = false)
                 }
             )
