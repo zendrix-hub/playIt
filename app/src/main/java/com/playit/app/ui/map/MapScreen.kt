@@ -1,40 +1,28 @@
 package com.playit.app.ui.map
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playit.app.ui.theme.TangerineOrange
@@ -45,67 +33,146 @@ data class MapNodeState(
     val label: String,
     val isUnlocked: Boolean,
     val starsEarned: Int,
-    val isBlendIt: Boolean = false
+    val isBlendIt: Boolean = false,
+    val isActiveNode: Boolean = false // Added for breathing animations
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
     profileName: String = "Player 1",
     totalStars: Int = 0,
     currentStreak: Int = 0,
     nodes: List<MapNodeState>,
-    onNodeTapped: (MapNodeState) -> Unit // Now securely passes the whole node
+    onNodeTapped: (MapNodeState) -> Unit,
+    onParentClick: () -> Unit // Settings route triggers parent dashboard
 ) {
+    var showParentGuard by remember { mutableStateOf(false) }
+    var mathProblem by remember { mutableStateOf(Pair(0, 0)) }
+    var mathAnswerText by remember { mutableStateOf("") }
+    var mathError by remember { mutableStateOf(false) }
+
+    fun triggerParentGate() {
+        val num1 = (2..9).random()
+        val num2 = (2..9).random()
+        mathProblem = Pair(num1, num2)
+        mathAnswerText = ""
+        mathError = false
+        showParentGuard = true
+    }
+
     Scaffold(
         topBar = {
             TopStatsBar(
                 profileName = profileName,
                 totalStars = totalStars,
-                currentStreak = currentStreak
+                currentStreak = currentStreak,
+                onParentClick = ::triggerParentGate
             )
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 24.dp),
-            contentPadding = PaddingValues(vertical = 32.dp),
-            reverseLayout = true // Starts at the bottom of the screen like a true progression map
-        ) {
-            itemsIndexed(nodes) { index, node ->
-                // Uses explicit 2D alignments to satisfy the Box scope
-                val alignment: Alignment = when (index % 3) {
-                    0 -> Alignment.CenterStart
-                    1 -> Alignment.Center
-                    else -> Alignment.CenterEnd
-                }
+        Box(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(horizontal = 24.dp),
+                contentPadding = PaddingValues(vertical = 32.dp),
+                reverseLayout = true // Starts at the bottom of the screen like a true progression map
+            ) {
+                itemsIndexed(nodes) { index, node ->
+                    val alignment: Alignment = when (index % 3) {
+                        0 -> Alignment.CenterStart
+                        1 -> Alignment.Center
+                        else -> Alignment.CenterEnd
+                    }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    contentAlignment = alignment
-                ) {
-                    if (node.isBlendIt) {
-                        BlendItChallengeNode(node = node, onClick = { onNodeTapped(node) })
-                    } else {
-                        LetterNode(node = node, onClick = { onNodeTapped(node) })
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        contentAlignment = alignment
+                    ) {
+                        if (node.isBlendIt) {
+                            BlendItChallengeNode(node = node, onClick = { onNodeTapped(node) })
+                        } else {
+                            LetterNode(node = node, onClick = { onNodeTapped(node) })
+                        }
+                    }
+
+                    // Draws a subtle connector line between nodes (except for the last one)
+                    if (index < nodes.size - 1) {
+                        PathConnector(alignment = alignment)
                     }
                 }
+            }
 
-                // Draws a subtle connector line between nodes (except for the last one)
-                if (index < nodes.size - 1) {
-                    PathConnector(alignment = alignment)
-                }
+            // ── Parent Validation Challenge Gate Dialog ──────────────────────
+            if (showParentGuard) {
+                AlertDialog(
+                    onDismissRequest = { showParentGuard = false },
+                    title = { Text("Parent Verification Gate", fontWeight = FontWeight.Bold) },
+                    text = {
+                        Column {
+                            Text("Please solve this simple arithmetic puzzle to access parent portal:")
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = "${mathProblem.first} x ${mathProblem.second} = ?",
+                                fontWeight = FontWeight.Black,
+                                fontSize = 28.sp,
+                                modifier = Modifier.fillMaxWidth(),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            OutlinedTextField(
+                                value = mathAnswerText,
+                                onValueChange = { mathAnswerText = it },
+                                label = { Text("Answer") },
+                                isError = mathError,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                singleLine = true,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            if (mathError) {
+                                Text(
+                                    text = "Incorrect result, please try again!",
+                                    color = MaterialTheme.colorScheme.error,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier.padding(top = 4.dp)
+                                )
+                            }
+                        }
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                val ans = mathAnswerText.toIntOrNull()
+                                if (ans == mathProblem.first * mathProblem.second) {
+                                    showParentGuard = false
+                                    onParentClick()
+                                } else {
+                                    mathError = true
+                                }
+                            }
+                        ) { Text("Verify") }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showParentGuard = false }) { Text("Cancel") }
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun TopStatsBar(profileName: String, totalStars: Int, currentStreak: Int) {
+fun TopStatsBar(
+    profileName: String,
+    totalStars: Int,
+    currentStreak: Int,
+    onParentClick: () -> Unit
+) {
     Card(
         shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp),
         colors = CardDefaults.cardColors(
@@ -122,11 +189,21 @@ fun TopStatsBar(profileName: String, totalStars: Int, currentStreak: Int) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = profileName,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onParentClick) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = "Parent Dashboard",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = profileName,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Star, contentDescription = "Stars", tint = TangerineOrange)
                 Spacer(modifier = Modifier.width(4.dp))
@@ -156,11 +233,25 @@ fun LetterNode(node: MapNodeState, onClick: () -> Unit) {
     }
     val contentColor = if (node.isUnlocked) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
 
+    // Breathing pulse scale animation for active node
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val scaleVal by infiniteTransition.animateFloat(
+        initialValue = 0.95f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(800, easing = LinearOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "activePulse"
+    )
+    val finalScale = if (node.isActiveNode) scaleVal else 1f
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(72.dp)
+                .scale(finalScale)
                 .background(backgroundColor, CircleShape)
                 .border(4.dp, MaterialTheme.colorScheme.surface, CircleShape)
                 .clickable(enabled = node.isUnlocked) { onClick() }
@@ -200,11 +291,25 @@ fun LetterNode(node: MapNodeState, onClick: () -> Unit) {
 fun BlendItChallengeNode(node: MapNodeState, onClick: () -> Unit) {
     val backgroundColor = if (node.isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant
 
+    // Breathing pulse scale animation for active node
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val scaleVal by infiniteTransition.animateFloat(
+        initialValue = 0.96f,
+        targetValue = 1.04f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(800, easing = LinearOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "activePulse"
+    )
+    val finalScale = if (node.isActiveNode) scaleVal else 1f
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .height(64.dp)
             .width(120.dp)
+            .scale(finalScale)
             .background(backgroundColor, RoundedCornerShape(16.dp))
             .border(4.dp, MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
             .clickable(enabled = node.isUnlocked) { onClick() }

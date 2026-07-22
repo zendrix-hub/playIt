@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -161,7 +161,7 @@ fun HearItContent(
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
-                        imageVector        = Icons.Filled.VolumeUp,
+                        imageVector        = Icons.AutoMirrored.Filled.VolumeUp,
                         contentDescription = "Play phoneme sound",
                         tint               = Color.White,
                         modifier           = Modifier.size(48.dp)

@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.playit.app.PlayItApplication
+import com.playit.app.data.preferences.SessionManager
 import com.playit.app.ui.blendit.BlendItScreen
 import com.playit.app.ui.blendit.BlendItViewModel
 import com.playit.app.ui.findit.FindItScreen
@@ -21,47 +22,118 @@ import com.playit.app.ui.findit.FindItViewModelFactory
 import com.playit.app.ui.hearit.HearItScreen
 import com.playit.app.ui.map.MapScreen
 import com.playit.app.ui.map.MapViewModel
+import com.playit.app.ui.parent.ParentDashboardScreen
+import com.playit.app.ui.parent.ParentViewModel
+import com.playit.app.ui.profile.NamePromptScreen
+import com.playit.app.ui.profile.ProfileSelectScreen
+import com.playit.app.ui.profile.ProfileViewModel
+import com.playit.app.ui.profile.SplashScreen
 import com.playit.app.ui.sayit.SayItScreen
 
 @Composable
 fun PlayItNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "map"
+    startDestination: String = "splash"
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
 
+        // ── SPLASH SCREEN ───────────────────────────────────────────────────
+        composable("splash") {
+            SplashScreen(
+                onSplashComplete = {
+                    navController.navigate("profile_select") {
+                        popUpTo("splash") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // ── PROFILE SELECTION ────────────────────────────────────────────────
+        composable("profile_select") {
+            val context = LocalContext.current
+            val app = context.applicationContext as PlayItApplication
+
+            val profileViewModel: ProfileViewModel = viewModel(
+                factory = ProfileViewModel.ProfileViewModelFactory(app, app.repository)
+            )
+
+            ProfileSelectScreen(
+                viewModel = profileViewModel,
+                onProfileSelected = {
+                    navController.navigate("map") {
+                        popUpTo("profile_select") { inclusive = true }
+                    }
+                },
+                onNavigateToCreate = {
+                    navController.navigate("name_prompt")
+                }
+            )
+        }
+
+        // ── CREATE PROFILE (NAME PROMPT) ─────────────────────────────────────
+        composable("name_prompt") {
+            val context = LocalContext.current
+            val app = context.applicationContext as PlayItApplication
+
+            val profileViewModel: ProfileViewModel = viewModel(
+                factory = ProfileViewModel.ProfileViewModelFactory(app, app.repository)
+            )
+
+            NamePromptScreen(
+                viewModel = profileViewModel,
+                onBack = { navController.popBackStack() },
+                onProfileCreated = {
+                    navController.navigate("map") {
+                        popUpTo("profile_select") { inclusive = true }
+                    }
+                }
+            )
+        }
+
         // ── MAP ──────────────────────────────────────────────────────────────
         composable("map") {
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
+            val activeProfileId = SessionManager.activeProfileId
 
             val mapViewModel: MapViewModel = viewModel(
-                factory = object : androidx.lifecycle.ViewModelProvider.Factory {
-                    @Suppress("UNCHECKED_CAST")
-                    override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
-                        return MapViewModel(app.repository) as T
-                    }
-                }
+                factory = MapViewModel.MapViewModelFactory(app.repository, activeProfileId)
             )
 
             val nodesState by mapViewModel.mapNodes.collectAsState()
+            val activeProfileState by mapViewModel.activeProfile.collectAsState()
 
             MapScreen(
-                profileName = "Player 1",
-                totalStars = nodesState.sumOf { it.starsEarned },
-                currentStreak = 0,
+                profileName = activeProfileState?.name ?: "Player",
+                totalStars = activeProfileState?.totalStars ?: nodesState.sumOf { it.starsEarned },
+                currentStreak = activeProfileState?.currentStreak ?: 0,
                 nodes = nodesState,
                 onNodeTapped = { node ->
-                    // Logic: If it's a BlendIt node, go to BlendIt. Otherwise, start the letter sequence.
                     if (node.isBlendIt) {
                         navController.navigate("blend_it/${node.label}")
                     } else {
                         navController.navigate("hear_it/${node.label}")
                     }
+                },
+                onParentClick = {
+                    navController.navigate("parent_dashboard")
                 }
+            )
+        }
+
+        // ── PARENT DASHBOARD ─────────────────────────────────────────────────
+        composable("parent_dashboard") {
+            val context = LocalContext.current
+            val app = context.applicationContext as PlayItApplication
+            val parentViewModel: ParentViewModel = viewModel(
+                factory = ParentViewModel.ParentViewModelFactory(app, app.repository)
+            )
+            ParentDashboardScreen(
+                viewModel = parentViewModel,
+                onBack = { navController.popBackStack() }
             )
         }
 
@@ -102,8 +174,6 @@ fun PlayItNavGraph(
             FindItScreen(
                 phonemeId = phoneme,
                 onBack = { navController.popBackStack() },
-                // FIX: Instead of navigating to blend_it, we go back to the map.
-                // The map logic handles the unlocking of the next letter or the blend node.
                 onNext = {
                     navController.popBackStack("map", inclusive = false)
                 },
@@ -118,10 +188,11 @@ fun PlayItNavGraph(
         ) { backStackEntry ->
             val phonemeId = backStackEntry.arguments?.getString("phonemeId") ?: ""
             val context = LocalContext.current
-
+            val app = context.applicationContext as PlayItApplication
             val viewModel: BlendItViewModel = viewModel(
                 factory = BlendItViewModel.BlendItViewModelFactory(
-                    application = context.applicationContext as Application,
+                    application = app,
+                    repository = app.repository,
                     phonemeId = phonemeId
                 )
             )

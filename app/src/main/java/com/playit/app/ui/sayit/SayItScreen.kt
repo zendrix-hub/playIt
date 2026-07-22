@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.playit.app.ui.components.PlayItLearningScaffold
 import com.playit.app.PlayItApplication
+import com.playit.app.ui.components.PlayItLearningScaffold
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 
@@ -54,7 +54,7 @@ fun SayItScreen(
     viewModel: SayItViewModel = viewModel(
         factory = SayItViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
-            repository = (LocalContext.current.applicationContext as PlayItApplication).repository, // ADDED
+            repository = (LocalContext.current.applicationContext as PlayItApplication).repository,
             phonemeId   = phonemeId
         )
     )
@@ -65,7 +65,10 @@ fun SayItScreen(
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) viewModel.onRecordButtonClicked()
+        if (granted) {
+            viewModel.checkAmbientNoise()
+            viewModel.onRecordButtonClicked()
+        }
     }
 
     fun handleMicClick() {
@@ -77,6 +80,11 @@ fun SayItScreen(
         else permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
     }
 
+    // Trigger noise check when screen appears and we have permission
+    LaunchedEffect(Unit) {
+        viewModel.checkAmbientNoise()
+    }
+
     SayItContent(
         phonemeId    = phonemeId,
         isLoading    = uiState.isModelLoading,
@@ -86,6 +94,7 @@ fun SayItScreen(
         partialText  = uiState.partialText,
         resultText   = uiState.resultText,
         errorMessage = uiState.errorMessage,
+        isTooNoisy   = uiState.isTooNoisy,
         onBackClick  = onBack,
         onRecordClick = ::handleMicClick,
         onNextClick  = onNext
@@ -104,6 +113,7 @@ fun SayItContent(
     partialText: String,
     resultText: String,
     errorMessage: String?,
+    isTooNoisy: Boolean,
     onBackClick: () -> Unit,
     onRecordClick: () -> Unit,
     onNextClick: () -> Unit
@@ -117,11 +127,29 @@ fun SayItContent(
         centerContent = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
 
+                // ── Ambient Noise Alert Banner ────────────────────────────────
+                if (isTooNoisy) {
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = Sunshine.copy(alpha = 0.15f),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, Sunshine),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Text(
+                            text = "⚠️ It sounds a bit noisy here. Move to a quieter spot for best results.",
+                            color = TextDark,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                        )
+                    }
+                }
+
                 // ── Phoneme Card ─────────────────────────────────────────────
-                // Border color shifts green on success, red on wrong answer
                 val cardBorderColor = when {
                     isSuccess                                   -> SuccessGreen
                     resultText.isNotEmpty() && !isSuccess       -> ErrorRed
@@ -157,7 +185,6 @@ fun SayItContent(
                 }
 
                 // ── Status Text ──────────────────────────────────────────────
-                // Shows loading → listening partial → result → success/fail feedback
                 val statusText = when {
                     isLoading                   -> "Loading speech model..."
                     isSuccess                   -> "🎉 Great job!"
@@ -219,7 +246,6 @@ fun SayItContent(
                 label = "micScale"
             )
 
-            // Disable mic button while model is still loading
             val micEnabled  = !isLoading && !isSuccess
             val micColor    = when {
                 !micEnabled  -> Color.Gray

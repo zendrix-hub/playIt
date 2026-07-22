@@ -4,7 +4,10 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.playit.app.data.repository.PlayItRepository
+import com.playit.app.data.audio.AmbientNoiseMonitor
+import com.playit.app.data.preferences.SessionManager
+import com.playit.app.domain.repository.PlayItRepository
+import com.playit.app.domain.usecase.SpeechValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,24 +31,27 @@ data class SayItUiState(
     val resultText: String      = "",
     val errorMessage: String?   = null,
     val activeHearts: Int       = 5,
-    val consecutiveCorrect: Int = 0
+    val consecutiveCorrect: Int = 0,
+    val isTooNoisy: Boolean     = false // Specs: Ambient noise alert flag
 )
 
 class SayItViewModel(
     private val application: Application,
-    private val repository: PlayItRepository, // Injected Repository
+    private val repository: PlayItRepository,
     private val phonemeId: String
 ) : ViewModel(), RecognitionListener {
 
     private val _uiState = MutableStateFlow(SayItUiState())
     val uiState: StateFlow<SayItUiState> = _uiState.asStateFlow()
 
+    private val speechValidator = SpeechValidator()
     private var voskModel: Model? = null
     private var speechService: SpeechService? = null
     private var resultHandled = false
 
     init {
         initModel()
+        checkAmbientNoise()
     }
 
     fun initModel() {
@@ -70,6 +76,28 @@ class SayItViewModel(
                         isModelReady   = false,
                         errorMessage   = "Model load failed: ${e.message}"
                     )
+                }
+            }
+        }
+    }
+
+    fun checkAmbientNoise() {
+        viewModelScope.launch {
+            val hasPermission = androidx.core.content.ContextCompat.checkSelfPermission(
+                application, android.Manifest.permission.RECORD_AUDIO
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+            if (hasPermission) {
+                try {
+                    val monitor = AmbientNoiseMonitor()
+                    val db = monitor.measureNoiseDb()
+                    if (db > 40.0) {
+                        _uiState.update { it.copy(isTooNoisy = true) }
+                    } else {
+                        _uiState.update { it.copy(isTooNoisy = false) }
+                    }
+                } catch (e: Exception) {
+                    // Safe ignore
                 }
             }
         }
@@ -145,7 +173,8 @@ class SayItViewModel(
         if (text.isNotEmpty()) {
             resultHandled = true
             _uiState.update { it.copy(resultText = text, partialText = "", isRecording = false) }
-            evaluateSpeech(text)
+            val conf = parseVoskConfidence(hypothesis)
+            evaluateSpeech(text, conf)
         }
     }
 
@@ -154,7 +183,10 @@ class SayItViewModel(
         val text = parseVoskJson(hypothesis, "text")
         resultHandled = true
         _uiState.update { it.copy(resultText = text, partialText = "", isRecording = false) }
-        if (text.isNotEmpty()) evaluateSpeech(text)
+        if (text.isNotEmpty()) {
+            val conf = parseVoskConfidence(hypothesis)
+            evaluateSpeech(text, conf)
+        }
     }
 
     override fun onError(exception: Exception) {
@@ -163,7 +195,7 @@ class SayItViewModel(
 
     override fun onTimeout() { stopRecording() }
 
-    private fun evaluateSpeech(heardText: String) {
+    private fun evaluateSpeech(heardText: String, confidence: Double) {
         val target = phonemeId.lowercase()
 
         // Phonetic map for Vosk interpreting young children
@@ -173,24 +205,43 @@ class SayItViewModel(
             "a" to listOf("a", "ah", "uh", "apple")
         )
 
-        val validSounds = pronunciationMap[target] ?: listOf(target)
-        val isMatch = validSounds.any { heardText.lowercase().contains(it) }
+        // Delegate matches to the domain SpeechValidator use case
+        val isMatch = speechValidator.validatePronunciation(
+            targetSound = target,
+            recognizedText = heardText,
+            confidence = confidence,
+            pronunciationMap = pronunciationMap
+        )
 
-        // Failsafe: Stop listening immediately upon parsing a definitive result
-        // to prevent the AudioRecord thread from throwing buffer exceptions.
+        // Failsafe: Stop listening immediately upon parsing a result
         stopRecording()
 
         _uiState.update { current ->
+            val activeProfileId = SessionManager.activeProfileId
             if (isMatch) {
                 val newConsecutive = current.consecutiveCorrect + 1
                 val heartBonus     = if (newConsecutive % 3 == 0) 1 else 0
 
                 viewModelScope.launch {
+                    val existing = repository.getLessonProgress(activeProfileId, phonemeId)
                     repository.updateLessonProgress(
-                        com.playit.app.data.local.entity.LessonProgress(
+                        com.playit.app.domain.model.LessonProgress(
+                            id = existing?.id ?: 0L,
+                            profileId = activeProfileId,
                             phonemeId = phonemeId,
-                            isCompleted = false,   // Not fully complete until Find It is done
-                            starsEarned = 0
+                            starsEarned = 0,
+                            heartsLost = 5 - minOf(5, current.activeHearts + heartBonus),
+                            isCompleted = false,
+                            completedAt = null
+                        )
+                    )
+                    repository.insertSayItAttempt(
+                        com.playit.app.domain.model.SayItAttempt(
+                            attemptId = 0L,
+                            profileId = activeProfileId,
+                            phonemeId = phonemeId,
+                            isCorrect = true,
+                            attemptedAt = System.currentTimeMillis()
                         )
                     )
                 }
@@ -202,6 +253,30 @@ class SayItViewModel(
                 )
             } else {
                 val newHearts = current.activeHearts - 1
+
+                viewModelScope.launch {
+                    val existing = repository.getLessonProgress(activeProfileId, phonemeId)
+                    repository.updateLessonProgress(
+                        com.playit.app.domain.model.LessonProgress(
+                            id = existing?.id ?: 0L,
+                            profileId = activeProfileId,
+                            phonemeId = phonemeId,
+                            starsEarned = 0,
+                            heartsLost = 5 - (if (newHearts <= 0) 3 else newHearts),
+                            isCompleted = false,
+                            completedAt = null
+                        )
+                    )
+                    repository.insertSayItAttempt(
+                        com.playit.app.domain.model.SayItAttempt(
+                            attemptId = 0L,
+                            profileId = activeProfileId,
+                            phonemeId = phonemeId,
+                            isCorrect = false,
+                            attemptedAt = System.currentTimeMillis()
+                        )
+                    )
+                }
 
                 // If hearts empty out, reset back to 3 confidence-building hearts
                 if (newHearts <= 0) {
@@ -225,6 +300,20 @@ class SayItViewModel(
 
     private fun parseVoskJson(json: String, key: String) =
         try { JSONObject(json).getString(key).trim() } catch (e: Exception) { "" }
+
+    private fun parseVoskConfidence(json: String): Double {
+        return try {
+            val jsonObject = JSONObject(json)
+            if (jsonObject.has("result")) {
+                val resultArray = jsonObject.getJSONArray("result")
+                if (resultArray.length() > 0) {
+                    resultArray.getJSONObject(0).getDouble("conf")
+                } else 1.0
+            } else 1.0
+        } catch (e: Exception) {
+            1.0
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()

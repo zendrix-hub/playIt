@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.playit.app.data.repository.PlayItRepository
+import com.playit.app.data.preferences.SessionManager
+import com.playit.app.domain.model.LessonProgress
+import com.playit.app.domain.repository.PlayItRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,8 +41,9 @@ class FindItViewModel(
 
     private fun generateLineup() {
         viewModelScope.launch {
+            val activeProfileId = SessionManager.activeProfileId
             // Priority 2 Fix: Only pick distractors the child has unlocked
-            val unlockedPhonemes = repository.getUnlockedPhonemes().first()
+            val unlockedPhonemes = repository.getUnlockedPhonemes(activeProfileId).first()
             val unlockedLetters = unlockedPhonemes.map { it.letter.lowercase() }
 
             val target = phonemeId.lowercase()
@@ -81,12 +84,28 @@ class FindItViewModel(
                     else -> 1
                 }
 
+                val activeProfileId = SessionManager.activeProfileId
                 viewModelScope.launch {
+                    val existing = repository.getLessonProgress(activeProfileId, phonemeId)
                     repository.updateLessonProgress(
-                        com.playit.app.data.local.entity.LessonProgress(
-                            phonemeId = phonemeId, //
-                            isCompleted = true,    //
-                            starsEarned = stars    //
+                        LessonProgress(
+                            id = existing?.id ?: 0L,
+                            profileId = activeProfileId,
+                            phonemeId = phonemeId,
+                            starsEarned = stars,
+                            heartsLost = 5 - currentState.hearts,
+                            isCompleted = true,
+                            completedAt = System.currentTimeMillis()
+                        )
+                    )
+                    repository.insertFindItAttempt(
+                        com.playit.app.domain.model.FindItAttempt(
+                            attemptId = 0L,
+                            profileId = activeProfileId,
+                            phonemeId = phonemeId,
+                            selectedPhonemeId = item.id,
+                            isCorrect = true,
+                            attemptedAt = System.currentTimeMillis()
                         )
                     )
                 }
@@ -96,8 +115,25 @@ class FindItViewModel(
                     starsEarned = stars
                 )
             } else {
-                val newHearts = maxOf(0, currentState.hearts - 1)
-                currentState.copy(tapResults = newTapResults, hearts = newHearts)
+                val newHearts = currentState.hearts - 1
+                val activeProfileId = SessionManager.activeProfileId
+                viewModelScope.launch {
+                    repository.insertFindItAttempt(
+                        com.playit.app.domain.model.FindItAttempt(
+                            attemptId = 0L,
+                            profileId = activeProfileId,
+                            phonemeId = phonemeId,
+                            selectedPhonemeId = item.id,
+                            isCorrect = false,
+                            attemptedAt = System.currentTimeMillis()
+                        )
+                    )
+                }
+                if (newHearts <= 0) {
+                    currentState.copy(tapResults = newTapResults, hearts = 3)
+                } else {
+                    currentState.copy(tapResults = newTapResults, hearts = newHearts)
+                }
             }
         }
     }

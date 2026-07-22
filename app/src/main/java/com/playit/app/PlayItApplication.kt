@@ -6,5 +6,5 @@ import com.playit.app.data.repository.PlayItRepositoryImpl
 
 class PlayItApplication : Application() {
     val database by lazy { PlayItDatabase.getInstance(this) }
-    val repository by lazy { PlayItRepositoryImpl(database.playItDao()) }
+    val repository by lazy { PlayItRepositoryImpl(database) }
 }
