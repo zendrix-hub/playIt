@@ -77,7 +77,7 @@ fun HearItContent(
 ) {
     PlayItLearningScaffold(
         title         = "HEAR IT",
-        activeHearts  = 0,              // Hear It has no hearts — display none
+        activeHearts  = null,             // Hear It has no hearts — display none
         isNextEnabled = isNextEnabled,
         onBackClick   = onBackClick,
         onNextClick   = onNextClick,

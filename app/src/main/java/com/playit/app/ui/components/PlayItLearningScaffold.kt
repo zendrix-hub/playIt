@@ -30,7 +30,7 @@ val HeartRed = Color(0xFFFF4B6E)
 @Composable
 fun PlayItLearningScaffold(
     title: String,
-    activeHearts: Int = 3,
+    activeHearts: Int? = 3,
     isNextEnabled: Boolean,
     onBackClick: () -> Unit,
     onNextClick: () -> Unit,
@@ -65,10 +65,12 @@ fun PlayItLearningScaffold(
                     letterSpacing = 2.sp
                 )
 
-                Surface(shape = RoundedCornerShape(50), color = CardWhite.copy(alpha = 0.5f)) {
-                    Row(modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                        repeat(activeHearts) {
-                            Icon(Icons.Filled.Favorite, contentDescription = null, tint = HeartRed, modifier = Modifier.size(24.dp))
+                if (activeHearts != null) {
+                    Surface(shape = RoundedCornerShape(50), color = CardWhite.copy(alpha = 0.5f)) {
+                        Row(modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                            repeat(activeHearts) {
+                                Icon(Icons.Filled.Favorite, contentDescription = null, tint = HeartRed, modifier = Modifier.size(24.dp))
+                            }
                         }
                     }
                 }
