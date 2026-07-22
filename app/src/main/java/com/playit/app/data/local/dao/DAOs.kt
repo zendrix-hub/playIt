@@ -41,21 +41,7 @@ interface PhonemeDao {
             (lg.groupNumber * 10 + lgm.position) AS sequenceOrder,
             COALESCE(lp.isCompleted, 0) AS isCompleted,
             COALESCE(lp.starsEarned, 0) AS starsEarned,
-            CASE 
-                WHEN lg.groupNumber = 1 AND lgm.position = 0 THEN 1
-                WHEN (
-                    SELECT COALESCE(prev_lp.isCompleted, 0)
-                    FROM letter_group_members prev_lgm
-                    INNER JOIN letter_groups prev_lg ON prev_lgm.groupId = prev_lg.groupId
-                    LEFT JOIN lesson_progress prev_lp ON prev_lgm.phonemeId = prev_lp.phonemeId AND prev_lp.profileId = :profileId
-                    WHERE 
-                        (prev_lg.groupNumber < lg.groupNumber) OR 
-                        (prev_lg.groupNumber = lg.groupNumber AND prev_lgm.position = lgm.position - 1)
-                    ORDER BY prev_lg.groupNumber DESC, prev_lgm.position DESC
-                    LIMIT 1
-                ) = 1 THEN 1
-                ELSE 0
-            END AS isUnlocked
+            0 AS isUnlocked
         FROM phonemes p
         INNER JOIN letter_group_members lgm ON p.phonemeId = lgm.phonemeId
         INNER JOIN letter_groups lg ON lgm.groupId = lg.groupId

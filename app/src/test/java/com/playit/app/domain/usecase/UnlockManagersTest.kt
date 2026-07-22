@@ -83,4 +83,25 @@ class UnlockManagersTest {
 
         assertTrue(groupUnlockManager.isBlendItUnlocked(group1Letters, completed))
     }
+
+    @Test
+    fun testGroupUnlockedForGroupOneAlwaysTrue() {
+        val completed = emptySet<String>()
+
+        assertTrue(groupUnlockManager.isGroupUnlocked(1, group1Letters, completed))
+    }
+
+    @Test
+    fun testGroupTwoLockedIfGroupOneIncomplete() {
+        val completed = setOf("m", "s", "a") // missing "i"
+
+        assertFalse(groupUnlockManager.isGroupUnlocked(2, group1Letters, completed))
+    }
+
+    @Test
+    fun testGroupTwoUnlockedIfGroupOneFullyComplete() {
+        val completed = setOf("m", "s", "a", "i")
+
+        assertTrue(groupUnlockManager.isGroupUnlocked(2, group1Letters, completed))
+    }
 }
