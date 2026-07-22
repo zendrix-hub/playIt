@@ -534,7 +534,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Low. **Expected Duration:** 1h total.
 - **Stop Condition:** Stop once all three sub-items are verified independently — do not let this task expand into a broader cleanup pass (that's Phase 11).
 
-**Quality Gate 2 → 3:** ☐ All 17 executed tasks committed (ENG-2.05 deliberately deferred, not "skipped without reason") ☐ Full regression walkthrough repeated ☐ `./gradlew test` green ☐ No Engineering Review finding remains unaccounted-for in either Phase 1, Phase 2, or an explicit §0.3 deferral note.
+**Quality Gate 2 → 3:** [x] All 17 executed tasks committed (ENG-2.05 deliberately deferred, not "skipped without reason") [x] Full regression walkthrough repeated [x] `./gradlew test` green [x] No Engineering Review finding remains unaccounted-for in either Phase 1, Phase 2, or an explicit §0.3 deferral note.
 
 ---
 
