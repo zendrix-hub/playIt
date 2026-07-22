@@ -30,6 +30,7 @@ import com.playit.app.ui.profile.NamePromptScreen
 import com.playit.app.ui.profile.ProfileSelectScreen
 import com.playit.app.ui.profile.ProfileViewModel
 import com.playit.app.ui.profile.SplashScreen
+import com.playit.app.ui.report.ReportPreviewScreen
 import com.playit.app.ui.sayit.SayItScreen
 
 @Composable
@@ -134,6 +135,20 @@ fun PlayItNavGraph(
                 factory = ParentViewModel.ParentViewModelFactory(app, app.repository)
             )
             ParentDashboardScreen(
+                viewModel = parentViewModel,
+                onBack = { navController.popBackStack() },
+                onNavigateToReportPreview = { navController.navigate(Routes.REPORT_PREVIEW) }
+            )
+        }
+
+        // ── REPORT PREVIEW ───────────────────────────────────────────────────
+        composable(Routes.REPORT_PREVIEW) {
+            val context = LocalContext.current
+            val app = context.applicationContext as PlayItApplication
+            val parentViewModel: ParentViewModel = viewModel(
+                factory = ParentViewModel.ParentViewModelFactory(app, app.repository)
+            )
+            ReportPreviewScreen(
                 viewModel = parentViewModel,
                 onBack = { navController.popBackStack() }
             )

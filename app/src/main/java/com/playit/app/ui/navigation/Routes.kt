@@ -6,6 +6,7 @@ object Routes {
     const val NAME_PROMPT = "name_prompt"
     const val MAP = "map"
     const val PARENT_DASHBOARD = "parent_dashboard"
+    const val REPORT_PREVIEW = "report_preview"
 
     const val HEAR_IT = "hear_it/{phonemeId}"
     const val SAY_IT = "say_it/{phonemeId}"

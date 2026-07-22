@@ -86,7 +86,8 @@ enum class PhonemeMasteryStatus(
 @Composable
 fun ParentDashboardScreen(
     viewModel: ParentViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToReportPreview: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -254,10 +255,8 @@ fun ParentDashboardScreen(
                 // ── 3. Export PDF Report Action Button ───────────────────────────
                 item {
                     PrimaryButton(
-                        text = if (uiState.isGeneratingPdf) "Generating PDF Report..." else "Export & Share PDF Report 📄",
-                        onClick = {
-                            viewModel.exportAndShareReport(context, ::handleSharePdf)
-                        },
+                        text = if (uiState.isGeneratingPdf) "Generating PDF Report..." else "Preview & Export PDF Report 📄",
+                        onClick = onNavigateToReportPreview,
                         enabled = !uiState.isGeneratingPdf
                     )
                 }
