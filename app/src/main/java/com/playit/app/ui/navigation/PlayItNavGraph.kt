@@ -33,7 +33,7 @@ import com.playit.app.ui.sayit.SayItScreen
 @Composable
 fun PlayItNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "splash"
+    startDestination: String = Routes.SPLASH
 ) {
     NavHost(
         navController = navController,
@@ -41,18 +41,18 @@ fun PlayItNavGraph(
     ) {
 
         // ── SPLASH SCREEN ───────────────────────────────────────────────────
-        composable("splash") {
+        composable(Routes.SPLASH) {
             SplashScreen(
                 onSplashComplete = {
-                    navController.navigate("profile_select") {
-                        popUpTo("splash") { inclusive = true }
+                    navController.navigate(Routes.PROFILE_SELECT) {
+                        popUpTo(Routes.SPLASH) { inclusive = true }
                     }
                 }
             )
         }
 
         // ── PROFILE SELECTION ────────────────────────────────────────────────
-        composable("profile_select") {
+        composable(Routes.PROFILE_SELECT) {
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
 
@@ -63,18 +63,18 @@ fun PlayItNavGraph(
             ProfileSelectScreen(
                 viewModel = profileViewModel,
                 onProfileSelected = {
-                    navController.navigate("map") {
-                        popUpTo("profile_select") { inclusive = true }
+                    navController.navigate(Routes.MAP) {
+                        popUpTo(Routes.PROFILE_SELECT) { inclusive = true }
                     }
                 },
                 onNavigateToCreate = {
-                    navController.navigate("name_prompt")
+                    navController.navigate(Routes.NAME_PROMPT)
                 }
             )
         }
 
         // ── CREATE PROFILE (NAME PROMPT) ─────────────────────────────────────
-        composable("name_prompt") {
+        composable(Routes.NAME_PROMPT) {
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
 
@@ -86,15 +86,15 @@ fun PlayItNavGraph(
                 viewModel = profileViewModel,
                 onBack = { navController.popBackStack() },
                 onProfileCreated = {
-                    navController.navigate("map") {
-                        popUpTo("profile_select") { inclusive = true }
+                    navController.navigate(Routes.MAP) {
+                        popUpTo(Routes.PROFILE_SELECT) { inclusive = true }
                     }
                 }
             )
         }
 
         // ── MAP ──────────────────────────────────────────────────────────────
-        composable("map") {
+        composable(Routes.MAP) {
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
             val activeProfileId = SessionManager.activeProfileId
@@ -113,19 +113,19 @@ fun PlayItNavGraph(
                 nodes = nodesState,
                 onNodeTapped = { node ->
                     if (node.isBlendIt) {
-                        navController.navigate("blend_it/${node.label}")
+                        navController.navigate(Routes.blendIt(node.label))
                     } else {
-                        navController.navigate("hear_it/${node.label}")
+                        navController.navigate(Routes.hearIt(node.label))
                     }
                 },
                 onParentClick = {
-                    navController.navigate("parent_dashboard")
+                    navController.navigate(Routes.PARENT_DASHBOARD)
                 }
             )
         }
 
         // ── PARENT DASHBOARD ─────────────────────────────────────────────────
-        composable("parent_dashboard") {
+        composable(Routes.PARENT_DASHBOARD) {
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
             val parentViewModel: ParentViewModel = viewModel(
@@ -138,27 +138,27 @@ fun PlayItNavGraph(
         }
 
         // ── 1. HEAR IT ───────────────────────────────────────────────────────
-        composable("hear_it/{phonemeId}") { backStackEntry ->
+        composable(Routes.HEAR_IT) { backStackEntry ->
             val phoneme = backStackEntry.arguments?.getString("phonemeId") ?: "m"
             HearItScreen(
                 phonemeId = phoneme,
                 onBackClick = { navController.popBackStack() },
-                onNextClick = { navController.navigate("say_it/$phoneme") }
+                onNextClick = { navController.navigate(Routes.sayIt(phoneme)) }
             )
         }
 
         // ── 2. SAY IT ────────────────────────────────────────────────────────
-        composable("say_it/{phonemeId}") { backStackEntry ->
+        composable(Routes.SAY_IT) { backStackEntry ->
             val phoneme = backStackEntry.arguments?.getString("phonemeId") ?: "m"
             SayItScreen(
                 phonemeId = phoneme,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate("find_it/$phoneme") }
+                onNext = { navController.navigate(Routes.findIt(phoneme)) }
             )
         }
 
         // ── 3. FIND IT ───────────────────────────────────────────────────────
-        composable("find_it/{phonemeId}") { backStackEntry ->
+        composable(Routes.FIND_IT) { backStackEntry ->
             val phoneme = backStackEntry.arguments?.getString("phonemeId") ?: "m"
             val context = LocalContext.current
             val app = context.applicationContext as PlayItApplication
@@ -175,7 +175,7 @@ fun PlayItNavGraph(
                 phonemeId = phoneme,
                 onBack = { navController.popBackStack() },
                 onNext = {
-                    navController.popBackStack("map", inclusive = false)
+                    navController.popBackStack(Routes.MAP, inclusive = false)
                 },
                 viewModel = viewModel
             )
@@ -183,7 +183,7 @@ fun PlayItNavGraph(
 
         // ── 4. BLEND IT ──────────────────────────────────────────────────────
         composable(
-            route = "blend_it/{phonemeId}",
+            route = Routes.BLEND_IT,
             arguments = listOf(navArgument("phonemeId") { type = NavType.StringType })
         ) { backStackEntry ->
             val phonemeId = backStackEntry.arguments?.getString("phonemeId") ?: ""
@@ -201,7 +201,7 @@ fun PlayItNavGraph(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onSessionComplete = {
-                    navController.popBackStack("map", inclusive = false)
+                    navController.popBackStack(Routes.MAP, inclusive = false)
                 }
             )
         }
