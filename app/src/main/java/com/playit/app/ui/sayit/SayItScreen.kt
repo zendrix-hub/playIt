@@ -216,7 +216,7 @@ fun SayItContent(
 
                 // ── Mascot Guidance / Encouragement ─────────────────────────
                 val mascotState = when {
-                    isSuccess                             -> MascotState.Celebrating
+                    isSuccess                             -> MascotState.Happy
                     resultText.isNotEmpty() && !isSuccess -> MascotState.Encouraging
                     isTooNoisy                            -> MascotState.Thinking
                     isRecording                           -> MascotState.Happy

@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.playit.app.domain.model.LetterCard
+import com.playit.app.ui.components.MascotBubble
+import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PlayItLearningScaffold
 import com.playit.app.ui.components.SecondaryButton
 import kotlinx.coroutines.delay
@@ -141,6 +143,21 @@ fun BlendItContent(
         listOf(SoftPurpleGradientTop, SoftPurpleGradientBottom)
     )
 
+    val mascotState = when {
+        hasCompleted -> MascotState.Celebrating
+        isError || wrongAttempts > 0 -> MascotState.Encouraging
+        isAutoHintActive -> MascotState.Thinking
+        else -> MascotState.Happy
+    }
+
+    val mascotMessage = when {
+        hasCompleted -> "Awesome word blending! Tap NEXT to continue."
+        isError -> "Good try! Tap RESET or try placing the letters again."
+        isAutoHintActive -> "Need a hint? Tap the glowing letter to help spell the word!"
+        wrongAttempts > 0 -> "Keep going! Tap RESET if you want to start over."
+        else -> "Tap the letters in order to spell the word!"
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -158,7 +175,14 @@ fun BlendItContent(
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
-                    // ── 0. Permanently Visible Audio Control ──
+                    // ── 0. Mascot Guidance Bubble ──
+                    MascotBubble(
+                        state = mascotState,
+                        message = mascotMessage,
+                        audioResId = 0
+                    )
+
+                    // ── 0b. Permanently Visible Audio Control ──
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
@@ -222,48 +246,21 @@ fun BlendItContent(
                         }
                     }
 
-                    // ── Instruction / Auto-hint / 0-Heart Exit Copy ──
-                    if (activeHearts == 0) {
-                        Surface(
-                            color = GentleOrangeBg,
-                            shape = RoundedCornerShape(16.dp),
-                            border = BorderStroke(1.dp, GentleOrange),
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-                        ) {
-                            Text(
-                                text = "🌟 Great effort! You're getting closer every time. Let me give you a hand!",
-                                color = TextPrimary,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(12.dp)
-                            )
-                        }
-                    } else if (isAutoHintActive) {
-                        Surface(
-                            color = AchievementGold.copy(alpha = 0.2f),
-                            shape = RoundedCornerShape(16.dp),
-                            border = BorderStroke(2.dp, AchievementGold),
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-                        ) {
-                            Text(
-                                text = "💡 Hint assist active! Tap glowing tile next",
-                                color = TextPrimary,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(12.dp)
-                            )
-                        }
-                    } else {
-                        Text(
-                            text = if (hasCompleted) "🎉 Splendid! Tap Next to advance" else "Tap letters below in order:",
-                            color = TextPrimary,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center
-                        )
+                    // ── Mascot Guidance / Auto-hint / 0-Heart Exit Copy ──
+                    val (mascotState, mascotMessage) = when {
+                        hasCompleted      -> MascotState.Happy to "Splendid! Tap NEXT to advance."
+                        activeHearts == 0 -> MascotState.Encouraging to "Great effort! You're getting closer every time. Let me give you a hand!"
+                        isAutoHintActive  -> MascotState.Thinking to "Hint assist active! Tap the glowing tile next."
+                        isError           -> MascotState.Encouraging to "Almost! Try another letter tile."
+                        else              -> MascotState.Happy to "Tap letters below in order to spell the word!"
                     }
+
+                    MascotBubble(
+                        state         = mascotState,
+                        message       = mascotMessage,
+                        audioResId    = 0,
+                        autoPlayAudio = false
+                    )
 
                     // ── 2. Scrambled Selection Pile (with Auto-hint assist glow) ──
                     val nextExpectedChar = word.getOrNull(spelledLetters.size)?.toString()

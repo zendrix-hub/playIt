@@ -189,7 +189,7 @@ fun ParentDashboardScreen(
                             }
 
                             Spacer(modifier = Modifier.height(16.dp))
-                            HorizontalDivider(color = Border.copy(alpha = 0.5f))
+                            Divider(color = Border.copy(alpha = 0.5f))
                             Spacer(modifier = Modifier.height(12.dp))
 
                             Text(
