@@ -35,6 +35,15 @@ data class SayItUiState(
     val isTooNoisy: Boolean     = false // Specs: Ambient noise alert flag
 )
 
+/**
+ * ViewModel for the Say It pronunciation module.
+ *
+ * Progression Contract (ENG-2.01):
+ * SayItViewModel does NOT gate lesson progression or modify `lesson_progress`.
+ * Progression gating (isCompleted = true, unlock of next letter) is handled exclusively by FindItViewModel.
+ * SayItViewModel records pronunciation attempts via `repository.insertSayItAttempt` for parent dashboard reporting
+ * and manages active hearts/consecutive correct counts locally in runtime UI state.
+ */
 class SayItViewModel(
     private val application: Application,
     private val repository: PlayItRepository,
@@ -223,18 +232,6 @@ class SayItViewModel(
                 val heartBonus     = if (newConsecutive % 3 == 0) 1 else 0
 
                 viewModelScope.launch {
-                    val existing = repository.getLessonProgress(activeProfileId, phonemeId)
-                    repository.updateLessonProgress(
-                        com.playit.app.domain.model.LessonProgress(
-                            id = existing?.id ?: 0L,
-                            profileId = activeProfileId,
-                            phonemeId = phonemeId,
-                            starsEarned = 0,
-                            heartsLost = 5 - minOf(5, current.activeHearts + heartBonus),
-                            isCompleted = false,
-                            completedAt = null
-                        )
-                    )
                     repository.insertSayItAttempt(
                         com.playit.app.domain.model.SayItAttempt(
                             attemptId = 0L,
@@ -255,18 +252,6 @@ class SayItViewModel(
                 val newHearts = current.activeHearts - 1
 
                 viewModelScope.launch {
-                    val existing = repository.getLessonProgress(activeProfileId, phonemeId)
-                    repository.updateLessonProgress(
-                        com.playit.app.domain.model.LessonProgress(
-                            id = existing?.id ?: 0L,
-                            profileId = activeProfileId,
-                            phonemeId = phonemeId,
-                            starsEarned = 0,
-                            heartsLost = 5 - (if (newHearts <= 0) 3 else newHearts),
-                            isCompleted = false,
-                            completedAt = null
-                        )
-                    )
                     repository.insertSayItAttempt(
                         com.playit.app.domain.model.SayItAttempt(
                             attemptId = 0L,
