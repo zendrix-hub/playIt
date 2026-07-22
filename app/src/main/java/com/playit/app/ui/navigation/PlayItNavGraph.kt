@@ -12,6 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import com.playit.app.PlayItApplication
 import com.playit.app.data.preferences.SessionManager
 import com.playit.app.ui.blendit.BlendItCompleteScreen
@@ -40,7 +44,25 @@ fun PlayItNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = {
+            fadeIn(animationSpec = tween(250)) + slideInVertically(
+                animationSpec = tween(250),
+                initialOffsetY = { fullHeight -> fullHeight / 10 }
+            )
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(250))
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(250)) + slideInVertically(
+                animationSpec = tween(250),
+                initialOffsetY = { fullHeight -> fullHeight / 10 }
+            )
+        },
+        popExitTransition = {
+            fadeOut(animationSpec = tween(250))
+        }
     ) {
 
         // ── SPLASH SCREEN ───────────────────────────────────────────────────
