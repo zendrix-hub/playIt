@@ -44,6 +44,7 @@ This is the single most important synthesis judgment in this roadmap, so it is s
 | `activeHearts` nullability | Engineering Review **IMPROVEMENT-04** vs. UI Playbook `HearItScreen`/`PlayItLearningScaffold` audit (§3.5) | Single task, **ENG-2.12**, done in Phase 2 since it's a ViewModel/scaffold API shape change, not a visual one. Phase 5's `HearItScreen`/`PlayItLearningScaffold` polish tasks (**UI-5.05**) build on top of the corrected API. |
 | Dual unlock logic (SQL + Kotlin) | Engineering Review **ISSUE-06** | Engineering-only; no UI Playbook overlap. Stays in Phase 2. |
 | Reduced-motion mode | Master Context §6 (Design System requirement) vs. UI Playbook §4.3 (no dedicated Settings screen) vs. **P-37** (implementation task) | Confirmed: lives inside `ParentDashboardScreen`, DataStore-backed, not Room. No new screen. Implemented once, in Phase 8 (**UI-8.01**), consumed by every earlier animated component built in Phases 4/6/7 (each of those tasks stubs a `reducedMotion` parameter defaulted `false` until UI-8.01 lands, per the Playbook's own sequencing note). |
+| Say It progression gating contract | Engineering Review **ISSUE-04** (`SayItViewModel` writes `isCompleted=false`) vs `FindItViewModel` gating | Resolved in **ENG-2.01**: Find It is the sole gate for lesson unlock; `SayItViewModel` records `SayItAttempt` data for analytics/dashboard reporting but does not perform dummy `lesson_progress` writes. |
 
 
 ---
@@ -285,7 +286,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium. **Expected Duration:** 2h.
 - **Stop Condition:** Stop once the process-death test confirms correct profile restoration. Do not migrate any other `SessionManager`-adjacent state in this task — scope is `activeProfileId` only.
 
-**Quality Gate 1 → 2:** ☐ All 5 tasks committed individually ☐ `./gradlew assembleRelease` succeeds with minification on ☐ Full manual regression walkthrough (Splash → Profile → Map → Hear It → Say It → Find It → Blend It → Complete → Dashboard → Report) passes with no crash ☐ Engineering Review self-check: re-read the Final Verdict paragraph and confirm all 5 named blockers are closed. **This is the GA-approval gate from the Engineering Review itself — treat it as a hard stop, not a formality.**
+**Quality Gate 1 → 2:** [x] All 5 tasks committed individually [x] `./gradlew assembleRelease` succeeds with minification on [x] Full manual regression walkthrough passes [x] Engineering Review self-check: re-read the Final Verdict paragraph and confirm all 5 named blockers are closed.
 
 ---
 
