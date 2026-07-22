@@ -26,6 +26,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playit.app.ui.theme.TangerineOrange
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 // Data class representing a node on the map
 data class MapNodeState(
@@ -250,7 +252,19 @@ fun LetterNode(
     }
     val contentColor = if (node.isUnlocked) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    val lockStatusText = if (node.isUnlocked) {
+        "unlocked, ${node.starsEarned} stars"
+    } else {
+        "locked"
+    }
+    val nodeDescription = "${node.label} - $lockStatusText"
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.semantics(mergeDescendants = true) {
+            contentDescription = nodeDescription
+        }
+    ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -268,7 +282,7 @@ fun LetterNode(
                     color = contentColor
                 )
             } else {
-                Icon(Icons.Rounded.Lock, contentDescription = "Locked", tint = contentColor)
+                Icon(Icons.Rounded.Lock, contentDescription = null, tint = contentColor)
             }
         }
 
@@ -299,6 +313,8 @@ fun BlendItChallengeNode(
 ) {
     val backgroundColor = if (node.isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant
 
+    val nodeDescription = "${node.label} - ${if (node.isUnlocked) "unlocked" else "locked"}"
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -307,6 +323,9 @@ fun BlendItChallengeNode(
             .scale(scale)
             .background(backgroundColor, RoundedCornerShape(16.dp))
             .border(4.dp, MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
+            .semantics(mergeDescendants = true) {
+                contentDescription = nodeDescription
+            }
             .clickable(enabled = node.isUnlocked) { onClick() }
     ) {
         if (node.isUnlocked) {
@@ -317,7 +336,7 @@ fun BlendItChallengeNode(
                 color = MaterialTheme.colorScheme.onPrimary
             )
         } else {
-            Icon(Icons.Rounded.Lock, contentDescription = "Locked", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Icon(Icons.Rounded.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
