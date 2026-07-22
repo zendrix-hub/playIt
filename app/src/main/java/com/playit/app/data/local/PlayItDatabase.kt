@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
         ReportLogEntity::class
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class PlayItDatabase : RoomDatabase() {
 
@@ -50,6 +50,8 @@ abstract class PlayItDatabase : RoomDatabase() {
                     PlayItDatabase::class.java,
                     "playit_database"
                 )
+                    // TODO: Replace fallbackToDestructiveMigration with explicit Migration objects before GA release when schema changes
+                    .fallbackToDestructiveMigration()
                     .addCallback(DatabaseCallback())
                     .build()
                 INSTANCE = instance
