@@ -7,6 +7,7 @@ import com.playit.app.domain.repository.PlayItRepository
 import com.playit.app.domain.usecase.StarCalculator
 import com.playit.app.domain.usecase.StreakTracker
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class PlayItRepositoryImpl(private val db: PlayItDatabase) : PlayItRepository {
@@ -69,6 +70,12 @@ class PlayItRepositoryImpl(private val db: PlayItDatabase) : PlayItRepository {
         return progressDao.getLessonProgress(profileId, phonemeId)?.toDomain()
     }
 
+    override fun getCompletedLessonsForProfile(profileId: Long): Flow<List<LessonProgress>> {
+        return progressDao.getCompletedLessonsForProfile(profileId).map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
+
     override suspend fun updateLessonProgress(progress: LessonProgress) {
         // 1. Perform the upsert of the progress record
         progressDao.upsertLessonProgress(LessonProgressEntity.fromDomain(progress))
@@ -79,7 +86,7 @@ class PlayItRepositoryImpl(private val db: PlayItDatabase) : PlayItRepository {
             val profile = profileDao.getProfileById(profileId)?.toDomain()
             if (profile != null) {
                 // Fetch all completed lessons to sum up stars
-                val completedEntities = progressDao.getCompletedLessonsForProfile(profileId)
+                val completedEntities = progressDao.getCompletedLessonsForProfile(profileId).first()
                 val starsList = completedEntities.map { it.starsEarned }
                 val newStars = starCalculator.calculateTotalStars(starsList)
 

@@ -52,17 +52,11 @@ class ParentViewModel(
             val profile = repository.getProfileById(activeProfileId)
             _uiState.update { it.copy(activeProfile = profile) }
 
-            // Fetch completed lessons flow (converted to list)
-            repository.getAllPhonemes().collect { list ->
-                val progressList = mutableListOf<LessonProgress>()
-                for (p in list) {
-                    val progress = repository.getLessonProgress(activeProfileId, p.phonemeId)
-                    if (progress != null) {
-                        progressList.add(progress)
-                    }
-                }
-                _uiState.update { it.copy(completedLessons = progressList) }
+        viewModelScope.launch {
+            repository.getCompletedLessonsForProfile(activeProfileId).collect { list ->
+                _uiState.update { it.copy(completedLessons = list) }
             }
+        }
         }
 
         viewModelScope.launch {

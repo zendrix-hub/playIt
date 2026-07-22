@@ -77,7 +77,7 @@ interface ProgressDao {
     suspend fun getLessonProgress(profileId: Long, phonemeId: String): LessonProgressEntity?
 
     @Query("SELECT * FROM lesson_progress WHERE profileId = :profileId AND isCompleted = 1")
-    suspend fun getCompletedLessonsForProfile(profileId: Long): List<LessonProgressEntity>
+    fun getCompletedLessonsForProfile(profileId: Long): Flow<List<LessonProgressEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertLessonProgress(progress: LessonProgressEntity)

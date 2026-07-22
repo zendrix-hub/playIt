@@ -15,6 +15,7 @@ interface PlayItRepository {
     fun getAllPhonemes(): Flow<List<Phoneme>>
     suspend fun getPhonemeById(phonemeId: String): Phoneme?
     suspend fun getLessonProgress(profileId: Long, phonemeId: String): LessonProgress?
+    fun getCompletedLessonsForProfile(profileId: Long): Flow<List<LessonProgress>>
     suspend fun updateLessonProgress(progress: LessonProgress)
     fun getUnlockedPhonemes(profileId: Long): Flow<List<PhonemeWithStatus>>
 
