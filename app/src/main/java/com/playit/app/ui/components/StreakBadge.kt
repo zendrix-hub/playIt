@@ -112,7 +112,7 @@ fun StreakBadge(
                 color = if (isUnlocked) EnergyOrange else TextSecondary
             )
         }
-    )
+    }
 }
 
 @Composable
