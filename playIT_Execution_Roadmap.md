@@ -998,7 +998,8 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium. **Expected Duration:** 2.5h.
 - **Stop Condition:** Stop once both presets and the reduced-motion fallback preview correctly.
 
-**Quality Gate 6 → 7:** ☐ All 3 tasks committed ☐ Full-letter-cycle mascot walkthrough passes ☐ Streak display consistent Map↔Dashboard ☐ Build green.
+**Quality Gate 6 → 7:** [x] All 3 tasks committed [x] Full-letter-cycle mascot walkthrough passes [x] Streak display consistent Map↔Dashboard [x] Build green.
+```
 
 ---
 
