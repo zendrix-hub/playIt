@@ -22,16 +22,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import com.playit.app.ui.theme.AchievementGold
+import com.playit.app.ui.theme.Border
+import com.playit.app.ui.theme.CreamWhite
+import com.playit.app.ui.theme.EnergyOrange
+import com.playit.app.ui.theme.GentleCorrectionOrange
+import com.playit.app.ui.theme.TextPrimary
 import com.playit.app.ui.theme.TextSecondary
 
 // ── Colour palette ────────────────────────────────────────────────────────────
-private val CardBackground  = Color(0xFFFFFFFF)
+private val CardBackground  = CreamWhite
 private val LabelColor      = TextSecondary
-private val ValueColor      = Color(0xFF212121)
-private val DividerColor    = Color(0xFFEEEEEE)
-private val HeartRed        = Color(0xFFE53935)
-private val StarAmber       = Color(0xFFFFC107)
-private val StreakOrange    = Color(0xFFFF6D00)
+private val ValueColor      = TextPrimary
+private val DividerColor    = Border
+private val HeartRed        = GentleCorrectionOrange
+private val StarAmber       = AchievementGold
+private val StreakOrange    = EnergyOrange
 
 /**
  * A floating pill-card anchored to the top of [MapScreen] that surfaces the

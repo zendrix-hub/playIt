@@ -18,14 +18,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import com.playit.app.ui.theme.CreamWhite
+import com.playit.app.ui.theme.Disabled
+import com.playit.app.ui.theme.GentleCorrectionOrange
+import com.playit.app.ui.theme.GrowthGreen
+import com.playit.app.ui.theme.SoftSky
+import com.playit.app.ui.theme.TextPrimary
+
 // --- Child-Friendly Design Tokens ---
-val SkyBlueLight = Color(0xFFE1F5FE)
+val SkyBlueLight = SoftSky
 val SkyBlueDark = Color(0xFF81D4FA)
-val CardWhite = Color(0xFFFFFFFF)
-val ActionGreen = Color(0xFF43E97B)
-val DisabledGray = Color(0xFFB0BEC5)
-val TextDark = Color(0xFF2D2D2D)
-val HeartRed = Color(0xFFFF4B6E)
+val CardWhite = CreamWhite
+val ActionGreen = GrowthGreen
+val DisabledGray = Disabled
+val TextDark = TextPrimary
+val HeartRed = GentleCorrectionOrange
 
 @Composable
 fun PlayItLearningScaffold(

@@ -25,9 +25,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.playit.app.data.audio.SoundManager
+import com.playit.app.ui.theme.CreamWhite
+import com.playit.app.ui.theme.Disabled
 
-private val HeartDisabled = Color(0xFFCBD5E0)
-private val ContainerBg = Color(0xFFFFFFFF)
+private val HeartDisabled = Disabled
+private val ContainerBg = CreamWhite
 
 /**
  * Shared HeartDisplay component used across learning screens (Say It, Find It, Blend It).

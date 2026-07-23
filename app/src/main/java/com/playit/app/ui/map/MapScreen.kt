@@ -284,7 +284,7 @@ fun MapScreen(
                             if (mathError) {
                                 Text(
                                     text = "Incorrect result, please try again!",
-                                    color = Color(0xFFE53935),
+                                    color = com.playit.app.ui.theme.GentleCorrectionOrange,
                                     fontSize = 14.sp,
                                     modifier = Modifier.padding(top = 4.dp)
                                 )

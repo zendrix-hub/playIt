@@ -31,16 +31,20 @@ import com.playit.app.ui.components.PlayItLearningScaffold
 import com.playit.app.ui.components.SecondaryButton
 import kotlinx.coroutines.delay
 
+import com.playit.app.ui.theme.AchievementGold
+import com.playit.app.ui.theme.Border
+import com.playit.app.ui.theme.Disabled
+import com.playit.app.ui.theme.FriendlyPurple
+import com.playit.app.ui.theme.GentleCorrectionOrange
+import com.playit.app.ui.theme.TextPrimary
+
 // ─── Design Tokens (Design System v1.0) ───
-private val FriendlyPurple        = Color(0xFF8E7DF2)
 private val SoftPurpleGradientTop = Color(0xFFECE7FF)
 private val SoftPurpleGradientBottom = Color(0xFFD8D0FF)
-private val AchievementGold       = Color(0xFFFFC107)
-private val GentleOrange          = Color(0xFFFFB74D) // Gentle Correction Orange (never harsh red)
+private val GentleOrange          = GentleCorrectionOrange // Gentle Correction Orange (never harsh red)
 private val GentleOrangeBg        = Color(0xFFFFF3E0)
-private val TextPrimary           = Color(0xFF2D3748)
-private val BorderColor           = Color(0xFFE2E8F0)
-private val DisabledColor         = Color(0xFFCBD5E0)
+private val BorderColor           = Border
+private val DisabledColor         = Disabled
 
 @Composable
 fun BlendItScreen(
