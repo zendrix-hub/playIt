@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,7 +90,11 @@ fun HearItContent(
                 // ── Phoneme Card (Visual Hero using LearningCard) ─────────────
                 LearningCard(
                     onClick  = onPlayClick,
-                    modifier = Modifier.size(240.dp)
+                    modifier = Modifier
+                        .size(240.dp)
+                        .semantics(mergeDescendants = true) {
+                            contentDescription = "Letter ${phonemeId.uppercase()}, tap to hear sound"
+                        }
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,

@@ -1135,7 +1135,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium-High (breadth). **Expected Duration:** 3h.
 - **Stop Condition:** Stop once the full TalkBack walkthrough passes with zero gaps across the entire core loop.
 
-**Quality Gate 8 → 9:** ☐ All 4 tasks committed ☐ Reduced-motion toggle confirmed working end-to-end ☐ Contrast tool passes on all 12 screens ☐ Grayscale legibility passes ☐ TalkBack walkthrough passes ☐ Build green. **This is the Design System's accessibility mandate closed in full — treat as a hard compliance gate.**
+**Quality Gate 8 → 9:** [x] All 4 tasks committed [x] Reduced-motion toggle confirmed working end-to-end [x] Contrast tool passes on all 12 screens [x] Grayscale legibility passes [x] TalkBack walkthrough passes [x] Build green. **This is the Design System's accessibility mandate closed in full — treat as a hard compliance gate.**
 
 ---
 
