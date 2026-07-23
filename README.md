@@ -49,30 +49,42 @@ playIT is engineered following Android's recommended **MVVM + Clean Architecture
 
 ## Architecture Overview
 
-```
-                          ┌───────────────────────────┐
-                          │   Jetpack Compose UI      │
-                          │ (Screens & Shared Comps)  │
-                          └─────────────┬─────────────┘
-                                        │ (StateFlow / Actions)
-                                        ▼
-                          ┌───────────────────────────┐
-                          │       ViewModel Layer     │
-                          │   (UI State Management)   │
-                          └─────────────┬─────────────┘
-                                        │
-                                        ▼
-                          ┌───────────────────────────┐
-                          │       Domain Layer        │
-                          │  (Use Cases & Validation) │
-                          └─────────────┬─────────────┘
-                                        │
-                    ┌───────────────────┴───────────────────┐
-                    ▼                                       ▼
-    ┌───────────────────────────────┐       ┌───────────────────────────────┐
-    │          Data Layer           │       │          Speech Engine        │
-    │  (Room DB / Repositories)     │       │    (Vosk Offline JNI SDK)     │
-    └───────────────────────────────┘       └───────────────────────────────┘
+For a detailed breakdown of the software layers, domain use cases, and repository pattern, see the [Architecture Documentation](docs/architecture.md).
+
+```mermaid
+flowchart TD
+    subgraph Presentation ["Presentation Layer (UI & ViewModels)"]
+        UI_Screens["Jetpack Compose Screens"]
+        UI_Shared["Shared Design System Components"]
+        VMs["MVVM ViewModels"]
+        
+        UI_Screens --> UI_Shared
+        UI_Screens <-->|StateFlow / Events| VMs
+    end
+
+    subgraph Domain ["Domain Layer (Business Logic)"]
+        Models["Domain Models"]
+        UseCases["Use Cases & Domain Managers\n(UnlockManager, SpeechValidator, HeartManager, etc.)"]
+        
+        VMs --> UseCases
+        UseCases --> Models
+    end
+
+    subgraph Data ["Data Layer (Persistence & Speech AI)"]
+        RepoInterface["PlayItRepository (Interface)"]
+        RepoImpl["PlayItRepositoryImpl"]
+        DAOs["Room DAOs & Database"]
+        DataStore["DataStore Preferences"]
+        SpeechEngine["Vosk Speech Engine (Edge-AI)"]
+        AudioEngine["PhonemeAudioPlayer"]
+
+        UseCases --> RepoInterface
+        RepoImpl -.-|Implements| RepoInterface
+        RepoImpl --> DAOs
+        RepoImpl --> DataStore
+        VMs --> SpeechEngine
+        VMs --> AudioEngine
+    end
 ```
 
 ---
