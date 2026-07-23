@@ -1185,13 +1185,13 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Files affected:** `ui/components/EmptyState.kt`, `ui/components/ErrorState.kt` (new), `ProfileSelectScreen.kt` (zero-profile empty state), any asset-loading call site with error handling.
 - **Implementation Rules:** `EmptyState`: mascot + message + single CTA slot, fade-tier entrance, used for first-launch ProfileSelect and any dashboard-with-no-data context. `ErrorState`: friendly, non-alarming icon (not a system error glyph or red triangle), text+audio message framed as the app's problem, paired with a retry/alternative-action CTA — never a dead end. Distinct entrance animation from `AnswerFeedback`'s incorrect-answer state (UI-7.02) so children don't conflate "you made a mistake" with "something broke." Does not change any underlying error-handling logic — visual only, except where a ViewModel needs to expose an error state it doesn't yet expose (Ground Rule 5 exception).
 - **Acceptance Criteria:** Zero-profile first launch uses `EmptyState`, not a blank grid; at least one real asset-loading error path uses `ErrorState` instead of silent failure/crash (verified by manually removing/renaming a test asset in a debug build).
-- **Verification Checklist:** ☐ Build green ☐ Manual test of zero-profile first-launch path ☐ Manual test of one simulated missing-asset path.
+- **Verification Checklist:** [x] Build green [x] Manual test of zero-profile first-launch path [x] Manual test of one simulated missing-asset path.
 - **Android Studio Runtime Tests:** Fresh-install with zero profiles, confirm `EmptyState` renders; rename/remove one test audio asset in a debug build and confirm `ErrorState` renders instead of a crash.
 - **Git Commit Message:** `feat: add shared EmptyState and ErrorState components with graceful asset-failure handling`
 - **Estimated Difficulty:** Medium. **Expected Duration:** 2.5h.
 - **Stop Condition:** Stop once both the zero-profile and simulated-missing-asset paths are confirmed non-crashing and on-brand.
 
-**Quality Gate 9 → 10:** ☐ All 3 tasks committed ☐ Zero bespoke tap animations remain ☐ Zero default spinners remain ☐ Empty/error states confirmed non-crashing on-brand ☐ Build green.
+**Quality Gate 9 → 10:** [x] All 3 tasks committed [x] Zero bespoke tap animations remain [x] Zero default spinners remain [x] Empty/error states confirmed non-crashing on-brand [x] Build green.
 
 ---
 
@@ -1217,7 +1217,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Files affected:** `ui/components/ArithmeticGateDialog.kt` (locate or create), `ParentDashboardScreen.kt` (delete profile / reset progress entry points).
 - **Implementation Rules:** Dialog container uses `LearningCard`-family styling, not a default `AlertDialog` shape. States the consequence in plain text+audio before presenting the arithmetic challenge. Cancel at least as visually prominent as Confirm; numeric input meets 48dp+. `GentleCorrectionOrange` + warning icon for severity, never harsh red. Does not change arithmetic-gate logic — display/interaction only.
 - **Acceptance Criteria:** Dialog visually matches app design language; Cancel not visually subordinate to Confirm.
-- **Verification Checklist:** ☐ Build green ☐ Manual trigger of a destructive action on a test profile confirms full compliant flow.
+- **Verification Checklist:** [x] Build green [x] Manual trigger of a destructive action on a test profile confirms full compliant flow.
 - **Android Studio Runtime Tests:** Trigger delete-profile and reset-progress flows on a disposable test profile, confirming dialog styling and Cancel/Confirm balance.
 - **Git Commit Message:** `style: polish destructive-action arithmetic gate dialog to Design System v1.0`
 - **Estimated Difficulty:** Low-Medium. **Expected Duration:** 2h.
