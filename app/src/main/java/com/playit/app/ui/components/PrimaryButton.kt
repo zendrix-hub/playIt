@@ -1,10 +1,6 @@
 package com.playit.app.ui.components
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,12 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +29,7 @@ import com.playit.app.ui.theme.TextSecondary
 import com.playit.app.ui.theme.TouchTarget
 import com.playit.app.ui.theme.buttonElevation
 import com.playit.app.ui.theme.buttonShape
+import com.playit.app.ui.util.tapFeedback
 
 /**
  * PrimaryButton - Single shared Primary Button for Continue/Start/Next actions app-wide.
@@ -82,17 +77,6 @@ fun PrimaryButton(
     content: @Composable RowScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-
-    // Spring animation for tap feedback (100% -> 92% scale) - disabled when reducedMotion is true
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed && enabled && !reducedMotion) 0.92f else 1.0f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "primary_button_bounce"
-    )
 
     Surface(
         onClick = onClick,
@@ -100,7 +84,12 @@ fun PrimaryButton(
         modifier = modifier
             .fillMaxWidth()
             .height(TouchTarget.RECOMMENDED)
-            .scale(scale)
+            .tapFeedback(
+                interactionSource = interactionSource,
+                enabled = enabled,
+                pressedScale = 0.92f,
+                reducedMotion = reducedMotion
+            )
             .alpha(if (enabled) 1.0f else 0.6f),
         shape = buttonShape,
         color = if (enabled) LearningBlue else Disabled,

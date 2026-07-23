@@ -40,6 +40,7 @@ import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.StreakFlame
 import com.playit.app.ui.theme.*
+import com.playit.app.ui.util.tapFeedback
 import kotlinx.coroutines.delay
 
 // Data class representing a node on the map
@@ -432,16 +433,6 @@ fun LetterNode(
         label = "letter_unlock_glow_alpha"
     )
 
-    // Interactive spring scale feedback
-    val tapScale by animateFloatAsState(
-        targetValue = if (isPressed) 0.90f else scale,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "letter_node_tap_scale"
-    )
-
     // Gentle shake animation offset when tapping locked node
     val shakeOffset by animateFloatAsState(
         targetValue = if (isShaking) 8f else 0f,
@@ -497,7 +488,7 @@ fun LetterNode(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .size(72.dp) // Exceeds TouchTarget.IMPORTANT (64dp)
-                    .scale(tapScale)
+                    .tapFeedback(isPressed = isPressed, pressedScale = 0.90f, restingScale = scale)
                     .clip(CircleShape)
                     .background(backgroundColor)
                     .border(
@@ -602,15 +593,6 @@ fun BlendItChallengeNode(
         label = "blend_unlock_glow_alpha"
     )
 
-    val tapScale by animateFloatAsState(
-        targetValue = if (isPressed) 0.90f else scale,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "blend_node_tap_scale"
-    )
-
     val shakeOffset by animateFloatAsState(
         targetValue = if (isShaking) 8f else 0f,
         animationSpec = spring(
@@ -655,7 +637,7 @@ fun BlendItChallengeNode(
                 .offset(x = shakeOffset.dp)
                 .height(TouchTarget.RECOMMENDED) // 56dp
                 .width(140.dp)
-                .scale(tapScale)
+                .tapFeedback(isPressed = isPressed, pressedScale = 0.90f, restingScale = scale)
                 .semantics(mergeDescendants = true) {
                     contentDescription = nodeDescription
                 }

@@ -2,9 +2,6 @@ package com.playit.app.ui.profile
 
 import android.speech.tts.TextToSpeech
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -52,6 +49,7 @@ import com.playit.app.ui.theme.SoftSky
 import com.playit.app.ui.theme.TextPrimary
 import com.playit.app.ui.theme.TextSecondary
 import com.playit.app.ui.theme.TouchTarget
+import com.playit.app.ui.util.tapFeedback
 import java.util.Locale
 
 data class AvatarItem(val id: Int, val icon: ImageVector, val color: Color, val name: String)
@@ -273,23 +271,12 @@ fun ProfileGridCard(
     onDeleteClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-
-    // Spring-bounce tap feedback (100% -> 92% -> 100%)
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.92f else 1.0f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "profile_card_bounce"
-    )
 
     LearningCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
-            .scale(scale)
+            .tapFeedback(interactionSource = interactionSource, pressedScale = 0.92f)
             .semantics {
                 contentDescription = "$name's profile, $stars stars earned. Double tap to select, long press to manage."
             }
@@ -369,17 +356,6 @@ fun AddProfileCard(
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-
-    // Spring-bounce tap feedback (100% -> 92% -> 100%)
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.92f else 1.0f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "add_profile_bounce"
-    )
 
     Surface(
         onClick = onClick,
@@ -387,7 +363,7 @@ fun AddProfileCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
-            .scale(scale)
+            .tapFeedback(interactionSource = interactionSource, pressedScale = 0.92f)
             .semantics {
                 contentDescription = "Add new profile"
             },

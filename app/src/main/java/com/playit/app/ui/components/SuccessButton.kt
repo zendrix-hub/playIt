@@ -1,8 +1,5 @@
 package com.playit.app.ui.components
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -43,6 +40,7 @@ import com.playit.app.ui.theme.TextSecondary
 import com.playit.app.ui.theme.TouchTarget
 import com.playit.app.ui.theme.buttonElevation
 import com.playit.app.ui.theme.buttonShape
+import com.playit.app.ui.util.tapFeedback
 
 /**
  * SuccessButton - Shared Success Button (Achievement Gold bg, dark gray text).
@@ -91,17 +89,6 @@ fun SuccessButton(
     content: @Composable RowScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-
-    // Spring animation for tap feedback (100% -> 90% scale for celebration feedback) - disabled when reducedMotion is true
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed && enabled && !reducedMotion) 0.90f else 1.0f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        label = "success_button_bounce"
-    )
 
     Surface(
         onClick = onClick,
@@ -109,7 +96,12 @@ fun SuccessButton(
         modifier = modifier
             .fillMaxWidth()
             .height(TouchTarget.RECOMMENDED)
-            .scale(scale)
+            .tapFeedback(
+                interactionSource = interactionSource,
+                enabled = enabled,
+                pressedScale = 0.90f,
+                reducedMotion = reducedMotion
+            )
             .alpha(if (enabled) 1.0f else 0.6f),
         shape = buttonShape,
         color = if (enabled) AchievementGold else Disabled,

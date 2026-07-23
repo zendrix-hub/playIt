@@ -1,13 +1,9 @@
 package com.playit.app.ui.profile
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -20,7 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +27,7 @@ import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.theme.*
+import com.playit.app.ui.util.tapFeedback
 
 /**
  * Task UI-5.03 — Polish NamePromptScreen to Design System v1.0
@@ -154,16 +150,6 @@ fun NamePromptScreen(
                                 rowItems.forEach { avatar ->
                                     val isSelected = selectedAvatarId == avatar.id
                                     val interactionSource = remember { MutableInteractionSource() }
-                                    val isPressed by interactionSource.collectIsPressedAsState()
-
-                                    val scale by animateFloatAsState(
-                                        targetValue = if (isPressed) 0.92f else if (isSelected) 1.05f else 1.0f,
-                                        animationSpec = spring(
-                                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                                            stiffness = Spring.StiffnessLow
-                                        ),
-                                        label = "avatar_scale"
-                                    )
 
                                     val borderModifier = if (isSelected) {
                                         Modifier.border(4.dp, LearningBlue, CircleShape)
@@ -175,7 +161,11 @@ fun NamePromptScreen(
                                         contentAlignment = Alignment.Center,
                                         modifier = Modifier
                                             .size(72.dp) // Exceeds TouchTarget.IMPORTANT (64dp)
-                                            .scale(scale)
+                                            .tapFeedback(
+                                                interactionSource = interactionSource,
+                                                pressedScale = 0.92f,
+                                                restingScale = if (isSelected) 1.05f else 1.0f
+                                            )
                                             .clip(CircleShape)
                                             .background(avatar.color)
                                             .then(borderModifier)
