@@ -1285,7 +1285,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium. **Expected Duration:** 3h.
 - **Stop Condition:** Stop once the 3 minimum-coverage areas each have a passing instrumented test — specifically regression-guarding the BUG-06/groupId fix is non-negotiable given its severity.
 
-**Quality Gate 10 → 11:** ☐ All 6 tasks committed ☐ `./gradlew test` and instrumented tests both green ☐ Domain-layer coverage ≥80% or fully justified otherwise ☐ Full manual regression walkthrough passes ☐ No animation jank on Map/celebration hotspots ☐ Cross-screen QA checklist fully walked. **This is the last gate before the app is considered feature-and-polish-complete.**
+**Quality Gate 10 → 11:** [x] All 6 tasks committed [x] `./gradlew test` and instrumented tests both green [x] Domain-layer coverage ≥80% or fully justified otherwise [x] Full manual regression walkthrough passes [x] No animation jank on Map/celebration hotspots [x] Cross-screen QA checklist fully walked. **This is the last gate before the app is considered feature-and-polish-complete.**
 
 ---
 
