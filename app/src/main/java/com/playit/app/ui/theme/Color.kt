@@ -12,7 +12,7 @@ val SoftSky = Color(0xFFEAF6FF)
 val CreamWhite = Color(0xFFFFFDF8)
 val GentleCorrectionOrange = Color(0xFFFFB74D)
 val TextPrimary = Color(0xFF2D3748)
-val TextSecondary = Color(0xFF718096)
+val TextSecondary = Color(0xFF4A5568)
 val Border = Color(0xFFE2E8F0)
 val Disabled = Color(0xFFCBD5E0)
 

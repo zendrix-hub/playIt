@@ -22,9 +22,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// ── Colour palette (self-contained; no theme dependency) ──────────────────────
+import com.playit.app.ui.theme.TextSecondary
+
+// ── Colour palette ────────────────────────────────────────────────────────────
 private val CardBackground  = Color(0xFFFFFFFF)
-private val LabelColor      = Color(0xFF9E9E9E)
+private val LabelColor      = TextSecondary
 private val ValueColor      = Color(0xFF212121)
 private val DividerColor    = Color(0xFFEEEEEE)
 private val HeartRed        = Color(0xFFE53935)
