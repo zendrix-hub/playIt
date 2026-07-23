@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playit.app.ui.components.LearningCard
+import com.playit.app.ui.components.LoadingIndicator
 import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.components.SecondaryButton
 import com.playit.app.ui.parent.ParentViewModel
@@ -179,22 +180,13 @@ fun ReportPreviewScreen(
                     )
 
                     if (uiState.isGeneratingPdf) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.small)
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = LearningBlue,
-                                strokeWidth = 2.5.dp
-                            )
-                            Text(
-                                text = "Generating PDF document...",
-                                fontSize = 16.sp,
-                                color = TextSecondary,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
+                        LoadingIndicator(
+                            message = "Generating PDF document...",
+                            showMessage = true,
+                            inline = true,
+                            size = 24.dp,
+                            color = LearningBlue
+                        )
                     } else if (uiState.pdfFileUri != null) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,

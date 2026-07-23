@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playit.app.ui.components.LearningCard
+import com.playit.app.ui.components.LoadingIndicator
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PlayItLearningScaffold
@@ -175,12 +176,20 @@ fun HearItContent(
                 text        = if (isPlaying) "Playing..." else "Replay Sound",
                 onClick     = onPlayClick,
                 leadingIcon = {
-                    Icon(
-                        imageVector        = Icons.AutoMirrored.Filled.VolumeUp,
-                        contentDescription = "Replay phoneme sound",
-                        tint               = LearningBlue,
-                        modifier           = Modifier.size(28.dp)
-                    )
+                    if (isPlaying) {
+                        LoadingIndicator(
+                            message = "Playing phoneme sound...",
+                            size = 24.dp,
+                            color = LearningBlue
+                        )
+                    } else {
+                        Icon(
+                            imageVector        = Icons.AutoMirrored.Filled.VolumeUp,
+                            contentDescription = "Replay phoneme sound",
+                            tint               = LearningBlue,
+                            modifier           = Modifier.size(28.dp)
+                        )
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.75f)

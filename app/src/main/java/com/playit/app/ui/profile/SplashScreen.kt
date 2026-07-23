@@ -19,8 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Face
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import com.playit.app.ui.components.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -143,11 +143,11 @@ fun SplashScreen(
 
             Spacer(modifier = Modifier.height(PlayItSpacing.section))
 
-            // Subtle loading indicator to provide visual feedback if initialization varies
-            CircularProgressIndicator(
-                modifier = Modifier.size(24.dp),
-                color = LearningBlue.copy(alpha = 0.7f),
-                strokeWidth = 3.dp
+            // Branded loading indicator to provide visual feedback if initialization varies
+            LoadingIndicator(
+                message = "Loading app resources...",
+                size = 28.dp,
+                color = LearningBlue
             )
         }
     }
