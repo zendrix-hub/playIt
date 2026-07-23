@@ -24,7 +24,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -71,6 +73,13 @@ fun BlendItCompleteScreen(
     heartsUsed: Int = 0,
     onBackToMap: () -> Unit = {}
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val soundManager = remember(context) { com.playit.app.data.audio.SoundManager.getInstance(context) }
+
+    LaunchedEffect(Unit) {
+        soundManager.playLevelComplete()
+    }
+
     val isZeroStar = starsEarned <= 0
 
     // Pulse animation for auto-focused single CTA

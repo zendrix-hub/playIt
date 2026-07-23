@@ -11,13 +11,20 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.playit.app.data.audio.SoundManager
 
 private val HeartDisabled = Color(0xFFCBD5E0)
 private val ContainerBg = Color(0xFFFFFFFF)
@@ -33,6 +40,22 @@ fun HeartDisplay(
     modifier: Modifier = Modifier
 ) {
     val clampedActive = activeHearts.coerceIn(0, maxHearts)
+    val context = LocalContext.current
+    val soundManager = remember(context) { SoundManager.getInstance(context) }
+    var previousHearts by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(clampedActive) {
+        val prev: Int? = previousHearts
+        if (prev != null) {
+            val prevVal: Int = prev
+            if (clampedActive < prevVal) {
+                soundManager.playHeartLoss()
+            } else if (clampedActive > prevVal) {
+                soundManager.playHeartRecovery()
+            }
+        }
+        previousHearts = clampedActive
+    }
 
     Surface(
         modifier = modifier.semantics {

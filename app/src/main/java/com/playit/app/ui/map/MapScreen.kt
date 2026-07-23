@@ -76,6 +76,9 @@ fun MapScreen(
     onNodeTapped: (MapNodeState) -> Unit,
     onParentClick: () -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val soundManager = remember(context) { com.playit.app.data.audio.SoundManager.getInstance(context) }
+
     var showParentGuard by remember { mutableStateOf(false) }
     var mathProblem by remember { mutableStateOf(Pair(0, 0)) }
     var mathAnswerText by remember { mutableStateOf("") }
@@ -191,6 +194,7 @@ fun MapScreen(
                                 isShaking = lockedTappedNode?.id == node.id,
                                 onClick = {
                                     if (node.isUnlocked) {
+                                        soundManager.playNodeUnlock()
                                         onNodeTapped(node)
                                     } else {
                                         lockedTappedNode = node
@@ -204,6 +208,7 @@ fun MapScreen(
                                 isShaking = lockedTappedNode?.id == node.id,
                                 onClick = {
                                     if (node.isUnlocked) {
+                                        soundManager.playNodeUnlock()
                                         onNodeTapped(node)
                                     } else {
                                         lockedTappedNode = node

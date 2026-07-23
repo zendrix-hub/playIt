@@ -45,12 +45,15 @@ fun AnswerFeedback(
     onAnimationFinished: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val soundManager = remember(context) { com.playit.app.data.audio.SoundManager.getInstance(context) }
     val scale = remember { Animatable(1f) }
     val shakeOffset = remember { Animatable(0f) }
 
     LaunchedEffect(isCorrect) {
         when (isCorrect) {
             true -> {
+                soundManager.playCorrectAnswer()
                 shakeOffset.snapTo(0f)
                 if (!reducedMotion) {
                     scale.animateTo(1.08f, animationSpec = tween(150, easing = FastOutSlowInEasing))
@@ -59,6 +62,7 @@ fun AnswerFeedback(
                 onAnimationFinished()
             }
             false -> {
+                soundManager.playIncorrectAnswer()
                 scale.snapTo(1f)
                 if (!reducedMotion) {
                     val offsets = listOf(-10f, 10f, -8f, 8f, -4f, 4f, 0f)
