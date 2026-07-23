@@ -1067,7 +1067,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Medium-High. **Expected Duration:** 2.5h.
 - **Stop Condition:** Stop once timing is confirmed within band on both completion screens.
 
-**Quality Gate 7 → 8:** ☐ All 4 tasks committed ☐ Full navigation walkthrough shows consistent transitions ☐ Answer feedback confirmed identical across 3 screens ☐ Map pulse/unlock and star-reveal animations timed within their correct bands ☐ Build green.
+**Quality Gate 7 → 8:** [x] All 4 tasks committed [x] Full navigation walkthrough shows consistent transitions [x] Answer feedback confirmed identical across 3 screens [x] Map pulse/unlock and star-reveal animations timed within their correct bands [x] Build green.
 
 ---
 
