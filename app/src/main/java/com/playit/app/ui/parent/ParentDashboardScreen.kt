@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.playit.app.ui.components.ArithmeticGateDialog
 import com.playit.app.ui.components.MilestoneBadgesRow
 import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.theme.Border
@@ -95,6 +96,7 @@ fun ParentDashboardScreen(
     var showMathGateDialog by remember { mutableStateOf(false) }
     var mathAnswerInput by remember { mutableStateOf("") }
     var mathGateError by remember { mutableStateOf(false) }
+    var mathProblem by remember { mutableStateOf(Pair(7, 8)) }
 
     fun handleSharePdf(uri: android.net.Uri) {
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
@@ -529,6 +531,9 @@ fun ParentDashboardScreen(
 
                             OutlinedButton(
                                 onClick = {
+                                    val num1 = (7..12).random()
+                                    val num2 = (2..9).random()
+                                    mathProblem = Pair(num1, num2)
                                     mathAnswerInput = ""
                                     mathGateError = false
                                     showMathGateDialog = true
@@ -566,71 +571,30 @@ fun ParentDashboardScreen(
 
     // ── Arithmetic Gate Dialog for Destructive Action ────────────────────────
     if (showMathGateDialog) {
-        AlertDialog(
-            onDismissRequest = { showMathGateDialog = false },
-            title = {
-                Text(
-                    text = "Parent Verification",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    color = HighContrastDarkText
-                )
+        ArithmeticGateDialog(
+            title = "Parent Verification",
+            consequenceMessage = "To confirm resetting progress for ${uiState.activeProfile?.name ?: "this profile"}, please solve this math problem:",
+            mathNum1 = mathProblem.first,
+            mathNum2 = mathProblem.second,
+            operator = "×",
+            answerInput = mathAnswerInput,
+            onAnswerInputChange = {
+                mathAnswerInput = it
+                mathGateError = false
             },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text(
-                        text = "To confirm resetting progress for ${uiState.activeProfile?.name ?: "this profile"}, please solve this math problem:",
-                        fontSize = 16.sp,
-                        color = HighContrastDarkText
-                    )
-                    Text(
-                        text = "What is 7 × 8 ?",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = FriendlyPurple,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    OutlinedTextField(
-                        value = mathAnswerInput,
-                        onValueChange = {
-                            mathAnswerInput = it
-                            mathGateError = false
-                        },
-                        label = { Text("Your Answer") },
-                        singleLine = true,
-                        isError = mathGateError,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    if (mathGateError) {
-                        Text(
-                            text = "Incorrect answer. Please try again.",
-                            color = AtRiskRedText,
-                            fontSize = 14.sp
-                        )
-                    }
+            isError = mathGateError,
+            confirmText = "Confirm Reset",
+            cancelText = "Cancel",
+            onConfirm = {
+                val expected = mathProblem.first * mathProblem.second
+                val inputVal = mathAnswerInput.trim().toIntOrNull()
+                if (inputVal == expected) {
+                    showMathGateDialog = false
+                } else {
+                    mathGateError = true
                 }
             },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        if (mathAnswerInput.trim() == "56") {
-                            showMathGateDialog = false
-                            // Math passed; destructive action would be executed here
-                        } else {
-                            mathGateError = true
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = AtRiskRedText)
-                ) {
-                    Text("Confirm Reset", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showMathGateDialog = false }) {
-                    Text("Cancel", color = HighContrastMutedText, fontSize = 16.sp)
-                }
-            }
+            onDismiss = { showMathGateDialog = false }
         )
     }
 }
