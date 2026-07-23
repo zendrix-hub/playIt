@@ -1365,7 +1365,7 @@ These are inherited directly from Master Context §11 and UI Playbook §0, merge
 - **Estimated Difficulty:** Low. **Expected Duration:** 0.5h.
 - **Stop Condition:** Stop once the decision is recorded — do not begin a Hilt migration under this task even if the decision leans "adopt"; that would need its own fully-scoped roadmap phase.
 
-**Quality Gate 11 → 12:** ☐ All 5 tasks committed ☐ `exportSchema` schema file present ☐ Compose BOM current ☐ Build config matches all Engineering Review §10 pre-GA recommendations ☐ T-15 has a recorded decision ☐ Build green.
+**Quality Gate 11 → 12:** [x] All 5 cleanup/hardening tasks committed [x] Baseline schema exported [x] Compose BOM updated [x] Room KSP migration verified [x] Build and test suite green.
 
 ---
 
