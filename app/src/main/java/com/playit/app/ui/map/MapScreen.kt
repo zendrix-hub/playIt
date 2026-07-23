@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -137,7 +138,7 @@ fun MapScreen(
             .background(bgBrush)
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize()) {
-            // Hoisted single-node breathing pulse animation (ENG-2.02)
+            // Hoisted single-node breathing pulse animation (ENG-2.02 / UI-7.03)
             val infiniteTransition = rememberInfiniteTransition(label = "pulse")
             val activePulseScale by infiniteTransition.animateFloat(
                 initialValue = 0.95f,
@@ -146,7 +147,7 @@ fun MapScreen(
                     animation = tween(800, easing = LinearOutSlowInEasing),
                     repeatMode = RepeatMode.Reverse
                 ),
-                label = "activePulse"
+                label = "activePulseScale"
             )
 
             LazyColumn(
@@ -406,6 +407,30 @@ fun LetterNode(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
+    // Gate unlock animation so it fires ONLY on actual state transition (locked -> unlocked), never on revisit
+    var previousUnlocked by remember { mutableStateOf(node.isUnlocked) }
+    var isUnlocking by remember { mutableStateOf(false) }
+
+    LaunchedEffect(node.isUnlocked) {
+        if (!previousUnlocked && node.isUnlocked) {
+            isUnlocking = true
+            delay(800)
+            isUnlocking = false
+        }
+        previousUnlocked = node.isUnlocked
+    }
+
+    val unlockGlowScale by animateFloatAsState(
+        targetValue = if (isUnlocking) 1.5f else 1.0f,
+        animationSpec = tween(700, easing = FastOutSlowInEasing),
+        label = "letter_unlock_glow_scale"
+    )
+    val unlockGlowAlpha by animateFloatAsState(
+        targetValue = if (isUnlocking) 0f else 0.8f,
+        animationSpec = tween(700, easing = FastOutSlowInEasing),
+        label = "letter_unlock_glow_alpha"
+    )
+
     // Interactive spring scale feedback
     val tapScale by animateFloatAsState(
         targetValue = if (isPressed) 0.90f else scale,
@@ -454,56 +479,70 @@ fun LetterNode(
                 contentDescription = nodeDescription
             }
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(72.dp) // Exceeds TouchTarget.IMPORTANT (64dp)
-                .scale(tapScale)
-                .clip(CircleShape)
-                .background(backgroundColor)
-                .border(
-                    width = if (node.isActiveNode) 4.dp else 2.dp,
-                    color = if (node.isActiveNode) AchievementGold else Border,
-                    shape = CircleShape
-                )
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    onClick = onClick
-                )
-        ) {
-            if (node.isUnlocked) {
-                Text(
-                    text = node.label.uppercase(),
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Black,
-                    color = contentColor
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Rounded.Lock,
-                    contentDescription = null,
-                    tint = contentColor,
-                    modifier = Modifier.size(28.dp)
+        Box(contentAlignment = Alignment.Center) {
+            // One-shot magical-chime unlock glow burst overlay
+            if (isUnlocking) {
+                Box(
+                    modifier = Modifier
+                        .size(72.dp)
+                        .scale(unlockGlowScale)
+                        .alpha(unlockGlowAlpha)
+                        .clip(CircleShape)
+                        .background(AchievementGold)
                 )
             }
 
-            // Completion checkmark badge overlay
-            if (isCompleted) {
-                Box(
-                    modifier = Modifier
-                        .size(22.dp)
-                        .align(Alignment.TopEnd)
-                        .clip(CircleShape)
-                        .background(AchievementGold),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = "Completed",
-                        tint = TextPrimary,
-                        modifier = Modifier.size(14.dp)
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(72.dp) // Exceeds TouchTarget.IMPORTANT (64dp)
+                    .scale(tapScale)
+                    .clip(CircleShape)
+                    .background(backgroundColor)
+                    .border(
+                        width = if (node.isActiveNode) 4.dp else 2.dp,
+                        color = if (node.isActiveNode) AchievementGold else Border,
+                        shape = CircleShape
                     )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClick
+                    )
+            ) {
+                if (node.isUnlocked) {
+                    Text(
+                        text = node.label.uppercase(),
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Black,
+                        color = contentColor
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Rounded.Lock,
+                        contentDescription = null,
+                        tint = contentColor,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+
+                // Completion checkmark badge overlay
+                if (isCompleted) {
+                    Box(
+                        modifier = Modifier
+                            .size(22.dp)
+                            .align(Alignment.TopEnd)
+                            .clip(CircleShape)
+                            .background(AchievementGold),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Completed",
+                            tint = TextPrimary,
+                            modifier = Modifier.size(14.dp)
+                        )
+                    }
                 }
             }
         }
@@ -538,6 +577,30 @@ fun BlendItChallengeNode(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
+    // Gate unlock animation so it fires ONLY on actual state transition (locked -> unlocked), never on revisit
+    var previousUnlocked by remember { mutableStateOf(node.isUnlocked) }
+    var isUnlocking by remember { mutableStateOf(false) }
+
+    LaunchedEffect(node.isUnlocked) {
+        if (!previousUnlocked && node.isUnlocked) {
+            isUnlocking = true
+            delay(800)
+            isUnlocking = false
+        }
+        previousUnlocked = node.isUnlocked
+    }
+
+    val unlockGlowScale by animateFloatAsState(
+        targetValue = if (isUnlocking) 1.4f else 1.0f,
+        animationSpec = tween(700, easing = FastOutSlowInEasing),
+        label = "blend_unlock_glow_scale"
+    )
+    val unlockGlowAlpha by animateFloatAsState(
+        targetValue = if (isUnlocking) 0f else 0.8f,
+        animationSpec = tween(700, easing = FastOutSlowInEasing),
+        label = "blend_unlock_glow_alpha"
+    )
+
     val tapScale by animateFloatAsState(
         targetValue = if (isPressed) 0.90f else scale,
         animationSpec = spring(
@@ -566,62 +629,76 @@ fun BlendItChallengeNode(
 
     val nodeDescription = "${node.label} - ${if (isCompleted) "completed" else if (node.isUnlocked) "unlocked" else "locked"}"
 
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = backgroundColor,
-        border = androidx.compose.foundation.BorderStroke(
-            width = if (node.isActiveNode) 4.dp else 2.dp,
-            color = if (node.isActiveNode) AchievementGold else Border
-        ),
-        shadowElevation = cardElevation,
-        modifier = Modifier
-            .offset(x = shakeOffset.dp)
-            .height(TouchTarget.RECOMMENDED) // 56dp
-            .width(140.dp)
-            .scale(tapScale)
-            .semantics(mergeDescendants = true) {
-                contentDescription = nodeDescription
-            }
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick
+    Box(contentAlignment = Alignment.Center) {
+        if (isUnlocking) {
+            Box(
+                modifier = Modifier
+                    .height(TouchTarget.RECOMMENDED)
+                    .width(140.dp)
+                    .scale(unlockGlowScale)
+                    .alpha(unlockGlowAlpha)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(AchievementGold)
             )
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            if (node.isUnlocked) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "BLEND IT",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = CreamWhite
-                    )
-                    if (isCompleted) {
-                        Spacer(modifier = Modifier.width(6.dp))
+        }
+
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = backgroundColor,
+            border = androidx.compose.foundation.BorderStroke(
+                width = if (node.isActiveNode) 4.dp else 2.dp,
+                color = if (node.isActiveNode) AchievementGold else Border
+            ),
+            shadowElevation = cardElevation,
+            modifier = Modifier
+                .offset(x = shakeOffset.dp)
+                .height(TouchTarget.RECOMMENDED) // 56dp
+                .width(140.dp)
+                .scale(tapScale)
+                .semantics(mergeDescendants = true) {
+                    contentDescription = nodeDescription
+                }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = onClick
+                )
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                if (node.isUnlocked) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "BLEND IT",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = CreamWhite
+                        )
+                        if (isCompleted) {
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = "Completed",
+                                tint = AchievementGold,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Completed",
-                            tint = AchievementGold,
-                            modifier = Modifier.size(18.dp)
+                            imageVector = Icons.Rounded.Lock,
+                            contentDescription = null,
+                            tint = TextSecondary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "LOCKED",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = TextSecondary
                         )
                     }
-                }
-            } else {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Rounded.Lock,
-                        contentDescription = null,
-                        tint = TextSecondary,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "LOCKED",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = TextSecondary
-                    )
                 }
             }
         }
