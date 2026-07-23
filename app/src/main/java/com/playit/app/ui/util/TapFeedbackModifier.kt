@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import com.playit.app.ui.theme.LocalReducedMotion
 
 /**
@@ -33,7 +34,10 @@ fun Modifier.tapFeedback(
         ),
         label = "tap_feedback_scale"
     )
-    this.scale(scale)
+    this.graphicsLayer {
+        scaleX = scale
+        scaleY = scale
+    }
 }
 
 /**

@@ -28,6 +28,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -468,10 +470,14 @@ fun LetterNode(
     }
     val nodeDescription = "${node.label} - $lockStatusText"
 
+    val density = LocalDensity.current.density
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .offset(x = shakeOffset.dp)
+            .graphicsLayer {
+                translationX = shakeOffset * density
+            }
             .semantics(mergeDescendants = true) {
                 contentDescription = nodeDescription
             }
@@ -482,8 +488,11 @@ fun LetterNode(
                 Box(
                     modifier = Modifier
                         .size(72.dp)
-                        .scale(unlockGlowScale)
-                        .alpha(unlockGlowAlpha)
+                        .graphicsLayer {
+                            scaleX = unlockGlowScale
+                            scaleY = unlockGlowScale
+                            alpha = unlockGlowAlpha
+                        }
                         .clip(CircleShape)
                         .background(AchievementGold)
                 )
@@ -616,6 +625,7 @@ fun BlendItChallengeNode(
     }
 
     val nodeDescription = "${node.label} - ${if (isCompleted) "completed" else if (node.isUnlocked) "unlocked" else "locked"}"
+    val density = LocalDensity.current.density
 
     Box(contentAlignment = Alignment.Center) {
         if (isUnlocking) {
@@ -623,8 +633,11 @@ fun BlendItChallengeNode(
                 modifier = Modifier
                     .height(TouchTarget.RECOMMENDED)
                     .width(140.dp)
-                    .scale(unlockGlowScale)
-                    .alpha(unlockGlowAlpha)
+                    .graphicsLayer {
+                        scaleX = unlockGlowScale
+                        scaleY = unlockGlowScale
+                        alpha = unlockGlowAlpha
+                    }
                     .clip(RoundedCornerShape(16.dp))
                     .background(AchievementGold)
             )
@@ -639,7 +652,9 @@ fun BlendItChallengeNode(
             ),
             shadowElevation = cardElevation,
             modifier = Modifier
-                .offset(x = shakeOffset.dp)
+                .graphicsLayer {
+                    translationX = shakeOffset * density
+                }
                 .height(TouchTarget.RECOMMENDED) // 56dp
                 .width(140.dp)
                 .tapFeedback(isPressed = isPressed, pressedScale = 0.90f, restingScale = scale)

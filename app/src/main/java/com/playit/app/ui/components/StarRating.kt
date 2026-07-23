@@ -24,8 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.playit.app.ui.theme.*
@@ -151,19 +152,26 @@ private fun SingleStarItem(
         }
     }
 
+    val density = LocalDensity.current.density
+
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .offset(y = animOffsetY.value.dp)
-            .scale(animScale.value)
-            .alpha(animAlpha.value)
+        modifier = Modifier.graphicsLayer {
+            translationY = animOffsetY.value * density
+            scaleX = animScale.value
+            scaleY = animScale.value
+            alpha = animAlpha.value
+        }
     ) {
         // Soft background glow ring when earned
         if (isEarned) {
             Box(
                 modifier = Modifier
                     .size(64.dp)
-                    .scale(animGlowScale.value)
+                    .graphicsLayer {
+                        scaleX = animGlowScale.value
+                        scaleY = animGlowScale.value
+                    }
                     .background(AchievementGold.copy(alpha = 0.25f), CircleShape)
             )
         }
