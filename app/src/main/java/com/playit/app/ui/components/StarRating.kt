@@ -42,12 +42,13 @@ import kotlinx.coroutines.launch
  * - Respects reducedMotion (falls back to clean static/fade state without drop/bounce/glow).
  * - Shared identically by LetterCompleteScreen and BlendItCompleteScreen.
  */
+
 @Composable
 fun StarRating(
     starsEarned: Int,
     modifier: Modifier = Modifier,
     animate: Boolean = true,
-    reducedMotion: Boolean = false
+    reducedMotion: Boolean = LocalReducedMotion.current
 ) {
     val count = starsEarned.coerceIn(1, 3)
 

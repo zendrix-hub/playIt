@@ -167,7 +167,8 @@ fun MapScreen(
                         else -> Alignment.CenterEnd
                     }
 
-                    val nodeScale = if (node.isActiveNode) activePulseScale else 1f
+                    val reducedMotion = com.playit.app.ui.theme.LocalReducedMotion.current
+                    val nodeScale = if (node.isActiveNode && !reducedMotion) activePulseScale else 1f
 
                     // Render Group Header Banner at the start of each 5-node group
                     if (index % 5 == 0) {

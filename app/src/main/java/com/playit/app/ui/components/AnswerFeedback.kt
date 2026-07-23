@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.playit.app.ui.theme.GentleCorrectionOrange
+import com.playit.app.ui.theme.LocalReducedMotion
 import com.playit.app.ui.theme.PlayItTheme
 
 /**
@@ -35,11 +36,12 @@ import com.playit.app.ui.theme.PlayItTheme
  * @param onAnimationFinished Callback fired when animation sequence finishes.
  * @param content Target composable element (e.g. card, letter tile, phoneme container).
  */
+
 @Composable
 fun AnswerFeedback(
     isCorrect: Boolean?,
     modifier: Modifier = Modifier,
-    reducedMotion: Boolean = false,
+    reducedMotion: Boolean = LocalReducedMotion.current,
     onAnimationFinished: () -> Unit = {},
     content: @Composable () -> Unit
 ) {

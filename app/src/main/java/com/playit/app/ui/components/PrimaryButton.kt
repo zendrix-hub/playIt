@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.Disabled
 import com.playit.app.ui.theme.LearningBlue
+import com.playit.app.ui.theme.LocalReducedMotion
 import com.playit.app.ui.theme.TextSecondary
 import com.playit.app.ui.theme.TouchTarget
 import com.playit.app.ui.theme.buttonElevation
@@ -77,14 +78,15 @@ fun PrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    reducedMotion: Boolean = LocalReducedMotion.current,
     content: @Composable RowScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    // Spring animation for tap feedback (100% -> 92% scale)
+    // Spring animation for tap feedback (100% -> 92% scale) - disabled when reducedMotion is true
     val scale by animateFloatAsState(
-        targetValue = if (isPressed && enabled) 0.92f else 1.0f,
+        targetValue = if (isPressed && enabled && !reducedMotion) 0.92f else 1.0f,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow

@@ -26,6 +26,7 @@ import com.playit.app.ui.theme.EnergyOrange
 import com.playit.app.ui.theme.FriendlyPurple
 import com.playit.app.ui.theme.GrowthGreen
 import com.playit.app.ui.theme.LearningBlue
+import com.playit.app.ui.theme.LocalReducedMotion
 import com.playit.app.ui.theme.PlayItTheme
 import kotlin.math.cos
 import kotlin.math.sin
@@ -65,7 +66,7 @@ private data class Particle(
 fun CelebrationEffect(
     visible: Boolean,
     preset: CelebrationPreset = CelebrationPreset.SMALL,
-    reducedMotion: Boolean = false,
+    reducedMotion: Boolean = LocalReducedMotion.current,
     modifier: Modifier = Modifier,
     onFinished: () -> Unit = {}
 ) {

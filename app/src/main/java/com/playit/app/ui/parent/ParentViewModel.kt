@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
 
+import com.playit.app.data.preferences.UiPreferences
+
 data class ParentUiState(
     val activeProfile: Profile? = null,
     val completedLessons: List<LessonProgress> = emptyList(),
@@ -29,6 +31,7 @@ data class ParentUiState(
     val sayAttempts: List<SayItAttempt> = emptyList(),
     val isGeneratingPdf: Boolean = false,
     val pdfFileUri: Uri? = null,
+    val reducedMotionEnabled: Boolean = false,
     val error: String? = null
 )
 
@@ -37,11 +40,27 @@ class ParentViewModel(
     private val repository: PlayItRepository
 ) : ViewModel() {
 
+    private val uiPreferences = UiPreferences.getInstance(application)
     private val _uiState = MutableStateFlow(ParentUiState())
     val uiState: StateFlow<ParentUiState> = _uiState.asStateFlow()
 
     init {
         loadData()
+        observePreferences()
+    }
+
+    private fun observePreferences() {
+        viewModelScope.launch {
+            uiPreferences.reducedMotionEnabled.collect { enabled ->
+                _uiState.update { it.copy(reducedMotionEnabled = enabled) }
+            }
+        }
+    }
+
+    fun setReducedMotionEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            uiPreferences.setReducedMotionEnabled(enabled)
+        }
     }
 
     private fun loadData() {

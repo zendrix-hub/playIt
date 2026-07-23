@@ -53,11 +53,14 @@ private val DarkColorScheme = darkColorScheme(
     outline = Border
 )
 
+val LocalReducedMotion = androidx.compose.runtime.staticCompositionLocalOf { false }
+
 @Composable
 fun PlayItTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Set to false to strictly enforce the child-friendly UX color palette
     dynamicColor: Boolean = false,
+    reducedMotion: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -79,10 +82,14 @@ fun PlayItTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = AppTypography,
-        shapes = AppShapes,
-        content = content
-    )
+    androidx.compose.runtime.CompositionLocalProvider(
+        LocalReducedMotion provides reducedMotion
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = AppTypography,
+            shapes = AppShapes,
+            content = content
+        )
+    }
 }

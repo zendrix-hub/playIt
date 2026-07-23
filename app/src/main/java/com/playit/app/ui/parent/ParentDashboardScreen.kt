@@ -434,7 +434,7 @@ fun ParentDashboardScreen(
                     }
                 }
 
-                // ── 6. Accessibility & Motion Slot (UI-8.01 Placeholder) ────────
+                // ── 6. Accessibility & Motion Controls (UI-8.01) ─────────────────
                 item {
                     Card(
                         shape = RoundedCornerShape(16.dp),
@@ -449,27 +449,37 @@ fun ParentDashboardScreen(
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Accessibility,
-                                contentDescription = null,
-                                tint = HighContrastMutedText,
-                                modifier = Modifier.size(24.dp)
-                            )
-                            Column {
-                                Text(
-                                    text = "Accessibility & Display",
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = HighContrastDarkText
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Accessibility,
+                                    contentDescription = null,
+                                    tint = HighContrastMutedText,
+                                    modifier = Modifier.size(24.dp)
                                 )
-                                Text(
-                                    text = "Reduced motion controls and visual accessibility preferences.",
-                                    fontSize = 14.sp,
-                                    color = HighContrastMutedText
-                                )
+                                Column {
+                                    Text(
+                                        text = "Reduced Motion",
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 16.sp,
+                                        color = HighContrastDarkText
+                                    )
+                                    Text(
+                                        text = "Replaces bouncy and particle animations with simple fades.",
+                                        fontSize = 14.sp,
+                                        color = HighContrastMutedText
+                                    )
+                                }
                             }
+                            Switch(
+                                checked = uiState.reducedMotionEnabled,
+                                onCheckedChange = { viewModel.setReducedMotionEnabled(it) }
+                            )
                         }
                     }
                 }
