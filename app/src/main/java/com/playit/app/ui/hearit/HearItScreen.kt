@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.playit.app.ui.components.ErrorState
 import com.playit.app.ui.components.LearningCard
 import com.playit.app.ui.components.LoadingIndicator
 import com.playit.app.ui.components.MascotBubble
@@ -153,20 +154,13 @@ fun HearItContent(
                     )
                 }
 
-                // ── Error feedback chip ──────────────────────────────────────
+                // ── Error feedback state ──────────────────────────────────────
                 if (errorMessage != null) {
-                    Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = GentleCorrectionOrange.copy(alpha = 0.2f)
-                    ) {
-                        Text(
-                            text     = errorMessage,
-                            color    = TextPrimary,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                        )
-                    }
+                    ErrorState(
+                        message = errorMessage,
+                        onRetryClick = onPlayClick,
+                        retryText = "Replay Sound"
+                    )
                 }
             }
         },

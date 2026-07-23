@@ -40,7 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.playit.app.ui.components.ArithmeticGateDialog
+import com.playit.app.ui.components.EmptyState
 import com.playit.app.ui.components.LearningCard
+import com.playit.app.ui.components.MascotState
+import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.theme.AchievementGold
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.LearningBlue
@@ -156,35 +160,52 @@ fun ProfileSelectScreen(
             )
             Spacer(modifier = Modifier.height(PlayItSpacing.section))
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
-                verticalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                items(profiles) { profile ->
-                    val avatar = AvatarPresets.find { it.id == profile.avatarResId } ?: AvatarPresets[0]
-                    ProfileGridCard(
-                        name = profile.name,
-                        avatarColor = avatar.color,
-                        avatarIcon = avatar.icon,
-                        stars = profile.totalStars,
-                        onSelect = {
-                            tts?.speak(profile.name, TextToSpeech.QUEUE_FLUSH, null, null)
-                            viewModel.selectProfile(profile.profileId)
-                            onProfileSelected()
-                        },
-                        onDeleteClick = {
-                            triggerDelete(profile.profileId)
-                        }
+            if (profiles.isEmpty()) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    EmptyState(
+                        title = "No Profiles Found",
+                        message = "Welcome to playIT! Create your first profile to start learning phonemes!",
+                        mascotState = MascotState.Happy,
+                        ctaText = "Create First Profile",
+                        onCtaClick = onNavigateToCreate
                     )
                 }
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
+                    verticalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    items(profiles) { profile ->
+                        val avatar = AvatarPresets.find { it.id == profile.avatarResId } ?: AvatarPresets[0]
+                        ProfileGridCard(
+                            name = profile.name,
+                            avatarColor = avatar.color,
+                            avatarIcon = avatar.icon,
+                            stars = profile.totalStars,
+                            onSelect = {
+                                tts?.speak(profile.name, TextToSpeech.QUEUE_FLUSH, null, null)
+                                viewModel.selectProfile(profile.profileId)
+                                onProfileSelected()
+                            },
+                            onDeleteClick = {
+                                triggerDelete(profile.profileId)
+                            }
+                        )
+                    }
 
-                if (profiles.size < 6) {
-                    item {
-                        AddProfileCard(onClick = onNavigateToCreate)
+                    if (profiles.size < 6) {
+                        item {
+                            AddProfileCard(onClick = onNavigateToCreate)
+                        }
                     }
                 }
             }
@@ -193,69 +214,30 @@ fun ProfileSelectScreen(
 
     // Delete confirmation with arithmetic challenge (Parent Gating)
     if (showDeleteGuard != null) {
-        AlertDialog(
-            onDismissRequest = { showDeleteGuard = null },
-            icon = { Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
-            title = {
-                Text(
-                    text = "Parent Verification",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = TextPrimary
-                )
+        ArithmeticGateDialog(
+            title = "Parent Verification",
+            consequenceMessage = "This action is destructive and will erase all progress data for this profile. Please solve the problem to proceed:",
+            mathNum1 = mathProblem.first,
+            mathNum2 = mathProblem.second,
+            answerInput = mathAnswerText,
+            onAnswerInputChange = {
+                mathAnswerText = it
+                mathError = false
             },
-            text = {
-                Column {
-                    Text(
-                        text = "This action is destructive and will erase all profile data. Please solve this problem to proceed:",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = TextSecondary
-                    )
-                    Spacer(modifier = Modifier.height(PlayItSpacing.default))
-                    Text(
-                        text = "What is ${mathProblem.first} + ${mathProblem.second}?",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = LearningBlue
-                    )
-                    Spacer(modifier = Modifier.height(PlayItSpacing.small))
-                    OutlinedTextField(
-                        value = mathAnswerText,
-                        onValueChange = { mathAnswerText = it },
-                        label = { Text("Answer") },
-                        singleLine = true,
-                        isError = mathError
-                    )
-                    if (mathError) {
-                        Spacer(modifier = Modifier.height(PlayItSpacing.tiny))
-                        Text(
-                            text = "Incorrect answer. Please try again.",
-                            color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                    }
+            isError = mathError,
+            confirmText = "Verify & Delete",
+            cancelText = "Cancel",
+            onConfirm = {
+                val expected = mathProblem.first + mathProblem.second
+                val inputVal = mathAnswerText.toIntOrNull()
+                if (inputVal == expected) {
+                    showDeleteGuard?.let { id -> viewModel.deleteProfile(id) }
+                    showDeleteGuard = null
+                } else {
+                    mathError = true
                 }
             },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        val expected = mathProblem.first + mathProblem.second
-                        val inputVal = mathAnswerText.toIntOrNull()
-                        if (inputVal == expected) {
-                            showDeleteGuard?.let { id -> viewModel.deleteProfile(id) }
-                            showDeleteGuard = null
-                        } else {
-                            mathError = true
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                ) {
-                    Text("Verify & Delete", color = CreamWhite, fontWeight = FontWeight.Bold)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDeleteGuard = null }) {
-                    Text("Cancel", color = TextSecondary)
-                }
-            }
+            onDismiss = { showDeleteGuard = null }
         )
     }
 }

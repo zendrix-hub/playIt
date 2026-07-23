@@ -7,7 +7,11 @@ class PhonemeAudioPlayer(private val context: Context) {
 
     private var mediaPlayer: MediaPlayer? = null
 
-    fun playAssetAudio(fileName: String, onComplete: () -> Unit = {}) {
+    fun playAssetAudio(
+        fileName: String,
+        onComplete: () -> Unit = {},
+        onError: ((String) -> Unit)? = null
+    ) {
         try {
             // Safe reset: ensure we don't crash if it's already released or idle
             mediaPlayer?.let {
@@ -29,6 +33,12 @@ class PhonemeAudioPlayer(private val context: Context) {
                 onComplete()
             }
 
+            mediaPlayer?.setOnErrorListener { _, _, _ ->
+                onError?.invoke("Failed to play audio asset: $fileName")
+                onComplete()
+                true
+            }
+
             // Use prepareAsync for smoother performance in chains
             mediaPlayer?.setOnPreparedListener {
                 it.start()
@@ -37,6 +47,7 @@ class PhonemeAudioPlayer(private val context: Context) {
 
         } catch (e: Exception) {
             e.printStackTrace()
+            onError?.invoke("Audio asset '$fileName' is missing or unreadable")
             onComplete() // Failsafe
         }
     }

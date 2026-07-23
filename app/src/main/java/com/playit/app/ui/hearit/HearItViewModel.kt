@@ -37,6 +37,9 @@ class HearItViewModel(
             onComplete = {
                 // Spec: onComplete flips UI state, Next button enabled
                 _uiState.update { it.copy(isPlaying = false, hasPlayedOnce = true) }
+            },
+            onError = { msg ->
+                _uiState.update { it.copy(errorMessage = "We couldn't load the sound file for letter '$phonemeId'.") }
             }
         )
     }
