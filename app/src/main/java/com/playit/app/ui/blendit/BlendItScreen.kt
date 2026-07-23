@@ -150,13 +150,16 @@ fun BlendItContent(
 
     val mascotState = when {
         hasCompleted -> MascotState.Celebrating
-        isError || wrongAttempts > 0 -> MascotState.Encouraging
+        activeHearts == 0 -> MascotState.Encouraging
+        isError -> MascotState.Encouraging
         isAutoHintActive -> MascotState.Thinking
+        wrongAttempts > 0 -> MascotState.Encouraging
         else -> MascotState.Happy
     }
 
     val mascotMessage = when {
         hasCompleted -> "Awesome word blending! Tap NEXT to continue."
+        activeHearts == 0 -> "Great effort! You're getting closer every time. Let me give you a hand!"
         isError -> "Good try! Tap RESET or try placing the letters again."
         isAutoHintActive -> "Need a hint? Tap the glowing letter to help spell the word!"
         wrongAttempts > 0 -> "Keep going! Tap RESET if you want to start over."
@@ -177,7 +180,7 @@ fun BlendItContent(
             centerContent = {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
                     // ── 0. Mascot Guidance Bubble ──
@@ -224,7 +227,7 @@ fun BlendItContent(
                                         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                                         modifier = Modifier
                                             .width(76.dp)
-                                            .height(110.dp)
+                                            .height(104.dp)
                                     ) {
                                         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                                             if (isSnapped) {
@@ -242,7 +245,7 @@ fun BlendItContent(
                                     Box(
                                         modifier = Modifier
                                             .width(76.dp)
-                                            .height(110.dp)
+                                            .height(104.dp)
                                             .background(Color.White.copy(alpha = 0.6f), RoundedCornerShape(20.dp))
                                             .border(BorderStroke(2.dp, FriendlyPurple.copy(alpha = 0.4f)), RoundedCornerShape(20.dp)),
                                         contentAlignment = Alignment.Center
@@ -259,22 +262,6 @@ fun BlendItContent(
                         }
                     }
 
-                    // ── Mascot Guidance / Auto-hint / 0-Heart Exit Copy ──
-                    val (mascotState, mascotMessage) = when {
-                        hasCompleted      -> MascotState.Happy to "Splendid! Tap NEXT to advance."
-                        activeHearts == 0 -> MascotState.Encouraging to "Great effort! You're getting closer every time. Let me give you a hand!"
-                        isAutoHintActive  -> MascotState.Thinking to "Hint assist active! Tap the glowing tile next."
-                        isError           -> MascotState.Encouraging to "Almost! Try another letter tile."
-                        else              -> MascotState.Happy to "Tap letters below in order to spell the word!"
-                    }
-
-                    MascotBubble(
-                        state         = mascotState,
-                        message       = mascotMessage,
-                        audioResId    = 0,
-                        autoPlayAudio = false
-                    )
-
                     // ── 2. Scrambled Selection Pile (with Auto-hint assist glow) ──
                     val nextExpectedChar = word.getOrNull(spelledLetters.size)?.toString()
 
@@ -290,28 +277,32 @@ fun BlendItContent(
                                 Modifier
                                     .scale(hintPulseScale)
                                     .width(76.dp)
-                                    .height(110.dp)
+                                    .height(104.dp)
                                     .shadow(12.dp, RoundedCornerShape(20.dp))
                                     .border(BorderStroke(3.dp, AchievementGold), RoundedCornerShape(20.dp))
-                                    .clickable(enabled = !isUsed) { onLetterTapped(card) }
                             } else {
                                 Modifier
                                     .width(76.dp)
-                                    .height(110.dp)
+                                    .height(104.dp)
                                     .shadow(if (isUsed) 0.dp else 4.dp, RoundedCornerShape(20.dp))
                                     .border(
                                         if (isUsed) BorderStroke(1.dp, Color.Transparent) else BorderStroke(1.dp, BorderColor),
                                         RoundedCornerShape(20.dp)
                                     )
-                                    .clickable(enabled = !isUsed) { onLetterTapped(card) }
                             }
 
                             Card(
+                                onClick = { onLetterTapped(card) },
+                                enabled = !isUsed,
                                 shape = RoundedCornerShape(20.dp),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = if (isUsed) DisabledColor.copy(alpha = 0.3f) else Color.White
+                                    containerColor = if (isUsed) DisabledColor.copy(alpha = 0.3f) else Color.White,
+                                    disabledContainerColor = DisabledColor.copy(alpha = 0.3f)
                                 ),
-                                elevation = CardDefaults.cardElevation(defaultElevation = if (isUsed) 0.dp else 6.dp),
+                                elevation = CardDefaults.cardElevation(
+                                    defaultElevation = if (isUsed) 0.dp else 6.dp,
+                                    disabledElevation = 0.dp
+                                ),
                                 modifier = cardModifier
                             ) {
                                 Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
@@ -333,7 +324,7 @@ fun BlendItContent(
                             colors = ButtonDefaults.buttonColors(containerColor = FriendlyPurple),
                             shape = RoundedCornerShape(32.dp),
                             modifier = Modifier
-                                .height(48.dp)
+                                .height(44.dp)
                                 .padding(horizontal = 16.dp)
                         ) {
                             Text("Reset Spelling 🔄", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)

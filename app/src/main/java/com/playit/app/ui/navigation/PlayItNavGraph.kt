@@ -112,7 +112,7 @@ fun PlayItNavGraph(
                 onBack = { navController.popBackStack() },
                 onProfileCreated = {
                     navController.navigate(Routes.MAP) {
-                        popUpTo(Routes.PROFILE_SELECT) { inclusive = true }
+                        popUpTo(Routes.NAME_PROMPT) { inclusive = true }
                     }
                 }
             )

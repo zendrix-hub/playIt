@@ -46,6 +46,7 @@ abstract class PlayItDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): PlayItDatabase {
             return INSTANCE ?: synchronized(this) {
+                lateinit var dbInstance: PlayItDatabase
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     PlayItDatabase::class.java,
@@ -53,21 +54,19 @@ abstract class PlayItDatabase : RoomDatabase() {
                 )
                     // TODO: Replace fallbackToDestructiveMigration with explicit Migration objects before GA release when schema changes
                     .fallbackToDestructiveMigration()
-                    .addCallback(DatabaseCallback())
+                    .fallbackToDestructiveMigrationOnDowngrade()
+                    .addCallback(object : RoomDatabase.Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                seedDatabase(dbInstance)
+                            }
+                        }
+                    })
                     .build()
+                dbInstance = instance
                 INSTANCE = instance
                 instance
-            }
-        }
-    }
-
-    private class DatabaseCallback : RoomDatabase.Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            INSTANCE?.let { database ->
-                runBlocking(Dispatchers.IO) {
-                    seedDatabase(database)
-                }
             }
         }
     }

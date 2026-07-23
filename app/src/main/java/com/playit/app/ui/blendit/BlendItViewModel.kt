@@ -47,7 +47,8 @@ class BlendItViewModel(
         viewModelScope.launch {
             // Load target words dynamically from database
             repository.getBlendItWords(dbGroupId).collect { wordsList ->
-                val targetWords = wordsList.map { it.word }
+                val fetchedWords = wordsList.map { it.word }
+                val targetWords = if (fetchedWords.isNotEmpty()) fetchedWords else listOf("am", "as", "is", "ma", "sam")
                 _uiState.update { state ->
                     val firstWord = targetWords.getOrNull(0) ?: "am"
                     state.copy(

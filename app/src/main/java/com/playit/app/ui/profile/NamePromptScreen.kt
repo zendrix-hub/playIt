@@ -267,7 +267,9 @@ fun NamePromptScreen(
                 text = "LET'S PLAY!",
                 enabled = nameText.trim().isNotEmpty(),
                 onClick = {
-                    viewModel.createProfile(nameText.trim(), selectedAvatarId) { _ ->
+                    android.util.Log.d("PlayItDebug", "LETS PLAY button clicked! Name: '${nameText.trim()}', AvatarId: $selectedAvatarId")
+                    viewModel.createProfile(nameText.trim(), selectedAvatarId) { newId ->
+                        android.util.Log.d("PlayItDebug", "Profile created callback received with ID: $newId")
                         onProfileCreated()
                     }
                 },
