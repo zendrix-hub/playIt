@@ -39,6 +39,7 @@ import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.components.RewardCard
+import com.playit.app.ui.components.StarRating
 import com.playit.app.ui.theme.AchievementGold
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.EnergyOrange
@@ -131,7 +132,7 @@ fun LetterCompleteScreen(
                     )
 
                     // Star Rating Row
-                    StarRatingDisplay(
+                    StarRating(
                         starsEarned = starsEarned,
                         modifier = Modifier.padding(vertical = PlayItSpacing.small)
                     )
@@ -178,44 +179,7 @@ fun LetterCompleteScreen(
     }
 }
 
-/**
- * StarRatingDisplay - 1 to 3 star display with non-punitive styling.
- * Earned stars render in Achievement Gold; unearned stars render in warm soft tint without "loss" cross-outs.
- */
-@Composable
-fun StarRatingDisplay(
-    starsEarned: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        val count = starsEarned.coerceIn(1, 3)
-        for (i in 1..3) {
-            val isEarned = i <= count
-            Surface(
-                shape = CircleShape,
-                color = if (isEarned) AchievementGold else CreamWhite.copy(alpha = 0.7f),
-                shadowElevation = if (isEarned) 4.dp else 1.dp,
-                modifier = Modifier.size(56.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Star,
-                        contentDescription = if (isEarned) "Earned Star $i" else "Star $i",
-                        tint = if (isEarned) CreamWhite else EnergyOrange.copy(alpha = 0.4f),
-                        modifier = Modifier.size(36.dp)
-                    )
-                }
-            }
-        }
-    }
-}
+
 
 private fun getExampleWordForPhoneme(phonemeId: String): String {
     return when (phonemeId.lowercase()) {
