@@ -7,7 +7,6 @@ object BlendMasterDictionary {
     val wordList = listOf(
         "am", "ma", "sam", "mom", "miss",
         "is", "as", "so", "mami", "misa"
-        // TODO: Add all your Marungko target words here!
     )
 
     // 2. RUNTIME LOGIC: Safely accepts the Set from the ViewModel.
