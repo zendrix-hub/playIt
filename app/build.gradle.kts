@@ -4,6 +4,12 @@ plugins {
     id("kotlin-kapt")
 }
 
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+}
+
 android {
     namespace = "com.playit.app"
     compileSdk = 34
@@ -18,6 +24,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                argument("room.schemaLocation", "$projectDir/schemas")
+            }
         }
     }
 
