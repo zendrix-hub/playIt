@@ -37,6 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.playit.app.ui.components.CelebrationEffect
+import com.playit.app.ui.components.CelebrationPreset
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PrimaryButton
@@ -46,13 +48,14 @@ import com.playit.app.ui.theme.AchievementGold
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.EnergyOrange
 import com.playit.app.ui.theme.FriendlyPurple
+import com.playit.app.ui.theme.LocalReducedMotion
 import com.playit.app.ui.theme.PlayItSpacing
 import com.playit.app.ui.theme.PlayItTheme
 import com.playit.app.ui.theme.TextPrimary
 import com.playit.app.ui.theme.TextSecondary
 
-private val SoftPurpleGradientTop = Color(0xFFECE7FF)
-private val SoftPurpleGradientBottom = Color(0xFFD8D0FF)
+private val SoftPurpleGradientTop = FriendlyPurple.copy(alpha = 0.15f)
+private val SoftPurpleGradientBottom = FriendlyPurple.copy(alpha = 0.30f)
 
 /**
  * Task UI-5.10 — Polish BlendItCompleteScreen
@@ -63,6 +66,7 @@ private val SoftPurpleGradientBottom = Color(0xFFD8D0FF)
  * - Single clear "Back to Map" CTA (no competing Retry CTA)
  * - 0-star/session-ended-early outcome copy verified warm, not a dead end
  * - Visually distinct from LetterCompleteScreen via Friendly Purple accents
+ * - CelebrationEffect confetti burst / reduced-motion soft fade-in
  */
 @Composable
 fun BlendItCompleteScreen(
@@ -75,6 +79,7 @@ fun BlendItCompleteScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val soundManager = remember(context) { com.playit.app.data.audio.SoundManager.getInstance(context) }
+    val reducedMotion = LocalReducedMotion.current
 
     LaunchedEffect(Unit) {
         soundManager.playLevelComplete()
@@ -82,9 +87,9 @@ fun BlendItCompleteScreen(
 
     val isZeroStar = starsEarned <= 0
 
-    // Pulse animation for auto-focused single CTA
+    // Pulse animation for auto-focused single CTA (gated by reducedMotion)
     val infiniteTransition = rememberInfiniteTransition(label = "pulse_blend_cta")
-    val pulseScale by infiniteTransition.animateFloat(
+    val rawPulseScale by infiniteTransition.animateFloat(
         initialValue = 1.0f,
         targetValue = 1.04f,
         animationSpec = infiniteRepeatable(
@@ -93,6 +98,7 @@ fun BlendItCompleteScreen(
         ),
         label = "blend_cta_scale"
     )
+    val pulseScale = if (reducedMotion) 1.0f else rawPulseScale
 
     val mascotState = if (isZeroStar) MascotState.Encouraging else MascotState.Celebrating
 
@@ -117,6 +123,13 @@ fun BlendItCompleteScreen(
             .padding(PlayItSpacing.default),
         contentAlignment = Alignment.Center
     ) {
+        // Celebration particle burst (or soft fade overlay when reducedMotion is active)
+        CelebrationEffect(
+            visible = true,
+            preset = CelebrationPreset.LARGE,
+            reducedMotion = reducedMotion
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()

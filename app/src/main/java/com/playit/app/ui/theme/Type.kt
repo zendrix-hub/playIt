@@ -36,26 +36,33 @@ val PlayItFontFamily = FontFamily(
     Font(googleFont = poppinsFont, fontProvider = provider, weight = FontWeight.Normal)
 )
 
-// 5-Tier Named TextStyles (Design System v1.0)
+// 6-Tier Named TextStyles (Design System v2.0)
 val DisplayLarge = TextStyle(
     fontFamily = PlayItFontFamily,
     fontWeight = FontWeight.ExtraBold,
-    fontSize = 40.sp,
-    lineHeight = 48.sp
+    fontSize = 48.sp,
+    lineHeight = 56.sp
 )
 
 val Heading = TextStyle(
     fontFamily = PlayItFontFamily,
     fontWeight = FontWeight.Bold,
-    fontSize = 28.sp,
-    lineHeight = 36.sp
+    fontSize = 32.sp,
+    lineHeight = 40.sp
 )
 
 val Subheading = TextStyle(
     fontFamily = PlayItFontFamily,
     fontWeight = FontWeight.SemiBold,
-    fontSize = 22.sp,
-    lineHeight = 28.sp
+    fontSize = 24.sp,
+    lineHeight = 30.sp
+)
+
+val BodyLarge = TextStyle(
+    fontFamily = PlayItFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 20.sp,
+    lineHeight = 26.sp
 )
 
 val Body = TextStyle(
@@ -72,12 +79,25 @@ val Caption = TextStyle(
     lineHeight = 20.sp
 )
 
+/**
+ * Structured PlayItType object providing direct dot-notation token access.
+ */
+object PlayItType {
+    val displayLarge = DisplayLarge
+    val heading = Heading
+    val subheading = Subheading
+    val bodyLarge = BodyLarge
+    val body = Body
+    val caption = Caption
+}
+
 // Material 3 Typography Mapping
 val AppTypography = Typography(
     displayLarge = DisplayLarge,
     headlineMedium = Heading,
     titleMedium = Subheading,
-    bodyLarge = Body,
-    bodyMedium = Caption,
+    bodyLarge = BodyLarge,
+    bodyMedium = Body,
     labelLarge = Caption
 )
+

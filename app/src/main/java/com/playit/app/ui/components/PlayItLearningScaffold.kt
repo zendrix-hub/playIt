@@ -18,16 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-import com.playit.app.ui.theme.CreamWhite
-import com.playit.app.ui.theme.Disabled
-import com.playit.app.ui.theme.GentleCorrectionOrange
-import com.playit.app.ui.theme.GrowthGreen
-import com.playit.app.ui.theme.SoftSky
-import com.playit.app.ui.theme.TextPrimary
+import com.playit.app.ui.theme.*
 
 // --- Child-Friendly Design Tokens ---
 val SkyBlueLight = SoftSky
-val SkyBlueDark = Color(0xFF81D4FA)
+val SkyBlueDark = LearningBlue.copy(alpha = 0.4f)
 val CardWhite = CreamWhite
 val ActionGreen = GrowthGreen
 val DisabledGray = Disabled

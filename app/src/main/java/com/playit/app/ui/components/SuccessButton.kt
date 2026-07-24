@@ -62,22 +62,14 @@ fun SuccessButton(
     enabled: Boolean = true,
     leadingIcon: (@Composable () -> Unit)? = null
 ) {
-    SuccessButton(
+    PlayItButton(
+        text = text,
         onClick = onClick,
         modifier = modifier,
-        enabled = enabled
-    ) {
-        if (leadingIcon != null) {
-            leadingIcon()
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        Text(
-            text = text,
-            color = if (enabled) TextPrimary else TextSecondary,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
+        variant = PlayItButtonVariant.SUCCESS,
+        enabled = enabled,
+        leadingIcon = leadingIcon
+    )
 }
 
 @Composable
@@ -88,34 +80,14 @@ fun SuccessButton(
     reducedMotion: Boolean = LocalReducedMotion.current,
     content: @Composable RowScope.() -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-
-    Surface(
+    PlayItButton(
         onClick = onClick,
+        modifier = modifier,
+        variant = PlayItButtonVariant.SUCCESS,
         enabled = enabled,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(TouchTarget.RECOMMENDED)
-            .tapFeedback(
-                interactionSource = interactionSource,
-                enabled = enabled,
-                pressedScale = 0.90f,
-                reducedMotion = reducedMotion
-            )
-            .alpha(if (enabled) 1.0f else 0.6f),
-        shape = buttonShape,
-        color = if (enabled) AchievementGold else Disabled,
-        contentColor = if (enabled) TextPrimary else TextSecondary,
-        shadowElevation = if (enabled) buttonElevation else 0.dp,
-        interactionSource = interactionSource
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            content = content
-        )
-    }
+        reducedMotion = reducedMotion,
+        content = content
+    )
 }
 
 @Preview(name = "Cream White Background", showBackground = true)

@@ -5,6 +5,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,25 +26,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.playit.app.domain.model.LetterCard
-import com.playit.app.ui.components.AnswerFeedback
+import com.playit.app.ui.components.FeedbackCardWrapper
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PlayItLearningScaffold
 import com.playit.app.ui.components.SecondaryButton
 import kotlinx.coroutines.delay
 
-import com.playit.app.ui.theme.AchievementGold
-import com.playit.app.ui.theme.Border
-import com.playit.app.ui.theme.Disabled
-import com.playit.app.ui.theme.FriendlyPurple
-import com.playit.app.ui.theme.GentleCorrectionOrange
-import com.playit.app.ui.theme.TextPrimary
+import com.playit.app.ui.theme.*
 
-// ─── Design Tokens (Design System v1.0) ───
-private val SoftPurpleGradientTop = Color(0xFFECE7FF)
-private val SoftPurpleGradientBottom = Color(0xFFD8D0FF)
+// ─── Design Tokens (Design System v2.0) ───
+private val SoftPurpleGradientTop = FriendlyPurple.copy(alpha = 0.15f)
+private val SoftPurpleGradientBottom = FriendlyPurple.copy(alpha = 0.30f)
 private val GentleOrange          = GentleCorrectionOrange // Gentle Correction Orange (never harsh red)
-private val GentleOrangeBg        = Color(0xFFFFF3E0)
+private val GentleOrangeBg        = GentleCorrectionOrange.copy(alpha = 0.15f)
 private val BorderColor           = Border
 private val DisabledColor         = Disabled
 
@@ -82,7 +79,7 @@ fun BlendItScreen(
         onResetClick = viewModel::onResetSpelling,
         onBlendClick = {
             if (!uiState.isBlending) {
-                viewModel.startBlending()
+                viewModel.playWordAudio()
             }
         },
         onBackClick = onBack,
@@ -121,13 +118,19 @@ fun BlendItContent(
 
     val letterSpacing by animateDpAsState(
         targetValue = if (isSnapped) 0.dp else 16.dp,
-        animationSpec = tween(600),
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
         label = "magneticSnap"
     )
 
     val cornerRadius by animateDpAsState(
         targetValue = if (isSnapped) 4.dp else 20.dp,
-        animationSpec = tween(600),
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
         label = "cornerMorph"
     )
 
@@ -181,7 +184,9 @@ fun BlendItContent(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState())
                 ) {
                     // ── 0. Mascot Guidance Bubble ──
                     MascotBubble(
@@ -199,18 +204,18 @@ fun BlendItContent(
                         SecondaryButton(
                             text = "Listen Word 🔊",
                             onClick = onBlendClick,
-                            modifier = Modifier.height(48.dp)
+                            modifier = Modifier.height(TouchTarget.RECOMMENDED)
                         )
                     }
 
-                    // ── 1. Target Spelling Slots ──
+                    // ── 1. Target Spelling Slots & Unified FeedbackCard ──
                     val feedbackState = when {
-                        hasCompleted -> true
+                        hasCompleted || isBlending -> true
                         isError -> false
                         else -> null
                     }
 
-                    AnswerFeedback(isCorrect = feedbackState) {
+                    FeedbackCardWrapper(isCorrect = feedbackState) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(letterSpacing),
                             verticalAlignment = Alignment.CenterVertically
@@ -324,7 +329,7 @@ fun BlendItContent(
                             colors = ButtonDefaults.buttonColors(containerColor = FriendlyPurple),
                             shape = RoundedCornerShape(32.dp),
                             modifier = Modifier
-                                .height(44.dp)
+                                .height(TouchTarget.RECOMMENDED)
                                 .padding(horizontal = 16.dp)
                         ) {
                             Text("Reset Spelling 🔄", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)

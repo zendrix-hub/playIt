@@ -132,7 +132,7 @@ fun ReportPreviewScreen(
                         text = "Child Learning Progress Report",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = LearningBlue
+                        color = LearningBlueDeep
                     )
                     Text(
                         text = "Comprehensive summary of letter sound mastery, accuracy scores, practice streaks, and recommended focus areas for ${uiState.activeProfile?.name ?: "your child"}.",
@@ -166,7 +166,7 @@ fun ReportPreviewScreen(
                         Icon(
                             imageVector = Icons.Default.Description,
                             contentDescription = "PDF Document Icon",
-                            tint = LearningBlue,
+                            tint = LearningBlueDeep,
                             modifier = Modifier.size(40.dp)
                         )
                     }
@@ -185,7 +185,7 @@ fun ReportPreviewScreen(
                             showMessage = true,
                             inline = true,
                             size = 24.dp,
-                            color = LearningBlue
+                            color = LearningBlueDeep
                         )
                     } else if (uiState.pdfFileUri != null) {
                         Row(

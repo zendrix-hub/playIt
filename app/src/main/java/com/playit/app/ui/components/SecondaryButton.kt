@@ -58,27 +58,19 @@ fun SecondaryButton(
     enabled: Boolean = true,
     leadingIcon: (@Composable () -> Unit)? = null
 ) {
-    SecondaryButton(
+    PlayItButton(
+        text = text,
         onClick = onClick,
         modifier = modifier,
-        enabled = enabled
-    ) {
-        if (leadingIcon != null) {
-            leadingIcon()
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        Text(
-            text = text,
-            color = if (enabled) LearningBlue else TextSecondary,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
+        variant = PlayItButtonVariant.SECONDARY,
+        enabled = enabled,
+        leadingIcon = leadingIcon
+    )
 }
 
 /**
  * Icon-only variant for SecondaryButton (e.g., Replay Audio button).
- * Ensures the touch target floor is always at least 48dp (TouchTarget.MINIMUM) or 56dp by default.
+ * Ensures the touch target floor is always at least 54dp (TouchTarget.MINIMUM) or 56dp by default.
  */
 @Composable
 fun SecondaryIconButton(
@@ -109,38 +101,14 @@ fun SecondaryButton(
     reducedMotion: Boolean = LocalReducedMotion.current,
     content: @Composable RowScope.() -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-
-    Surface(
+    PlayItButton(
         onClick = onClick,
+        modifier = modifier,
+        variant = PlayItButtonVariant.SECONDARY,
         enabled = enabled,
-        modifier = modifier
-            .defaultMinSize(minWidth = TouchTarget.MINIMUM)
-            .height(TouchTarget.RECOMMENDED)
-            .tapFeedback(
-                interactionSource = interactionSource,
-                enabled = enabled,
-                pressedScale = 0.92f,
-                reducedMotion = reducedMotion
-            )
-            .alpha(if (enabled) 1.0f else 0.6f),
-        shape = buttonShape,
-        color = CreamWhite,
-        border = BorderStroke(
-            width = 2.dp,
-            color = if (enabled) LearningBlue else Disabled
-        ),
-        contentColor = if (enabled) LearningBlue else TextSecondary,
-        shadowElevation = 0.dp,
-        interactionSource = interactionSource
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            content = content
-        )
-    }
+        reducedMotion = reducedMotion,
+        content = content
+    )
 }
 
 @Preview(showBackground = true)

@@ -89,9 +89,18 @@ class BlendItViewModel(
             if (isCorrect) {
                 startBlending()
             } else {
-                _uiState.update { it.copy(isError = true) }
+                val newHearts = maxOf(0, current.hearts - 1)
+                val resetHearts = if (newHearts == 0) 3 else newHearts
+                _uiState.update { it.copy(isError = true, hearts = resetHearts) }
             }
         }
+    }
+
+    fun playWordAudio() {
+        val currentState = _uiState.value
+        if (currentState.targetWords.isEmpty() || currentState.currentWordIndex >= currentState.targetWords.size) return
+        val currentWord = currentState.targetWords[currentState.currentWordIndex].lowercase()
+        audioPlayer.playAssetAudio("audio/word_$currentWord.mp3")
     }
 
     fun onResetSpelling() {

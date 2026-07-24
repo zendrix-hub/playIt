@@ -27,13 +27,16 @@ import androidx.compose.ui.unit.dp
 import com.playit.app.data.audio.SoundManager
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.Disabled
+import com.playit.app.ui.theme.EnergyOrange
 
+private val HeartActive = EnergyOrange
 private val HeartDisabled = Disabled
 private val ContainerBg = CreamWhite
 
 /**
  * Shared HeartDisplay component used across learning screens (Say It, Find It, Blend It).
  * Renders active/remaining hearts using both color and shape distinctions (filled vs. outlined).
+ * Strictly renders active heart icons in Energy Orange (#FFFF9800) or Correction Orange (#FFB74D), never red.
  */
 @Composable
 fun HeartDisplay(
@@ -76,7 +79,7 @@ fun HeartDisplay(
                     Icon(
                         imageVector = Icons.Filled.Favorite,
                         contentDescription = null,
-                        tint = HeartRed,
+                        tint = HeartActive,
                         modifier = Modifier.size(24.dp)
                     )
                 } else {

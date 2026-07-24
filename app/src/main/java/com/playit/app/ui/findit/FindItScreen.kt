@@ -8,7 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,12 +25,26 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playit.app.PlayItApplication
 import com.playit.app.ui.components.AnswerFeedback
+import com.playit.app.ui.components.FeedbackCard
+import com.playit.app.ui.components.FeedbackVariant
 import com.playit.app.ui.components.LearningCard
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PlayItLearningScaffold
 import com.playit.app.ui.theme.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+/**
+ * Phase E — Find It Screen Refactoring
+ *
+ * Implements:
+ * 1. Unified FeedbackCard: Displays FeedbackVariant.CORRECT (Growth Green) or FeedbackVariant.RETRY (Gentle Correction Orange)
+ *    replacing raw inline red flashes / punishment visuals.
+ * 2. Explicit 300–500ms UI Input Lock: Input locked via `isInputLocked` for 400ms after tapping a card to prevent multi-touch race conditions.
+ * 3. HeartDisplay Verification: Scaffolding header correctly formats HeartDisplay (5-heart pool).
+ * 4. Architectural Boundary: ViewModel accuracy metrics, attempt logging, and retrieval practice logic remain 100% untouched.
+ */
 @Composable
 fun FindItScreen(
     phonemeId: String,
@@ -89,6 +103,19 @@ fun FindItContent(
     onBackClick: () -> Unit,
     onNextClick: () -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    var isInputLocked by remember { mutableStateOf(false) }
+
+    fun handleOptionTap(option: String) {
+        if (isInputLocked || isSuccess) return
+        isInputLocked = true
+        onOptionSelected(option)
+        coroutineScope.launch {
+            delay(400) // 300–500ms feedback animation window lockout
+            isInputLocked = false
+        }
+    }
+
     // Mascot state selection based on session outcome
     val mascotState = when {
         isSuccess -> MascotState.Happy
@@ -123,7 +150,20 @@ fun FindItContent(
                     audioResId = 0
                 )
 
-                // Progress Indicator
+                // Unified FeedbackCard display on user selection outcome
+                if (isSuccess) {
+                    FeedbackCard(
+                        variant = FeedbackVariant.CORRECT,
+                        customMessage = "Magaling! You found ${targetPhoneme.uppercase()}!"
+                    )
+                } else if (hasWrongTap) {
+                    FeedbackCard(
+                        variant = FeedbackVariant.RETRY,
+                        customMessage = "Subukan natin uli! Keep going!"
+                    )
+                }
+
+                // Target Letter Progress Badge
                 Surface(
                     color = SoftSky,
                     shape = RoundedCornerShape(16.dp),
@@ -156,10 +196,11 @@ fun FindItContent(
                     }
                 }
 
-                // Options Row (Grid of options with 16dp spacing, generous 100dp touch targets)
+                // Options Card Grid (spaced with 16dp PlayItSpacing.default & generous 100dp touch targets)
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.default),
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.default, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     options.forEach { option ->
                         val tapResult = tapResults[option]
@@ -169,7 +210,7 @@ fun FindItContent(
 
                         val cardBgColor = when {
                             isCorrect -> GrowthGreen
-                            isWrong -> Disabled
+                            isWrong -> GentleCorrectionOrange.copy(alpha = 0.35f)
                             else -> CreamWhite
                         }
 
@@ -194,13 +235,13 @@ fun FindItContent(
 
                         AnswerFeedback(isCorrect = feedbackState) {
                             LearningCard(
-                                onClick = if (!isSuccess && !isTapped) {
-                                    { onOptionSelected(option) }
+                                onClick = if (!isSuccess && !isTapped && !isInputLocked) {
+                                    { handleOptionTap(option) }
                                 } else null,
-                                enabled = !isSuccess && !isTapped,
+                                enabled = !isSuccess && !isTapped && !isInputLocked,
                                 modifier = Modifier
                                     .size(100.dp)
-                                    .alpha(if (isWrong) 0.6f else 1.0f)
+                                    .alpha(if (isWrong) 0.75f else 1.0f)
                                     .semantics { contentDescription = accessibilityDesc }
                             ) {
                                 Box(
@@ -214,20 +255,20 @@ fun FindItContent(
                                         fontSize = 54.sp,
                                         fontWeight = FontWeight.Black,
                                         color = when {
-                                            isCorrect -> Color.White
-                                            isWrong -> TextSecondary
+                                            isCorrect -> CreamWhite
+                                            isWrong -> TextPrimary
                                             else -> TextPrimary
                                         }
                                     )
 
-                                    // Non-color icon indicators for accessibility (grayscale legibility)
+                                    // Non-color backup icon indicators for accessibility
                                     if (isCorrect) {
                                         Box(
                                             modifier = Modifier
                                                 .align(Alignment.TopEnd)
                                                 .padding(4.dp)
                                                 .size(24.dp)
-                                                .background(Color.White, CircleShape),
+                                                .background(CreamWhite, CircleShape),
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Icon(
@@ -243,13 +284,13 @@ fun FindItContent(
                                                 .align(Alignment.TopEnd)
                                                 .padding(4.dp)
                                                 .size(24.dp)
-                                                .background(TextSecondary, CircleShape),
+                                                .background(CreamWhite, CircleShape),
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Icon(
-                                                imageVector = Icons.Default.Close,
-                                                contentDescription = "Incorrect",
-                                                tint = Color.White,
+                                                imageVector = Icons.Default.Refresh,
+                                                contentDescription = "Try Again",
+                                                tint = GentleCorrectionOrange,
                                                 modifier = Modifier.size(16.dp)
                                             )
                                         }
@@ -263,4 +304,4 @@ fun FindItContent(
         },
         actionButton = {}
     )
-}
+}

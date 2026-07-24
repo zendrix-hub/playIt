@@ -30,16 +30,15 @@ import com.playit.app.ui.theme.*
 import com.playit.app.ui.util.tapFeedback
 
 /**
- * Task UI-5.03 — Polish NamePromptScreen to Design System v1.0
+ * Task UI-5.03 / D4 — NamePromptScreen Refactoring
  *
  * Implements:
- * - Full token/component compliance for name + avatar entry form
+ * - Design System Token Compliance across name entry and avatar picker
+ * - Avatar selection grid enforcing 16dp spacing (`PlayItSpacing.cardPadding`) and 72dp touch targets
+ * - Real-time avatar preview adjacent to name text input
+ * - Mascot guidance bubble with explicit parent assistance copy ("Ask a grown-up to help type your name!")
+ * - PrimaryButton for "LET'S PLAY!" CTA
  * - Keyboard-overlap resilience via verticalScroll + imePadding
- * - PrimaryButton (UI-4.01) for Continue ("LET'S PLAY!")
- * - Avatar picker with 72dp tappable tiles (>= 64dp TouchTarget.IMPORTANT)
- * - Real-time avatar preview next to the name input field
- * - High-contrast labels (>= 4.5:1) and minimum 16sp font sizes
- * - MascotBubble (UI-4.07) dynamic reaction (Happy -> Excited)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,12 +99,12 @@ fun NamePromptScreen(
                 .verticalScroll(scrollState)
                 .padding(horizontal = PlayItSpacing.cardPadding, vertical = PlayItSpacing.default)
         ) {
-            // Mascot guidance bubble with dynamic excited state
+            // Mascot guidance bubble with dynamic excited state + parent guidance cue
             val mascotState = if (nameText.trim().isNotEmpty()) MascotState.Excited else MascotState.Happy
             val mascotMessage = if (nameText.trim().isNotEmpty()) {
-                "Awesome name, ${nameText.trim()}! Ready to start?"
+                "Awesome name, ${nameText.trim()}! Ready to start learning?"
             } else {
-                "Pick your favorite hero avatar and tell me your name!"
+                "Pick your hero avatar and ask a grown-up to help type your name!"
             }
 
             MascotBubble(
@@ -136,15 +135,15 @@ fun NamePromptScreen(
 
                     Spacer(modifier = Modifier.height(PlayItSpacing.default))
 
-                    // Avatar grid (2 rows of 3) using simple Rows for optimal scroll & keyboard behavior
+                    // Avatar grid (2 rows of 3) enforcing 16dp spacing (`PlayItSpacing.cardPadding`)
                     val avatarRows = AvatarPresets.chunked(3)
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(PlayItSpacing.default),
+                        verticalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding), // 16dp
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         avatarRows.forEach { rowItems ->
                             Row(
-                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding, Alignment.CenterHorizontally), // 16dp
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 rowItems.forEach { avatar ->
@@ -178,7 +177,7 @@ fun NamePromptScreen(
                                         Icon(
                                             imageVector = avatar.icon,
                                             contentDescription = avatar.name,
-                                            tint = Color.White,
+                                            tint = CreamWhite,
                                             modifier = Modifier.size(38.dp)
                                         )
                                     }
@@ -226,7 +225,7 @@ fun NamePromptScreen(
                             Icon(
                                 imageVector = selectedAvatar.icon,
                                 contentDescription = "Selected Avatar: ${selectedAvatar.name}",
-                                tint = Color.White,
+                                tint = CreamWhite,
                                 modifier = Modifier.size(30.dp)
                             )
                         }
@@ -249,8 +248,8 @@ fun NamePromptScreen(
                             shape = RoundedCornerShape(16.dp),
                             singleLine = true,
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedContainerColor = Color.White,
-                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = CreamWhite,
+                                unfocusedContainerColor = CreamWhite,
                                 focusedBorderColor = LearningBlue,
                                 unfocusedBorderColor = Border
                             ),

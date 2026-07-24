@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Face
 import androidx.compose.material3.Icon
-import com.playit.app.ui.components.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +35,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.playit.app.ui.a11y.ReducedMotionState
+import com.playit.app.ui.components.LoadingIndicator
 import com.playit.app.ui.theme.FriendlyPurple
 import com.playit.app.ui.theme.LearningBlue
 import com.playit.app.ui.theme.PlayItSpacing
@@ -46,10 +47,14 @@ import com.playit.app.ui.theme.TextSecondary
 import kotlinx.coroutines.delay
 
 /**
- * Task UI-5.01 — Polish SplashScreen to Design System v1.0
+ * Task UI-5.01 / D4 — SplashScreen Refactoring
  *
- * Non-interactive launch screen featuring SoftSky background, mascot idle/breathing motion,
- * clear typography tokens, subtle loading indicator to prevent perceived freezing, and smooth completion callback.
+ * Non-interactive launch screen adhering strictly to design system tokens:
+ * - SoftSky background
+ * - FriendlyPurple mascot avatar container
+ * - Display XL (48sp ExtraBold) brand typography
+ * - Gated breathing pulse animation under ReducedMotionState
+ * - LoadingIndicator with 1200ms delay before transition
  */
 @Composable
 fun SplashScreen(
@@ -58,11 +63,13 @@ fun SplashScreen(
     val contentScale = remember { Animatable(0.8f) }
     val contentAlpha = remember { Animatable(0f) }
 
+    val isReducedMotion = ReducedMotionState.current
+
     LaunchedEffect(Unit) {
         contentScale.animateTo(
             targetValue = 1f,
             animationSpec = tween(
-                durationMillis = 600,
+                durationMillis = if (isReducedMotion) 0 else 600,
                 easing = FastOutSlowInEasing
             )
         )
@@ -71,23 +78,27 @@ fun SplashScreen(
     LaunchedEffect(Unit) {
         contentAlpha.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 400)
+            animationSpec = tween(durationMillis = if (isReducedMotion) 0 else 400)
         )
         delay(1200)
         onSplashComplete()
     }
 
-    // Mascot breathing pulse loop during load
+    // Mascot breathing pulse loop during load (suppressed under reduced motion)
     val transition = rememberInfiniteTransition(label = "splash_mascot_breathing")
-    val mascotPulseScale by transition.animateFloat(
-        initialValue = 0.96f,
-        targetValue = 1.05f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(900, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "mascot_pulse"
-    )
+    val mascotPulseScale by if (isReducedMotion) {
+        remember { androidx.compose.runtime.mutableStateOf(1f) }
+    } else {
+        transition.animateFloat(
+            initialValue = 0.96f,
+            targetValue = 1.05f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(900, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "mascot_pulse"
+        )
+    }
 
     Box(
         modifier = Modifier
@@ -143,7 +154,7 @@ fun SplashScreen(
 
             Spacer(modifier = Modifier.height(PlayItSpacing.section))
 
-            // Branded loading indicator to provide visual feedback if initialization varies
+            // Branded loading indicator to prevent perceived freezing
             LoadingIndicator(
                 message = "Loading app resources...",
                 size = 28.dp,
@@ -160,4 +171,3 @@ fun SplashScreenPreview() {
         SplashScreen(onSplashComplete = {})
     }
 }
-

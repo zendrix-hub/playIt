@@ -50,22 +50,14 @@ fun PrimaryButton(
     enabled: Boolean = true,
     leadingIcon: (@Composable () -> Unit)? = null
 ) {
-    PrimaryButton(
+    PlayItButton(
+        text = text,
         onClick = onClick,
         modifier = modifier,
-        enabled = enabled
-    ) {
-        if (leadingIcon != null) {
-            leadingIcon()
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        Text(
-            text = text,
-            color = if (enabled) CreamWhite else TextSecondary,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
+        variant = PlayItButtonVariant.PRIMARY,
+        enabled = enabled,
+        leadingIcon = leadingIcon
+    )
 }
 
 @Composable
@@ -76,34 +68,14 @@ fun PrimaryButton(
     reducedMotion: Boolean = LocalReducedMotion.current,
     content: @Composable RowScope.() -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-
-    Surface(
+    PlayItButton(
         onClick = onClick,
+        modifier = modifier,
+        variant = PlayItButtonVariant.PRIMARY,
         enabled = enabled,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(TouchTarget.RECOMMENDED)
-            .tapFeedback(
-                interactionSource = interactionSource,
-                enabled = enabled,
-                pressedScale = 0.92f,
-                reducedMotion = reducedMotion
-            )
-            .alpha(if (enabled) 1.0f else 0.6f),
-        shape = buttonShape,
-        color = if (enabled) LearningBlue else Disabled,
-        contentColor = if (enabled) CreamWhite else TextSecondary,
-        shadowElevation = if (enabled) buttonElevation else 0.dp,
-        interactionSource = interactionSource
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            content = content
-        )
-    }
+        reducedMotion = reducedMotion,
+        content = content
+    )
 }
 
 @Preview(showBackground = true)

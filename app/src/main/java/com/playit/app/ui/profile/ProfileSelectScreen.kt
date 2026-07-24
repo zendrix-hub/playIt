@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,14 +22,12 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -40,43 +37,44 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.playit.app.ui.a11y.ReducedMotionState
 import com.playit.app.ui.components.ArithmeticGateDialog
 import com.playit.app.ui.components.EmptyState
 import com.playit.app.ui.components.LearningCard
 import com.playit.app.ui.components.MascotState
-import com.playit.app.ui.components.PrimaryButton
 import com.playit.app.ui.theme.AchievementGold
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.LearningBlue
+import com.playit.app.ui.theme.PlayItColor
 import com.playit.app.ui.theme.PlayItSpacing
 import com.playit.app.ui.theme.SoftSky
 import com.playit.app.ui.theme.TextPrimary
 import com.playit.app.ui.theme.TextSecondary
 import com.playit.app.ui.theme.TouchTarget
+import com.playit.app.ui.theme.cardElevation
 import com.playit.app.ui.util.tapFeedback
 import java.util.Locale
 
 data class AvatarItem(val id: Int, val icon: ImageVector, val color: Color, val name: String)
 
 val AvatarPresets = listOf(
-    AvatarItem(1, Icons.Default.Face, Color(0xFFBA68C8), "Purple Face"),
-    AvatarItem(2, Icons.Default.Star, Color(0xFFFFD54F), "Gold Star"),
-    AvatarItem(3, Icons.Default.Favorite, Color(0xFFF48FB1), "Pink Heart"),
-    AvatarItem(4, Icons.Default.ThumbUp, Color(0xFF81C784), "Green Thumb"),
-    AvatarItem(5, Icons.Default.Home, Color(0xFF4FC3F7), "Blue House"),
-    AvatarItem(6, Icons.Default.Face, Color(0xFFFF8A80), "Orange Face")
+    AvatarItem(1, Icons.Default.Face, PlayItColor.friendlyPurple, "Purple Face"),
+    AvatarItem(2, Icons.Default.Star, PlayItColor.achievementGold, "Gold Star"),
+    AvatarItem(3, Icons.Default.Favorite, PlayItColor.correctionOrange, "Orange Heart"),
+    AvatarItem(4, Icons.Default.ThumbUp, PlayItColor.growthGreen, "Green Thumb"),
+    AvatarItem(5, Icons.Default.Home, PlayItColor.learningBlue, "Blue House"),
+    AvatarItem(6, Icons.Default.Face, PlayItColor.energyOrange, "Orange Face")
 )
 
 /**
- * Task UI-5.02 — Polish ProfileSelectScreen to Design System v1.0
+ * Task UI-5.02 / D4 — ProfileSelectScreen Refactoring
  *
- * Implements:
- * - Profile tiles using LearningCard (UI-4.04) with minimum touch targets >= 56dp
- * - Add Profile CTA styled distinctly with PrimaryButton (UI-4.01) design system styling
- * - Spring-bounce tap feedback (100% -> 92% -> 100%) on tile selection
- * - Smooth fade + upward entry transition (200-300ms)
- * - TextToSpeech spoken confirmation on tile selection for early learners
- * - Long-press & explicit edit/delete icon gated by arithmetic parent verification guard
+ * Design System Compliance:
+ * - Profile avatar grid enforcing strict 16dp spacing (`PlayItSpacing.cardPadding`) between cards
+ * - Touch targets >= 54dp minimum (72dp avatar circles within 180dp cards)
+ * - Tactile spring feedback on profile selection
+ * - TextToSpeech spoken confirmation for early readers
+ * - Parent arithmetic verification gate on profile deletion
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -111,15 +109,19 @@ fun ProfileSelectScreen(
         }
     }
 
-    // Fade + upward entry transition (200-300ms)
-    val contentAlpha = remember { Animatable(0f) }
-    val contentOffsetY = remember { Animatable(24f) }
+    val isReducedMotion = ReducedMotionState.current
+    val contentAlpha = remember { Animatable(if (isReducedMotion) 1f else 0f) }
+    val contentOffsetY = remember { Animatable(if (isReducedMotion) 0f else 24f) }
 
     LaunchedEffect(Unit) {
-        contentAlpha.animateTo(1f, animationSpec = tween(250))
+        if (!isReducedMotion) {
+            contentAlpha.animateTo(1f, animationSpec = tween(250))
+        }
     }
     LaunchedEffect(Unit) {
-        contentOffsetY.animateTo(0f, animationSpec = tween(250))
+        if (!isReducedMotion) {
+            contentOffsetY.animateTo(0f, animationSpec = tween(250))
+        }
     }
 
     fun triggerDelete(profileId: Long) {
@@ -176,10 +178,11 @@ fun ProfileSelectScreen(
                     )
                 }
             } else {
+                // Strict 16dp spacing (`PlayItSpacing.cardPadding`) enforced horizontally & vertically
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
-                    verticalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),
+                    horizontalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding), // 16dp
+                    verticalArrangement = Arrangement.spacedBy(PlayItSpacing.cardPadding),   // 16dp
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
@@ -271,7 +274,7 @@ fun ProfileGridCard(
             )
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            // Delete / Edit icon button at top right
+            // Delete icon button at top right
             IconButton(
                 onClick = onDeleteClick,
                 modifier = Modifier
@@ -291,6 +294,7 @@ fun ProfileGridCard(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
+                // 72dp avatar circle (exceeds TouchTarget floor)
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -352,7 +356,7 @@ fun AddProfileCard(
         shape = RoundedCornerShape(24.dp),
         color = LearningBlue,
         contentColor = CreamWhite,
-        shadowElevation = 4.dp
+        shadowElevation = cardElevation
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -382,4 +386,3 @@ fun AddProfileCard(
         }
     }
 }
-

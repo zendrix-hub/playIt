@@ -6,24 +6,33 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MicOff
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -34,21 +43,21 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.playit.app.PlayItApplication
-import com.playit.app.ui.components.AnswerFeedback
+import com.playit.app.ui.components.FeedbackCardWrapper
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
+import com.playit.app.ui.components.MicListeningVisualizer
 import com.playit.app.ui.components.PlayItLearningScaffold
 import com.playit.app.ui.theme.AchievementGold
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.Disabled
 import com.playit.app.ui.theme.EnergyOrange
 import com.playit.app.ui.theme.FriendlyPurple
+import com.playit.app.ui.theme.GentleCorrectionOrange
 import com.playit.app.ui.theme.GrowthGreen
-import com.playit.app.ui.theme.LearningBlue
 import com.playit.app.ui.theme.TextPrimary
-import com.playit.app.ui.theme.TextSecondary
 
-// ─── SayItScreen (entry point, handles permissions) ──────────────────────────
+// ─── SayItScreen (entry point, handles permissions & state) ─────────────────
 
 @Composable
 fun SayItScreen(
@@ -76,7 +85,7 @@ fun SayItScreen(
     }
 
     fun handleMicClick() {
-        if (uiState.isModelLoading) return   // don't allow tap while model loads
+        if (uiState.isModelLoading || uiState.isUiLocked) return // Multi-touch lockout & loading check
         val hasPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.RECORD_AUDIO
         ) == PackageManager.PERMISSION_GRANTED
@@ -84,7 +93,7 @@ fun SayItScreen(
         else permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
     }
 
-    // Trigger noise check when screen appears and we have permission
+    // Trigger noise check when screen appears and permission is active
     LaunchedEffect(Unit) {
         viewModel.checkAmbientNoise()
     }
@@ -99,13 +108,15 @@ fun SayItScreen(
         resultText    = uiState.resultText,
         errorMessage  = uiState.errorMessage,
         isTooNoisy    = uiState.isTooNoisy,
-        onBackClick   = onBack,
+        amplitude     = uiState.amplitude,
+        isUiLocked    = uiState.isUiLocked,
+        onBackClick   = { if (!uiState.isUiLocked) onBack() },
         onRecordClick = ::handleMicClick,
-        onNextClick   = onNext
+        onNextClick   = { if (!uiState.isUiLocked) onNext() }
     )
 }
 
-// ─── SayItContent (pure UI, easily previewable) ───────────────────────────────
+// ─── SayItContent (pure UI, exactly 3 interactable elements) ──────────────────
 
 @Composable
 fun SayItContent(
@@ -118,6 +129,8 @@ fun SayItContent(
     resultText: String,
     errorMessage: String?,
     isTooNoisy: Boolean,
+    amplitude: Float,
+    isUiLocked: Boolean,
     onBackClick: () -> Unit,
     onRecordClick: () -> Unit,
     onNextClick: () -> Unit
@@ -125,7 +138,7 @@ fun SayItContent(
     PlayItLearningScaffold(
         title         = "SAY IT",
         activeHearts  = activeHearts,
-        isNextEnabled = isSuccess,
+        isNextEnabled = isSuccess && !isUiLocked,
         onBackClick   = onBackClick,
         onNextClick   = onNextClick,
         centerContent = {
@@ -139,8 +152,8 @@ fun SayItContent(
                 if (isTooNoisy) {
                     Surface(
                         shape = RoundedCornerShape(16.dp),
-                        color = EnergyOrange.copy(alpha = 0.15f),
-                        border = BorderStroke(1.5.dp, EnergyOrange),
+                        color = GentleCorrectionOrange.copy(alpha = 0.15f),
+                        border = BorderStroke(1.5.dp, GentleCorrectionOrange),
                         modifier = Modifier.fillMaxWidth(0.95f)
                     ) {
                         Text(
@@ -154,10 +167,10 @@ fun SayItContent(
                     }
                 }
 
-                // ── Phoneme Card ─────────────────────────────────────────────
+                // ── Unified FeedbackCard & Phoneme Display Card ───────────────
                 val cardBorderColor = when {
                     isSuccess                             -> GrowthGreen
-                    resultText.isNotEmpty() && !isSuccess -> EnergyOrange
+                    resultText.isNotEmpty() && !isSuccess -> GentleCorrectionOrange
                     else                                  -> Color.Transparent
                 }
 
@@ -167,7 +180,9 @@ fun SayItContent(
                     else                                  -> null
                 }
 
-                AnswerFeedback(isCorrect = answerFeedbackState) {
+                FeedbackCardWrapper(
+                    isCorrect = answerFeedbackState
+                ) {
                     Card(
                         shape = RoundedCornerShape(32.dp),
                         colors = CardDefaults.cardColors(containerColor = CreamWhite),
@@ -209,7 +224,7 @@ fun SayItContent(
 
                 val statusColor = when {
                     isSuccess                -> GrowthGreen
-                    resultText.isNotEmpty() && !isSuccess -> EnergyOrange
+                    resultText.isNotEmpty() && !isSuccess -> GentleCorrectionOrange
                     isRecording              -> FriendlyPurple
                     else                     -> TextPrimary
                 }
@@ -247,7 +262,7 @@ fun SayItContent(
                     autoPlayAudio = false
                 )
 
-                // ── Error Snackbar-style chip ────────────────────────────────
+                // ── Error State Chip ──────────────────────────────────────────
                 AnimatedVisibility(
                     visible = errorMessage != null,
                     enter   = fadeIn(),
@@ -256,11 +271,11 @@ fun SayItContent(
                     if (errorMessage != null) {
                         Surface(
                             shape = RoundedCornerShape(12.dp),
-                            color = EnergyOrange.copy(alpha = 0.15f)
+                            color = GentleCorrectionOrange.copy(alpha = 0.15f)
                         ) {
                             Text(
                                 text     = errorMessage,
-                                color    = EnergyOrange,
+                                color    = GentleCorrectionOrange,
                                 fontSize = 14.sp,
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                             )
@@ -270,50 +285,19 @@ fun SayItContent(
             }
         },
         actionButton = {
-            // ── Mic Button with Pulsing Ring ─────────────────────────────────
-            val infiniteTransition = rememberInfiniteTransition(label = "pulseTransition")
-            val pulseScale by infiniteTransition.animateFloat(
-                initialValue = 1f,
-                targetValue  = if (isRecording) 1.35f else 1f,
-                animationSpec = infiniteRepeatable(
-                    animation  = tween(600, easing = LinearEasing),
-                    repeatMode = RepeatMode.Reverse
-                ),
-                label = "pulseScale"
-            )
-            val pulseAlpha by infiniteTransition.animateFloat(
-                initialValue = 0.6f,
-                targetValue  = if (isRecording) 0.1f else 0f,
-                animationSpec = infiniteRepeatable(
-                    animation  = tween(600, easing = LinearEasing),
-                    repeatMode = RepeatMode.Reverse
-                ),
-                label = "pulseAlpha"
-            )
-
-            val micEnabled = !isLoading && !isSuccess
+            // ── Amplitude-Reactive Mic Listening Visualizer ─────────────────
+            val micEnabled = !isLoading && !isSuccess && !isUiLocked
             val micColor   = when {
                 !micEnabled -> Disabled
                 isRecording -> EnergyOrange
                 else        -> FriendlyPurple
             }
 
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.size(100.dp)
+            MicListeningVisualizer(
+                isRecording = isRecording,
+                amplitude = amplitude,
+                visualizerSize = 140.dp
             ) {
-                // Pulsing outer ring during active recording
-                if (isRecording) {
-                    Box(
-                        modifier = Modifier
-                            .size(88.dp)
-                            .scale(pulseScale)
-                            .alpha(pulseAlpha)
-                            .clip(CircleShape)
-                            .background(EnergyOrange)
-                    )
-                }
-
                 Surface(
                     shape           = CircleShape,
                     color           = micColor,

@@ -32,6 +32,8 @@ import com.playit.app.ui.theme.LearningBlue
 import com.playit.app.ui.theme.PlayItSpacing
 import com.playit.app.ui.theme.TextPrimary
 
+import com.playit.app.ui.theme.TouchTarget
+
 // ─── HearItScreen (entry point) ──────────────────────────────────────────────
 
 @Composable
@@ -165,30 +167,45 @@ fun HearItContent(
             }
         },
         actionButton = {
-            // ── Replay Control using SecondaryButton ─────────────────────
-            SecondaryButton(
-                text        = if (isPlaying) "Playing..." else "Replay Sound",
-                onClick     = onPlayClick,
-                leadingIcon = {
-                    if (isPlaying) {
-                        LoadingIndicator(
-                            message = "Playing phoneme sound...",
-                            size = 24.dp,
-                            color = LearningBlue
-                        )
-                    } else {
-                        Icon(
-                            imageVector        = Icons.AutoMirrored.Filled.VolumeUp,
-                            contentDescription = "Replay phoneme sound",
-                            tint               = LearningBlue,
-                            modifier           = Modifier.size(28.dp)
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth(0.75f)
-                    .height(56.dp)
+            // ── Replay Control using PlayButton ─────────────────────
+            PlayButton(
+                isPlaying = isPlaying,
+                onPlayClick = onPlayClick,
+                modifier = Modifier.fillMaxWidth(0.75f)
             )
         }
+    )
+}
+
+/**
+ * PlayButton - Circular/Secondary audio trigger button for HearItScreen.
+ * Enforces the 54dp touch target floor (TouchTarget.MINIMUM / TouchTarget.RECOMMENDED).
+ */
+@Composable
+fun PlayButton(
+    isPlaying: Boolean,
+    onPlayClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    SecondaryButton(
+        text        = if (isPlaying) "Playing..." else "Replay Sound",
+        onClick     = onPlayClick,
+        leadingIcon = {
+            if (isPlaying) {
+                LoadingIndicator(
+                    message = "Playing phoneme sound...",
+                    size = 24.dp,
+                    color = LearningBlue
+                )
+            } else {
+                Icon(
+                    imageVector        = Icons.AutoMirrored.Filled.VolumeUp,
+                    contentDescription = "Replay phoneme sound",
+                    tint               = LearningBlue,
+                    modifier           = Modifier.size(28.dp)
+                )
+            }
+        },
+        modifier = modifier.heightIn(min = TouchTarget.MINIMUM)
     )
 }

@@ -32,7 +32,9 @@ data class SayItUiState(
     val errorMessage: String?   = null,
     val activeHearts: Int       = 5,
     val consecutiveCorrect: Int = 0,
-    val isTooNoisy: Boolean     = false // Specs: Ambient noise alert flag
+    val isTooNoisy: Boolean     = false, // Specs: Ambient noise alert flag
+    val amplitude: Float        = 0f,    // Real-time audio amplitude for visualizer (0.0f..1.0f)
+    val isUiLocked: Boolean     = false  // Multi-touch lockout flag during feedback animation (300-500ms)
 )
 
 /**
@@ -54,9 +56,11 @@ class SayItViewModel(
     val uiState: StateFlow<SayItUiState> = _uiState.asStateFlow()
 
     private val speechValidator = SpeechValidator()
+    private val audioCapture = com.playit.app.data.audio.AudioCapture()
     private var voskModel: Model? = null
     private var speechService: SpeechService? = null
     private var resultHandled = false
+    private var amplitudeJob: kotlinx.coroutines.Job? = null
 
     init {
         initModel()
@@ -140,6 +144,7 @@ class SayItViewModel(
     }
 
     fun onRecordButtonClicked() {
+        if (_uiState.value.isUiLocked) return
         if (_uiState.value.isRecording) stopRecording()
         else startRecording()
     }
@@ -152,13 +157,22 @@ class SayItViewModel(
             speechService = SpeechService(recognizer, 16000.0f)
             resultHandled = false
             speechService!!.startListening(this)
+
+            amplitudeJob?.cancel()
+            amplitudeJob = viewModelScope.launch {
+                audioCapture.sampleAmplitudeFlow().collect { amp ->
+                    _uiState.update { it.copy(amplitude = amp) }
+                }
+            }
+
             _uiState.update {
                 it.copy(
                     isRecording  = true,
                     partialText  = "",
                     resultText   = "",
                     errorMessage = null,
-                    isSuccess    = false
+                    isSuccess    = false,
+                    amplitude    = 0f
                 )
             }
         } catch (e: Exception) {
@@ -167,8 +181,10 @@ class SayItViewModel(
     }
 
     private fun stopRecording() {
+        amplitudeJob?.cancel()
+        amplitudeJob = null
         speechService?.stop()
-        _uiState.update { it.copy(isRecording = false) }
+        _uiState.update { it.copy(isRecording = false, amplitude = 0f) }
     }
 
     override fun onPartialResult(hypothesis: String) {
@@ -181,7 +197,7 @@ class SayItViewModel(
         val text = parseVoskJson(hypothesis, "text")
         if (text.isNotEmpty()) {
             resultHandled = true
-            _uiState.update { it.copy(resultText = text, partialText = "", isRecording = false) }
+            _uiState.update { it.copy(resultText = text, partialText = "", isRecording = false, amplitude = 0f) }
             val conf = parseVoskConfidence(hypothesis)
             evaluateSpeech(text, conf)
         }
@@ -191,7 +207,7 @@ class SayItViewModel(
         if (resultHandled) return
         val text = parseVoskJson(hypothesis, "text")
         resultHandled = true
-        _uiState.update { it.copy(resultText = text, partialText = "", isRecording = false) }
+        _uiState.update { it.copy(resultText = text, partialText = "", isRecording = false, amplitude = 0f) }
         if (text.isNotEmpty()) {
             val conf = parseVoskConfidence(hypothesis)
             evaluateSpeech(text, conf)
@@ -199,12 +215,20 @@ class SayItViewModel(
     }
 
     override fun onError(exception: Exception) {
-        _uiState.update { it.copy(isRecording = false, errorMessage = exception.message) }
+        stopRecording()
+        _uiState.update { it.copy(isRecording = false, amplitude = 0f, errorMessage = exception.message) }
     }
 
     override fun onTimeout() { stopRecording() }
 
     private fun evaluateSpeech(heardText: String, confidence: Double) {
+        // Multi-touch UI lockout during feedback animation window (400ms)
+        _uiState.update { it.copy(isUiLocked = true) }
+        viewModelScope.launch {
+            kotlinx.coroutines.delay(400)
+            _uiState.update { it.copy(isUiLocked = false) }
+        }
+
         val target = phonemeId.lowercase()
 
         // Delegate matches to the domain SpeechValidator use case
@@ -294,6 +318,8 @@ class SayItViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        amplitudeJob?.cancel()
+        amplitudeJob = null
         speechService?.stop()
         speechService?.shutdown()
         speechService = null

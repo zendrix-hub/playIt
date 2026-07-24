@@ -282,7 +282,6 @@ private fun BubbleContainer(
             Text(
                 text = message,
                 color = TextPrimary,
-                fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f)

@@ -37,6 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.playit.app.ui.components.CelebrationEffect
+import com.playit.app.ui.components.CelebrationPreset
 import com.playit.app.ui.components.MascotBubble
 import com.playit.app.ui.components.MascotState
 import com.playit.app.ui.components.PrimaryButton
@@ -46,6 +48,7 @@ import com.playit.app.ui.theme.AchievementGold
 import com.playit.app.ui.theme.CreamWhite
 import com.playit.app.ui.theme.EnergyOrange
 import com.playit.app.ui.theme.LearningBlue
+import com.playit.app.ui.theme.LocalReducedMotion
 import com.playit.app.ui.theme.PlayItSpacing
 import com.playit.app.ui.theme.PlayItTheme
 import com.playit.app.ui.theme.SoftSky
@@ -62,6 +65,7 @@ import com.playit.app.ui.theme.TextSecondary
  * - Non-punitive 1-star celebratory tone
  * - Map progress teaser & example word recap
  * - Reusable StarRating display stubbed for Phase 7 sequencing
+ * - CelebrationEffect confetti burst / reduced-motion soft fade-in
  */
 @Composable
 fun LetterCompleteScreen(
@@ -71,6 +75,7 @@ fun LetterCompleteScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val soundManager = remember(context) { com.playit.app.data.audio.SoundManager.getInstance(context) }
+    val reducedMotion = LocalReducedMotion.current
 
     LaunchedEffect(Unit) {
         soundManager.playLevelComplete()
@@ -79,9 +84,9 @@ fun LetterCompleteScreen(
     val letterUpper = phonemeId.uppercase()
     val exampleWord = getExampleWordForPhoneme(phonemeId)
 
-    // Pulse animation for auto-focused single CTA
+    // Pulse animation for auto-focused single CTA (gated by reducedMotion)
     val infiniteTransition = rememberInfiniteTransition(label = "pulse_cta")
-    val pulseScale by infiniteTransition.animateFloat(
+    val rawPulseScale by infiniteTransition.animateFloat(
         initialValue = 1.0f,
         targetValue = 1.04f,
         animationSpec = infiniteRepeatable(
@@ -90,6 +95,7 @@ fun LetterCompleteScreen(
         ),
         label = "cta_scale"
     )
+    val pulseScale = if (reducedMotion) 1.0f else rawPulseScale
 
     // Construct non-punitive spoken celebration message
     val starMessage = when (starsEarned) {
@@ -105,6 +111,13 @@ fun LetterCompleteScreen(
             .padding(PlayItSpacing.default),
         contentAlignment = Alignment.Center
     ) {
+        // Celebration particle burst (or soft fade overlay when reducedMotion is active)
+        CelebrationEffect(
+            visible = true,
+            preset = CelebrationPreset.LARGE,
+            reducedMotion = reducedMotion
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
