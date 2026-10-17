@@ -1,69 +1,20 @@
-# Gradle files
+# Gradle and Android Studio
 .gradle/
 build/
-.DS_Store
-# Local configuration file (sdk path, etc)
 local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
 captures/
 .externalNativeBuild/
 .cxx/
-*.aab
-*.apk
-output-metadata.json
-
-# IntelliJ
 *.iml
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
 
-# Keystore files
+# Build outputs and signing keys
+*.apk
+*.aab
 *.jks
 *.keystore
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Android Profiling
 *.hprof
 
-# Root level test screenshots and mock archive artifacts
-/*.png
-/*.pdf
-/*.zip
-/stitch_export/
-/stitch_app_interface_export/
-/screenshots/
-
-# Agent and MCP local configs (may contain personal credentials)
-.agents/
-.env
-*.env
-voice_*.mp3
-test_*.mp3
-
-# Python cache
+# Python
 __pycache__/
 *.pyc
-
-# Temporary Office lock files
-~$*.docx
-~$*.xlsx
-
-# Confidential raw survey/evaluation data (RA 10173)
-Master (responses).xlsx
-
-# Local scratch developer and AI tools
-/tools/Fooocus/
-/tools/VoiceStudio/
-/tools/whisper/
-/tools/review_audio/
-/tools/sfx_preview/
-skills-lock.json
-

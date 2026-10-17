@@ -81,7 +81,7 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
-            // Local Linux/Android Development Environment only: the proxy re-signs TLS, so Robolectric reads android-all from a curl-fetched folder.
+            // Local Linux setup only: the proxy re-signs TLS, so Robolectric reads android-all from a curl-fetched folder.
             System.getenv("ROBOLECTRIC_DEPS_DIR")?.let { dir ->
                 all {
                     it.systemProperty("robolectric.offline", "true")
