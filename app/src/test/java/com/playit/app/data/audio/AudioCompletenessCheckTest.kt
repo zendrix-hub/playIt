@@ -1,0 +1,185 @@
+package com.playit.app.data.audio
+
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import java.io.File
+
+class AudioCompletenessCheckTest {
+
+    private val assetsAudioDir = if (File("src/main/assets/audio").exists()) {
+        File("src/main/assets/audio")
+    } else {
+        File("app/src/main/assets/audio")
+    }
+
+    private val requiredPhonemeLetters = listOf(
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+    )
+
+    private val requiredWords = listOf(
+        "sam", "sis", "aim",
+        "bus", "sub", "sum", "bam", "mob",
+        "bat", "cat", "mat", "kit", "lit",
+        "pig", "pan", "gap", "spin", "nap",
+        "bird", "hand", "warm", "road", "draw",
+        "face", "cake", "fish", "fan",
+        "zoo", "van", "box", "quiz", "fox"
+    )
+
+    private val requiredVoLines = listOf(
+        "vo_welcome_01.wav",
+        "vo_encourage_01.wav",
+        "vo_encourage_02.wav",
+        "vo_encourage_03.wav",
+        "vo_correct_01.wav",
+        "vo_correct_02.wav",
+        "vo_hint_01.wav",
+        "vo_hint_02.wav",
+        "vo_streak_01.wav",
+        "vo_complete_01.wav",
+        "vo_unlock_01.wav",
+        "vo_blendit_intro_01.wav",
+        "vo_findit_intro_01.wav",
+        "vo_sayit_intro_01.wav",
+        "vo_sayit_word_intro_01.wav",
+        "vo_quiet_check_01.wav",
+        "vo_noise_alert_01.wav",
+        "vo_map_tarana.wav",
+        "vo_parent_gate.wav"
+    )
+
+    private val legacyVoLines = listOf(
+        "vo_milestone_01.mp3",
+        "vo_return_welcome_01.mp3"
+    )
+
+    private val requiredSfxFiles = listOf(
+        "sfx_correct_chime.mp3",
+        "sfx_incorrect_pop.mp3",
+        "sfx_heart_loss_whoosh.mp3",
+        "sfx_heart_recovery_sparkle.mp3",
+        "sfx_node_unlock_chime.mp3",
+        "sfx_level_complete_fanfare.mp3",
+        "sfx_blendit_buzz.mp3",
+        "sfx_streak_badge_unlock.mp3"
+    )
+
+    @Test
+    fun verifyRequiredAssetCounts() {
+        assertEquals(26, requiredPhonemeLetters.size)
+        assertEquals(32, requiredWords.size)
+        assertEquals(19, requiredVoLines.size)
+        assertEquals(2, legacyVoLines.size)
+        assertEquals(8, requiredSfxFiles.size)
+    }
+
+    @Test
+    fun verifyAllRequiredAudioFilesExistOnDisk() {
+        val phonemesDir = File(assetsAudioDir, "phonemes")
+        val wordsDir = File(assetsAudioDir, "words")
+        val uiDir = File(assetsAudioDir, "ui")
+        val lessonDir = File(assetsAudioDir, "vo/lesson")
+
+        val missing = mutableListOf<String>()
+
+        requiredPhonemeLetters.forEach { letter ->
+            val f = File(phonemesDir, "phoneme_$letter.mp3")
+            if (!f.exists()) missing.add(f.path)
+        }
+
+        requiredWords.forEach { word ->
+            val f = File(wordsDir, "word_$word.mp3")
+            if (!f.exists()) missing.add(f.path)
+        }
+
+        requiredVoLines.forEach { vo ->
+            val f = File(lessonDir, vo)
+            if (!f.exists()) missing.add(f.path)
+        }
+
+        legacyVoLines.forEach { vo ->
+            val f = File(uiDir, vo)
+            if (!f.exists()) missing.add(f.path)
+        }
+
+        requiredSfxFiles.forEach { sfx ->
+            val f = File(uiDir, sfx)
+            if (!f.exists()) missing.add(f.path)
+        }
+
+        assertTrue(
+            "Missing ${missing.size} required audio files:\n" + missing.joinToString("\n"),
+            missing.isEmpty()
+        )
+    }
+
+    @Test
+    fun verifyAll28PhonemesArePresent() {
+        val phonemesDir = File(assetsAudioDir, "phonemes")
+        val ngFile = File(phonemesDir, "phoneme_ng.mp3")
+        val enyeFile = File(phonemesDir, "phoneme_enye.mp3")
+
+        assertTrue("phoneme_ng.mp3 must be present", ngFile.exists())
+        assertTrue("phoneme_enye.mp3 must be present", enyeFile.exists())
+    }
+
+    @Test
+    fun verifyAllSayItWordPromptsExistOnDisk() {
+        val sayItWords = listOf(
+            "mouse", "sun", "apple", "insect", "orange", "ball", "elephant", "umbrella",
+            "tiger", "kite", "lion", "yoyo", "nest", "goat", "pig", "rabbit",
+            "dog", "hat", "watch", "cat", "fish", "jug", "queen", "van", "box", "zebra"
+        )
+        val wordsDir = File(assetsAudioDir, "words")
+        val missing = mutableListOf<String>()
+        sayItWords.forEach { word ->
+            val f = File(wordsDir, "word_$word.mp3")
+            if (!f.exists() || f.length() == 0L) {
+                missing.add(f.path)
+            }
+        }
+        assertTrue("Missing Say It word audio: $missing", missing.isEmpty())
+    }
+
+    @Test
+    fun keywordClips_existForAll26SeededWords() {
+        val seededWords = listOf(
+            "apple", "ball", "cat", "dog", "elephant", "fish", "goat", "hat", "insect",
+            "jug", "kite", "lion", "mouse", "nest", "orange", "pig", "queen", "rabbit",
+            "sun", "tiger", "umbrella", "van", "watch", "box", "yoyo", "zebra"
+        )
+        val keywordsDir = File(assetsAudioDir, "keywords")
+        val missingOrEmpty = mutableListOf<String>()
+        seededWords.forEach { word ->
+            val f = File(keywordsDir, "kw_$word.wav")
+            if (!f.exists() || f.length() == 0L) {
+                missingOrEmpty.add(f.path)
+            }
+        }
+        assertTrue("Missing or empty keyword clips: $missingOrEmpty", missingOrEmpty.isEmpty())
+    }
+
+    @Test
+    fun approvedTutorCarriers_exist() {
+        val tutorClips = listOf(
+            "car_listen",
+            "car_this_letter_says",
+            "car_say_it_with_me",
+            "car_your_turn",
+            "car_watch_my_lips",
+            "car_lets_say_together",
+            "fb_try_later"
+        )
+        val tutorDir = File(assetsAudioDir, "vo/tutor")
+        val missingOrEmpty = mutableListOf<String>()
+        tutorClips.forEach { id ->
+            val f = File(tutorDir, "$id.wav")
+            if (!f.exists() || f.length() == 0L) {
+                missingOrEmpty.add(f.path)
+            }
+        }
+        assertTrue("Missing or empty tutor carrier clips: $missingOrEmpty", missingOrEmpty.isEmpty())
+    }
+}

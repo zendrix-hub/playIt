@@ -1,0 +1,149 @@
+package com.playit.app.presentation.dashboard
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.playit.app.data.pdf.PdfExporter
+import com.playit.app.domain.calculator.ReportGenerator
+import com.playit.app.domain.model.Profile
+import com.playit.app.domain.model.ProfileDashboardData
+import com.playit.app.domain.model.ReportData
+import com.playit.app.domain.repository.ProfileRepository
+import com.playit.app.navigation.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.io.File
+import javax.inject.Inject
+
+const val MAX_NAME_LENGTH = 16
+
+sealed interface ExportStatus {
+    object Idle : ExportStatus
+    object Exporting : ExportStatus
+    data class Success(val file: File) : ExportStatus
+    data class Error(val message: String) : ExportStatus
+}
+
+data class ParentDashboardUiState(
+    val profiles: List<Profile> = emptyList(),
+    val selectedProfile: Profile? = null,
+    val dashboardData: ProfileDashboardData? = null,
+    val isLoading: Boolean = true,
+    val exportStatus: ExportStatus = ExportStatus.Idle
+)
+
+@HiltViewModel
+class ParentDashboardViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val reportGenerator: ReportGenerator,
+    private val pdfExporter: PdfExporter,
+    private val sessionManager: SessionManager
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(ParentDashboardUiState())
+    val uiState: StateFlow<ParentDashboardUiState> = _uiState.asStateFlow()
+
+    private var hasDeleted = false
+    private val _noProfilesLeft = MutableStateFlow(false)
+    val noProfilesLeft: StateFlow<Boolean> = _noProfilesLeft.asStateFlow()
+
+    init {
+        loadProfiles()
+    }
+
+    private fun loadProfiles() {
+        viewModelScope.launch {
+            try {
+                profileRepository.getAllProfiles().collectLatest { profiles ->
+                    if (hasDeleted && profiles.isEmpty()) {
+                        _noProfilesLeft.value = true
+                    }
+                    val currentSelected = _uiState.value.selectedProfile
+                        ?.let { sel -> profiles.firstOrNull { it.id == sel.id } }
+                        ?: profiles.firstOrNull()
+                    _uiState.value = _uiState.value.copy(
+                        profiles = profiles,
+                        selectedProfile = currentSelected
+                    )
+                    currentSelected?.let { selectProfile(it) } ?: run {
+                        _uiState.value = _uiState.value.copy(isLoading = false, dashboardData = null)
+                    }
+                }
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    exportStatus = ExportStatus.Error(e.message ?: "Failed to load profiles")
+                )
+            }
+        }
+    }
+
+    fun selectProfile(profile: Profile) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(selectedProfile = profile, isLoading = true)
+            try {
+                val data = reportGenerator.generateDashboardData(profile.id)
+                _uiState.value = _uiState.value.copy(
+                    dashboardData = data,
+                    isLoading = false
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    exportStatus = ExportStatus.Error(e.message ?: "Failed to generate dashboard data")
+                )
+            }
+        }
+    }
+
+    fun exportPdfReport() {
+        val selected = _uiState.value.selectedProfile ?: return
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(exportStatus = ExportStatus.Exporting)
+            val reportData: ReportData? = reportGenerator.generateReportData(selected.id)
+            if (reportData != null) {
+                val result = pdfExporter.exportReport(reportData)
+                result.fold(
+                    onSuccess = { file ->
+                        _uiState.value = _uiState.value.copy(exportStatus = ExportStatus.Success(file))
+                    },
+                    onFailure = { error ->
+                        _uiState.value = _uiState.value.copy(exportStatus = ExportStatus.Error(error.message ?: "PDF generation failed"))
+                    }
+                )
+            } else {
+                _uiState.value = _uiState.value.copy(exportStatus = ExportStatus.Error("Report data unavailable"))
+            }
+        }
+    }
+
+    fun resetExportStatus() {
+        _uiState.value = _uiState.value.copy(exportStatus = ExportStatus.Idle)
+    }
+
+    fun renameProfile(profile: Profile, newName: String) {
+        val trimmed = newName.trim()
+        if (trimmed.isBlank() || trimmed.length > MAX_NAME_LENGTH) {
+            return
+        }
+        viewModelScope.launch {
+            profileRepository.updateProfile(profile.copy(name = trimmed))
+        }
+    }
+
+    fun deleteProfile(profile: Profile) {
+        hasDeleted = true
+        viewModelScope.launch {
+            profileRepository.deleteProfile(profile)
+            if (sessionManager.activeProfileId.value == profile.id) {
+                sessionManager.clearActiveProfile()
+            }
+            if (_uiState.value.selectedProfile?.id == profile.id) {
+                _uiState.value = _uiState.value.copy(selectedProfile = null)
+            }
+        }
+    }
+}

@@ -1,0 +1,144 @@
+package com.playit.app.presentation.profile
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.playit.app.domain.model.GameplayConstants
+import com.playit.app.domain.model.Profile
+import com.playit.app.domain.repository.ProfileRepository
+import com.playit.app.navigation.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import com.playit.app.data.audio.AudioPlayer
+import com.playit.app.data.audio.AudioResolver
+import com.playit.app.data.audio.SfxEvent
+import com.playit.app.data.audio.VoContext
+import com.playit.app.presentation.profile.components.AVATAR_NAMES
+
+sealed class ProfileUiState {
+    object Idle : ProfileUiState()
+    object Loading : ProfileUiState()
+    data class Error(val message: String) : ProfileUiState()
+    data class Created(val profileId: Long) : ProfileUiState()
+}
+
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val sessionManager: SessionManager,
+    private val audioPlayer: AudioPlayer,
+    private val audioResolver: AudioResolver
+) : ViewModel() {
+
+    val profiles: StateFlow<List<Profile>> = profileRepository.getAllProfiles()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    private val _uiState = MutableStateFlow<ProfileUiState>(ProfileUiState.Idle)
+    val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
+
+    private val _nameInput = MutableStateFlow("")
+    val nameInput: StateFlow<String> = _nameInput.asStateFlow()
+
+    private val _selectedAvatarId = MutableStateFlow(1)
+    val selectedAvatarId: StateFlow<Int> = _selectedAvatarId.asStateFlow()
+
+    private val _showArithmeticGuard = MutableStateFlow(false)
+    val showArithmeticGuard: StateFlow<Boolean> = _showArithmeticGuard.asStateFlow()
+
+    private val _isPlayingGreeting = MutableStateFlow(false)
+    val isPlayingGreeting: StateFlow<Boolean> = _isPlayingGreeting.asStateFlow()
+
+    fun onNameChanged(name: String) { _nameInput.value = name }
+    fun onAvatarSelected(id: Int) {
+        _selectedAvatarId.value = id
+        audioPlayer.playAssetAudio(audioResolver.getSfxPath(SfxEvent.CORRECT_CHIME))
+    }
+    fun resetForm() {
+        _nameInput.value = ""
+        _selectedAvatarId.value = 1
+    }
+
+    fun requestParentAccess() { _showArithmeticGuard.value = true }
+    fun dismissArithmeticGuard() { _showArithmeticGuard.value = false }
+    fun onArithmeticGuardPassed() {
+        _showArithmeticGuard.value = false
+    }
+
+    fun selectProfile(profileId: Long) {
+        audioPlayer.stop()
+        _isPlayingGreeting.value = false
+        sessionManager.setActiveProfile(profileId)
+    }
+
+    fun playProfileSelectSound() {
+        audioPlayer.playAssetAudio(audioResolver.getSfxPath(SfxEvent.CORRECT_CHIME))
+    }
+
+    fun playArithmeticSuccessSound() {
+        audioPlayer.playAssetAudio(audioResolver.getSfxPath(SfxEvent.CORRECT_CHIME))
+    }
+
+    fun playArithmeticFailureSound() {
+        audioPlayer.playAssetAudio(audioResolver.getSfxPath(SfxEvent.INCORRECT_POP))
+    }
+
+    fun playWelcomeGreeting() {
+        _isPlayingGreeting.value = true
+        audioPlayer.playAssetAudio(audioResolver.getVoPath(VoContext.WELCOME_01)) {
+            _isPlayingGreeting.value = false
+        }
+    }
+
+    private val _isPlayingIntro = MutableStateFlow(false)
+    val isPlayingIntro: StateFlow<Boolean> = _isPlayingIntro.asStateFlow()
+
+    fun playNamePromptIntro() {
+        _isPlayingIntro.value = true
+        audioPlayer.playAssetAudio(audioResolver.getUiPath("ui_pick_avatar")) {
+            _isPlayingIntro.value = false
+        }
+    }
+
+    fun playParentGateAudio() {
+        audioPlayer.playAssetAudio(audioResolver.getVoPath(VoContext.PARENT_GATE))
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        audioPlayer.stop()
+    }
+
+    fun createProfile(name: String, avatarResId: Int) {
+        val finalName = name.trim().ifBlank { AVATAR_NAMES.getOrElse(avatarResId - 1) { "Friend" } }
+
+        viewModelScope.launch {
+            _uiState.value = ProfileUiState.Loading
+            val result = profileRepository.createProfile(finalName, avatarResId)
+            result.onSuccess { newId ->
+                sessionManager.setActiveProfile(newId)
+                _uiState.value = ProfileUiState.Created(newId)
+            }.onFailure { exception ->
+                _uiState.value = ProfileUiState.Error(
+                    exception.message ?: "Failed to create profile."
+                )
+            }
+        }
+    }
+
+    fun canAddProfile(): Boolean {
+        return profiles.value.size < GameplayConstants.MAX_PROFILES
+    }
+
+    fun clearUiState() {
+        _uiState.value = ProfileUiState.Idle
+    }
+}
