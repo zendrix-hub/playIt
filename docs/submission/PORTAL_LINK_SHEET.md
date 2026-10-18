@@ -20,9 +20,9 @@ For the team lead. One row per portal field: the file to link, where it is in th
 
 | Portal field | Folder | Drive link |
 |---|---|---|
-| 01_Software_and_Deployment | `01_Software_and_Deployment/` | |
-| 02_Updated_Documentation | `02_Updated_Documentation/` | |
-| 03_Testing_and_QA | `03_Testing_and_QA/` | |
+| 01_Software_and_Deployment | `01_Software_and_Deployment/` | https://drive.google.com/drive/folders/19y2PNJLLmOChneSHfq82soiTdurSNkPY?usp=sharing |
+| 02_Updated_Documentation | `02_Updated_Documentation/` | https://drive.google.com/drive/folders/1D-0J_3_nOet_kDw30mjC0NcYp_u4xamg?usp=sharing |
+| 03_Testing_and_QA | `03_Testing_and_QA/` | https://drive.google.com/drive/folders/1MEXSlitap358FMSiD8rWhqxs6EZt6fSG?usp=drive_link |
 
 ## 01_Software_and_Deployment
 
