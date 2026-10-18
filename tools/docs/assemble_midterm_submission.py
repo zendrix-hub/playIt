@@ -59,6 +59,8 @@ LOGO_PATH = REPO_ROOT / "docs" / "submission" / "logocit-1.png"
 STD_PATH = REPO_ROOT / "docs" / "STD_v1.0.md"
 MVP_FORM_PATH = REPO_ROOT / "docs" / "MVP_Validation_Findings_and_Refactoring_Priorities_Filled.md"
 EVIDENCE_DIR = REPO_ROOT / "docs" / "std" / "evidence" / "2026-10-14-0320385"
+# The submitted APK is the team lead's build of the same commit, inspected again (STD revision 1.0.1)
+SUBMITTED_APK_DIR = REPO_ROOT / "docs" / "std" / "evidence" / "2026-10-18-submitted-apk"
 APK_SRC = REPO_ROOT / "playit-debug.apk"
 APK_H_COMMIT = "0320385"
 SEEDS_PATH = REPO_ROOT / "app" / "src" / "main" / "java" / "com" / "playit" / "app" / "di" / "DatabaseModule.kt"
@@ -279,8 +281,8 @@ def class_result(per_class, name):
 
 
 def apk_record():
-    """The APK inspection recorded for the STD (TC-SEC-01)."""
-    text = (EVIDENCE_DIR / "apk_inspection.txt").read_text(encoding="utf-8")
+    """The inspection of the submitted APK recorded for the STD (TC-SEC-01, section 5.4)."""
+    text = (SUBMITTED_APK_DIR / "apk_inspection.txt").read_text(encoding="utf-8")
     sha = re.search(r"## sha256sum\s+([0-9a-f]{64})\s+\*?(\S+)", text)
     size = re.search(r"## size \(bytes\)\s+(\d+)", text)
     return {"text": text, "sha256": sha.group(1), "name": sha.group(2), "size": int(size.group(1))}
@@ -620,14 +622,19 @@ def generate_deployment_guide_pdf(output_path, ctx):
 
 def write_inspection_txt(output_path, ctx):
     apk = ctx["apk"]
-    lines = [
+    apk_file = output_path.parent / apk["name"]
+    apk_size = apk_file.stat().st_size if apk_file.exists() else 0
+    matches = "yes" if apk["copied_sha256"] == apk["sha256"] else "NO"
+
+    # 1. Plain Text format (.txt)
+    lines_txt = [
         "PlayIT: APK inspection for the IT411 midterm submission",
         f"Date: {PREPARED_ON}",
         "",
         f"File in this folder: {apk['name']}",
         f"SHA-256 of this copy: {apk['copied_sha256']}",
-        f"Matches the checksum recorded in STD v1.0: {'yes' if apk['copied_sha256'] == apk['sha256'] else 'NO'}",
-        f"Size: {output_path.parent.joinpath(apk['name']).stat().st_size:,} bytes",
+        f"Matches the checksum recorded in STD v1.0: {matches}",
+        f"Size: {apk_size:,} bytes",
         "",
         f"Speech recognition: Vosk (vosk-android {library_version('vosk')}), small US English model,",
         "  bundled in the APK at assets/vosk-model.",
@@ -635,13 +642,55 @@ def write_inspection_txt(output_path, ctx):
         "  makes no haptic calls (TC-POL-02).",
         "",
         "The inspection recorded for STD v1.0 (TC-SEC-01) follows, copied from",
-        f"docs/std/evidence/{EVIDENCE_DIR.name}/apk_inspection.txt:",
+        f"docs/std/evidence/{SUBMITTED_APK_DIR.name}/apk_inspection.txt:",
         "-" * 72,
         apk["text"].rstrip(),
         "",
     ]
-    output_path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    output_path.write_text("\n".join(lines_txt), encoding="utf-8", newline="\n")
     print(f"Generated: {output_path.relative_to(REPO_ROOT)}")
+
+    # 2. Markdown format (.md) alongside .txt
+    md_path = output_path.with_suffix(".md")
+    lines_md = [
+        "# PlayIT: APK Deployment and Permissions Inspection",
+        "",
+        f"**Course:** IT411 Capstone & Research 2  ",
+        f"**Date:** {PREPARED_ON}  ",
+        f"**Target Build:** `{apk['name']}`  ",
+        "",
+        "---",
+        "",
+        "## 1. File Verification & Integrity",
+        "",
+        "| Attribute | Verified Value |",
+        "| :--- | :--- |",
+        f"| **File Name** | `{apk['name']}` |",
+        f"| **File Size** | {apk_size:,} bytes |",
+        f"| **SHA-256 Checksum** | `{apk['copied_sha256']}` |",
+        f"| **Matches STD v1.0 Checksum** | **{'Yes' if matches == 'yes' else 'NO'}** |",
+        "",
+        "---",
+        "",
+        "## 2. Core Capabilities & Architecture Boundaries",
+        "",
+        f"- **Speech Recognition:** Vosk (`vosk-android {library_version('vosk')}`), with bundled small US English model (`assets/vosk-model`). Operates completely offline with zero external network access.",
+        "- **Haptic Feedback:** None. The APK does not request `VIBRATE`, and `PerformancePolicyTest` checks that the code makes no haptic calls (TC-POL-02).",
+        "- **Network Access:** The APK does not request `android.permission.INTERNET` (`aapt dump permissions`, TC-SEC-01, log below). This is checked by inspection only; no automated test covers it (STD OBS-04).",
+        "",
+        "---",
+        "",
+        "## 3. Raw Inspection Log (TC-SEC-01)",
+        "",
+        f"The following log is copied from `docs/std/evidence/{SUBMITTED_APK_DIR.name}/apk_inspection.txt`:",
+        "",
+        "```text",
+        apk["text"].rstrip(),
+        "```",
+        "",
+    ]
+    md_path.write_text("\n".join(lines_md), encoding="utf-8", newline="\n")
+    print(f"Generated: {md_path.relative_to(REPO_ROOT)}")
 
 
 def generate_refactoring_evidence_pdf(output_path, ctx):
@@ -654,6 +703,7 @@ def generate_refactoring_evidence_pdf(output_path, ctx):
         ("Baseline:", plain("The MVP build used in the Weeks 1 to 2 validation (Round 1).")),
         ("Refactored build:", plain(f"Debug APK H, commit {APK_H_COMMIT}, October 14, 2026 "
                                     "(branch refactor/hear-say-it).")),
+        ("Pull request:", plain('<a href="https://github.com/zendrix-hub/playIT-v2/pull/2" color="#0B57D0"><u>https://github.com/zendrix-hub/playIT-v2/pull/2</u></a> (201 commits, +43k lines)')),
         ("Sources:", plain("MVP Validation Findings form, Section 4 (the MVP approach and the planned change); "
                            "STD v1.0 (results); git history (commits).")),
     ])
@@ -869,7 +919,7 @@ def generate_performance_report_pdf(output_path, ctx):
 
     h2(story, "4. Package Size (measured)")
     para(story, plain(f"APK H is {apk['size']:,} bytes (about {apk['size'] / 1e6:.0f} MB), measured on the "
-                      "submitted file (STD evidence apk_inspection.txt). It is a debug build and includes the Vosk "
+                      "submitted file (STD section 5.4). It is a debug build and includes the Vosk "
                       "model, every sound and every picture, so it works with no connection after installation."))
 
     h2(story, "5. Plan for Round 2")
@@ -1459,6 +1509,7 @@ def build_google_drive_submission_package(ctx):
     generate_acceptance_signoff_pdf(dir_03 / "ACCEPTANCE_TESTING_AND_SIGNOFF_REPORT.pdf", ctx)
 
     safe_copytree(EVIDENCE_DIR, dir_03 / "test_execution_evidence")
+    safe_copytree(SUBMITTED_APK_DIR, dir_03 / "test_execution_evidence" / "submitted_apk_inspection_2026-10-18")
     if POST_APK_H_RUN_DIR.exists():
         safe_copytree(POST_APK_H_RUN_DIR, dir_03 / "test_execution_evidence" / "regression_rerun_2026-10-18")
     print(f"Copied the STD test evidence to: {(dir_03 / 'test_execution_evidence').relative_to(REPO_ROOT)}")

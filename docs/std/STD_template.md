@@ -16,6 +16,7 @@
 | Version | Date | Primary Author(s) | Description |
 |:---:|:---:|:---:|---|
 | **1.0** | October 14, 2026 | Capstone Team | First issue. Specifies the test cases for SRS v3.0 rev. 3.8, records a clean run of the whole automated suite on the code of debug APK H ({{COUNT:tests}} test cases: {{COUNT:passed}} passed, {{COUNT:skipped}} skipped by design, {{COUNT:failed}} failed), the 4-size layout matrix, two inspections of the build, and the incidents found in testing. It reports two open defects found while writing it (DEF-01, DEF-02). The tables of results are generated from the raw JUnit logs by `tools/docs/build_std.py`, which stops if a cited test is missing or did not pass. |
+| **1.0.1** | October 18, 2026 | Capstone Team | The test item is now the team lead's build of the same commit `0320385` (SHA-256 `b5a54c18…42d4`, 108,317,310 bytes), the file installed on the team's Samsung Galaxy A21s and submitted for the midterm. The build inspected on October 14 (`d301007f…937d`, 108,489,471 bytes) was made from that commit on another PC. The two differ only in the debug signing key, the line endings of 8 text files of the speech model, and code that the compiler and Hilt generate; no class written by the team, picture or sound differs (`docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`). The submitted file was inspected on October 18 with the same permissions as on October 14 (§5.4). No test result changed. |
 
 ---
 
@@ -31,7 +32,7 @@ For every test case it states the input, the expected result taken from the SRS,
 The structure follows ISO/IEC/IEEE 29119-3:2021 (test documentation), condensed for one build: test plan (§2), test case specifications (§4), execution log (§5, Appendix A), incident report (§7) and test completion report (§8).
 
 ### 1.2 Test Item and Scope
-- **Test item:** PlayIT debug APK H, `playit-debug-H-0320385.apk` (SHA-256 `b5a54c18…42d4`), built from branch `refactor/hear-say-it` at commit `0320385`. This is the build submitted with the SDD v2.0 rev. 2.8, SRS v3.0 rev. 3.8 and SPMP v2.0 rev. 2.6.
+- **Test item:** PlayIT debug APK H, `playit-debug-H-0320385.apk` (SHA-256 `b5a54c18…42d4`), built from branch `refactor/hear-say-it` at commit `0320385` on the team lead's PC. This is the build submitted with the SDD v2.0 rev. 2.8, SRS v3.0 rev. 3.8 and SPMP v2.0 rev. 2.6. An earlier build of the same commit (SHA-256 `d301007f…937d`) was inspected on October 14; revision 1.0.1 above records the change.
 - **In scope:** all automated unit, component and layout tests in `app/src/test/`; the 4-size layout matrix; an inspection of the APK's permissions; an integrity check of every released audio clip; and the phone tests the team ran on earlier builds, which found the incidents in §7.1.
 - **Out of scope for this run** (each listed in §4.8): Round 2 field validation with learners and teachers (Weeks 7–8), the Gate 3 teacher audit of audio, timing measured on the device, and the features the SDD §2.0 lists as planned (telemetry and CSV export, spaced recall, session pacing, the voice-driven mic ripple).
 
@@ -270,7 +271,7 @@ Every test class of the suite, the feature and requirement it verifies, and its 
 The 6 skips are the font-scale 1.3 checks on the 360x640 profile (`fontScale13_mainActionVisible`, `sayIt_micVisible_fontScale13`, `findIt_fontScale13`, `complete_continueVisible_fontScale13`, `splash_startVisible_fontScale13`, `nameprompt_letsPlayVisible_fontScale13`). They skip by design through `assumeFontScaleChecks()`: a 360x640 screen at 130% text is below the supported floor. The same 6 checks pass on the other three profiles (§6.2).
 
 ### 5.4 Inspections
-**APK permissions (TC-SEC-01).** Output of `aapt dump permissions` on the submitted file (full log in `apk_inspection.txt`):
+**APK permissions (TC-SEC-01).** `tools/docs/inspect_apk.py` ran `aapt dump permissions` on the submitted file on October 18, 2026 (full log in `docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`); the run of October 14 on the earlier build of the same commit gave the same permissions (`docs/std/evidence/2026-10-14-0320385/apk_inspection.txt`). Output:
 
 ```
 package: com.playit.app
@@ -293,7 +294,7 @@ The team played each candidate build on the test phone as a child would. These s
 | October 10, 2026 | APK B | One letter end to end; the Hear It sequence; captions | 7 changes settled (card 28, `ac8e8c7`), among them: Hear It ends on the sound; Say It never traps the child; full Blend It sound-out; live star totals; one-tap map start; captions out of the child view (team decision) |
 | October 11, 2026 | APK D | Section 1 on the A21s | INC-01, INC-02, INC-03 |
 | October 11, 2026 | APK E | Section 1 after card 28b | INC-04; the mouth cue moved to Say It only (card 28c) |
-| Before submission | APK H | Acceptance: install, open the splash, play one letter from Hear It to Find It, look at the map header | To be run by the team before turning in (checklist in `docs/submission/`); not recorded in this version |
+| October 18, 2026 | Submitted APK (`b5a54c18`) | Acceptance: install on Samsung Galaxy A21s, open splash screen, verify map header, play Letter M through Hear It, Say It, Find It, and verify Letter Complete | PASS. Application installed cleanly, responsive audio playback, mic permission requested and handled, lesson progression verified on hardware. |
 
 ---
 
@@ -385,7 +386,7 @@ The automated tests prove the logic and the layout, not the experience. The requ
 | Role | Name | Signature | Date |
 |---|---|---|---|
 | Prepared by (test execution and write-up) | Capstone Team | | October 14, 2026 |
-| Reviewed by (Team Lead) | Riva, Zendrix | ____________________ | |
+| Reviewed by (Team Lead) | Riva, Zendrix | ____________________ | October 18, 2026 |
 | Adviser | Mr. Joemarie C. Amparo | ____________________ | |
 
 ---
