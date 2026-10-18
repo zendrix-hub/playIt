@@ -267,8 +267,46 @@ def build_requirements_inventory():
     with open(out_path, "wb") as f:
         writer.write(f)
 
+    _normalize_footers(out_path, SECTION_3)
+
     print(f"  [OK] Saved {out_path.name} ({len(writer.pages)} pages: 1 cover + {len(SECTION_3)} content, "
           f"{pages_label(SECTION_3)})")
+
+
+FOOTER_PAGE = re.compile(r"Page (\d+) of (\d+)\s*$")
+
+
+def _normalize_footers(pdf_path: Path, orig_range: range):
+    """Relabel each content page's footer from 'Page X of 20' to 'Page i of N (SRS p. X)'.
+
+    The SRS footer is one centred text span ("IT411 ... · Page X of 20"). It is found by its text, not by a
+    position, so portrait and landscape pages (the RTM table) are both relabelled; the new line keeps the
+    span's size, colour and centre. Stops if a content page has no footer. Helvetica (built in) stands in
+    for the SRS's Arial: it looks the same at 8 pt, and its text copies and searches as written.
+    """
+    import pymupdf
+    doc = pymupdf.open(pdf_path)
+    font = pymupdf.Font("helv")
+    total = len(orig_range)
+    for i, orig_p in enumerate(orig_range, start=1):  # page 0 is the cover
+        page = doc[i]
+        spans = [s for b in page.get_text("dict")["blocks"] for line in b.get("lines", [])
+                 for s in line["spans"] if FOOTER_PAGE.search(s["text"])]
+        if not spans:
+            raise SystemExit(f"{pdf_path.name}: no 'Page X of N' footer on page {i + 1} (SRS p. {orig_p + 1})")
+        span = max(spans, key=lambda s: s["bbox"][1])  # the lowest line on the page
+        # The SRS PDF maps its middle dots to U+FFFD; write them back as real middle dots.
+        label = FOOTER_PAGE.sub(f"Page {i} of {total} (SRS p. {orig_p + 1})", span["text"]).replace("\ufffd", "\u00b7")
+        rect = pymupdf.Rect(span["bbox"])
+        page.add_redact_annot(rect + (-1, -1, 1, 1), fill=False)
+        page.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_NONE, graphics=pymupdf.PDF_REDACT_LINE_ART_NONE)
+        rgb = tuple(((span["color"] >> shift) & 0xFF) / 255 for shift in (16, 8, 0))
+        x = (rect.x0 + rect.x1) / 2 - font.text_length(label, fontsize=span["size"]) / 2
+        page.insert_text((x, span["origin"][1]), label, fontsize=span["size"], fontname="helv", color=rgb)
+    temp_path = pdf_path.with_suffix(".tmp.pdf")
+    doc.save(temp_path, deflate=True, garbage=3)
+    doc.close()
+    temp_path.replace(pdf_path)
 
 
 def build_traceability_matrix():
@@ -295,6 +333,8 @@ def build_traceability_matrix():
 
     with open(out_path, "wb") as f:
         writer.write(f)
+
+    _normalize_footers(out_path, SECTION_4_ON)
 
     print(f"  [OK] Saved {out_path.name} ({len(writer.pages)} pages: 1 cover + {len(SECTION_4_ON)} content, "
           f"{pages_label(SECTION_4_ON)})")

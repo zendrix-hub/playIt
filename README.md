@@ -2,7 +2,7 @@
 
 PlayIT is an Android app that teaches Grade 1 Filipino learners (ages 5 to 7) the sounds of English letters, following the Marungko approach: hear the sound, say it, find it among pictures, then blend letters into words. The speech recognizer runs on the phone, and the app has no internet permission, so nothing a child says or does leaves the device.
 
-IT411 Capstone & Research 2 (Section G7), Group 56, College of Computer Studies, Cebu Institute of Technology - University. Adviser: Mr. Joemarie C. Amparo.
+IT411 Capstone & Research 2 (Section G7), Group 56, College of Computer Studies, Cebu Institute of Technology - University. Capstone Adviser: Mr. Joemarie C. Amparo. Course Instructor: Mr. Ralph P. Laviste.
 
 <p>
   <img src="https://img.shields.io/badge/Android-8.0%2B_%28API_26%29-3DDC84" alt="Android: 8.0+ (API 26)"/>
@@ -13,9 +13,13 @@ IT411 Capstone & Research 2 (Section G7), Group 56, College of Computer Studies,
   <img src="https://img.shields.io/badge/Network-no_INTERNET_permission-blue" alt="Network: no INTERNET permission"/>
 </p>
 
+## The Midterm Build
+
+The build submitted for the IT411 midterm is debug **APK H**, built from commit `0320385` of the team's development branch and tested in the Software Test Document (STD v1.0, in `docs/submission/`). This repository holds that code with its tests. It also holds 80 pictures released after APK H (image releases of 2026-10-15 to 2026-10-17). No code changed after APK H, so a build from this repository differs from APK H only in those pictures.
+
 ## Screens
 
-Captured with Roborazzi from this repository's code on the 360x740 dp profile of the team's test phone (Samsung Galaxy A21s).
+Captured with Roborazzi from this repository's code on the 360x740 dp profile of the team's test phone (Samsung Galaxy A21s), so they show the pictures released after APK H.
 
 <table>
   <tr>
@@ -100,11 +104,12 @@ The six skipped tests are the font-scale 1.3 checks on the 360x640 profile, whic
 
 Group 56: Riva, Zendrix (Team Lead); Palis, John James; Miel, Kaysean; Durano, Ashlee Skye; Bien, Erik Samuel.
 
-Capstone Adviser: Mr. Joemarie C. Amparo, College of Computer Studies, Cebu Institute of Technology - University.
+- **Capstone Adviser:** Mr. Joemarie C. Amparo, College of Computer Studies, Cebu Institute of Technology - University.
+- **Course Instructor:** Mr. Ralph P. Laviste, IT411 Capstone & Research 2, College of Computer Studies, Cebu Institute of Technology - University.
 
 ## AI Assistance and Third-Party Content
 
-In line with the CIT-U CCS academic integrity guidelines, the team discloses the AI tools used and what each produced. The team set the requirements, made the design decisions, approved every released picture and clip, and is responsible for the result.
+The team discloses the AI tools used and what each produced. The team set the requirements, made the design decisions, approved every released picture and clip, and is responsible for the result.
 
 - **Claude (Anthropic):** architecture and design review, task cards, code review, test design and generation, the audio pipeline scripts, and drafting of the documentation and of this packaging.
 - **Google Antigravity ("agy", an AI coding agent):** implemented most of the app code from the team's task cards, and generated pictures with Nano Banana Pro.
