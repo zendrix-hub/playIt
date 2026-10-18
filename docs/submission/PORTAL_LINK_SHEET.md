@@ -28,12 +28,12 @@ For the team lead. One row per portal field: the file to link, where it is in th
 
 | Portal field | File | What it is | Drive link |
 |---|---|---|---|
-| Link to Deployed System | `playit-debug-H-0320385.apk` | APK H, the build every document describes (108 MB; Drive cannot preview an APK, the grader downloads it). Install steps are in the deployment guide below. | |
-| Link to GitHub Repository | https://github.com/zendrix-hub/playIt | Paste this URL itself. If the field accepts only a PDF, link `README.pdf`: it gives the repository URL on its first page. | (the URL) |
-| Link to README (PDF) | `README.pdf` | The repository's README as a PDF: the app, the curriculum, build and test, how the repository relates to APK H, the AI disclosure and the ElevenLabs credit. | |
-| Link to Deployment Evidence | `DEPLOYED_SYSTEM_AND_ACCESS_INSTRUCTIONS.pdf` | How to install and run APK H, its checksum, permissions and known limitations. `DEPLOYMENT_AND_PERMISSIONS_INSPECTION.txt` (same folder) is the APK inspection. Add the photos of APK H running on the A21s here once they exist (see "Gaps" below). | |
-| Link to Refactoring Evidence | `CODE_REFACTORING_EVIDENCE.pdf` | The 6 MVP-form priorities, what APK H does for each, the STD result, and the 34 card commits. | |
-| Link to Feature Completion Matrix | `FEATURE_COMPLETION_MATRIX.pdf` | Every requirement in STD section 3 with its test cases, result and status (complete, built with checks pending, open defect, planned). | |
+| Link to Deployed System | `playit-debug-H-0320385.apk` | APK H, the build every document describes (104 MB; Drive cannot preview an APK, the grader downloads it). Install steps are in the deployment guide below. | https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing |
+| Link to GitHub Repository | https://github.com/zendrix-hub/PlayIT | Public academic GitHub repository (or link `README.pdf` if a PDF link is required). | https://github.com/zendrix-hub/PlayIT |
+| Link to README (PDF) | `README.pdf` | The repository's README as a PDF: the app, the curriculum, build and test, how the repository relates to APK H, the AI disclosure and the ElevenLabs credit. | https://drive.google.com/file/d/13yW2TLtzZQYhlksqZ3Xjh-M_xJjMM99o/view?usp=sharing |
+| Link to Deployment Evidence | `DEPLOYED_SYSTEM_AND_ACCESS_INSTRUCTIONS.pdf` | How to install and run APK H, its checksum, permissions and known limitations. | https://drive.google.com/file/d/1hyae8ibXs7kEwuxZSpgeWBIgBlWgxwcQ/view?usp=sharing |
+| Link to Refactoring Evidence | `CODE_REFACTORING_EVIDENCE.pdf` | The 6 MVP-form priorities, what APK H does for each, the STD result, and the 34 card commits. | https://drive.google.com/file/d/104coSrKXUXeLXYImqFK2jK1PgXiHk-Oq/view?usp=sharing |
+| Link to Feature Completion Matrix | `FEATURE_COMPLETION_MATRIX.pdf` | Every requirement in STD section 3 with its test cases, result and status (complete, built with checks pending, open defect, planned). | https://drive.google.com/file/d/1Nxvdq5413DWgVFjj1xXXoA2AsAwp8hws/view?usp=sharing |
 
 ## 02_Updated_Documentation
 
