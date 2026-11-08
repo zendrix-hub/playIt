@@ -156,4 +156,47 @@ class ProfileViewModelTest {
         assertEquals("", viewModel.nameInput.value)
         assertEquals(1, viewModel.selectedAvatarId.value)
     }
+
+    /** The long hello only before any child has a profile; then "Who is playing? Tap your animal!". */
+    @Test
+    fun theLongHello_onlyOnTheFirstUse() = runTest {
+        viewModel.playWelcomeGreeting()
+        advanceUntilIdle()
+        assertEquals(FIRST_HELLO, viewModel.greeting.value)
+        verify { audioPlayer.playAssetAudio("vo_path.mp3", any()) }
+
+        profilesFlow.value = listOf(Profile(id = 1L, name = "Ana", avatarResId = 5))
+        viewModel.playWelcomeGreeting()
+        advanceUntilIdle()
+        assertEquals(WHO_IS_PLAYING, viewModel.greeting.value)
+        verify { audioPlayer.playAssetAudio("ui/ui_who_is_playing.wav", any()) }
+    }
+
+    @Test
+    fun theNameStep_hasItsOwnLine() = runTest {
+        viewModel.playTypeNamePrompt()
+        verify { audioPlayer.playAssetAudio("ui/ui_type_name.wav", any()) }
+    }
+
+    private fun clear(vm: ProfileViewModel) =
+        ProfileViewModel::class.java.getDeclaredMethod("onCleared").apply { isAccessible = true }.invoke(vm)
+
+    /** Picking an animal stops this screen's voice at once; clearing it later leaves the map's welcome back alone. */
+    @Test
+    fun pickingAChild_stopsTheGreetingThen_notWhenCleared() {
+        viewModel.selectProfile(1L)
+        verify(exactly = 1) { audioPlayer.stop() }
+        clear(viewModel)
+        verify(exactly = 1) { audioPlayer.stop() }
+    }
+
+    /** Back on "Who is playing?" (from the name step or the Parent Zone), the greeting is this screen's own again. */
+    @Test
+    fun shownAgain_theGreetingIsItsOwn_andClearingStopsIt() {
+        viewModel.leave()
+        viewModel.playWelcomeGreeting()
+        clearMocks(audioPlayer, answers = false, recordedCalls = true)
+        clear(viewModel)
+        verify(exactly = 1) { audioPlayer.stop() }
+    }
 }

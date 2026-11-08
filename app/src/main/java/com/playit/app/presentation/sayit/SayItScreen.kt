@@ -1,5 +1,7 @@
 package com.playit.app.presentation.sayit
 
+import com.playit.app.presentation.components.NextLines
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import com.playit.app.domain.model.articulationFor
 import com.playit.app.presentation.components.ArticulationCue
 import android.Manifest
@@ -28,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,6 +65,11 @@ import com.playit.app.presentation.components.LetterCard
 import com.playit.app.presentation.components.LessonTopBar
 import com.playit.app.presentation.components.MascotSpeechHeader
 import com.playit.app.presentation.components.MascotState
+import com.playit.app.presentation.components.GENTLE_SHAKE_DP
+import com.playit.app.presentation.components.GENTLE_SHAKE_MS
+import com.playit.app.presentation.components.LESSON_BUTTON_POP_MS
+import com.playit.app.presentation.components.confettiPop
+import com.playit.app.presentation.components.popIn
 import com.playit.app.presentation.components.shake
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -70,6 +78,18 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.playit.app.presentation.components.LessonScaffold
 import com.playit.app.presentation.sayit.components.MicButton
 import com.playit.app.presentation.theme.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.rounded.ZoomIn
+import androidx.compose.ui.unit.Dp
+import com.playit.app.domain.model.ArticulationGroup
 
 @Composable
 fun SayItScreen(
@@ -159,8 +179,12 @@ fun SayItScreen(
     }
 
     val micStatus by viewModel.micStatus.collectAsStateWithLifecycle()
-    val showMouthCue by viewModel.showMouthCue.collectAsStateWithLifecycle()
+    val cueStage by viewModel.mouthCue.collectAsStateWithLifecycle()
+    val mouthGroup = articulationFor(phoneme?.letter ?: "m")
     val showFeedback = state is SayItState.Correct || state is SayItState.Incorrect
+    // Each right attempt pops confetti from the prompt card (user, 2026-10-29).
+    var corrects by remember { mutableIntStateOf(0) }
+    LaunchedEffect(state is SayItState.Correct) { if (state is SayItState.Correct) corrects++ }
 
     // MainActivity.onStop stops Vosk; drop the attempt here too so the mic is never stuck
     // in Listening when the child comes back (Review Focus 2).
@@ -186,11 +210,7 @@ fun SayItScreen(
             .resetsIdle { viewModel.onUserInteraction() }
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFE8F0FE),
-                        Color(0xFFF3E8FF),
-                        Color(0xFFFEF3C7)
-                    )
+                    colors = GroundColors
                 )
             )
     ) {
@@ -198,8 +218,9 @@ fun SayItScreen(
             topBar = { LessonTopBar(currentStep = LessonStep.SAY_IT, onBack = onBack, hearts = null) },
             header = {
                 MascotSpeechHeader(
+                    greet = true,
                     message = when {
-                        permissionDeniedMessage -> "Please allow microphone access so Lily can hear you."
+                        permissionDeniedMessage -> "Ask a grown-up to turn on the microphone."
                         isModelInitializing -> "Lily is getting ready..."
                         isNoisyEnvironment -> "It's a little noisy right now. Let's find a quiet spot to practice!"
                         state is SayItState.Listening ->
@@ -208,7 +229,7 @@ fun SayItScreen(
                         state is SayItState.Correct -> "Yes! You said it!"
                         state is SayItState.Incorrect -> "Good try! Listen again."
                         wordMode -> "Now it's your turn! Say the whole word clearly into the microphone!"
-                        else -> "Now it's your turn. Say the sound clearly into the microphone!"
+                        else -> "Your turn! Say it into the microphone."
                     },
                     mascotState = when {
                         permissionDeniedMessage -> MascotState.ENCOURAGING
@@ -239,7 +260,8 @@ fun SayItScreen(
                         wasUnlocked = canContinue
                     }
                     GummyButton(
-                        text = "Next: Find It",
+                        text = NextLines.NEXT,
+                        icon = Icons.AutoMirrored.Rounded.ArrowForward,
                         onClick = { if (canContinue) onNext(phoneme?.id?.toString() ?: "1") },
                         enabled = canContinue,
                         backgroundColor = EmeraldLeaf,
@@ -258,7 +280,23 @@ fun SayItScreen(
                 }
             }
         ) {
-            if (wordMode) {
+          AnimatedContent(
+            targetState = cueStage == MouthCueStage.BIG,
+            contentAlignment = Alignment.Center,
+            transitionSpec = {
+                if (reducedMotion) {
+                    fadeIn(tween(150)) togetherWith fadeOut(tween(150))
+                } else {
+                    (fadeIn(tween(220)) + scaleIn(tween(320), initialScale = 0.45f)) togetherWith
+                        (fadeOut(tween(180)) + scaleOut(tween(260), targetScale = 0.45f))
+                }
+            },
+            label = "mouthCueBig"
+          ) { big ->
+            if (big) {
+                // "Watch my lips", big enough to copy (adviser, 2026-11-05); a tap puts it back beside the mic.
+                BigMouthCue(group = mouthGroup, height = d.letterCardHeight, onTap = { viewModel.shrinkMouthCue() })
+            } else if (wordMode) {
                 // Word prompt card: reuses the Hear It LetterCard (same picture_<word>.png
                 // illustration, same gummy rendering). Tap replays the word audio.
                 LetterCard(
@@ -269,7 +307,9 @@ fun SayItScreen(
                     showSpeakerIcon = true,
                     isPlaying = isPlayingPhoneme,
                     // Shorter than in Hear It: the mic, its label and the attempt dots sit below it.
-                    modifier = Modifier.heightIn(max = cardMaxHeight).shake(trigger = state is SayItState.Incorrect),
+                    modifier = Modifier.heightIn(max = cardMaxHeight)
+                        .shake(trigger = state is SayItState.Incorrect, durationMs = GENTLE_SHAKE_MS, swingDp = GENTLE_SHAKE_DP)
+                        .confettiPop(corrects),
                     onTapReplay = { viewModel.playWordAudio() }
                 )
             } else {
@@ -285,7 +325,8 @@ fun SayItScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(max = cardMaxHeight)
-                        .shake(trigger = state is SayItState.Incorrect)
+                        .shake(trigger = state is SayItState.Incorrect, durationMs = GENTLE_SHAKE_MS, swingDp = GENTLE_SHAKE_DP)
+                        .confettiPop(corrects)
                 ) {
                     Column(
                         modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp, horizontal = 16.dp),
@@ -321,6 +362,7 @@ fun SayItScreen(
                     }
                 }
             }
+          }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 // "Watch my lips": from the second miss the mouth shape shows beside the mic.
@@ -328,12 +370,13 @@ fun SayItScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (showMouthCue) {
-                        ArticulationCue(group = articulationFor(phoneme?.letter ?: "m"), size = 96.dp)
+                    if (cueStage == MouthCueStage.SMALL) {
+                        SmallMouthCue(group = mouthGroup, onTap = { viewModel.replayMouthCue() })
                     }
                     // After an attempt the line under the mic is the short feedback ("Watch my lips"), as
                     // plain text: it used to be a separate banner that looked like a second button (card 31d).
                     MicButton(
+                        modifier = Modifier.popIn(delayMillis = LESSON_BUTTON_POP_MS),   // pops in after the card lands
                         status = micStatus,
                         onTap = startAttempt,
                         enabled = !isPlayingPhoneme && !isModelInitializing,
@@ -383,6 +426,53 @@ fun SayItScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+/** The mouth shape in the prompt card's place, as big as the card, while Lily models the sound. */
+@Composable
+private fun BigMouthCue(group: ArticulationGroup, height: Dp, onTap: () -> Unit) {
+    GummyContainer(
+        onClick = onTap,
+        faceColor = SurfaceCard,
+        shadowColor = SurfaceCardShadow,
+        shape = CardShape,
+        strokeWidth = 2.5.dp,
+        strokeColor = ModernBorder,
+        depthHeight = 6.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height)
+            .testTag("sayit_cue_big")
+    ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            ArticulationCue(group = group, size = height - 24.dp)
+        }
+    }
+}
+
+/** The mouth shape beside the mic; a tap shows it big again, with the sound once more. */
+@Composable
+private fun SmallMouthCue(group: ArticulationGroup, onTap: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(96.dp)
+            .popIn()
+            .clickable(onClickLabel = "See the mouth big", onClick = onTap)
+            .testTag("sayit_cue_small")
+    ) {
+        ArticulationCue(group = group, size = 96.dp)
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .size(30.dp)
+                .clip(CircleShape)
+                .background(SunnyGold)
+                .border(2.dp, ModernBorder, CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(Icons.Rounded.ZoomIn, contentDescription = null, tint = TextMidnight, modifier = Modifier.size(18.dp))
         }
     }
 }

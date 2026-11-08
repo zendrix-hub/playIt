@@ -60,9 +60,10 @@ fun FindItCard(
         modifier = modifier
             .graphicsLayer { rotationZ = rotationAngle }
             .shake(trigger = isIncorrect)
+            .confettiPop(if (isCorrect) 1 else 0)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().correctionGlow(isIncorrect, Squircle20),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -70,12 +71,13 @@ fun FindItCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                // The picture takes the height the word leaves, up to 120 dp.
+                // The picture takes the height the word leaves, up to 120 dp; with no word it grows into that space.
+                val pictureMax = if (item.showWord) 120.dp else 148.dp
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .weight(1f, fill = false)
-                        .sizeIn(maxWidth = 120.dp, maxHeight = 120.dp)
+                        .sizeIn(maxWidth = pictureMax, maxHeight = pictureMax)
                         .aspectRatio(1f)
                 ) {
                     // Ambient backing circle
@@ -96,16 +98,19 @@ fun FindItCard(
                         modifier = Modifier.fillMaxSize(0.84f)
                     )
                 }
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = item.word,
-                    fontFamily = LexendFontFamily,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Black,
-                    color = TextMidnight,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                // Harder chapters hide the word, so the child picks by the sound (WordLabelPolicy).
+                if (item.showWord) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = item.word,
+                        fontFamily = LexendFontFamily,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Black,
+                        color = TextMidnight,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
 
             // Emerald Checkmark Badge when Found
@@ -160,6 +165,7 @@ fun FindItGrid(
                             .weight(1f)
                             .heightIn(min = d.findItCardMinHeight)
                             .aspectRatio(d.findItCardAspect)
+                            .stickerIn(rowIndex * 2 + i)   // placed one by one when the round opens
                     )
                 }
                 if (row.size == 1) Spacer(Modifier.weight(0.5f))

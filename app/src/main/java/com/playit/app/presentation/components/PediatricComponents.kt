@@ -29,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -94,10 +95,8 @@ fun MascotBubble(
                 shape = CircleShape,
                 depthHeight = 3.dp
             ) {
-                androidx.compose.foundation.Image(
-                    painter = rememberAssetPainter(mascotState.assetPath),
-                    contentDescription = "Lily the Tarsier",
-                    contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+                TalkingLily(
+                    pose = mascotState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(4.dp)
@@ -197,10 +196,8 @@ fun DockedMascotWithBubble(
             shape = CircleShape,
             depthHeight = 4.dp
         ) {
-            androidx.compose.foundation.Image(
-                painter = rememberAssetPainter(mascotState.assetPath),
-                contentDescription = "Lily the Tarsier",
-                contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+            TalkingLily(
+                pose = mascotState,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(6.dp)
@@ -280,12 +277,21 @@ fun StarDisplay(
     ) {
         for (i in 1..maxStars) {
             val isEarned = i <= earnedStars
+            // An earned star bursts into its own sparkle as it lands (user, 2026-10-29).
+            var landed by remember { mutableStateOf(0) }
+            LaunchedEffect(isEarned) {
+                if (isEarned) {
+                    delay((i - 1) * STAR_STAGGER_MS.toLong() + STAR_LAND_MS)
+                    landed = 1
+                }
+            }
             androidx.compose.foundation.Image(
                 painter = rememberAssetPainter("images/rewards/reward_star.png"),
                 contentDescription = if (isEarned) "Star Earned" else "Star Locked",
                 modifier = Modifier
                     .size(starSize)
                     .starDrop(index = i - 1)
+                    .confettiPop(landed)
                     .graphicsLayer { alpha = if (isEarned) 1f else 0.3f }
             )
         }

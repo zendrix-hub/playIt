@@ -1,5 +1,7 @@
 package com.playit.app.presentation.findit
 
+import com.playit.app.presentation.components.NextLines
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -78,11 +80,7 @@ fun FindItScreen(
             .resetsIdle { viewModel.onUserInteraction() }
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFE8F0FE),
-                        Color(0xFFF3E8FF),
-                        Color(0xFFFEF3C7)
-                    )
+                    colors = GroundColors
                 )
             )
     ) {
@@ -94,7 +92,7 @@ fun FindItScreen(
                 MascotSpeechHeader(
                     message = when (state) {
                         is FindItState.GameOver -> "Good try! Let's listen again."
-                        is FindItState.Completed -> "You did it! I'm so proud of you!"
+                        is FindItState.Completed -> NextLines.FIND_IT
                         is FindItState.FoundOne -> "Perfect! Great job! Find ${(3 - foundCount).coerceAtLeast(1)} more!"
                         is FindItState.Incorrect -> "Good try! Let's listen again."
                         else -> "Can you find all three pictures that start with this sound?"
@@ -114,7 +112,8 @@ fun FindItScreen(
                 // Bottom Action / Continue Bar
                 if (state is FindItState.Completed) {
                     GummyButton(
-                        text = "Complete Lesson",
+                        text = NextLines.NEXT,
+                        icon = Icons.AutoMirrored.Rounded.ArrowForward,
                         onClick = { onNext(targetPhoneme?.id?.toString() ?: "1", viewModel.sessionHeartsLost) },
                         backgroundColor = EmeraldLeaf,
                         shadowColor = EmeraldLeafShadow,

@@ -1,5 +1,6 @@
 package com.playit.app.presentation.map.components
 
+import com.playit.app.presentation.components.NextLines
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -95,7 +96,7 @@ fun NodeActionPopupDialog(
                         modifier = Modifier.size(64.dp).testTag("node_popup_close")
                     ) {
                         Box(
-                            modifier = Modifier.size(40.dp).background(Color(0xFFF1F5F9), CircleShape),
+                            modifier = Modifier.size(40.dp).background(LockedFace, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
@@ -151,13 +152,13 @@ fun NodeActionPopupDialog(
                                 fontFamily = LexendFontFamily,
                                 fontSize = 38.sp,
                                 fontWeight = FontWeight.Black,
-                                color = if (isUnlocked) Color.White else Color(0xFF94A3B8)
+                                color = if (isUnlocked) Color.White else LockedIcon
                             )
                         } else {
                             Icon(
                                 imageVector = if (isUnlocked) Icons.Rounded.Star else Icons.Rounded.Lock,
                                 contentDescription = null,
-                                tint = if (isUnlocked) Color(0xFF78350F) else Color(0xFF94A3B8),
+                                tint = if (isUnlocked) Color(0xFF78350F) else LockedIcon,
                                 modifier = Modifier.size(40.dp)
                             )
                         }
@@ -178,7 +179,7 @@ fun NodeActionPopupDialog(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = if (isUnlocked) "Phonics Sound: /${letterNode.symbol.lowercase()}/" else "Unit ${letterNode.groupNumber} Phonics",
+                        text = if (isUnlocked) "Sound: ${letterNode.symbol.lowercase()}" else "Chapter ${letterNode.groupNumber}",
                         fontFamily = LexendFontFamily,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
@@ -187,7 +188,7 @@ fun NodeActionPopupDialog(
                 } else {
                     val blendNode = node as MapNode.BlendItNode
                     Text(
-                        text = "BLEND CHALLENGE ${blendNode.groupId}",
+                        text = "WORD GAME ${blendNode.groupId}",
                         fontFamily = LexendFontFamily,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Black,
@@ -195,7 +196,7 @@ fun NodeActionPopupDialog(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Word Blending Milestone",
+                        text = "Build words",
                         fontFamily = LexendFontFamily,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
@@ -216,7 +217,7 @@ fun NodeActionPopupDialog(
                             Icon(
                                 imageVector = Icons.Rounded.Star,
                                 contentDescription = null,
-                                tint = if (earned) Color(0xFFFFC800) else Color(0xFFE2E8F0),
+                                tint = if (earned) Color(0xFFFFC800) else LockedShelf,
                                 modifier = Modifier.size(28.dp)
                             )
                         }
@@ -230,8 +231,8 @@ fun NodeActionPopupDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0xFFF8FAFC))
-                            .border(1.5.dp, Color(0xFFE2E8F0), RoundedCornerShape(14.dp))
+                            .background(LockedFace)
+                            .border(1.5.dp, LockedShelf, RoundedCornerShape(14.dp))
                             .padding(horizontal = 14.dp, vertical = 10.dp)
                     ) {
                         Row(
@@ -245,8 +246,8 @@ fun NodeActionPopupDialog(
                                 MiniPill(label = "Find It")
                             } else {
                                 MiniPill(label = "Listen")
-                                MiniPill(label = "Blend")
-                                MiniPill(label = "Master")
+                                MiniPill(label = "Build")
+                                MiniPill(label = "Hear it")
                             }
                         }
                     }
@@ -254,11 +255,8 @@ fun NodeActionPopupDialog(
                     Spacer(modifier = Modifier.height(18.dp))
 
                     // Gummy Action Button
-                    val buttonText = when {
-                        isCompleted -> "PRACTICE AGAIN"
-                        isLetter -> "START CHALLENGE"
-                        else -> "START BLEND CHALLENGE"
-                    }
+                    // The word Lily names: "Tap Play to start!" (teacher, 2026-11-06: not "the big button").
+                    val buttonText = if (isCompleted) NextLines.PLAY_AGAIN else NextLines.PLAY
                     val btnBg = if (isCompleted) PopGoldFace else PopGreenFace
                     val btnShelf = if (isCompleted) PopGoldShelf else PopGreenShelf
 
@@ -283,11 +281,11 @@ fun NodeActionPopupDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0xFFF1F5F9))
+                            .background(LockedFace)
                             .padding(14.dp)
                     ) {
                         Text(
-                            text = "Complete the previous sounds to unlock this challenge!",
+                            text = "Finish the letter before this one first.",
                             fontFamily = LexendFontFamily,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium,
@@ -302,8 +300,8 @@ fun NodeActionPopupDialog(
                     GummyButton(
                         text = "Keep Going!",
                         onClick = onDismiss,
-                        backgroundColor = Color(0xFF94A3B8),
-                        shadowColor = Color(0xFF64748B),
+                        backgroundColor = LockedIcon,
+                        shadowColor = LockedInk,
                         contentColor = Color.White,
                         modifier = Modifier
                             .fillMaxWidth()

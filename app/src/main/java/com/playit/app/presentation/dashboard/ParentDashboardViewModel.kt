@@ -8,6 +8,7 @@ import com.playit.app.domain.model.Profile
 import com.playit.app.domain.model.ProfileDashboardData
 import com.playit.app.domain.model.ReportData
 import com.playit.app.domain.repository.ProfileRepository
+import com.playit.app.domain.repository.SoundCheckRepository
 import com.playit.app.navigation.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,10 +28,12 @@ sealed interface ExportStatus {
     data class Error(val message: String) : ExportStatus
 }
 
+/** [classRecord] holds every learner on this phone, for the class record shown when there are two or more. */
 data class ParentDashboardUiState(
     val profiles: List<Profile> = emptyList(),
     val selectedProfile: Profile? = null,
     val dashboardData: ProfileDashboardData? = null,
+    val classRecord: List<ProfileDashboardData> = emptyList(),
     val isLoading: Boolean = true,
     val exportStatus: ExportStatus = ExportStatus.Idle
 )
@@ -40,7 +43,8 @@ class ParentDashboardViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val reportGenerator: ReportGenerator,
     private val pdfExporter: PdfExporter,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val soundCheckRepository: SoundCheckRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ParentDashboardUiState())
@@ -66,7 +70,8 @@ class ParentDashboardViewModel @Inject constructor(
                         ?: profiles.firstOrNull()
                     _uiState.value = _uiState.value.copy(
                         profiles = profiles,
-                        selectedProfile = currentSelected
+                        selectedProfile = currentSelected,
+                        classRecord = if (profiles.size > 1) reportGenerator.generateClassRecord() else emptyList()
                     )
                     currentSelected?.let { selectProfile(it) } ?: run {
                         _uiState.value = _uiState.value.copy(isLoading = false, dashboardData = null)
@@ -99,11 +104,12 @@ class ParentDashboardViewModel @Inject constructor(
         }
     }
 
+    /** The report covers every learner on this phone: a class record, then one record per learner. */
     fun exportPdfReport() {
-        val selected = _uiState.value.selectedProfile ?: return
+        if (_uiState.value.profiles.isEmpty()) return
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(exportStatus = ExportStatus.Exporting)
-            val reportData: ReportData? = reportGenerator.generateReportData(selected.id)
+            val reportData: ReportData? = reportGenerator.generateReportData()
             if (reportData != null) {
                 val result = pdfExporter.exportReport(reportData)
                 result.fold(
@@ -138,6 +144,8 @@ class ParentDashboardViewModel @Inject constructor(
         hasDeleted = true
         viewModelScope.launch {
             profileRepository.deleteProfile(profile)
+            // Its sound checks are kept outside the database, so they go separately.
+            runCatching { soundCheckRepository.deleteFor(profile.id) }
             if (sessionManager.activeProfileId.value == profile.id) {
                 sessionManager.clearActiveProfile()
             }

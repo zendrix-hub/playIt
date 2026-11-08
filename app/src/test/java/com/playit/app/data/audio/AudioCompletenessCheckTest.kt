@@ -50,6 +50,38 @@ class AudioCompletenessCheckTest {
         "vo_parent_gate.wav"
     )
 
+    /** Lily's welcome back (release 2026-11-05-return, adviser 2026-11-05), in audio/vo/ui. */
+    private val returnLines = listOf("ret_welcome_back.wav", "ret_keep_going.wav", "ret_build_words.wav", "ret_all_done.wav")
+
+    /** Every line the sound check before Blend It plays is released (release 2026-11-06-sound-check). */
+    @Test
+    fun theSoundCheckLines_areReleased() {
+        val dir = java.io.File("src/main/assets/audio/vo/ui")
+        com.playit.app.presentation.soundcheck.SoundCheckLines.ALL.forEach {
+            assertTrue("missing $it", java.io.File(dir, "$it.wav").exists())
+        }
+    }
+
+    /** "Who is playing? Tap your animal!" and "Now type your name!" (release 2026-11-05-name-lines). */
+    @Test
+    fun theProfileLines_areReleased() {
+        val dir = java.io.File("src/main/assets/audio/vo/ui")
+        listOf("ui_who_is_playing.wav", "ui_type_name.wav").forEach { assertTrue("missing $it", java.io.File(dir, it).exists()) }
+    }
+
+    /** Every line ReturnGreetingPolicy names is released, so the welcome back is never silent. */
+    @Test
+    fun theWelcomeBackLines_areAllReleased() {
+        val dir = java.io.File("src/main/assets/audio/vo/ui")
+        returnLines.forEach { assertTrue("missing $it", java.io.File(dir, it).exists()) }
+        val named = listOf(
+            com.playit.app.domain.manager.ReturnGreetingPolicy.KeepGoing("1", "m"),
+            com.playit.app.domain.manager.ReturnGreetingPolicy.BuildWords("blend_1", 1),
+            com.playit.app.domain.manager.ReturnGreetingPolicy.AllDone
+        ).flatMap { com.playit.app.domain.manager.ReturnGreetingPolicy.lines(it) }.toSet()
+        named.forEach { assertTrue("$it is not released", "$it.wav" in returnLines) }
+    }
+
     private val legacyVoLines = listOf(
         "vo_milestone_01.mp3",
         "vo_return_welcome_01.mp3"

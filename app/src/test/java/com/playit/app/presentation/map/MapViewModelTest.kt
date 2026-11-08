@@ -39,6 +39,7 @@ class MapViewModelTest {
     private val streakTracker: StreakTracker = mockk(relaxed = true)
     private val audioPlayer: AudioPlayer = mockk(relaxed = true)
     private val audioResolver: AudioResolver = mockk(relaxed = true)
+    private val sayItAttemptRepository: com.playit.app.domain.repository.SayItAttemptRepository = mockk(relaxed = true)
 
     private val testDispatcher = StandardTestDispatcher()
     private val activeProfileIdFlow = MutableStateFlow<Long?>(1L)
@@ -88,13 +89,53 @@ class MapViewModelTest {
         Dispatchers.resetMain()
     }
 
+    private fun clear(vm: MapViewModel) =
+        MapViewModel::class.java.getDeclaredMethod("onCleared").apply { isAccessible = true }.invoke(vm)
+
+    /**
+     * User, 2026-11-07: back from the map to "Who is playing?", Lily said nothing. The map's ViewModel is cleared
+     * after the next screen has begun to speak, and stopping the shared player then cut its greeting. Leaving the map
+     * stops the map's own audio at once; clearing it later leaves the next screen's voice alone.
+     */
+    @Test
+    fun leavingTheMap_stopsItsAudioThen_notWhenCleared() = runTest {
+        viewModel = MapViewModel(
+            phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
+            lessonProgressRepository, profileRepository, achievementRepository,
+            sessionManager, unlockManager, groupUnlockManager, streakTracker,
+            audioPlayer, audioResolver, sayItAttemptRepository
+        )
+        advanceUntilIdle()
+        clearMocks(audioPlayer, answers = false, recordedCalls = true)
+        viewModel.leave()
+        verify(exactly = 1) { audioPlayer.stop() }
+        clear(viewModel)
+        verify(exactly = 1) { audioPlayer.stop() }
+    }
+
+    @Test
+    fun aMapClearedWithoutLeaving_stillStopsItsAudio_andShownAgainOwnsItsAudio() = runTest {
+        viewModel = MapViewModel(
+            phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
+            lessonProgressRepository, profileRepository, achievementRepository,
+            sessionManager, unlockManager, groupUnlockManager, streakTracker,
+            audioPlayer, audioResolver, sayItAttemptRepository
+        )
+        advanceUntilIdle()
+        viewModel.leave()
+        viewModel.onShown()   // back from a game
+        clearMocks(audioPlayer, answers = false, recordedCalls = true)
+        clear(viewModel)
+        verify(exactly = 1) { audioPlayer.stop() }
+    }
+
     @Test
     fun init_recordsActivityAndResetsStreakIfInactive() = runTest {
         viewModel = MapViewModel(
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
         advanceUntilIdle()
 
@@ -108,7 +149,7 @@ class MapViewModelTest {
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
         val collectJob = launch(UnconfinedTestDispatcher(testScheduler)) {
             viewModel.userStats.collect()
@@ -135,7 +176,7 @@ class MapViewModelTest {
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
         val collectJob = launch(UnconfinedTestDispatcher(testScheduler)) {
             viewModel.mapNodes.collect()
@@ -163,13 +204,37 @@ class MapViewModelTest {
         collectJob.cancel()
     }
 
+    /** The test APK (user, 2026-11-06): every letter and word game is open; the real app keeps the order. */
+    @Test
+    fun theTestBuild_opensEveryLetterAndWordGame_theAppDoesNot() = runTest {
+        every { unlockManager.isPhonemeUnlocked(1, any()) } returns true
+        every { unlockManager.isPhonemeUnlocked(2, any()) } returns false
+        every { groupUnlockManager.isBlendItUnlocked(1, any(), any()) } returns false
+        assertFalse("the app's own build keeps the order", com.playit.app.BuildConfig.UNLOCK_ALL)
+
+        viewModel = MapViewModel(
+            phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
+            lessonProgressRepository, profileRepository, achievementRepository,
+            sessionManager, unlockManager, groupUnlockManager, streakTracker,
+            audioPlayer, audioResolver, sayItAttemptRepository
+        )
+        viewModel.unlockAll = true
+        val collectJob = launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.mapNodes.collect()
+        }
+        advanceUntilIdle()
+        assertEquals(3, viewModel.mapNodes.value.size)
+        assertTrue(viewModel.mapNodes.value.all { it.isUnlocked })
+        collectJob.cancel()
+    }
+
     @Test
     fun audioActions_invokeAudioPlayerCorrectly() {
         viewModel = MapViewModel(
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
 
         viewModel.playHeartRecoverySound()
@@ -188,7 +253,7 @@ class MapViewModelTest {
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
 
         viewModel.onLockedNodeTapped()
@@ -201,7 +266,7 @@ class MapViewModelTest {
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
 
         viewModel.onUnlockedNodeTapped()
@@ -221,7 +286,7 @@ class MapViewModelTest {
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
     }
 
@@ -282,10 +347,66 @@ class MapViewModelTest {
             phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
             lessonProgressRepository, profileRepository, achievementRepository,
             sessionManager, unlockManager, groupUnlockManager, streakTracker,
-            audioPlayer, audioResolver
+            audioPlayer, audioResolver, sayItAttemptRepository
         )
 
         viewModel.clearSession()
         verify { sessionManager.clearActiveProfile() }
+    }
+
+    // ---- Lily's welcome back (adviser, 2026-11-05)
+
+    private fun TestScope.newViewModel(): MapViewModel {
+        val vm = MapViewModel(
+            phonemeRepository, letterGroupRepository, letterGroupMemberRepository,
+            lessonProgressRepository, profileRepository, achievementRepository,
+            sessionManager, unlockManager, groupUnlockManager, streakTracker,
+            audioPlayer, audioResolver, sayItAttemptRepository
+        )
+        return vm
+    }
+
+    @Test
+    fun aChildWhoHasPlayedBefore_isWelcomedBack_onTheFirstMapOfTheLaunch() = runTest {
+        every { sessionManager.firstMapOpenThisLaunch(1L) } returns true
+        coEvery { sayItAttemptRepository.getAttemptsForProfile(1L) } returns
+            listOf(com.playit.app.domain.model.SayItAttempt(profileId = 1L, phonemeId = 1, isCorrect = true))
+        every { unlockManager.isPhonemeUnlocked(any(), any()) } returns true
+        coEvery { profileRepository.getProfileById(1L) } returns testProfile
+        coEvery { phonemeRepository.getPhonemeById(any()) } answers { testPhonemes.firstOrNull { it.id == firstArg<Int>() } }
+
+        val vm = newViewModel()
+        advanceUntilIdle()
+
+        val card = vm.welcomeBack.value
+        assertNotNull(card)
+        assertTrue(card!!.offer is com.playit.app.domain.manager.ReturnGreetingPolicy.KeepGoing)
+        verify { audioPlayer.playSequence(match { it.firstOrNull() == "ui/ret_welcome_back.wav" && it.getOrNull(1) == "ui/ret_keep_going.wav" }, any()) }
+
+        vm.dismissWelcomeBack()
+        assertNull(vm.welcomeBack.value)
+    }
+
+    @Test
+    fun aNewChild_isNotWelcomedBack() = runTest {
+        every { sessionManager.firstMapOpenThisLaunch(1L) } returns true
+        coEvery { sayItAttemptRepository.getAttemptsForProfile(1L) } returns emptyList()
+
+        val vm = newViewModel()
+        advanceUntilIdle()
+
+        assertNull(vm.welcomeBack.value)
+    }
+
+    @Test
+    fun comingBackFromALesson_doesNotWelcomeAgain() = runTest {
+        every { sessionManager.firstMapOpenThisLaunch(1L) } returns false
+        coEvery { sayItAttemptRepository.getAttemptsForProfile(1L) } returns
+            listOf(com.playit.app.domain.model.SayItAttempt(profileId = 1L, phonemeId = 1, isCorrect = true))
+
+        val vm = newViewModel()
+        advanceUntilIdle()
+
+        assertNull(vm.welcomeBack.value)
     }
 }

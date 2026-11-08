@@ -7,6 +7,7 @@ import com.playit.app.data.audio.AudioPlayer
 import com.playit.app.data.audio.AudioResolver
 import com.playit.app.data.audio.SfxEvent
 import com.playit.app.data.audio.VoContext
+import com.playit.app.domain.manager.BestResult
 import com.playit.app.domain.manager.BlendItStarThresholds
 import com.playit.app.domain.manager.StreakTracker
 import com.playit.app.domain.model.BlendItProgress
@@ -52,7 +53,7 @@ class BlendItCompleteViewModel @Inject constructor(
 
     private val idleTimer = IdleTimer(
         scope = viewModelScope,
-        isBusy = { _isPlaying.value },
+        isBusy = { _isPlaying.value || audioPlayer.isSpeaking() },
         onIdle = {
             _idleNudge.value++
             audioPlayer.playAssetAudio(audioResolver.getUiPath("ui_complete_next"))
@@ -91,27 +92,32 @@ class BlendItCompleteViewModel @Inject constructor(
             _starsEarned.value = stars
 
             blendItProgressRepository.saveProgress(
-                BlendItProgress(
-                    profileId = profileId,
-                    groupId = groupId,
-                    starsEarned = stars,
-                    heartsLost = heartsLost,
-                    isCompleted = true,
-                    completedAt = System.currentTimeMillis()
+                BestResult.blendIt(
+                    saved = blendItProgressRepository.getProgressForGroup(profileId, groupId),
+                    played = BlendItProgress(
+                        profileId = profileId,
+                        groupId = groupId,
+                        starsEarned = stars,
+                        heartsLost = heartsLost,
+                        isCompleted = true,
+                        completedAt = System.currentTimeMillis()
+                    )
                 )
             )
-            streakTracker.recordActivity(profileId)
+            val streak = streakTracker.recordActivity(profileId)?.currentStreak ?: 0
 
-            // Play completion fanfare + complete VO line + milestone/streak badge unlock audio + next cue
+            // Fanfare, the complete line, then the streak badge and "You've been practicing every day" only on a real
+            // streak (it used to play every time, even on a child's first day), then the next cue.
             val fanfareSfx = audioResolver.getSfxPath(SfxEvent.LEVEL_COMPLETE_FANFARE)
             val completeVo = audioResolver.getVoPath(VoContext.COMPLETE_01)
-            val streakSfx = audioResolver.getSfxPath(SfxEvent.STREAK_BADGE_UNLOCK)
-            val streakVo = audioResolver.getVoPath(VoContext.STREAK_01)
+            val streakLines = if (streak >= 2) {
+                listOf(audioResolver.getSfxPath(SfxEvent.STREAK_BADGE_UNLOCK), audioResolver.getVoPath(VoContext.STREAK_01))
+            } else emptyList()
             val nextCue = audioResolver.getUiPath("ui_complete_next")
 
             _nextHighlighted.value = true
             _isPlaying.value = true
-            audioPlayer.playSequence(listOf(fanfareSfx, completeVo, streakSfx, streakVo, nextCue)) {
+            audioPlayer.playSequence(listOf(fanfareSfx, completeVo) + streakLines + nextCue) {
                 _isPlaying.value = false
             }
         }

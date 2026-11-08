@@ -1,9 +1,7 @@
 package com.playit.app.presentation.splash
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -14,6 +12,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,58 +31,61 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playit.app.presentation.components.GummyButton
+import com.playit.app.presentation.components.rememberVoiceMouth
+import com.playit.app.presentation.theme.ApricotGlow
 import com.playit.app.presentation.theme.Cloud
+import com.playit.app.presentation.theme.CoralBerry
+import com.playit.app.presentation.theme.EmeraldLeaf
 import com.playit.app.presentation.theme.Ink
-import com.playit.app.presentation.theme.InkSoft
 import com.playit.app.presentation.theme.Leaf
 import com.playit.app.presentation.theme.LeafShadow
-import com.playit.app.presentation.theme.LilyBlush
-import com.playit.app.presentation.theme.LilyCream
-import com.playit.app.presentation.theme.LilyEarInner
-import com.playit.app.presentation.theme.LilyOrange
-import com.playit.app.presentation.theme.LilyOrangeShade
 import com.playit.app.presentation.theme.LilyOutline
-import com.playit.app.presentation.theme.LilyPupil
 import com.playit.app.presentation.theme.LocalReducedMotion
+import com.playit.app.presentation.theme.PrimaryJoy
 import com.playit.app.presentation.theme.Sand
 import com.playit.app.presentation.theme.Sky
+import com.playit.app.presentation.theme.SnigletFontFamily
+import com.playit.app.presentation.theme.SunnyGold
 import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sign
 import kotlin.math.sin
+import kotlin.random.Random
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -143,50 +145,107 @@ private val PanelOverlap = 28.dp
 private val PanelCorner = 32.dp
 
 /**
- * The first screen: Lily, drawn in the Headspace style (one soft dome, flat colour, no detail she does
- * not need), rises from behind a white panel and rests her paws on its edge. The Start button sits in the
- * panel, in the thumb's reach, and never covers her face (card 31a).
+ * The first screen: Lily, drawn in parts as in her pictures (LilyPuppet.kt), rises
+ * from behind a white panel and rests her hands on its edge. The Start button sits in the panel, in the
+ * thumb's reach, and never covers her face (card 31a).
  *
- * Motion: she breathes slowly, blinks every few seconds and winks when tapped. With reduced motion she
- * stays still and the wink is instant. Only the draw phase reads the animated values, so a blink redraws
- * the drawing without recomposing the screen.
+ * Motion: the opening (SplashOpening.kt); then she breathes with her belly, her tail sways, and she blinks,
+ * glances about, twitches an ear and tilts her head at odd moments. A tap gets a giggle, an ear wiggle, a
+ * wink or a hop, in turn. With reduced motion she stays still and a tap is an instant wink. Only the draw
+ * phase reads the animated values, so her life redraws the drawing without recomposing the screen.
+ *
+ * Sound: [onSound] plays each of the opening's sounds as its beat comes (OPENING_CUES); with reduced motion,
+ * the voice once. [titleEffect] plays round the title after its wave: a different one each time the app opens.
  */
 @Composable
 fun SplashScreen(
-    onStartClick: () -> Unit = {}
+    onStartClick: () -> Unit = {},
+    onSound: (OpeningCue) -> Unit = {},
+    titleEffect: TitleEffect = TitleEffect.TWINKLE
 ) {
     val reducedMotion = LocalReducedMotion.current
     val motion = splashMotion(reducedMotion)
 
-    // Breathing: a slow 3.8 s rise and fall from her feet. With reduced motion there is no animation at all.
-    val breatheY: State<Float>
-    val breatheX: State<Float>
+    // Her breath (3.8 s) and her tail's sway (5.2 s), as phases 0..1 that never fall in step. With reduced motion
+    // there is no animation at all.
+    val breath: State<Float>
+    val sway: State<Float>
     if (motion.breathes) {
-        val breathe = rememberInfiniteTransition(label = "SplashBreathe")
-        val spec = infiniteRepeatable<Float>(tween(3800, easing = FastOutSlowInEasing), RepeatMode.Reverse)
-        breatheY = breathe.animateFloat(1f, motion.breatheY, spec, label = "BreatheY")
-        breatheX = breathe.animateFloat(1f, motion.breatheX, spec, label = "BreatheX")
+        val idle = rememberInfiniteTransition(label = "SplashIdle")
+        breath = idle.animateFloat(0f, 1f, infiniteRepeatable(tween(3800, easing = LinearEasing)), label = "Breath")
+        sway = idle.animateFloat(0f, 1f, infiniteRepeatable(tween(5200, easing = LinearEasing)), label = "Sway")
     } else {
-        breatheY = remember { mutableFloatStateOf(1f) }
-        breatheX = remember { mutableFloatStateOf(1f) }
+        breath = remember { mutableFloatStateOf(0f) }
+        sway = remember { mutableFloatStateOf(0f) }
     }
 
     val eyes = remember(reducedMotion) { LilyEyes(instant = reducedMotion) }
+    val life = remember { LilyLife() }
+    val voice = rememberVoiceMouth()
     val scope = rememberCoroutineScope()
-    LaunchedEffect(eyes, motion.blinks) {
-        if (!motion.blinks) return@LaunchedEffect
-        while (true) {
-            delay(3600L)
-            eyes.blinkOnce()
+    val onLilyTap: () -> Unit = { scope.launch { if (reducedMotion) eyes.winkOnce() else life.react(eyes) } }
+    // For the little letters of the title's effect, measured once each in the logo's font.
+    val measurer = rememberTextMeasurer()
+
+    // The opening (SplashOpening.kt): one clock, in ms, started once the screen draws smoothly. Every part reads it
+    // only while drawing, so the opening redraws layers but never recomposes the screen.
+    val opening = remember { Animatable(if (reducedMotion) OPENING_END_MS.toFloat() else 0f) }
+    val playSound by rememberUpdatedState(onSound)
+    LaunchedEffect(Unit) {
+        if (reducedMotion) {
+            playSound(STILL_OPENING_CUE)
+            return@LaunchedEffect
         }
+        awaitSmoothFrames()
+        OPENING_CUES.forEach { cue -> launch { delay(cue.atMs.toLong()); playSound(cue) } }
+        launch { delay(LILY_BLINK_MS); eyes.blinkOnce() }   // as she peeks
+        launch { delay(LILY_WINK_MS); eyes.winkOnce() }     // the last beat: hello
+        opening.animateTo(OPENING_END_MS.toFloat(), tween(OPENING_END_MS, easing = LinearEasing))
+        // Her own little life from now on, never on a beat. A tap may interrupt a move; the loop carries on.
+        if (!motion.blinks) return@LaunchedEffect
+        val r = Random.Default
+        launch { while (true) { delay(nextBlinkMs(r)); keepGoing { eyes.blinkOnce(); if (r.nextFloat() < 0.2f) eyes.blinkOnce() } } }
+        launch { while (true) { delay(nextGlanceMs(r)); keepGoing { life.glance(r) } } }
+        launch { while (true) { delay(nextEarTwitchMs(r)); keepGoing { life.twitchEar(r) } } }
+        launch { while (true) { delay(nextTiltMs(r)); keepGoing { life.tiltHead(r) } } }
     }
-    val onLilyTap: () -> Unit = { scope.launch { eyes.winkOnce() } }
+    val clock: () -> Float = { opening.value }
+
+    // Everything that moves her, read only while she is drawn.
+    val pose: () -> LilyPose = {
+        val ms = opening.value
+        val b = 2f * PI.toFloat() * breath.value
+        val breathing = if (motion.breathes) 1f else 0f
+        val hop = tapHopAt(life.hop.value)
+        LilyPose(
+            gaze = if (ms < OPENING_END_MS) openingGazeAt(ms) else Offset(life.gazeX.value, life.gazeY.value),
+            earOut = earPerkAt(ms) + breathing * 1.5f * sin(b - 1.4f),   // the ears follow the breath a moment late
+            earL = life.earL.value,
+            earR = life.earR.value,
+            tilt = life.tilt.value,
+            headBob = breathing * 0.004f * sin(b - 0.8f),
+            bellyBreath = breathing * sin(b),
+            tailBend = breathing * 5f * sin(2f * PI.toFloat() * sway.value) + tailLagAt(ms) + 15f * hop.first / 0.06f,
+            happy = life.happy.value,
+            hopLift = hop.first,
+            hopSquash = hop.second
+        )
+    }
 
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(Brush.verticalGradient(listOf(Sky, Sand)))
     ) {
+        // The clouds, in their own layer so their drift redraws only them.
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer()
+                .drawBehind { drawOpeningClouds(clock()) }
+        )
+
+
         // As big as the screen allows: at most 55% of its height, 400 dp tall, and its width less a margin.
         val lilyHeight = minOf(maxHeight * 0.55f, 400.dp, (maxWidth - 24.dp) / LILY_ASPECT)
         val lilyWidth = lilyHeight * LILY_ASPECT
@@ -206,38 +265,74 @@ fun SplashScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "PlayIT",
-                        style = MaterialTheme.typography.displayLarge,
-                        maxLines = 1,
-                        color = Ink,
-                        letterSpacing = 0.5.sp,
-                        textAlign = TextAlign.Center
-                    )
+                    // One Text per letter so each can pop up; read out as one word. The title's effect draws round it.
+                    Row(
+                        modifier = Modifier
+                            .graphicsLayer()
+                            .drawWithContent {
+                                drawContent()
+                                drawTitleEffect(titleEffect, clock(), measurer, EffectLetterStyle, LogoColors, LilyOutline, 2.dp.toPx())
+                            }
+                            .clearAndSetSemantics { contentDescription = TITLE }
+                    ) {
+                        TITLE.forEachIndexed { i, letter ->
+                            LogoLetter(
+                                letter = letter,
+                                color = LogoColors[i % LogoColors.size],
+                                modifier = Modifier.graphicsLayer {
+                                    val f = letterAt(i, clock())
+                                    translationY = -f.lift * LETTER_LIFT_DP.dp.toPx()
+                                    scaleX = f.scaleX
+                                    scaleY = f.scaleY
+                                    alpha = f.alpha
+                                    rotationZ = f.rotation
+                                    transformOrigin = TransformOrigin(0.5f, 1f)   // it grows and wobbles from the line it stands on
+                                }
+                            )
+                        }
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Mabuhay! Ready to learn to read?",
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+                        // Balanced lines, so a word is never left alone on the second.
+                        style = MaterialTheme.typography.bodyLarge.copy(fontFamily = SnigletFontFamily, fontWeight = FontWeight.Normal, lineBreak = LineBreak.Heading),
                         maxLines = 2,
-                        color = InkSoft,
-                        textAlign = TextAlign.Center
+                        color = Ink,
+                        textAlign = TextAlign.Center,
+                        // Wiped in from the left as it rises a little; never through the title. A plain clip: a soft
+                        // edge drawn with a blend mode showed as a black box where the text was still hidden.
+                        modifier = Modifier
+                            .graphicsLayer {
+                                translationY = taglineRiseAt(clock()) * TAGLINE_RISE_DP.dp.toPx()
+                            }
+                            .drawWithContent {
+                                val shown = taglineAt(clock())
+                                if (shown >= 1f) drawContent()
+                                else if (shown > 0f) clipRect(right = shown * size.width) { this@drawWithContent.drawContent() }
+                            }
                     )
                 }
             }
 
-            HeadspaceTarsierCanvas(
+            LilyPuppet(
                 eyes = eyes,
+                voice = voice,
+                ledge = PanelOverlap,
+                pose = pose,
                 modifier = Modifier
                     .size(lilyWidth, lilyHeight)
                     .graphicsLayer {
-                        scaleX = breatheX.value
-                        scaleY = breatheY.value
+                        // Opening: she peeks over the panel, crouches, jumps above her place and lands (lilyAt).
+                        val f = lilyAt(clock())
+                        scaleX = f.scaleX
+                        scaleY = f.scaleY
+                        translationY = (1f - f.shown) * size.height
                         transformOrigin = TransformOrigin(0.5f, 1f)
                     }
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
-                        onClickLabel = "Wink",
+                        onClickLabel = "Play with Lily",
                         onClick = onLilyTap
                     )
                     .semantics { contentDescription = "Lily the tarsier" }
@@ -255,14 +350,44 @@ fun SplashScreen(
         StartPanel(
             lilyWidth = lilyWidth,
             onStartClick = onStartClick,
+            clock = clock,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }
 
-/** The white panel Lily peeks over: the Start button inside, her paws on its top edge. */
+/**
+ * The logo (user, 2026-10-29: the opening's fonts "same as the pictures, cartoonish"): Sniglet, each letter in one of
+ * the island colours in turn, in the pictures' dark-brown outline, with a little depth below like their shadow side.
+ */
+private val LogoColors = listOf(PrimaryJoy, ApricotGlow, EmeraldLeaf, CoralBerry, SunnyGold)
+private val LogoSize = 56.sp
+/** The little letters of the title's effect: the logo's font, measured at this size and scaled as they fly. */
+private val EffectLetterStyle = TextStyle(fontFamily = SnigletFontFamily, fontWeight = FontWeight.ExtraBold, fontSize = 32.sp)
+private val LogoOutline = 4.dp
+private val LogoDepth = 4.dp
+
+/** One letter of the logo: its depth, its outline and its colour, drawn in that order. */
 @Composable
-private fun StartPanel(lilyWidth: Dp, onStartClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun LogoLetter(letter: Char, color: Color, modifier: Modifier = Modifier) {
+    val base = TextStyle(fontFamily = SnigletFontFamily, fontWeight = FontWeight.ExtraBold, fontSize = LogoSize, lineHeight = LogoSize * 1.15f)
+    // A stroke is centred on the letter's edge, and the colour covers its inner half.
+    val outline = Stroke(width = with(LocalDensity.current) { (LogoOutline * 2).toPx() }, join = StrokeJoin.Round)
+    val text = letter.toString()
+    Box(modifier = modifier) {
+        Text(text, style = base.copy(color = LilyOutline), maxLines = 1, modifier = Modifier.offset(y = LogoDepth))
+        Text(text, style = base.copy(color = LilyOutline, drawStyle = outline), maxLines = 1, modifier = Modifier.offset(y = LogoDepth))
+        Text(text, style = base.copy(color = LilyOutline, drawStyle = outline), maxLines = 1)
+        Text(text, style = base.copy(color = color), maxLines = 1)
+    }
+}
+
+/** The Start button face's corner: GummyButton's 32 dp, a pill at 64 dp tall. */
+private val StartCorner = 32.dp
+
+/** The white panel Lily peeks over: the Start button inside, her hands on its top edge. */
+@Composable
+private fun StartPanel(lilyWidth: Dp, onStartClick: () -> Unit, clock: () -> Float, modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxWidth()) {
         Box(
             modifier = Modifier
@@ -281,14 +406,34 @@ private fun StartPanel(lilyWidth: Dp, onStartClick: () -> Unit, modifier: Modifi
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 64.dp)
+                    // Opening: it pops in, then a shine crosses it once to say: tap me.
+                    .graphicsLayer {
+                        val pop = startPopAt(clock())
+                        scaleX = pop.scale
+                        scaleY = pop.scale
+                        alpha = pop.alpha
+                    }
+                    .drawWithContent {
+                        drawContent()
+                        shineAt(clock())?.let { drawShine(it, StartCorner.toPx()) }
+                    }
                     .testTag("splash_start")
             )
         }
-        TarsierPaws(
+        LilyHands(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(y = (-14).dp)
-                .size(width = lilyWidth * 0.62f, height = 30.dp)
+                .size(width = lilyWidth * HAND_SPAN, height = 30.dp)
+                // Her hands drop onto the edge and grab it as she lands.
+                .graphicsLayer {
+                    val f = pawsAt(clock())
+                    translationY = -f.lift * PAWS_DROP_DP.dp.toPx()
+                    scaleX = f.scaleX
+                    scaleY = f.scaleY
+                    alpha = f.alpha
+                    transformOrigin = TransformOrigin(0.5f, 1f)
+                }
         )
     }
 }
@@ -305,134 +450,11 @@ private fun DrawScope.drawTopOutline(color: Color, width: Float, radius: Float) 
     drawPath(path, color, style = Stroke(width = width, cap = StrokeCap.Round))
 }
 
-/**
- * Lily as one soft dome: ears, a squircle head and body (a superellipse, n = 2.6, between a circle and a
- * square), cream eye patches, dark-brown pupils with two catchlights, pink cheeks, a small nose, a smile,
- * and her cream belly. Colours and the dark-brown outline come from her pictures (LilyOrange and friends).
- * The shapes are built once per size; a blink or a wink only redraws.
- */
-@Composable
-private fun HeadspaceTarsierCanvas(
-    eyes: LilyEyes,
-    modifier: Modifier = Modifier
-) {
-    Spacer(
-        modifier = modifier
-            .clipToBounds()
-            .drawWithCache {
-                val w = size.width
-                val h = size.height
-                val cx = w / 2f
-                val line = maxOf(2.5.dp.toPx(), w * 0.010f)
-
-                val earR = w * 0.135f
-                val ears = listOf(-1f, 1f).map { side -> side to Offset(cx + side * w * 0.33f, h * 0.28f) }
-                val domeB = h * 0.64f
-                val dome = squirclePath(Offset(cx, h * 0.20f + domeB), w * 0.40f, domeB, 2.6f)
-                val shine = Offset(cx - w * 0.17f, h * 0.285f)
-
-                val eyeY = h * 0.45f
-                val eyeDx = w * 0.15f
-                val ringR = w * 0.105f
-                val pupilR = w * 0.062f
-                val smileW = w * 0.15f
-                val smileH = w * 0.07f
-                val smileTop = h * 0.578f
-
-                onDrawBehind {
-                    // 1. Ears first, so the head covers their inner edge.
-                    for ((side, c) in ears) {
-                        drawCircle(LilyOrange, earR, c)
-                        drawCircle(LilyEarInner, earR * 0.62f, c + Offset(-side * earR * 0.12f, earR * 0.08f))
-                        drawCircle(LilyOutline, earR, c, style = Stroke(line))
-                    }
-
-                    // 2. Head and body. The art's darker orange shows as a thin crescent down her right side,
-                    // which gives the flat dome a little volume; the clip keeps it inside her outline.
-                    clipPath(dome) {
-                        drawPath(dome, LilyOrangeShade)
-                        translate(left = -w * 0.03f, top = -h * 0.015f) { drawPath(dome, LilyOrange) }
-                    }
-                    drawPath(dome, LilyOutline, style = Stroke(line))
-
-                    // 3. Belly and a glossy highlight, as in her pictures.
-                    drawOval(LilyCream, Offset(cx - w * 0.21f, h * 0.80f), Size(w * 0.42f, h * 0.34f))
-                    rotate(-24f, shine) {
-                        drawOval(Color.White.copy(alpha = 0.55f), shine - Offset(w * 0.045f, h * 0.016f), Size(w * 0.09f, h * 0.032f))
-                    }
-
-                    // 4. Eyes: closed amount 0..1; her right eye also closes for a wink.
-                    for (side in listOf(-1f, 1f)) {
-                        val c = Offset(cx + side * eyeDx, eyeY)
-                        drawCircle(LilyCream, ringR, c)
-                        val closed = eyes.closed(side)
-                        val open = 1f - closed
-                        if (open > 0f) {
-                            val r = pupilR * (0.35f + 0.65f * open)
-                            drawCircle(LilyPupil.copy(alpha = open), r, c)
-                            drawCircle(Color.White.copy(alpha = open), r * 0.34f, c + Offset(-r * 0.32f, -r * 0.34f))
-                            drawCircle(Color.White.copy(alpha = open), r * 0.15f, c + Offset(r * 0.36f, r * 0.30f))
-                        }
-                        if (closed > 0f) {
-                            val arc = Path().apply {
-                                arcTo(Rect(c.x - ringR * 0.62f, c.y - ringR * 0.30f, c.x + ringR * 0.62f, c.y + ringR * 0.30f), 10f, 160f, true)
-                            }
-                            drawPath(arc, LilyPupil.copy(alpha = closed), style = Stroke(line * 1.3f, cap = StrokeCap.Round))
-                        }
-                    }
-
-                    // 5. Cheeks, nose and smile.
-                    for (side in listOf(-1f, 1f)) {
-                        drawOval(LilyBlush.copy(alpha = 0.85f), Offset(cx + side * w * 0.255f - w * 0.055f, h * 0.555f), Size(w * 0.11f, h * 0.045f))
-                    }
-                    drawOval(LilyPupil, Offset(cx - w * 0.017f, h * 0.545f), Size(w * 0.034f, w * 0.024f))
-                    val smile = Path().apply {
-                        arcTo(Rect(cx - smileW / 2f, smileTop, cx + smileW / 2f, smileTop + smileH), 20f, 140f, true)
-                    }
-                    drawPath(smile, LilyOutline, style = Stroke(line * 1.2f, cap = StrokeCap.Round))
-                }
-            }
-    )
-}
-
-/** Two paws resting on the panel's edge, fingers over it, as if Lily peeks over a wall. */
-@Composable
-private fun TarsierPaws(modifier: Modifier = Modifier) {
-    Spacer(
-        modifier = modifier.drawWithCache {
-            val w = size.width
-            val h = size.height
-            val line = 2.5.dp.toPx()
-            val pawW = minOf(w * 0.26f, 46.dp.toPx())
-            val pawH = h * 0.86f
-            val top = (h - pawH) / 2f
-            val lefts = listOf(w * 0.18f, w * 0.82f).map { it - pawW / 2f }
-            onDrawBehind {
-                for (left in lefts) {
-                    drawRoundRect(LilyOrange, Offset(left, top), Size(pawW, pawH), CornerRadius(pawH / 2f))
-                    drawRoundRect(LilyOutline, Offset(left, top), Size(pawW, pawH), CornerRadius(pawH / 2f), style = Stroke(line))
-                    for (k in 1..2) {
-                        val x = left + pawW * k / 3f
-                        drawLine(LilyOutline, Offset(x, top + pawH * 0.58f), Offset(x, top + pawH * 0.92f), strokeWidth = line * 0.8f, cap = StrokeCap.Round)
-                    }
-                }
-            }
-        }
-    )
-}
-
-/** A superellipse |x/a|^n + |y/b|^n = 1 around [center]: n = 2 is an ellipse, higher n is more square. */
-private fun squirclePath(center: Offset, a: Float, b: Float, n: Float, steps: Int = 120): Path {
-    val path = Path()
-    val e = 2.0 / n
-    for (i in 0..steps) {
-        val t = 2.0 * PI * i / steps
-        val ct = cos(t)
-        val st = sin(t)
-        val x = center.x + a * (sign(ct) * abs(ct).pow(e)).toFloat()
-        val y = center.y + b * (sign(st) * abs(st).pow(e)).toFloat()
-        if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
+/** Runs a move of hers; if a tap's move takes over the same part, the interrupted move just stops. */
+private suspend fun keepGoing(move: suspend () -> Unit) {
+    try {
+        move()
+    } catch (e: CancellationException) {
+        if (!currentCoroutineContext().isActive) throw e
     }
-    path.close()
-    return path
 }

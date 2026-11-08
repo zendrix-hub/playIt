@@ -1,6 +1,8 @@
 package com.playit.app.presentation.map.components
 
+import com.playit.app.presentation.theme.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +36,10 @@ enum class GroupBannerStatus {
     IN_PROGRESS,
     LOCKED
 }
+
+internal val UnitLettersInk = TextMidnight
+internal val UnitLettersPlate = SurfaceCard
+internal val UnitLettersLine = ModernBorder
 
 /**
  * Returns canonical Marungko letters summary for each group number (1..6).
@@ -79,22 +85,22 @@ fun MarungkoGroupBanner(
     val bannerBg = when (status) {
         GroupBannerStatus.COMPLETED -> theme.primaryColor
         GroupBannerStatus.IN_PROGRESS -> theme.primaryColor
-        GroupBannerStatus.LOCKED -> Color(0xFFE2E8F0)
+        GroupBannerStatus.LOCKED -> LockedShelf
     }
 
     val bannerShelf = when (status) {
         GroupBannerStatus.COMPLETED -> theme.shelfColor
         GroupBannerStatus.IN_PROGRESS -> theme.shelfColor
-        GroupBannerStatus.LOCKED -> Color(0xFFCBD5E1)
+        GroupBannerStatus.LOCKED -> LockedShelf
     }
 
     val headerColor = when (status) {
-        GroupBannerStatus.LOCKED -> Color(0xFF64748B)
+        GroupBannerStatus.LOCKED -> LockedInk
         else -> Color.White.copy(alpha = 0.90f)
     }
 
     val titleColor = when (status) {
-        GroupBannerStatus.LOCKED -> Color(0xFF334155)
+        GroupBannerStatus.LOCKED -> TextMidnight
         else -> Color.White
     }
 
@@ -142,7 +148,7 @@ fun MarungkoGroupBanner(
                     ) {
                         // 16 sp floor for all map text (it was 11 sp, card 31e).
                         Text(
-                            text = "SECTION 1, UNIT $groupNumber".uppercase(),
+                            text = "CHAPTER $groupNumber",
                             fontFamily = LexendFontFamily,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.ExtraBold,
@@ -169,14 +175,14 @@ fun MarungkoGroupBanner(
                         modifier = Modifier
                             .size(64.dp)
                             .clip(RoundedCornerShape(16.dp))
-                            .background(if (status == GroupBannerStatus.LOCKED) Color(0xFFCBD5E1) else theme.shelfColor)
+                            .background(if (status == GroupBannerStatus.LOCKED) LockedShelf else theme.shelfColor)
                             .clickable { onGuidebookClick() }
                             .testTag("unit_guidebook_$groupNumber"),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.AutoStories,
-                            contentDescription = "Guidebook for Unit $groupNumber",
+                            contentDescription = "Chapter $groupNumber: the sounds and words",
                             tint = Color.White,
                             modifier = Modifier.size(32.dp)
                         )
@@ -188,30 +194,37 @@ fun MarungkoGroupBanner(
         Spacer(modifier = Modifier.height(14.dp))
 
         // Subtitle Divider line: ──── Practice sounds M, S, A, I ────
+        // On a cream plate of its own in dark ink: bare stone ink blended into the map behind it,
+        // and the rope and the river run through this line (user, 2026-10-31).
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             HorizontalDivider(
                 modifier = Modifier.weight(1f),
                 thickness = 2.dp,
-                color = Color(0xFFE2E8F0)
+                color = UnitLettersLine
             )
             Text(
-                text = "  ${theme.lettersSummary}  ",
+                text = theme.lettersSummary,
                 fontFamily = LexendFontFamily,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF64748B),
-                maxLines = 1
+                color = UnitLettersInk,
+                maxLines = 1,
+                modifier = Modifier
+                    .testTag("unit_letters_$groupNumber")
+                    .background(UnitLettersPlate, RoundedCornerShape(14.dp))
+                    .border(2.dp, UnitLettersLine, RoundedCornerShape(14.dp))
+                    .padding(horizontal = 12.dp, vertical = 4.dp)
             )
             HorizontalDivider(
                 modifier = Modifier.weight(1f),
                 thickness = 2.dp,
-                color = Color(0xFFE2E8F0)
+                color = UnitLettersLine
             )
         }
     }

@@ -182,6 +182,48 @@ class SpeechValidator internal constructor(
     )
 
     /**
+     * Near-miss decoys for word mode: real words and short phrases that sound like the key word with another first
+     * sound ("on sect" for "insect", "house" for "mouse"). They go in the Vosk grammar only, never in the accepted
+     * lists. With only the key word and its letter names to choose from, Vosk mapped any "-sect" onto "insect"
+     * (user, 2026-11-06: "onsect", "ansect" and "applesect" were accepted).
+     *
+     * Each list was measured with `tools/speech/near_miss_probe.py`: 24 synthetic takes per utterance (8 voices,
+     * 3 speeds) through the app's own model. A decoy stays only if the right word passes as often as without it, so
+     * no decoy adds a false reject. The chapter 2 on lists, orange's and apple's extras were then searched over hundreds
+     * of candidates with `tools/speech/decoy_search.py` (user, 2026-11-06: "aronge" and "app range" passed as orange).
+     * Elephant and umbrella have none: every candidate that caught a wrong first vowel also rejected some right takes,
+     * and Vosk's confidence was 1.0 for the wrong first vowels too, so their first sound is not checked yet.
+     */
+    private val nearMissDecoys: Map<String, List<String>> = mapOf(
+        "apple" to listOf("up all", "a pull", "up pull", "pull", "opal", "ripple", "ah pull", "ah pool", "ah pill", "ah bull"),
+        "ball" to listOf("fall", "call", "paul", "all", "tall"),
+        "box" to listOf("fox", "socks", "ox", "rocks", "boss", "bock", "pox"),
+        "cat" to listOf("hat", "bat", "at", "pat", "that", "tat"),
+        "dog" to listOf("log", "bog", "fog", "hog", "frog", "tug", "tog", "gawk", "jog", "cog"),
+        "fish" to listOf("dish", "is", "pitch"),
+        "goat" to listOf("coat", "boat", "oat", "note", "vote", "dote", "joe"),
+        "hat" to listOf("cat", "bat", "at", "pat", "that"),
+        "insect" to listOf("on sect", "an sect", "and sect", "apple sect", "un sect", "end sect", "sect"),
+        "jug" to listOf("mug", "bug", "rug", "hug", "dug"),
+        "kite" to listOf("bite", "white", "tight", "light", "night"),
+        "lion" to listOf("iron", "ryan", "i on", "eye and", "dion", "nigh un", "nyan"),
+        "mouse" to listOf("house", "how's", "now's", "louse"),
+        "nest" to listOf("best", "west", "rest", "test", "messed"),
+        "orange" to listOf("air inch", "err inch", "air hinge", "err hinge", "ear inch", "ear hinge", "err ran", "end range", "app range", "a range", "ah ranch", "a ranch"),
+        "pig" to listOf("big", "dig", "fig", "wig"),
+        "queen" to listOf("green", "keen", "clean", "teen", "seen", "bean", "twin", "wean"),
+        "rabbit" to listOf("habit", "a bit", "grab it", "nab it", "abbot", "dab it"),
+        "sun" to listOf("fun", "bun", "run", "one", "done", "gun", "none"),
+        "tiger" to listOf("higher", "eager", "die girl", "pie girl", "eiger", "eye girl", "kiker", "dagger", "pie gore"),
+        "van" to listOf("ban", "man", "an", "pan", "than", "when", "fun", "fang"),
+        "watch" to listOf("botch", "notch", "scotch", "top", "rot"),
+        "yoyo" to listOf("go go", "no no", "joe joe", "low low", "oh oh"),
+        "zebra" to listOf("debra", "libra")
+    )
+
+    fun nearMissDecoysFor(targetWord: String): List<String> = nearMissDecoys[targetWord.lowercase().trim()] ?: emptyList()
+
+    /**
      * Returns the accepted whole-word variants for a target example word (lowercased).
      * Unknown words fall back to the canonical word itself so the grammar stays scoped.
      */
@@ -337,7 +379,7 @@ class SpeechValidator internal constructor(
 
     /**
      * Scoped grammar for Vosk recognizer.
-     * Word mode (targetWord != null): accepted word variants + that letter's foils.
+     * Word mode (targetWord != null): accepted word variants + that letter's foils + the word's near-miss decoys.
      * Sound mode (targetWord == null): that letter's foils only ([unk] appended by VoskRecognizer).
      */
     fun grammarFor(letter: String, targetWord: String?): List<String> {
@@ -350,7 +392,7 @@ class SpeechValidator internal constructor(
 
         return if (targetWord != null) {
             val wordVariants = getAcceptedWordVariants(targetWord)
-            (wordVariants + foils).distinct()
+            (wordVariants + foils + nearMissDecoysFor(targetWord)).distinct()
         } else {
             foils.distinct()
         }

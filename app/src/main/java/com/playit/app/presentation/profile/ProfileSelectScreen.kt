@@ -40,6 +40,7 @@ fun ProfileSelectScreen(
     val profiles by viewModel.profiles.collectAsStateWithLifecycle()
     val showArithmeticGuard by viewModel.showArithmeticGuard.collectAsStateWithLifecycle()
     val isPlayingGreeting by viewModel.isPlayingGreeting.collectAsStateWithLifecycle()
+    val greeting by viewModel.greeting.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     // Snappy, warm auto-greeting on screen open
@@ -66,11 +67,7 @@ fun ProfileSelectScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFE8F0FE),
-                        Color(0xFFF3E8FF),
-                        Color(0xFFFEF3C7)
-                    )
+                    colors = GroundColors
                 )
             )
     ) {
@@ -121,13 +118,6 @@ fun ProfileSelectScreen(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(
-                        text = "Choose your profile",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = InkSoft,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
                 }
 
                 GummyButton(
@@ -146,7 +136,7 @@ fun ProfileSelectScreen(
 
             // Companion Mascot Dialogue (Warm auto-greeting + visible speaker replay badge with 100% verbatim text)
             MascotSpeechHeader(
-                message = "Hi there! I'm Lily. Let's play and learn together! Tap your name to start!",
+                message = greeting,
                 mascotState = if (profiles.isEmpty()) MascotState.POINTING else MascotState.WAVING,
                 isPlayingAudio = isPlayingGreeting,
                 onMascotTap = { viewModel.playWelcomeGreeting() },

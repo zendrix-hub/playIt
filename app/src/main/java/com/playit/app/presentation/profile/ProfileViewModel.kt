@@ -1,5 +1,6 @@
 package com.playit.app.presentation.profile
 
+import kotlinx.coroutines.flow.first
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.playit.app.domain.model.GameplayConstants
@@ -27,6 +28,10 @@ sealed class ProfileUiState {
     data class Created(val profileId: Long) : ProfileUiState()
 }
 
+/** What Lily says on "Who is playing?": the long hello the first time, then the short question. */
+const val FIRST_HELLO = "Hi there! I'm so happy you're here. Let's play and learn together!"
+const val WHO_IS_PLAYING = "Who is playing? Tap your animal!"
+
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
@@ -41,6 +46,13 @@ class ProfileViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    /**
+     * This screen has handed over to the next one (the map, the name step, the Parent Zone) and stopped its own audio
+     * then. The player is shared, and this ViewModel is cleared only after the next screen has begun to speak, so
+     * onCleared must not stop that voice (the map's welcome back, user 2026-11-07).
+     */
+    private var handedOff = false
 
     private val _uiState = MutableStateFlow<ProfileUiState>(ProfileUiState.Idle)
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
@@ -74,9 +86,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun selectProfile(profileId: Long) {
+        leave()
+        sessionManager.setActiveProfile(profileId)
+    }
+
+    /** Leaving this screen for the next: its own audio stops now, not when it is cleared. */
+    fun leave() {
         audioPlayer.stop()
         _isPlayingGreeting.value = false
-        sessionManager.setActiveProfile(profileId)
+        handedOff = true
     }
 
     fun playProfileSelectSound() {
@@ -91,10 +109,32 @@ class ProfileViewModel @Inject constructor(
         audioPlayer.playAssetAudio(audioResolver.getSfxPath(SfxEvent.INCORRECT_POP))
     }
 
+    /**
+     * The long hello only the first time, before any child has a profile; after that Lily just asks "Who is playing?
+     * Tap your animal!" (release 2026-11-05-name-lines), so a returning child is not greeted twice: the map's
+     * welcome back says hello.
+     */
+    private val _greeting = MutableStateFlow(FIRST_HELLO)
+    val greeting: StateFlow<String> = _greeting.asStateFlow()
+
     fun playWelcomeGreeting() {
-        _isPlayingGreeting.value = true
-        audioPlayer.playAssetAudio(audioResolver.getVoPath(VoContext.WELCOME_01)) {
-            _isPlayingGreeting.value = false
+        handedOff = false  // on screen again: what plays is its own
+        viewModelScope.launch {
+            val firstUse = profileRepository.getAllProfiles().first().isEmpty()
+            _greeting.value = if (firstUse) FIRST_HELLO else WHO_IS_PLAYING
+            _isPlayingGreeting.value = true
+            val clip = if (firstUse) audioResolver.getVoPath(VoContext.WELCOME_01) else audioResolver.getUiPath("ui_who_is_playing")
+            audioPlayer.playAssetAudio(clip) {
+                _isPlayingGreeting.value = false
+            }
+        }
+    }
+
+    /** Once the child has picked an animal: "Now type your name!" (the child types it, user 2026-11-05). */
+    fun playTypeNamePrompt() {
+        _isPlayingIntro.value = true
+        audioPlayer.playAssetAudio(audioResolver.getUiPath("ui_type_name")) {
+            _isPlayingIntro.value = false
         }
     }
 
@@ -114,7 +154,7 @@ class ProfileViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        audioPlayer.stop()
+        if (!handedOff) audioPlayer.stop()
     }
 
     fun createProfile(name: String, avatarResId: Int) {
@@ -125,10 +165,11 @@ class ProfileViewModel @Inject constructor(
             val result = profileRepository.createProfile(finalName, avatarResId)
             result.onSuccess { newId ->
                 sessionManager.setActiveProfile(newId)
+                leave()
                 _uiState.value = ProfileUiState.Created(newId)
             }.onFailure { exception ->
                 _uiState.value = ProfileUiState.Error(
-                    exception.message ?: "Failed to create profile."
+                    exception.message ?: "Something went wrong. Please try again."
                 )
             }
         }

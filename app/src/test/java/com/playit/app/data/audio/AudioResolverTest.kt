@@ -1,6 +1,7 @@
 package com.playit.app.data.audio
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -19,9 +20,8 @@ class AudioResolverTest {
 
     @Test
     fun getPhonemePath_returnsCorrectPathForStandardLetters() {
-        assertEquals("audio/phonemes/phoneme_b.mp3", audioResolver.getPhonemePath("b"))
         assertEquals("audio/phonemes/phoneme_a.mp3", audioResolver.getPhonemePath("a"))
-        assertEquals("audio/phonemes/phoneme_t.mp3", audioResolver.getPhonemePath("t"))
+        assertEquals("audio/phonemes/phoneme_a.mp3", audioResolver.getPhonemePath("A "))
     }
 
     @Test
@@ -44,8 +44,74 @@ class AudioResolverTest {
 
     @Test
     fun otherPhonemes_keepOldPath() {
+        // a: the user kept today's clip on review page 2026-11-06-letter-sounds. No chapter uses ng.
         assertEquals("audio/phonemes/phoneme_a.mp3", audioResolver.getPhonemePath("a"))
-        assertEquals("audio/phonemes/phoneme_t.mp3", audioResolver.getPhonemePath("t"))
+        assertEquals("audio/phonemes/phoneme_ng.mp3", audioResolver.getPhonemePath("ng"))
+    }
+
+    /**
+     * Lily's letter sounds from VoiceStudio, the takes the user marked OK: release 2026-11-06-letter-sounds, then
+     * 2026-11-06-letter-sounds-2 (with g and n, which the user reported: the old clips said "G, U, H" and "eh, nah"),
+     * then 2026-11-06-letter-sounds-3 (round 2, with the user's spellings).
+     */
+    @Test
+    fun voiceStudioLetterSounds_useTheReleasedClips() {
+        listOf("b", "e", "u", "t", "k", "o", "y", "n", "g", "d", "w", "c", "j", "q", "x",
+            "l", "p", "r", "h", "f", "v", "z").forEach {
+            assertEquals("audio/phonemes/ph_$it.wav", audioResolver.getPhonemePath(it))
+            assertEquals("audio/phonemes/ph_$it.wav", audioResolver.getPhonemePath(it.uppercase()))
+        }
+    }
+
+    /**
+     * Every released letter sound is in the app, byte for byte the clip of a release manifest entry that no later
+     * release replaced (the audio gate, AGENTS.md).
+     */
+    @Test
+    fun everyReleasedLetterSound_isTheClipOfItsLatestManifest() {
+        val root = listOf(File("."), File("..")).first { File(it, "docs/audio-release").exists() }
+        val entries = File(root, "docs/audio-release").listFiles()!!
+            .mapNotNull { File(it, "manifest.json").takeIf(File::exists)?.readText() }
+            .flatMap { it.split("\"clipId\"").drop(1) }
+        audioResolver.releasedPhonemes.forEach { letter ->
+            val clip = File(root, "app/src/main/assets/audio/phonemes/ph_$letter.wav")
+            assertTrue("ph_$letter.wav should exist", clip.exists() && clip.length() > 1_000L)
+            val sha = java.security.MessageDigest.getInstance("SHA-256").digest(clip.readBytes())
+                .joinToString("") { "%02x".format(it) }
+            val current = entries.filter {
+                it.contains("\"phonemes/ph_$letter.wav\"") && !it.contains("\"supersededBy\"")
+            }
+            assertEquals("ph_$letter.wav: one current manifest entry", 1, current.size)
+            assertTrue("ph_$letter.wav should match its manifest", current.single().contains("\"$sha\""))
+        }
+    }
+
+    /**
+     * Every key word clip in the app (Hear It, Say It) is byte for byte the clip of the one manifest entry that no
+     * later release replaced. Umbrella is the VoiceStudio take of release 2026-11-06-umbrella, not the Kokoro clip
+     * of 2026-09-30 that the user heard as "umbrelleh".
+     */
+    @Test
+    fun everyKeyWordClip_isTheClipOfItsLatestManifest() {
+        val root = listOf(File("."), File("..")).first { File(it, "docs/audio-release").exists() }
+        val entries = File(root, "docs/audio-release").listFiles()!!
+            .mapNotNull { File(it, "manifest.json").takeIf(File::exists)?.readText() }
+            .flatMap { it.split("\"clipId\"").drop(1) }
+        val clips = File(root, "app/src/main/assets/audio/keywords").listFiles { f -> f.name.endsWith(".wav") }!!
+        assertEquals("26 key words, one per letter", 26, clips.size)
+        clips.forEach { clip ->
+            val sha = java.security.MessageDigest.getInstance("SHA-256").digest(clip.readBytes())
+                .joinToString("") { "%02x".format(it) }
+            val current = entries.filter {
+                it.contains("\"keywords/${clip.name}\"") && !it.contains("\"supersededBy\"")
+            }
+            assertEquals("${clip.name}: one current manifest entry", 1, current.size)
+            assertTrue("${clip.name} should match its manifest", current.single().contains("\"$sha\""))
+        }
+        val umbrella = entries.single {
+            it.contains("\"keywords/kw_umbrella.wav\"") && !it.contains("\"supersededBy\"")
+        }
+        assertTrue("umbrella is the VoiceStudio take", umbrella.contains("\"sourceBatch\": \"2026-11-06-umbrella-vs\""))
     }
 
     @Test
@@ -88,9 +154,10 @@ class AudioResolverTest {
         assertEquals("audio/phonemes/phoneme_enye.mp3", audioResolver.getPhonemePath("enye"))
     }
 
+    /** x was a draft clip; the user approved Lily's "kss" (release 2026-11-06-letter-sounds-2). */
     @Test
-    fun getPhonemePath_returnsDraftPathForX() {
-        assertEquals("audio/phonemes/phoneme_x.mp3", audioResolver.getPhonemePath("x"))
+    fun getPhonemePath_returnsReleasedPathForX() {
+        assertEquals("audio/phonemes/ph_x.wav", audioResolver.getPhonemePath("x"))
     }
 
     @Test
@@ -131,6 +198,8 @@ class AudioResolverTest {
         assertEquals("audio/ui/sfx_level_complete_fanfare.mp3", audioResolver.getSfxPath(SfxEvent.LEVEL_COMPLETE_FANFARE))
         assertEquals("audio/ui/sfx_blendit_buzz.mp3", audioResolver.getSfxPath(SfxEvent.BLENDIT_BUZZ))
         assertEquals("audio/ui/sfx_streak_badge_unlock.mp3", audioResolver.getSfxPath(SfxEvent.STREAK_BADGE_UNLOCK))
+        assertEquals("audio/ui/sfx_opening_pluck.wav", audioResolver.getSfxPath(SfxEvent.OPENING_PLUCK))
+        assertEquals("audio/ui/sfx_opening_playit.wav", audioResolver.getSfxPath(SfxEvent.OPENING_PLAYIT))
     }
 
     @Test
@@ -196,6 +265,23 @@ class AudioResolverTest {
     }
 
     @Test
+    fun sfx_everySoundIsOnDiskAndTheOpeningsAreReleased() {
+        val assetsDir = listOf(File("src/main/assets"), File("app/src/main/assets")).firstOrNull { it.exists() }
+            ?: error("assets not found")
+        SfxEvent.values().forEach { event ->
+            val file = File(assetsDir, audioResolver.getSfxPath(event))
+            assertTrue("Expected ${file.path} on disk", file.exists() && file.length() > 0L)
+        }
+        val manifest = listOf(
+            File("docs/audio-release/2026-10-30-opening/manifest.json"),
+            File("../docs/audio-release/2026-10-30-opening/manifest.json")
+        ).firstOrNull { it.exists() }?.readText() ?: error("manifest.json not found")
+        listOf(SfxEvent.OPENING_PLUCK, SfxEvent.OPENING_PLAYIT).forEach { event ->
+            assertTrue("${event.name} is in release 2026-10-30-opening", manifest.contains("\"clipId\": \"sfx_${event.filenameSuffix}\""))
+        }
+    }
+
+    @Test
     fun getDevPlaceholderPath_returnsCorrectCategoryPaths() {
         assertEquals("audio/_dev_placeholder/phoneme_beep.wav", audioResolver.getDevPlaceholderPath(DevAudioCategory.PHONEME))
         assertEquals("audio/_dev_placeholder/word_beep.wav", audioResolver.getDevPlaceholderPath(DevAudioCategory.WORD))
@@ -233,5 +319,15 @@ class AudioResolverTest {
     fun devPlaceholder_mapsUiLines() {
         assertEquals(DevAudioCategory.VO.assetPath, audioResolver.getDevPlaceholderForAsset("audio/vo/ui/ui_hearit_next.wav"))
     }
-}
 
+    /** Every letter of the 7 chapters plays a sound the user approved; only a keeps its old clip, by the user's choice. */
+    @Test
+    fun everyChapterLetter_hasAnApprovedSound_exceptA() {
+        val letters = "msai" + "obeu" + "tkly" + "ngp" + "rdhw" + "cfj" + "qvxz"  // DatabaseModule groups 1 to 7
+        assertEquals(26, letters.toSet().size)
+        letters.filter { it != 'a' }.forEach {
+            assertTrue("$it", it.toString() in audioResolver.releasedPhonemes)
+        }
+        assertFalse("a" in audioResolver.releasedPhonemes)
+    }
+}

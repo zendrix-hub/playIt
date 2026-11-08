@@ -97,6 +97,7 @@ fun LetterCard(
             .widthIn(max = 320.dp)
             .fillMaxWidth()
             .height(cardHeight)
+            .dropIn()   // drops in and bounces when the lesson opens (user, 2026-10-29)
             .graphicsLayer { rotationZ = cardRotation }
     ) {
         Box(

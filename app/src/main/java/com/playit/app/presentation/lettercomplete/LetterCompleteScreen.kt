@@ -1,5 +1,11 @@
 package com.playit.app.presentation.lettercomplete
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
+import com.playit.app.presentation.components.NextLines
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.Icons
 import com.playit.app.presentation.components.LessonScaffold
 import androidx.compose.ui.platform.testTag
 import androidx.compose.foundation.background
@@ -54,8 +60,8 @@ import com.playit.app.presentation.theme.UbeDark
 
 /** Lily's line on the letter's end screen: one star means the child finished the letter, not mastered it (card 31d). */
 internal fun letterCompleteMessage(letter: String, stars: Int): String =
-    if (stars == 1) "You finished Letter $letter! Amazing sound practice!"
-    else "You mastered Letter $letter! Amazing sound practice!"
+    if (stars == 1) "You finished $letter! Good work!"
+    else "You learned $letter! Great job!"
 
 @Composable
 fun LetterCompleteScreen(
@@ -121,8 +127,15 @@ fun LetterCompleteScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
+                            contentDescription = null,
+                            tint = com.playit.app.presentation.theme.TextMidnight,
+                            modifier = Modifier.size(26.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Continue to Map",
+                            text = NextLines.NEXT,
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Black),
                             maxLines = 1,
                             color = com.playit.app.presentation.theme.TextMidnight

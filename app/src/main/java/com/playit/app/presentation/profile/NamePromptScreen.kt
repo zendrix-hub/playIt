@@ -21,6 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playit.app.presentation.components.GummyBackButton
 import com.playit.app.presentation.components.GummyButton
+import com.playit.app.presentation.components.GummyTextField
+import com.playit.app.presentation.dashboard.MAX_NAME_LENGTH
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import com.playit.app.presentation.components.MascotSpeechHeader
 import com.playit.app.presentation.components.MascotState
 import com.playit.app.presentation.profile.components.AvatarPicker
@@ -36,6 +42,10 @@ fun NamePromptScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isPlayingIntro by viewModel.isPlayingIntro.collectAsStateWithLifecycle()
     val hasSelectedAvatar = remember { mutableStateOf(false) }
+    // The child types their name (user, 2026-11-05: "the child has to type their name", so Lily's card says
+    // "Welcome back, <name>"): letters only, like the Parent Zone's rename.
+    var childName by rememberSaveable { mutableStateOf("") }
+    val nameReady = childName.trim().isNotEmpty()
 
     val mascotState = when {
         // Error takes priority: don't let Lily celebrate next to an error banner.
@@ -62,11 +72,7 @@ fun NamePromptScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFE8F0FE), // Airy crisp sky
-                        Color(0xFFF3E8FF), // Soft playful lavender
-                        Color(0xFFFEF3C7)  // Warm sunny cream
-                    )
+                    colors = GroundColors
                 )
             )
     ) {
@@ -99,6 +105,7 @@ fun NamePromptScreen(
                 .fillMaxSize()
                 .statusBarsPadding()
                 .navigationBarsPadding()
+                .imePadding()
                 .padding(horizontal = 20.dp, vertical = 12.dp)
         ) {
             // Header Bar with Back Button
@@ -112,7 +119,7 @@ fun NamePromptScreen(
                 Spacer(modifier = Modifier.width(12.dp))
                 // One title; Lily's bubble says what to do (card 31d dropped two headings that repeated it).
                 Text(
-                    text = "New Player Profile",
+                    text = "New player",
                     style = MaterialTheme.typography.headlineLarge,
                     color = TextMidnight,
                     maxLines = 2,
@@ -124,47 +131,71 @@ fun NamePromptScreen(
 
             // Companion Mascot Dialogue
             MascotSpeechHeader(
-                message = "Pick your animal friend!",
+                message = if (hasSelectedAvatar.value) "Now type your name!" else "Pick your animal friend!",
                 mascotState = mascotState,
                 isPlayingAudio = isPlayingIntro,
-                onMascotTap = { viewModel.playNamePromptIntro() },
+                onMascotTap = { if (hasSelectedAvatar.value) viewModel.playTypeNamePrompt() else viewModel.playNamePromptIntro() },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                AvatarPicker(
-                    selectedAvatarId = selectedAvatarId,
-                    onAvatarSelect = {
-                        hasSelectedAvatar.value = true
-                        viewModel.onAvatarSelected(it)
-                    }
-                )
+            // The animals sit in the middle of the space between Lily and Let's Play (user, 2026-10-29); it still
+            // scrolls when a large font makes them taller than the space.
+            BoxWithConstraints(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .heightIn(min = maxHeight),
+                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+                ) {
+                    AvatarPicker(
+                        selectedAvatarId = selectedAvatarId,
+                        onAvatarSelect = {
+                            val firstPick = !hasSelectedAvatar.value
+                            hasSelectedAvatar.value = true
+                            viewModel.onAvatarSelected(it)
+                            if (firstPick) viewModel.playTypeNamePrompt()
+                        }
+                    )
 
-                if (uiState is ProfileUiState.Error) {
-                    Box(
+                    GummyTextField(
+                        value = childName,
+                        onValueChange = { input ->
+                            val letters = input.filter { it.isLetter() || it == ' ' || it == '-' || it == '\'' }
+                            if (letters.length <= MAX_NAME_LENGTH) childName = letters
+                        },
+                        label = "Your name",
+                        placeholder = "Type your name",
+                        maxLength = MAX_NAME_LENGTH,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            imeAction = ImeAction.Done
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(
-                                color = CoralBerry.copy(alpha = 0.12f),
-                                shape = Squircle12
+                            .testTag("nameprompt_name")
+                    )
+
+                    if (uiState is ProfileUiState.Error) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    color = CoralBerry.copy(alpha = 0.12f),
+                                    shape = Squircle12
+                                )
+                                .padding(horizontal = 16.dp, vertical = 10.dp)
+                        ) {
+                            Text(
+                                text = (uiState as ProfileUiState.Error).message,
+                                color = CoralBerry,
+                                fontFamily = LexendFontFamily,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
                             )
-                            .padding(horizontal = 16.dp, vertical = 10.dp)
-                    ) {
-                        Text(
-                            text = (uiState as ProfileUiState.Error).message,
-                            color = CoralBerry,
-                            fontFamily = LexendFontFamily,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        }
                     }
                 }
             }
@@ -173,11 +204,11 @@ fun NamePromptScreen(
 
             GummyButton(
                 text = if (uiState is ProfileUiState.Loading) "Creating..." else "Let's Play",
-                onClick = { viewModel.createProfile("", selectedAvatarId) },
+                onClick = { if (nameReady) viewModel.createProfile(childName, selectedAvatarId) },
                 backgroundColor = EmeraldLeaf,
                 shadowColor = EmeraldLeafShadow,
                 contentColor = Color.White,
-                enabled = uiState !is ProfileUiState.Loading,
+                enabled = uiState !is ProfileUiState.Loading && nameReady,
                 fontSize = 24,
                 modifier = Modifier
                     .fillMaxWidth()

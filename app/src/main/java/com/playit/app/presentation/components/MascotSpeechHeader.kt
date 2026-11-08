@@ -1,8 +1,5 @@
 package com.playit.app.presentation.components
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +19,7 @@ import androidx.compose.material.icons.automirrored.rounded.VolumeUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.playit.app.presentation.theme.*
+import kotlinx.coroutines.delay
 
 /**
  * Compact Mascot Prompt Speech Bubble header matching playit-mockup.html.
@@ -51,21 +50,21 @@ fun MascotSpeechHeader(
     mascotState: MascotState = MascotState.IDLE,
     isPlayingAudio: Boolean = false,
     amplitude: Float = 0f,
-    onMascotTap: (() -> Unit)? = null
+    onMascotTap: (() -> Unit)? = null,
+    greet: Boolean = false
 ) {
-    var tapTrigger by remember { mutableStateOf(0) }
+    // Each tap on Lily or her bubble: she answers it herself (TalkingLily), a different way each time.
+    var taps by remember { mutableStateOf(0) }
 
-    val tapBounceScale by animateFloatAsState(
-        targetValue = if (tapTrigger % 2 == 1) 1.18f else 1.0f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ),
-        finishedListener = {
-            if (tapTrigger % 2 == 1) tapTrigger++
-        },
-        label = "mascotTapBounce"
-    )
+    // Lesson start (user, 2026-10-29): Lily waves hello for GREET_MS, then takes the pose the screen asks for. The
+    // wave is her waving pose acted out (LilyActing.kt); with reduced motion, the pose only.
+    var greeting by remember { mutableStateOf(greet) }
+    LaunchedEffect(Unit) {
+        if (!greeting) return@LaunchedEffect
+        delay(GREET_MS)
+        greeting = false
+    }
+    val pose = if (greeting) MascotState.WAVING else mascotState
 
     val isReducedMotion = LocalReducedMotion.current
     val d = LocalPlayItDimens.current
@@ -77,29 +76,27 @@ fun MascotSpeechHeader(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        // Full-Body Mascot Character with Real-Time Mic Amplitude & Breathing
+        // Full-Body Mascot Character with Real-Time Mic Amplitude
         Box(
             modifier = Modifier
                 .size(d.mascotHeader)
                 .graphicsLayer {
-                    val ampSquashY = 1.0f + (amplitude.coerceIn(0f, 1f) * 0.25f)
-                    val ampSquashX = 1.0f - (amplitude.coerceIn(0f, 1f) * 0.12f)
-                    val scaleXCombined: Float = if (isReducedMotion) tapBounceScale else (tapBounceScale * ampSquashX)
-                    val scaleYCombined: Float = if (isReducedMotion) tapBounceScale else (tapBounceScale * ampSquashY)
-                    scaleX = scaleXCombined
-                    scaleY = scaleYCombined
+                    if (!isReducedMotion) {
+                        scaleX = 1.0f - (amplitude.coerceIn(0f, 1f) * 0.12f)
+                        scaleY = 1.0f + (amplitude.coerceIn(0f, 1f) * 0.25f)
+                    }
                     transformOrigin = TransformOrigin(0.5f, 1f)
                 }
                 .bounceClick {
-                    tapTrigger++
+                    taps++
                     onMascotTap?.invoke()
                 },
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = rememberAssetPainter(mascotState.assetPath, maxSize = d.mascotHeader),
-                contentDescription = "Lily the Tarsier",
-                contentScale = ContentScale.Fit,
+            TalkingLily(
+                pose = pose,
+                maxSize = d.mascotHeader,
+                taps = taps,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -141,7 +138,7 @@ fun MascotSpeechHeader(
                 .then(
                     if (onMascotTap != null) {
                         Modifier.bounceClick {
-                            tapTrigger++
+                            taps++
                             onMascotTap()
                         }
                     } else Modifier
@@ -171,14 +168,14 @@ fun MascotSpeechHeader(
                         modifier = Modifier
                             .size(34.dp)
                             .clip(CircleShape)
-                            .background(if (isPlayingAudio) PrimaryJoy else PrimaryJoyLight)
+                            .background(if (isPlayingAudio) SunnyGold else SunnyGoldLight)
                             .border(1.5.dp, ModernBorder, CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.VolumeUp,
                             contentDescription = "Listen to Lily",
-                            tint = if (isPlayingAudio) Color.White else PrimaryJoyDark,
+                            tint = TextMidnight,
                             modifier = Modifier.size(20.dp)
                         )
                     }

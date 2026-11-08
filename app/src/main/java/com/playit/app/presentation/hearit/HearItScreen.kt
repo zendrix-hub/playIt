@@ -1,5 +1,8 @@
 package com.playit.app.presentation.hearit
 
+import com.playit.app.presentation.components.NextLines
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import com.playit.app.presentation.theme.*
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -34,7 +37,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.playit.app.presentation.components.breathingPulse
+import com.playit.app.presentation.components.LESSON_BUTTON_POP_MS
 import com.playit.app.presentation.components.idleWiggle
+import com.playit.app.presentation.components.popIn
 import com.playit.app.presentation.components.resetsIdle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -159,11 +164,7 @@ fun HearItScreen(
             .resetsIdle { viewModel.onUserInteraction() }
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        androidx.compose.ui.graphics.Color(0xFFE8F0FE),
-                        androidx.compose.ui.graphics.Color(0xFFF3E8FF),
-                        androidx.compose.ui.graphics.Color(0xFFFEF3C7)
-                    )
+                    colors = GroundColors
                 )
             )
     ) {
@@ -173,7 +174,12 @@ fun HearItScreen(
                 // Mascot speech bubble prompt (Tapping Lily replays the lesson intro voiceover)
                 // While the sound plays the card already shows "Sound: /m/", so the bubble only says "Listen!" (card 31d).
                 MascotSpeechHeader(
-                    message = if (isPlaying) "Listen!" else "Listen closely to the sound of the letter, then tap play.",
+                    greet = true,
+                    message = when {
+                        isPlaying -> "Listen!"
+                        isUnlocked -> NextLines.HEAR_IT
+                        else -> "Listen! Tap the letter to hear it again."
+                    },
                     mascotState = if (isPlaying) MascotState.LISTENING else if (playCount > 0) MascotState.POINTING else MascotState.IDLE,
                     isPlayingAudio = isPlayingPrompt,
                     onMascotTap = { viewModel.playHearItIntroAudio() }
@@ -181,7 +187,8 @@ fun HearItScreen(
             },
             bottomBar = {
                 GummyButton(
-                    text = "Next: Say It",
+                    text = NextLines.NEXT,
+                    icon = Icons.AutoMirrored.Rounded.ArrowForward,
                     onClick = {
                         if (isUnlocked) {
                             onNext(phoneme?.id?.toString() ?: "1")
@@ -216,7 +223,7 @@ fun HearItScreen(
             )
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                // Pulsating PrimaryJoy Speaker Replay Button; clean centered layout (card 28c)
+                // Pulsating sunflower speaker replay button (listening is sunflower in Lily's island); centered (card 28c)
                 Box(contentAlignment = Alignment.Center) {
                     if (isPlaying) {
                         Box(
@@ -224,7 +231,7 @@ fun HearItScreen(
                                 .size(d.primaryCta)
                                 .scale(pulseScale)
                                 .clip(CircleShape)
-                                .background(com.playit.app.presentation.theme.PrimaryJoyLight.copy(alpha = pulseAlpha))
+                                .background(com.playit.app.presentation.theme.SunnyGoldLight.copy(alpha = pulseAlpha))
                         )
                     }
 
@@ -232,19 +239,20 @@ fun HearItScreen(
                     // button looked switched off to a child (card 31d). The pulse ring shows it is playing.
                     GummyContainer(
                         onClick = { if (!isPlaying) viewModel.playPhonemeSound() },
-                        faceColor = com.playit.app.presentation.theme.PrimaryJoy,
-                        shadowColor = com.playit.app.presentation.theme.PrimaryJoyDark,
+                        faceColor = com.playit.app.presentation.theme.SunnyGold,
+                        shadowColor = com.playit.app.presentation.theme.SunnyGoldShadow,
                         shape = CircleShape,
                         strokeWidth = 2.5.dp,
                         strokeColor = com.playit.app.presentation.theme.ModernBorder,
                         depthHeight = 6.dp,
                         modifier = Modifier.size(d.primaryCta).testTag("hearit_play")
+                            .popIn(delayMillis = LESSON_BUTTON_POP_MS)   // pops in after the card lands
                             .idleWiggle(idleNudge, enabled = !nextHighlighted && !isPlaying)
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.AutoMirrored.Rounded.VolumeUp else Icons.Rounded.PlayArrow,
                             contentDescription = if (isPlaying) "Playing" else "Play Sound",
-                            tint = androidx.compose.ui.graphics.Color.White,
+                            tint = com.playit.app.presentation.theme.TextMidnight,
                             modifier = Modifier.size(d.primaryCta * 0.5f)
                         )
                     }

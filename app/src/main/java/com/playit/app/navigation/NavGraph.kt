@@ -20,6 +20,8 @@ import com.playit.app.presentation.blendit.BlendItCompleteScreen
 import com.playit.app.presentation.blendit.BlendItCompleteViewModel
 import com.playit.app.presentation.blendit.BlendItScreen
 import com.playit.app.presentation.blendit.BlendItViewModel
+import com.playit.app.presentation.soundcheck.SoundCheckScreen
+import com.playit.app.presentation.soundcheck.SoundCheckViewModel
 import com.playit.app.presentation.dashboard.ParentDashboardScreen
 import com.playit.app.presentation.dashboard.ParentDashboardViewModel
 import com.playit.app.presentation.dashboard.ReportPreviewScreen
@@ -37,6 +39,7 @@ import com.playit.app.presentation.profile.ProfileViewModel
 import com.playit.app.presentation.sayit.SayItScreen
 import com.playit.app.presentation.sayit.SayItViewModel
 import com.playit.app.presentation.splash.SplashScreen
+import com.playit.app.presentation.splash.SplashViewModel
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
@@ -59,12 +62,15 @@ fun NavGraph(
         popExitTransition = { exit }
     ) {
         composable(Routes.SPLASH) {
+            val viewModel: SplashViewModel = hiltViewModel()
             SplashScreen(
                 onStartClick = {
                     navController.navigate(Routes.PROFILE_SELECT) {
                         popUpTo(Routes.SPLASH) { inclusive = true }
                     }
-                }
+                },
+                onSound = viewModel::play,
+                titleEffect = viewModel.titleEffect
             )
         }
 
@@ -78,9 +84,11 @@ fun NavGraph(
                     }
                 },
                 onAddProfileClick = {
+                    viewModel.leave()
                     navController.navigate(Routes.NAME_PROMPT)
                 },
                 onParentDashboardClick = {
+                    viewModel.leave()
                     navController.navigate(Routes.PARENT_DASHBOARD)
                 }
             )
@@ -106,15 +114,18 @@ fun NavGraph(
             MapScreen(
                 viewModel = viewModel,
                 onNodeSelected = { nodeId ->
+                    viewModel.leave()
                     if (nodeId.startsWith("blend_")) {
+                        // Every word game opens with the sound check (user choice, 2026-11-06).
                         val groupId = nodeId.removePrefix("blend_")
-                        navController.navigate(Routes.blendIt(groupId))
+                        navController.navigate(Routes.soundCheck(groupId))
                     } else {
                         navController.navigate(Routes.hearIt(nodeId))
                     }
                 },
                 onBack = {
                     viewModel.clearSession()
+                    viewModel.leave()
                     navController.navigate(Routes.PROFILE_SELECT) {
                         popUpTo(Routes.MAP) { inclusive = true }
                     }
@@ -177,6 +188,22 @@ fun NavGraph(
                     navController.navigate(Routes.MAP) {
                         popUpTo(Routes.MAP) { inclusive = true }
                     }
+                }
+            )
+        }
+
+        composable(Routes.SOUND_CHECK) { backStackEntry ->
+            val viewModel: SoundCheckViewModel = hiltViewModel()
+            val groupId = backStackEntry.arguments?.getString("groupId") ?: viewModel.groupId.toString()
+            SoundCheckScreen(
+                viewModel = viewModel,
+                onDone = {
+                    navController.navigate(Routes.blendIt(groupId)) {
+                        popUpTo(Routes.SOUND_CHECK) { inclusive = true }
+                    }
+                },
+                onBack = {
+                    navController.popBackStack()
                 }
             )
         }

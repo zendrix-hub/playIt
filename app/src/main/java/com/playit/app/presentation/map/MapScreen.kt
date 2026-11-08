@@ -1,5 +1,6 @@
 package com.playit.app.presentation.map
 
+import com.playit.app.presentation.theme.*
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -29,6 +30,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +44,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -54,9 +57,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.boundsInParent
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.graphicsLayer
@@ -73,7 +77,10 @@ import com.playit.app.presentation.components.GummyDialog
 import com.playit.app.presentation.components.MascotState
 import com.playit.app.presentation.components.breathingPulse
 import com.playit.app.presentation.components.idleBounce
+import com.playit.app.presentation.components.mapPopDelayMs
+import com.playit.app.presentation.components.popIn
 import com.playit.app.presentation.components.rememberAssetPainter
+import com.playit.app.presentation.map.components.WelcomeBackCard
 import com.playit.app.presentation.map.components.BiomeThemes
 import com.playit.app.presentation.map.components.ChocolateHillsBackground
 import com.playit.app.presentation.map.components.GroupBannerStatus
@@ -125,6 +132,7 @@ import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import com.playit.app.presentation.theme.LocalPlayItDimens
 import com.playit.app.presentation.theme.PlayItMotion
 import kotlinx.coroutines.delay
@@ -148,6 +156,8 @@ fun MapScreen(
     onBack: () -> Unit = {}
 ) {
     BackHandler(onBack = onBack)
+    // Back on screen (from a game): what plays here is the map's own again, so leaving stops it.
+    LaunchedEffect(Unit) { viewModel.onShown() }
 
     val mapNodes by viewModel.mapNodes.collectAsStateWithLifecycle()
     val userStats by viewModel.userStats.collectAsStateWithLifecycle()
@@ -175,6 +185,13 @@ fun MapScreen(
         val lastUnlocked = mapNodes.indexOfLast { it.isUnlocked }
         if (lastUnlocked != -1) lastUnlocked else 0
     }
+
+    // On the unlock moment the explorer walks to the new stop from the one before it, the stop the child just
+    // finished, and the star counter counts up the stars earned there (design refresh).
+    val arrivalFromIndex = remember(newlyUnlockedNodeId, mapNodes) {
+        newlyUnlockedNodeId?.let { id -> mapNodes.indexOfFirst { it.id == id } - 1 }?.takeIf { it >= 0 }
+    }
+    val starsJustEarned = arrivalFromIndex?.let { (mapNodes[it] as? MapNode.LetterNode)?.starsEarned } ?: 0
 
     // Dialog states for Duolingo Node Action Card & Unit Guidebook
     var selectedNodeForAction by remember { mutableStateOf<MapNode?>(null) }
@@ -243,44 +260,15 @@ fun MapScreen(
                 .statusBarsPadding()
                 .navigationBarsPadding()
         ) {
-            // Calculate currently visible Bohol biome section based on scroll offset
-            val currentVisibleSectionIndex = remember(scrollState.value, scrollState.maxValue) {
-                if (scrollState.maxValue <= 0) 1
-                else {
-                    val scrollFraction = (scrollState.value.toFloat() / scrollState.maxValue.toFloat()).coerceIn(0f, 1f)
-                    val approxGroup = (scrollFraction * 6.0f).toInt() + 1
-                    approxGroup.coerceIn(1, 7)
-                }
-            }
-            val activeBiomeTheme = BiomeThemes.forSection(currentVisibleSectionIndex)
-
             // ── Header: Floating Gummy Top Bar (Dynamically Adapting to Biome) ─
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 14.dp, vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // 64 dp like every child-facing control (it was 46 dp).
-                GummyBackButton(
-                    onClick = onBack,
-                    modifier = Modifier.testTag("map_back")
-                )
-
-                // One header card: the greeting is folded in, so the trail gets the screen (card 31e).
-                // Tapping it, Lily says "Let's go! Tap a letter to begin our adventure!" (card 28).
-                TopStatsBar(
-                    totalStars = userStats.totalStars,
-                    currentStreak = userStats.currentStreak,
-                    unlockedBadgesCount = userStats.unlockedBadgesCount,
-                    lettersCompleted = mapNodes.count { it is MapNode.LetterNode && it.starsEarned > 0 },
-                    profileName = userStats.profileName,
-                    biomeTheme = activeBiomeTheme,
-                    onLilyTap = { viewModel.playMascotTapReaction() },
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            MapHeader(
+                scrollState = scrollState,
+                userStats = userStats,
+                starsJustEarned = starsJustEarned,
+                lettersCompleted = mapNodes.count { it is MapNode.LetterNode && it.starsEarned > 0 },
+                onBack = onBack,
+                onLilyTap = { viewModel.playMascotTapReaction() }
+            )
 
             // ── Winding Adventure Map ──────────────────────────────────────
             BoxWithConstraints(
@@ -442,22 +430,32 @@ fun MapScreen(
                         }
 
                         val xOffsetDp = MapLayout.nodeXOffset(index, mapWidth, d.mapNodeSize)
-                        val isShaking = shakenNodeId == node.id
-                        val shakeX = if (isShaking) shakeOffset.value.dp else 0.dp
-
-                        val popScale = if (poppingNodeId == node.id) unlockPop.value else 1f
                         Box(
                             modifier = Modifier
-                                .offset(x = xOffsetDp + shakeX)
-                                .graphicsLayer { scaleX = popScale; scaleY = popScale }
+                                // The shake and the unlock pop are read as the node lays out and draws, so they
+                                // move this node without rebuilding the map on every frame (MapScrollTest).
+                                .offset {
+                                    val shakeX = if (shakenNodeId == node.id) shakeOffset.value.dp else 0.dp
+                                    IntOffset((xOffsetDp + shakeX).roundToPx(), 0)
+                                }
+                                .graphicsLayer {
+                                    val popScale = if (poppingNodeId == node.id) unlockPop.value else 1f
+                                    scaleX = popScale; scaleY = popScale
+                                }
                                 .then(if (index == activeNodeIndex) Modifier.testTag("map_current_node") else Modifier)
-                                .onGloballyPositioned { coords ->
+                                // Measured when placed in the trail, not on every frame of a scroll, and stored only
+                                // when it moved, so the map isn't rebuilt while it scrolls.
+                                .onPlaced { coords ->
                                     val boundsInCol = coords.boundsInParent()
-                                    measuredCenters[index] = Offset(
+                                    val center = Offset(
                                         x = boundsInCol.center.x,
                                         y = boundsInCol.center.y + topPaddingPx
                                     )
-                                },
+                                    if (measuredCenters[index] != center) measuredCenters[index] = center
+                                }
+                                // Map opening (user, 2026-10-29): the stops pop onto the trail in a wave that
+                                // ends at the child's current stop. Inside the measuring, so centres never move.
+                                .popIn(delayMillis = mapPopDelayMs(index, activeNodeIndex)),
                             contentAlignment = Alignment.Center
                         ) {
                             when (node) {
@@ -490,7 +488,8 @@ fun MapScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(totalMapHeightDp)
+                        .height(totalMapHeightDp),
+                    arrivalFromIndex = arrivalFromIndex
                 )
             }
         }
@@ -528,16 +527,108 @@ fun MapScreen(
         if (lockedBlendItDialogGroup != null) {
             val group = lockedBlendItDialogGroup ?: "1"
             GummyDialog(
-                title = "Group $group Locked",
-                body = "Complete all letters in Group $group to unlock the Blend-It Challenge!",
-                confirmText = "Got It",
+                title = "Not yet!",
+                body = "Finish the letters of chapter $group first. Then you can build words with them!",
+                confirmText = "OK",
                 onConfirm = { lockedBlendItDialogGroup = null },
                 onDismiss = { lockedBlendItDialogGroup = null },
                 confirmColor = Mango,
                 confirmShadowColor = MangoShadow
             )
         }
+
+        // Lily's welcome back, once per app launch for a child who has played before (adviser, 2026-11-05).
+        val welcomeBack by viewModel.welcomeBack.collectAsStateWithLifecycle()
+        welcomeBack?.let { card ->
+            WelcomeBackCard(
+                card = card,
+                onGo = {
+                    viewModel.dismissWelcomeBack()
+                    card.offer.nodeId?.let(onNodeSelected)
+                },
+                onNotNow = { viewModel.dismissWelcomeBack() },
+                onLilyTap = { viewModel.replayWelcomeBack() }
+            )
+        }
     }
+}
+
+/**
+ * The back button and the header card, coloured for the Bohol section on screen. It reads the scroll itself, through
+ * derivedStateOf, so only the header changes, and only when the section does: reading the scroll in MapScreen rebuilt
+ * the whole map on every frame of a scroll (user, 2026-10-30: "when i scroll down the fps is like low").
+ */
+@Composable
+private fun MapHeader(
+    scrollState: ScrollState,
+    userStats: UserMapStats,
+    starsJustEarned: Int,
+    lettersCompleted: Int,
+    onBack: () -> Unit,
+    onLilyTap: () -> Unit
+) {
+    val section by remember(scrollState) { derivedStateOf { mapSectionAt(scrollState.value, scrollState.maxValue) } }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 14.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        // 64 dp like every child-facing control (it was 46 dp).
+        GummyBackButton(
+            onClick = onBack,
+            modifier = Modifier.testTag("map_back")
+        )
+
+        // One header card: the greeting is folded in, so the trail gets the screen (card 31e).
+        // Tapping it, Lily says "Let's go! Tap a letter to begin our adventure!" (card 28).
+        TopStatsBar(
+            totalStars = userStats.totalStars,
+            starsJustEarned = starsJustEarned,
+            currentStreak = userStats.currentStreak,
+            unlockedBadgesCount = userStats.unlockedBadgesCount,
+            lettersCompleted = lettersCompleted,
+            profileName = userStats.profileName,
+            biomeTheme = BiomeThemes.forSection(section),
+            onLilyTap = onLilyTap,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+/**
+ * A ring that grows and fades, over and over: the current letter's focus ring and an open chest's aura. Its
+ * animation lives here, so it runs only where a ring shows, not in every stop on the map.
+ */
+@Composable
+private fun PulseRing(
+    size: Dp,
+    width: Dp,
+    color: Color,
+    shape: Shape,
+    durationMs: Int,
+    maxScale: Float,
+    startAlpha: Float,
+    label: String
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = label)
+    val spec = infiniteRepeatable<Float>(
+        animation = tween(durationMs, easing = FastOutSlowInEasing),
+        repeatMode = RepeatMode.Restart
+    )
+    val ringScale by infiniteTransition.animateFloat(1.0f, maxScale, spec, label = "${label}Scale")
+    val ringAlpha by infiniteTransition.animateFloat(startAlpha, 0.0f, spec, label = "${label}Alpha")
+    Box(
+        modifier = Modifier
+            .size(size)
+            .graphicsLayer {
+                scaleX = ringScale
+                scaleY = ringScale
+                alpha = ringAlpha
+            }
+            .border(width = width, color = color, shape = shape)
+    )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -551,9 +642,9 @@ private val NodeGoldStar = SunnyGoldDark
 private val NodeGreenFace = EmeraldLeaf
 private val NodeGreenShelf = EmeraldLeafDark
 
-private val NodeLockedFace = Color(0xFFF1F5F9)
-private val NodeLockedShelf = Color(0xFFCBD5E1)
-private val NodeLockedIcon = Color(0xFF94A3B8)
+private val NodeLockedFace = LockedFace
+private val NodeLockedShelf = LockedShelf
+private val NodeLockedIcon = LockedIcon
 
 @Composable
 fun LetterMapNodeCard(
@@ -564,27 +655,6 @@ fun LetterMapNodeCard(
     val isCompleted = node.isUnlocked && node.starsEarned > 0
     val isCurrentActiveNode = node.isUnlocked && node.starsEarned == 0
     val isReducedMotion = LocalReducedMotion.current
-
-    // Pulsing focus ring animation on active node
-    val infiniteTransition = rememberInfiniteTransition(label = "activeNodeRing")
-    val ringScale by infiniteTransition.animateFloat(
-        initialValue = 1.0f,
-        targetValue = 1.25f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1400, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "ringScale"
-    )
-    val ringAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.65f,
-        targetValue = 0.0f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1400, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "ringAlpha"
-    )
 
     val faceColor = when {
         isCompleted -> NodeGoldFace
@@ -616,19 +686,15 @@ fun LetterMapNodeCard(
         ) {
             // Active Pulsing Ring Focus Aura
             if (isCurrentActiveNode && !isReducedMotion) {
-                Box(
-                    modifier = Modifier
-                        .size(discSize)
-                        .graphicsLayer {
-                            scaleX = ringScale
-                            scaleY = ringScale
-                            alpha = ringAlpha
-                        }
-                        .border(
-                            width = 3.5.dp,
-                            color = NodeGreenShelf,
-                            shape = CircleShape
-                        )
+                PulseRing(
+                    size = discSize,
+                    width = 3.5.dp,
+                    color = NodeGreenShelf,
+                    shape = CircleShape,
+                    durationMs = 1400,
+                    maxScale = 1.25f,
+                    startAlpha = 0.65f,
+                    label = "activeNodeRing"
                 )
             }
 
@@ -704,7 +770,7 @@ fun LetterMapNodeCard(
                                 fontFamily = LexendFontFamily,
                                 fontSize = 34.sp,
                                 fontWeight = FontWeight.Black,
-                                color = Color(0xFF94A3B8)
+                                color = LockedIcon
                             )
                             // Mini Lock indicator badge at bottom right
                             Box(
@@ -712,7 +778,7 @@ fun LetterMapNodeCard(
                                     .align(Alignment.BottomEnd)
                                     .offset(x = (-4).dp, y = (-4).dp)
                                     .size(20.dp)
-                                    .background(Color(0xFF64748B), CircleShape)
+                                    .background(LockedInk, CircleShape)
                                     .border(1.5.dp, Color.White, CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -741,7 +807,7 @@ fun LetterMapNodeCard(
                     Icon(
                         imageVector = Icons.Rounded.Star,
                         contentDescription = "Star ${starIdx + 1}",
-                        tint = if (isEarned) Color(0xFFF59E0B) else Color(0xFFCBD5E1),
+                        tint = if (isEarned) Color(0xFFF59E0B) else LockedShelf,
                         modifier = Modifier.size(13.dp)
                     )
                 }
@@ -766,36 +832,16 @@ fun BlendItChallengeNodeCard(
     val isUnlocked = node.isUnlocked
     val isReducedMotion = LocalReducedMotion.current
 
-    // Pulsing Fiery Treasure Aura Transition
-    val infiniteTransition = rememberInfiniteTransition(label = "chestAura")
-    val auraScale by infiniteTransition.animateFloat(
-        initialValue = 1.0f,
-        targetValue = 1.30f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1300, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "chestAuraScale"
-    )
-    val auraAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.70f,
-        targetValue = 0.0f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1300, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "chestAuraAlpha"
-    )
-
-    val chestFace = if (isUnlocked) SunnyGold else Color(0xFFF1F5F9)
-    val chestShelf = if (isUnlocked) SunnyGoldDark else Color(0xFFCBD5E1)
-    val trimGold = if (isUnlocked) SunnyGoldLight else Color(0xFFE2E8F0)
-    val lockBadgeColor = if (isUnlocked) SunnyGold else Color(0xFF94A3B8)
+    val chestFace = if (isUnlocked) SunnyGold else LockedFace
+    val chestShelf = if (isUnlocked) SunnyGoldDark else LockedShelf
+    val trimGold = if (isUnlocked) SunnyGoldLight else LockedShelf
+    val lockBadgeColor = if (isUnlocked) SunnyGold else LockedIcon
+    val chestShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 16.dp, bottomEnd = 16.dp)
 
     val accessibilityLabel = if (isUnlocked) {
-        "Blend-It Treasure Chest Milestone, Unit ${node.groupId}, unlocked"
+        "Word game, chapter ${node.groupId}, open"
     } else {
-        "Blend-It Treasure Chest Milestone, Unit ${node.groupId}, locked"
+        "Word game, chapter ${node.groupId}, locked"
     }
 
     Column(
@@ -810,19 +856,15 @@ fun BlendItChallengeNodeCard(
         ) {
             // Radiant Treasure Aura Ring when unlocked
             if (isUnlocked && !isReducedMotion) {
-                Box(
-                    modifier = Modifier
-                        .size(96.dp)
-                        .graphicsLayer {
-                            scaleX = auraScale
-                            scaleY = auraScale
-                            alpha = auraAlpha
-                        }
-                        .border(
-                            width = 4.dp,
-                            color = ApricotGlow,
-                            shape = RoundedCornerShape(26.dp)
-                        )
+                PulseRing(
+                    size = 96.dp,
+                    width = 4.dp,
+                    color = ApricotGlow,
+                    shape = RoundedCornerShape(26.dp),
+                    durationMs = 1300,
+                    maxScale = 1.30f,
+                    startAlpha = 0.70f,
+                    label = "chestAura"
                 )
             }
 
@@ -832,7 +874,7 @@ fun BlendItChallengeNodeCard(
                 enabled = true,
                 faceColor = chestFace,
                 shadowColor = chestShelf,
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 16.dp, bottomEnd = 16.dp),
+                shape = chestShape,
                 strokeWidth = 2.5.dp,
                 strokeColor = ModernBorder,
                 depthHeight = 8.dp,
@@ -842,32 +884,34 @@ fun BlendItChallengeNodeCard(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Chest Lid Division & Gold Trim Band
+                    // Chest Lid Division & Gold Trim Band, cut to the box's own corners so that they can't stick out
+                    // past its outline (user, 2026-11-01).
                     Column(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().clip(chestShape),
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
-                        // Top Lid Trim
+                        // Top Lid Trim, with the line where the lid closes
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(14.dp)
-                                .background(
-                                    trimGold,
-                                    RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-                                )
-                                .border(1.5.dp, ModernBorder, RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                        )
+                                .background(trimGold),
+                            contentAlignment = Alignment.BottomCenter
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(1.5.dp)
+                                    .background(ModernBorder)
+                            )
+                        }
                         Spacer(modifier = Modifier.weight(1f))
                         // Lower Base Rim
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(8.dp)
-                                .background(
-                                    trimGold,
-                                    RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
-                                )
+                                .background(trimGold)
                         )
                     }
 
@@ -882,7 +926,7 @@ fun BlendItChallengeNodeCard(
                         if (isUnlocked) {
                             Icon(
                                 imageVector = Icons.Rounded.Star,
-                                contentDescription = "Milestone Star",
+                                contentDescription = "Star",
                                 tint = Color(0xFF78350F),
                                 modifier = Modifier.size(20.dp)
                             )
@@ -903,8 +947,8 @@ fun BlendItChallengeNodeCard(
         Box(
             modifier = Modifier
                 .offset(y = (-4).dp)
-                .background(if (isUnlocked) Color(0xFF78350F) else Color(0xFF64748B), RoundedCornerShape(999.dp))
-                .border(1.5.dp, if (isUnlocked) Color(0xFFFFC93C) else Color(0xFF94A3B8), RoundedCornerShape(999.dp))
+                .background(if (isUnlocked) Color(0xFF78350F) else LockedInk, RoundedCornerShape(999.dp))
+                .border(1.5.dp, if (isUnlocked) Color(0xFFFFC93C) else LockedIcon, RoundedCornerShape(999.dp))
                 .padding(horizontal = 10.dp, vertical = 3.dp)
         ) {
             Row(
@@ -919,7 +963,7 @@ fun BlendItChallengeNodeCard(
                 )
                 // 16 sp like all map text (it was 9.5 sp, card 31e).
                 Text(
-                    text = "BLEND ${node.groupId}",
+                    text = "BLEND ${node.groupId}", // user, 2026-11-06: back to BLEND (was WORDS in eb24dd5)
                     fontFamily = LexendFontFamily,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Black,

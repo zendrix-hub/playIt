@@ -1,5 +1,9 @@
 package com.playit.app.presentation.blendit
 
+import androidx.compose.material3.Icon
+import com.playit.app.presentation.components.NextLines
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.Icons
 import com.playit.app.presentation.components.LessonScaffold
 import androidx.compose.ui.platform.testTag
 import androidx.compose.foundation.Image
@@ -93,7 +97,7 @@ fun BlendItCompleteScreen(
             topBar = {},
             header = {
                 DockedMascotWithBubble(
-                    message = "Group ${viewModel.groupId} Mastered!",
+                    message = "You built all the words!",
                     mascotState = MascotState.CELEBRATING,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -119,8 +123,15 @@ fun BlendItCompleteScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
+                            contentDescription = null,
+                            tint = com.playit.app.presentation.theme.TextMidnight,
+                            modifier = Modifier.size(26.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Continue to Map",
+                            text = NextLines.NEXT,
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Black),
                             maxLines = 1,
                             color = com.playit.app.presentation.theme.TextMidnight
@@ -132,13 +143,13 @@ fun BlendItCompleteScreen(
             // Title pair stays together; the scaffold spaces the groups evenly.
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "GROUP ${viewModel.groupId}",
+                    text = "CHAPTER ${viewModel.groupId}",
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.ExtraBold, letterSpacing = 1.sp),
                     color = Cloud.copy(alpha = 0.85f),
                     maxLines = 1
                 )
                 Text(
-                    text = "Challenge Mastered!",
+                    text = "Great job!",
                     style = MaterialTheme.typography.headlineLarge,
                     color = Cloud,
                     textAlign = TextAlign.Center,
@@ -174,7 +185,7 @@ fun BlendItCompleteScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "$starsEarned ${if (starsEarned == 1) "Star" else "Stars"} • Bonus Unlocked!",
+                        text = "$starsEarned ${if (starsEarned == 1) "Star" else "Stars"}",
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
                         color = Cloud,
                         textAlign = TextAlign.Center,

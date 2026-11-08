@@ -1,24 +1,47 @@
 package com.playit.app.presentation.map.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.playit.app.presentation.components.MAP_OPEN_HOP_MS
 import com.playit.app.presentation.components.rememberAssetPainter
+import com.playit.app.presentation.theme.LilyOutline
+import com.playit.app.presentation.theme.LocalReducedMotion
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.sin
 
 enum class CompanionAnimal(val id: Int, val displayName: String, val assetPath: String) {
     CAT(1, "Miki", "images/characters/avatar_01_cat.png"),
@@ -41,6 +64,32 @@ data class PlacedCompanion(
     val cheerPhrase: String? = null
 )
 
+/** Where the child's explorer stands beside the node at [center] (px), in dp: on the side with more room. */
+fun explorerOffsetDp(center: Offset, canvasWidthDp: Float, density: Float): Offset {
+    val centerDpX = center.x / density
+    val x = if (centerDpX >= canvasWidthDp / 2f) {
+        (centerDpX - 98f).coerceAtLeast(10f)
+    } else {
+        (centerDpX + 54f).coerceAtMost(canvasWidthDp - 88f)
+    }
+    return Offset(x, center.y / density - 38f)
+}
+
+/** How long the explorer walks to a stop that just opened, after waiting for the map to scroll there. */
+const val WALK_MS = 1200
+const val WALK_DELAY_MS = 600L
+private const val WALK_STEPS = 4
+private const val WALK_BOB_DP = 10f
+
+/** The walk at [progress] 0..1: how far along (0 at the old stop, 1 at the new) and how high its step bob is, in dp. */
+data class WalkFrame(val along: Float, val liftDp: Float)
+
+fun walkAt(progress: Float): WalkFrame {
+    val p = progress.coerceIn(0f, 1f)
+    // Sets off and arrives gently, with four little steps on the way.
+    return WalkFrame(along = p * p * (3f - 2f * p), liftDp = WALK_BOB_DP * abs(sin(PI.toFloat() * WALK_STEPS * p)))
+}
+
 /**
  * Calculates companion animal placements along the map trail:
  * - Active Profile Avatar positioned clearly beside the active node with zero overlap.
@@ -61,22 +110,10 @@ fun generateCompanionPlacements(
 
     // 1. Place the Active Profile Explorer Avatar clearly beside the active node
     if (nodeCenters.isNotEmpty() && activeNodeIndex in nodeCenters.indices) {
-        val activeCenter = nodeCenters[activeNodeIndex]
-        val activeCenterDpX = activeCenter.x / density
-        val activeCenterDpY = activeCenter.y / density
-
-        val isRightOfCenter = activeCenterDpX >= (canvasWidthDp / 2f)
-        val explorerX = if (isRightOfCenter) {
-            (activeCenterDpX - 98f).coerceAtLeast(10f)
-        } else {
-            (activeCenterDpX + 54f).coerceAtMost(canvasWidthDp - 88f)
-        }
-        val explorerY = activeCenterDpY - 38f
-
         companions.add(
             PlacedCompanion(
                 animal = activeAnimal,
-                offsetDp = Offset(explorerX, explorerY),
+                offsetDp = explorerOffsetDp(nodeCenters[activeNodeIndex], canvasWidthDp, density),
                 isExplorerLeader = true,
                 isUnlocked = true,
                 cheerPhrase = "Let's Go!"
@@ -122,8 +159,12 @@ fun generateCompanionPlacements(
 }
 
 /**
- * Draws the child's own avatar beside the current node, still (card 22: no endless motion on the
- * map; the current node's pulse ring is the one moving thing). The other animal friends are no
+ * Draws the child's own avatar beside the current node. It stands still while nothing happens (card 22:
+ * no endless motion on the map; the current node's pulse ring is the one moving thing), and moves only on
+ * a meaningful moment (design refresh), in its own way (MapGaits.kt: the cat trots, the owl flies...):
+ * - when a stop has just opened, it travels there from [arrivalFromIndex] (the stop the child just finished);
+ * - when the map opens, and when the child taps it, it does the same move on the spot.
+ * Under reduced motion it stands at the current node and does not move. The other animal friends are no
  * longer drawn; generateCompanionPlacements still lists them for anyone who needs them.
  */
 @Composable
@@ -133,7 +174,8 @@ fun MapCompanionFriends(
     activeNodeIndex: Int,
     activeAvatarId: Int,
     onCompanionTap: ((CompanionAnimal) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    arrivalFromIndex: Int? = null
 ) {
     if (nodeCount <= 0 || nodeCenters.isEmpty()) return
 
@@ -148,31 +190,145 @@ fun MapCompanionFriends(
             density = density
         ).firstOrNull { it.isExplorerLeader } ?: return@BoxWithConstraints
 
-        val charSize = 78.dp
-        Box(
+        val reduced = LocalReducedMotion.current
+        val from = arrivalFromIndex
+            ?.takeIf { it != activeNodeIndex && it in nodeCenters.indices && !reduced }
+            ?.let { explorerOffsetDp(nodeCenters[it], maxWidth.value, density) }
+        val to = leader.offsetDp
+        val gait = leader.animal.gait
+        // It leans the way it travels, with its tail behind it; standing at a stop, the way of the stop.
+        val direction = when {
+            from != null -> if (from.x > to.x) -1f else 1f
+            nodeCenters[activeNodeIndex].x / density < to.x + EXPLORER_SIZE.value / 2f -> -1f
+            else -> 1f
+        }
+        // The animal's move (MapGaits.kt), in ms; its end is at rest. A walk starts at the old stop in the very first
+        // frame, so the explorer never flashes at the new one.
+        val move = remember(from != null, arrivalFromIndex) { Animatable(if (from != null) 0f else gait.totalMs.toFloat()) }
+        var travelling by remember(from != null, arrivalFromIndex) { mutableStateOf(from != null) }
+        val scope = rememberCoroutineScope()
+        val playOnTheSpot: () -> Unit = {
+            if (!reduced && !travelling && !move.isRunning) scope.launch {
+                move.snapTo(0f)
+                move.animateTo(gait.totalMs.toFloat(), tween(gait.totalMs, easing = LinearEasing))
+            }
+        }
+        LaunchedEffect(from != null, arrivalFromIndex) {
+            if (from == null) return@LaunchedEffect
+            delay(WALK_DELAY_MS)
+            move.animateTo(gait.totalMs.toFloat(), tween(gait.totalMs, easing = LinearEasing))
+            travelling = false
+        }
+        // Map opening: when the wave of stops reaches the current one, the explorer does its move there.
+        LaunchedEffect(Unit) {
+            if (from != null) return@LaunchedEffect
+            delay(MAP_OPEN_HOP_MS.toLong())
+            playOnTheSpot()
+        }
+        val frame: () -> GaitFrame = { gaitAt(gait, move.value, direction) }
+
+        ExplorerFigure(
+            animal = leader.animal,
+            frame = frame,
+            facing = direction,
             modifier = Modifier
-                .offset(x = leader.offsetDp.x.dp, y = leader.offsetDp.y.dp)
-                .size(charSize)
+                // Along the ground from the old stop to the new one; the lift is drawn in the picture's layer.
+                .offset {
+                    val along = if (from != null && travelling) frame().along else 1f
+                    val start = from ?: to
+                    IntOffset(
+                        (start.x + (to.x - start.x) * along).dp.roundToPx(),
+                        (start.y + (to.y - start.y) * along).dp.roundToPx()
+                    )
+                }
+                .size(EXPLORER_SIZE)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
-                ) { onCompanionTap?.invoke(leader.animal) },
-            contentAlignment = Alignment.Center
+                ) {
+                    playOnTheSpot()
+                    onCompanionTap?.invoke(leader.animal)
+                }
+        )
+    }
+}
+
+val EXPLORER_SIZE = RIG_SIZE.dp
+
+/**
+ * The explorer in [frame]: its head picture on the body and limbs of MapLimbs.kt, on its shadow, looking at the child
+ * with its tail away from [facing] (+1 right, -1 left). Its feet stand at the bottom of this square.
+ */
+@Composable
+fun ExplorerFigure(animal: CompanionAnimal, frame: () -> GaitFrame, modifier: Modifier = Modifier, facing: Float = 1f) {
+    val walks = animal.gait.walks
+    val build = animal.build
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        // The shadow stays on the ground and shrinks and fades as the animal rises; a landing kicks up dust.
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(y = 3.dp)
+                .size(width = EXPLORER_SIZE * build.shadowWidth, height = 8.dp)
+                .graphicsLayer {
+                    val away = (frame().liftDp / 90f).coerceIn(0f, 0.6f)
+                    scaleX = 1f - away
+                    scaleY = 1f - away
+                    alpha = 1f - away
+                }
+                .background(Color(0x2E1F3A3D), CircleShape)
+        )
+        Spacer(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(y = 6.dp)
+                .size(width = EXPLORER_SIZE * 1.4f, height = 24.dp)
+                .drawBehind { drawLandingDust(frame().dust) }
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    val f = frame()
+                    // A walker moves over its feet, which stay on the ground. A jumper squashes and stretches about its
+                    // centre (so a somersault turns in place), shifted so it stays standing on the ground.
+                    transformOrigin = if (walks) TransformOrigin(0.5f, 1f) else TransformOrigin.Center
+                    translationY = -f.liftDp.dp.toPx() + if (walks) 0f else size.height * (1f - f.scaleY) / 2f
+                    scaleX = f.scaleX
+                    scaleY = f.scaleY
+                    rotationZ = f.rotation
+                }
+                // Behind its head, so the body meets its chin and the limbs move with it.
+                .drawBehind { drawExplorerBody(animal, frame(), facing) }
         ) {
-            // Ambient Ground Contact Shadow
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = 2.dp)
-                    .size(width = charSize * 0.65f, height = 8.dp)
-                    .background(Color(0x2E1F3A3D), CircleShape)
-            )
             Image(
-                painter = rememberAssetPainter(leader.animal.assetPath),
-                contentDescription = "${leader.animal.displayName}, your explorer",
+                painter = rememberAssetPainter(animal.assetPath),
+                contentDescription = "${animal.displayName}, your explorer",
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        // On top of its body, going with it.
+                        scaleX = build.headScale
+                        scaleY = build.headScale
+                        translationY = build.headDrop(frame().limbs) * size.width / RIG_SIZE
+                    }
             )
+        }
+    }
+}
+
+/** A landing's dust at [dust] 0..1: a puff either side of the feet, spreading out and up as it fades. */
+private fun DrawScope.drawLandingDust(dust: Float) {
+    if (dust <= 0f) return
+    val alpha = 0.9f * (1f - dust)
+    val r = (4f + 6f * dust).dp.toPx()
+    val line = 1.5.dp.toPx()
+    for (side in listOf(-1f, 1f)) {
+        val c = Offset(size.width / 2f + side * (24f + 22f * dust).dp.toPx(), size.height * 0.7f - (5f * dust).dp.toPx())
+        for ((at, radius) in listOf(c to r, c + Offset(side * r * 0.95f, r * 0.25f) to r * 0.65f)) {
+            drawCircle(Color.White.copy(alpha = alpha), radius, at)
+            drawCircle(LilyOutline.copy(alpha = alpha * 0.5f), radius, at, style = Stroke(line))
         }
     }
 }

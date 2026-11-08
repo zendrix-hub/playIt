@@ -9,30 +9,30 @@ IT411 Capstone & Research 2 (Section G7), Group 56, College of Computer Studies,
   <img src="https://img.shields.io/badge/Kotlin-1.9.23-7F52FF" alt="Kotlin: 1.9.23"/>
   <img src="https://img.shields.io/badge/UI-Jetpack_Compose-4285F4" alt="UI: Jetpack Compose"/>
   <img src="https://img.shields.io/badge/Speech-Vosk_0.3.47%2C_offline-FF6F00" alt="Speech: Vosk 0.3.47, offline"/>
-  <img src="https://img.shields.io/badge/Unit_tests-427_passed%2C_6_skipped%2C_0_failed-brightgreen" alt="Unit tests: 427 passed, 6 skipped, 0 failed"/>
+  <img src="https://img.shields.io/badge/Unit_tests-691_passed%2C_6_skipped%2C_0_failed-brightgreen" alt="Unit tests: 691 passed, 6 skipped, 0 failed"/>
   <img src="https://img.shields.io/badge/Network-no_INTERNET_permission-blue" alt="Network: no INTERNET permission"/>
 </p>
 
 ## The Midterm Build
 
-The build submitted for the IT411 midterm is debug **APK H**, built from commit `0320385` of the team's development branch and tested in the Software Test Document (STD v1.0, in `docs/submission/`). This repository holds that code with its tests. It also holds 80 pictures released after APK H (image releases of 2026-10-15 to 2026-10-17). No code changed after APK H, so a build from this repository differs from APK H only in those pictures.
+The build submitted for the IT411 midterm is debug **APK H**, built from commit `0320385` of the team's development branch and tested in the Software Test Document (STD v1.0, in `docs/submission/`). This repository holds that code with its tests. 387 files under app/ changed after APK H, including code, so a build from this repository is not APK H.
 
 ## Screens
 
-Captured with Roborazzi from this repository's code on the 360x740 dp profile of the team's test phone (Samsung Galaxy A21s), so they show the pictures released after APK H.
+Visual interface captures rendered directly from this repository's code on a standard mobile device profile (360x740 dp).
 
 <table>
   <tr>
-    <td align="center" width="25%"><strong>Splash</strong><br/><img src="screenshots/splash_a21s.png" alt="Splash" width="180"/><br/><em>Start sits below Lily, the tarsier guide</em></td>
-    <td align="center" width="25%"><strong>New learner</strong><br/><img src="screenshots/nameprompt_a21s.png" alt="New learner" width="180"/><br/><em>Avatar-only onboarding: no typing</em></td>
-    <td align="center" width="25%"><strong>Map</strong><br/><img src="screenshots/map_a21s.png" alt="Map" width="180"/><br/><em>Chapter 1 trail; 16-character name in the header</em></td>
-    <td align="center" width="25%"><strong>Hear It</strong><br/><img src="screenshots/hearit_a21s.png" alt="Hear It" width="180"/><br/><em>Lily models the sound, then the key word</em></td>
+    <td align="center" width="25%"><strong>Splash</strong><br/><img src="screenshots/splash.png" alt="Splash" width="180"/><br/><em>Start sits below Lily, the tarsier guide</em></td>
+    <td align="center" width="25%"><strong>New learner</strong><br/><img src="screenshots/nameprompt.png" alt="New learner" width="180"/><br/><em>Avatar-only onboarding: no typing</em></td>
+    <td align="center" width="25%"><strong>Map</strong><br/><img src="screenshots/map.png" alt="Map" width="180"/><br/><em>Chapter 1 trail; 16-character name in the header</em></td>
+    <td align="center" width="25%"><strong>Hear It</strong><br/><img src="screenshots/hearit.png" alt="Hear It" width="180"/><br/><em>Lily models the sound, then the key word</em></td>
   </tr>
   <tr>
-    <td align="center" width="25%"><strong>Say It</strong><br/><img src="screenshots/sayit_a21s.png" alt="Say It" width="180"/><br/><em>Say the key word; judged on the phone</em></td>
-    <td align="center" width="25%"><strong>Say It, second miss</strong><br/><img src="screenshots/sayit_cue_a21s.png" alt="Say It, second miss" width="180"/><br/><em>Mouth-shape cue beside the microphone</em></td>
-    <td align="center" width="25%"><strong>Find It</strong><br/><img src="screenshots/findit_a21s.png" alt="Find It" width="180"/><br/><em>Tap the 3 pictures that start with /m/</em></td>
-    <td align="center" width="25%"><strong>Blend It</strong><br/><img src="screenshots/blendit_a21s.png" alt="Blend It" width="180"/><br/><em>Build SAM from tiles dealt out of order</em></td>
+    <td align="center" width="25%"><strong>Say It</strong><br/><img src="screenshots/sayit.png" alt="Say It" width="180"/><br/><em>Say the key word; judged on the phone</em></td>
+    <td align="center" width="25%"><strong>Say It, second miss</strong><br/><img src="screenshots/sayit_cue.png" alt="Say It, second miss" width="180"/><br/><em>Mouth-shape cue beside the microphone</em></td>
+    <td align="center" width="25%"><strong>Find It</strong><br/><img src="screenshots/findit.png" alt="Find It" width="180"/><br/><em>Tap the 3 pictures that start with /m/</em></td>
+    <td align="center" width="25%"><strong>Blend It</strong><br/><img src="screenshots/blendit.png" alt="Blend It" width="180"/><br/><em>Build SAM from tiles dealt out of order</em></td>
   </tr>
 </table>
 
@@ -63,7 +63,7 @@ When every letter of a chapter is done, that chapter's **Blend It** opens: the c
 
 Clean Architecture with MVVM, Hilt for dependency injection, and a Room (SQLite) database on the device.
 
-- `domain/`: pure Kotlin (no `android.*` imports): models, managers such as `SpeechValidator`, `HeartManager`, `StarCalculator` and `TutorPolicy`, and 11 repository interfaces.
+- `domain/`: pure Kotlin (no `android.*` imports): models, managers such as `SpeechValidator`, `HeartManager`, `StarCalculator` and `TutorPolicy`, and 12 repository interfaces.
 - `data/`: Room DAOs and the repository implementations, audio playback, the Vosk recognizer and the PDF report.
 - `presentation/`: Jetpack Compose screens and their ViewModels.
 - `app/src/main/assets/`: the Vosk model (`vosk-model`), the sounds (`audio/`) and the pictures (`images/`).
@@ -74,7 +74,7 @@ Requirements: JDK 17 and the Android SDK (API 34). Point Gradle at the SDK with 
 
 ```bash
 ./gradlew assembleDebug        # app/build/outputs/apk/debug/app-debug.apk
-./gradlew testDebugUnitTest    # 433 tests: 427 passed, 6 skipped by design, 0 failed
+./gradlew testDebugUnitTest    # 697 tests: 691 passed, 6 skipped by design, 0 failed
 ./gradlew :app:recordRoborazziDebug --tests "com.playit.app.screenshot.*"   # screen captures
 ```
 
@@ -91,7 +91,7 @@ The six skipped tests are the font-scale 1.3 checks on the 360x640 profile, whic
 
 - `docs/submission/`: SRS v3.0, SDD v2.0, SPMP v2.0, the Software Test Document (STD v1.0) and the MVP Validation Findings form, in PDF and DOCX.
 - `docs/std/evidence/`: the raw JUnit logs, the APK inspection and the audio release check behind the STD.
-- `docs/image-release/` and `docs/audio-release/`: the release manifests of the 131 pictures and 76 audio clips that went through review, with each file's SHA-256, its generator and its approval. `PictureAssetsTest` and `AudioResolverTest` check the app's files against them.
+- `docs/image-release/` and `docs/audio-release/`: the release manifests of the 162 pictures and 116 audio clips that went through review, with each file's SHA-256, its generator and its approval. `PictureAssetsTest` and `AudioResolverTest` check the app's files against them.
 
 ## Known Limitations
 
@@ -113,7 +113,7 @@ The team discloses the AI tools used and what each produced. The team set the re
 
 - **Claude (Anthropic):** architecture and design review, task cards, code review, test design and generation, the audio pipeline scripts, and drafting of the documentation and of this packaging.
 - **Google Antigravity ("agy", an AI coding agent):** implemented most of the app code from the team's task cards, and generated pictures with Nano Banana Pro.
-- **Pictures:** the 131 released pictures were generated with Argon 4 (80) and Nano Banana Pro (51); each one's generator is recorded in its release manifest. Pictures kept from the MVP predate the manifests.
+- **Pictures:** the 162 released pictures were generated with Argon 4 (80) and Canva generate-image (112) and Nano Banana Pro (76) and none: derived from the released pose; only the mouth is painted out (7) and tools/images/make_new_lily.py (18); each one's generator is recorded in its release manifest. Pictures kept from the MVP predate the manifests.
 - **Voices:** synthetic. Kokoro-82M (Apache-2.0) for the carrier lines and key words; Chatterbox-Turbo (MIT) for held sounds such as /m/; ElevenLabs Text to Speech for the Blend It words AM, TUB and YAM and the short /i/. Clips kept from the MVP predate the release gate; the MVP's letter sounds were made with Microsoft Edge TTS.
 - **ElevenLabs credit:** the AM, TUB, YAM and /i/ clips were made with [ElevenLabs](https://elevenlabs.io) on the Free plan, which allows non-commercial use with attribution. The app credits elevenlabs.io in the Parent Zone. These clips may not be used commercially.
 - **Vosk** (Alpha Cephei, Apache-2.0): offline speech recognition with its small US English model.
