@@ -17,6 +17,25 @@ IT411 Capstone & Research 2 (Section G7), Group 56, College of Computer Studies,
 
 The build submitted for the IT411 midterm is debug **APK H**, built from commit `0320385` of the team's development branch and tested in the Software Test Document (STD v1.0, in `docs/submission/`). This repository holds that code with its tests. 387 files under app/ changed after APK H, including code, so a build from this repository is not APK H.
 
+## Screens
+
+Visual interface captures rendered directly from this repository's code on a standard mobile device profile (360x740 dp).
+
+<table>
+  <tr>
+    <td align="center" width="25%"><strong>Splash</strong><br/><img src="docs/screenshots/splash.png" alt="Splash" width="180"/><br/><em>Start sits below Lily, the tarsier guide</em></td>
+    <td align="center" width="25%"><strong>New learner</strong><br/><img src="docs/screenshots/nameprompt.png" alt="New learner" width="180"/><br/><em>Avatar-only onboarding: no typing</em></td>
+    <td align="center" width="25%"><strong>Map</strong><br/><img src="docs/screenshots/map.png" alt="Map" width="180"/><br/><em>Chapter 1 trail; 16-character name in the header</em></td>
+    <td align="center" width="25%"><strong>Hear It</strong><br/><img src="docs/screenshots/hearit.png" alt="Hear It" width="180"/><br/><em>Lily models the sound, then the key word</em></td>
+  </tr>
+  <tr>
+    <td align="center" width="25%"><strong>Say It</strong><br/><img src="docs/screenshots/sayit.png" alt="Say It" width="180"/><br/><em>Say the key word; judged on the phone</em></td>
+    <td align="center" width="25%"><strong>Say It, second miss</strong><br/><img src="docs/screenshots/sayit_cue.png" alt="Say It, second miss" width="180"/><br/><em>Mouth-shape cue beside the microphone</em></td>
+    <td align="center" width="25%"><strong>Find It</strong><br/><img src="docs/screenshots/findit.png" alt="Find It" width="180"/><br/><em>Tap the 3 pictures that start with /m/</em></td>
+    <td align="center" width="25%"><strong>Blend It</strong><br/><img src="docs/screenshots/blendit.png" alt="Blend It" width="180"/><br/><em>Build SAM from tiles dealt out of order</em></td>
+  </tr>
+</table>
+
 ## Curriculum
 
 26 letters in 7 chapters, seeded in `app/src/main/java/com/playit/app/di/DatabaseModule.kt`. N with tilde and NG are not taught (SRS v3.0, section 1.2). Every Blend It word can be sounded out with the letters taught up to its chapter; QUIZ is the one documented exception (*qu* = /kw/).
