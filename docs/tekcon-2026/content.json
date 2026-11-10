@@ -45,7 +45,7 @@
     "heading": "Results & Validation",
     "subline": "Round {round} · {participants_total} participants: {groups.children} Grade 1 learners · {groups.parents} parents · {groups.teachers} teachers",
     "users_heading": "Our users: Grade 1 learners, observed while playing",
-    "adults_heading": "The adults who guide them, rating 1 to 5",
+    "adults_heading": "The bridge to the child: parents and teachers (1 to 5)",
     "counts": [
       { "value": "children.happy_face", "of": "children.n", "label": "chose the happy face after playing" },
       { "value": "children.sayit_first_try", "of": "children.n", "label": "passed Say It on the first try" },

@@ -41,13 +41,13 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 
 > We tested PlayIT with **{{total}}** people: **{{ch_n}}** children, plus parents and teachers.
 >
-> **{{ch_happy}}** of **{{ch_n}}** children chose the happy face. **{{ch_sayit}}** of **{{ch_n}}** passed Say It on their first try.
+> **{{ch_happy}}** of **{{ch_n}}** children chose the happy face. **{{ch_sayit}}** of **{{ch_n}}** passed Say It first try.
 >
-> Parents rated it **{{pa_useful}}** out of 5 for learning at home, **{{pa_offline}}** for working offline. Teachers scored its teaching quality **{{te_overall}}** out of 5.
+> The grown-ups who open the door? Parents rated it **{{pa_useful}}** out of 5 for home learning, **{{pa_offline}}** for working offline. Teachers scored its teaching **{{te_overall}}**.
 >
 > One teacher called it "very useful and engaging for Grade 1 learners."
 >
-> {{tests}} automated tests pass.
+> {{tests}} tests pass.
 
 ## Beat 5 — Impact and close (1:40–2:00)
 
@@ -63,6 +63,7 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 
 ## Notes
 
+- Children are the users; parents and teachers are the bridge. They decide whether the app reaches a child, which is why their ratings are in the pitch. Keep the two groups' numbers separate.
 - Mia is a story character, not a survey participant. Do not present her as a real case.
 - The teacher quote is real and comes from Round 1 (teacher T-1). If a Round 2 teacher gives you a better line, swap it.
 - "{{tests}} automated tests pass" is from the app's README. Re-check the count on the build you submit.

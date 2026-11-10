@@ -42,13 +42,13 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 
 > We tested PlayIT with **[30]** people: **[16]** children, plus parents and teachers.
 >
-> **[15]** of **[16]** children chose the happy face. **[12]** of **[16]** passed Say It on their first try.
+> **[15]** of **[16]** children chose the happy face. **[12]** of **[16]** passed Say It first try.
 >
-> Parents rated it **[4.5]** out of 5 for learning at home, **[4.8]** for working offline. Teachers scored its teaching quality **[4.7]** out of 5.
+> The grown-ups who open the door? Parents rated it **[4.5]** out of 5 for home learning, **[4.8]** for working offline. Teachers scored its teaching **[4.7]**.
 >
 > One teacher called it "very useful and engaging for Grade 1 learners."
 >
-> 691 automated tests pass.
+> 691 tests pass.
 
 ## Beat 5 — Impact and close (1:40–2:00)
 
@@ -64,6 +64,7 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 
 ## Notes
 
+- Children are the users; parents and teachers are the bridge. They decide whether the app reaches a child, which is why their ratings are in the pitch. Keep the two groups' numbers separate.
 - Mia is a story character, not a survey participant. Do not present her as a real case.
 - The teacher quote is real and comes from Round 1 (teacher T-1). If a Round 2 teacher gives you a better line, swap it.
 - "691 automated tests pass" is from the app's README. Re-check the count on the build you submit.

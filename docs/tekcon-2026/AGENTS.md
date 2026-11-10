@@ -50,7 +50,7 @@ If the build says the pptx is locked ("EACCES" or "permission denied"), the user
 
 ## Who the participants are
 
-The app's **users are Grade 1 learners**. They are too young to fill in a questionnaire, so they are **observed while playing** and asked one smiley-face question. **Parents and teachers are evaluators, not users**: parents rate usefulness and ease of use, and teachers rate teaching quality. The final design is **16 learners, 9 parents and 5 teachers (30 participants)**; there are no technical evaluators, so `technical` in the data file stays at zero. Keep that distinction everywhere:
+The app's **users are Grade 1 learners**. They are too young to fill in a questionnaire, so they are **observed while playing** and asked one smiley-face question. **Parents and teachers are evaluators, not users. They are the bridge to the child**: a parent hands over the phone and a teacher decides whether the app fits the lesson, so their acceptance matters. In short: parents rate usefulness and ease of use, and teachers rate teaching quality. The final design is **16 learners, 9 parents and 5 teachers (30 participants)**; there are no technical evaluators, so `technical` in the data file stays at zero. Keep that distinction everywhere:
 
 - Children's figures are always shown first and described as observed ("9 of 12 passed Say It on the first try").
 - Never write that "30 users" tested the app, and never call the children "respondents". Write "30 participants" and give the split.
