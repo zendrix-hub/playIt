@@ -89,7 +89,43 @@ else {
   ok(newer.length === 0, "poster is newer than both source files", `poster is older than ${newer.join(" and ")}; run: npm run poster`);
 }
 
-// ---- 5. Pictures and print readiness (warnings only) ----
+// ---- 5. Pitch video ----
+try {
+  const { make, GEN } = require("./build_video_data");
+  const { seconds, VIDEO } = require("./media");
+  const { out, overruns, missingCues } = make();
+  const shots = out.timeline.shots, beats = out.timeline.beats;
+  const gaps = shots.filter((s, i) => (i === 0 ? s.start !== 0 : s.start !== shots[i - 1].end) || s.end <= s.start);
+  ok(gaps.length === 0, `video timeline: ${shots.length} shots touch with no gaps or overlaps`, "video timeline has a gap, overlap or zero-length shot at shot " + gaps.map((s) => s.id).join(", "));
+  ok(shots[shots.length - 1].end === 120, "video timeline ends at 2:00", `video timeline ends at ${shots[shots.length - 1].end}s; it must end at 120`);
+  const want = [0, 20, 40, 70, 100, 120], got = [beats[0].start, ...beats.map((b) => b.end)];
+  ok(JSON.stringify(got) === JSON.stringify(want), "beats keep the required windows (0:20, 0:40, 1:10, 1:40, 2:00)", `beat boundaries are ${got.join(", ")}; the brief requires ${want.join(", ")}`);
+  const cut = beats.filter((b) => !shots.some((s) => s.start === b.start));
+  ok(cut.length === 0, "every beat starts on a shot boundary", "no shot starts exactly at the start of beat " + cut.map((b) => b.beat).join(", "));
+  ok(missingCues.length === 0, "every shot cue is found in the narration", "shot cues not found in the narration (fix the cue in video/timeline.json): " + missingCues.map((m) => `shot ${m.shot} \"${m.cue}\"`).join(", "));
+  const real = out.voice.filter((v) => v.file).length;
+  if (overruns.length) {
+    const msg = overruns.map((o) => `Beat ${o.beat} by ${o.over}s`).join(", ");
+    real === out.voice.length ? fail(`narration runs past its beat: ${msg}; cut words in templates/narration_script.template.md`) : warn(`narration may run past its beat (${msg}, partly estimated); re-check once every line has real audio`);
+  } else pass("narration fits inside every beat");
+  const need = out.voice.filter((v) => v.speaker !== "mia").length;
+  real >= need ? pass(`all ${need} spoken lines have audio`) : warn(`${real} of ${need} spoken lines have audio; the rest are silent with estimated timing (run: npm run video:voice)`);
+  const dataFile = path.join(GEN, "data.json");
+  ok(fs.existsSync(dataFile) && fs.readFileSync(dataFile, "utf8") === JSON.stringify(out, null, 1), "video data is up to date", "video data is out of date; run: node build_video_data.js");
+  const footage = [...new Set(shots.flatMap((s) => [s.rec, s.rec2]).filter(Boolean))];
+  const noFootage = footage.filter((f) => !out.files["rec/" + f]);
+  noFootage.length ? warn(`${noFootage.length} of ${footage.length} real app recordings missing from assets/recordings/: ${noFootage.join(", ")}`) : pass("all real app recordings are present");
+  const finalFile = path.join(VIDEO, "out", `${c.team_code}_2-Minute_Pitch.mp4`);
+  if (!fs.existsSync(finalFile)) warn("final video not rendered yet (run: npm run video:final)");
+  else {
+    const len = seconds(finalFile);
+    if (len === null) warn("final video exists but its length could not be read (ffprobe not found)");
+    else ok(len <= 120.05, `final video is ${len.toFixed(1)}s (limit 120)`, `final video is ${len.toFixed(1)}s; the brief allows 120 at most`);
+    if (fs.statSync(finalFile).mtimeMs < fs.statSync(path.join(ROOT, "round2_data.json")).mtimeMs) warn("final video is older than round2_data.json; render it again");
+  }
+} catch (e) { fail("video check: " + e.message); }
+
+// ---- 6. Pictures and print readiness (warnings only) ----
 const assets = [c.lily_asset, c.team.asset, c.qr.asset, c.how.parent.asset, ...c.how.steps.map((st) => st.asset)];
 const missing = assets.filter((a) => !fs.existsSync(path.join(ROOT, "assets", a)));
 missing.length ? warn(`${missing.length} of ${assets.length} pictures not in assets/ yet: ${missing.join(", ")}`) : pass("all poster pictures are in assets/");

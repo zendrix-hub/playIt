@@ -1,0 +1,37 @@
+{
+  "_readme": "Every shot of the pitch video. Times are in seconds. 'start' and 'end' are the planned times; when a shot has a 'cue', it instead starts the moment the narrator reaches those words (or the start of a line, written as @line_id), so the picture follows the voice. The first shot of each beat always starts on the beat. Beats are fixed at 0, 20, 40, 70, 100, 120. Edit cues, assets, labels and poses here; do not edit src/ unless asked for a design change. After editing run: npm run video:stills (inside tools/).",
+  "fps": 30,
+  "beats": [
+    { "beat": 1, "name": "Problem", "start": 0, "end": 20 },
+    { "beat": 2, "name": "Solution", "start": 20, "end": 40 },
+    { "beat": 3, "name": "Demonstration", "start": 40, "end": 70 },
+    { "beat": 4, "name": "Results and validation", "start": 70, "end": 100 },
+    { "beat": 5, "name": "Impact and closing", "start": 100, "end": 120 }
+  ],
+  "shots": [
+    { "id": 1, "start": 0, "end": 5, "type": "story", "clip": "V1.mp4", "still": "G1.png", "move": "push-in", "what": "Evening house, Mia at the table with the letter M" },
+    { "id": 2, "start": 5, "end": 8, "cue": "Mmm", "type": "story", "still": "G2.png", "move": "push-in", "what": "Close on Mia trying the sound" },
+    { "id": 3, "start": 8, "end": 16, "cue": "Her teacher has", "type": "triptych", "stills": [ "G3.png", "G4.png", "G5.png" ], "labels": [ "one teacher", "no one free", "no signal" ], "what": "Crowded class, empty chair, no signal" },
+    { "id": 4, "start": 16, "end": 20, "cue": "So Mia closes", "type": "story", "still": "G6.png", "move": "pull-out", "dim": true, "what": "Mia closes the book" },
+    { "id": 5, "start": 20, "end": 24, "type": "story", "clip": "V2.mp4", "still": "G7.png", "move": "push-in", "what": "Lily's eyes peek over the phone" },
+    { "id": 6, "start": 24, "end": 29, "cue": "Mabuhay", "type": "morph", "clip": "V3.mp4", "stills": [ "G7.png", "B2.png", "B1.png" ], "what": "The room changes into the app's style" },
+    { "id": 7, "start": 29, "end": 35, "cue": "This is Lily", "type": "demo", "rec": "rec_splash.mp4", "pose": "waving", "title": true, "what": "Splash screen in the phone, PlayIT title" },
+    { "id": 8, "start": 35, "end": 40, "cue": "It follows", "type": "demo", "rec": "rec_splash.mp4", "pose": "idle", "badges": [ "Marungko order", "Listens", "100% offline" ], "what": "Three badges" },
+    { "id": 9, "start": 40, "end": 43, "type": "demo", "rec": "rec_airplane.mp4", "pose": "idle", "airplane": "enter", "what": "Airplane mode on" },
+    { "id": 10, "start": 43, "end": 45, "cue": "Mia taps", "type": "demo", "rec": "rec_map.mp4", "pose": "pointing", "what": "Map, tap the letter M" },
+    { "id": 11, "start": 45, "end": 48, "cue": "First, she hears", "type": "demo", "rec": "rec_hearit.mp4", "pose": "listening", "step": 1, "prop": "rings", "what": "Hear It" },
+    { "id": 12, "start": 48, "end": 54, "cue": "Then she says", "type": "demo", "rec": "rec_sayit_pass.mp4", "pose": "celebrating", "step": 2, "prop": "padlock", "note": "checked on the phone", "recAudio": true, "what": "Say It, a real child's voice" },
+    { "id": 13, "start": 54, "end": 60, "cue": "Miss it", "type": "demo", "rec": "rec_sayit_cue.mp4", "pose": "encouraging", "step": 2, "what": "A miss, then the mouth-shape cue" },
+    { "id": 14, "start": 60, "end": 67, "cue": "Next, she finds", "type": "demo", "rec": "rec_findit.mp4", "rec2": "rec_blendit.mp4", "pose": "celebrating", "step": 3, "step2": 4, "prop": "tiles", "what": "Find It, then Blend It", "cue2": "Then the letters" },
+    { "id": 15, "start": 67, "end": 70, "cue": "And parents get", "type": "demo", "rec": "rec_parent.mp4", "pose": "idle", "label": "Parent Zone", "prop": "report", "what": "Parent Zone and the report" },
+    { "id": 16, "start": 70, "end": 74, "type": "results_people", "what": "30 participants; the children step forward" },
+    { "id": 17, "start": 74, "end": 81, "cue": "@b4_02", "type": "results_counts", "what": "Happy faces, then first-try Say It" },
+    { "id": 18, "start": 81, "end": 89, "cue": "The grown-ups", "type": "results_bridge", "what": "The bridge: parents and teachers" },
+    { "id": 19, "start": 89, "end": 96, "cue": "One teacher called", "type": "results_quote", "what": "Teacher quote" },
+    { "id": 20, "start": 96, "end": 100, "cue": "@b4_05", "type": "results_tests", "what": "Tests pass" },
+    { "id": 21, "start": 100, "end": 106, "type": "story", "clip": "V4.mp4", "still": "G9.png", "move": "push-in", "what": "Mia reads aloud, Lily beside her" },
+    { "id": 22, "start": 106, "end": 110, "cue": "Just a little tarsier", "type": "story", "still": "G10.png", "move": "push-in", "what": "Mia proud, Lily cheering" },
+    { "id": 23, "start": 110, "end": 116, "cue": "We are Group", "type": "team", "still": "team_pixar.png", "what": "Team reveal" },
+    { "id": 24, "start": 116, "end": 120, "cue": "@b5_04", "type": "logo", "pose": "waving", "what": "Logo card, Play it!" }
+  ]
+}

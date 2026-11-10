@@ -4,6 +4,8 @@ Record on a real phone with the built-in screen recorder, portrait, at the highe
 
 Before you start: turn on Do Not Disturb, clear notifications, set brightness to full, charge above 50% so no battery warning appears.
 
+Save every recording in `assets/recordings/` with the file name shown. A screen recording is cleanest; filming the phone being used also counts as a demonstration of the working system.
+
 | Code | Shot | What to record | Length to keep | Save as |
 |---|---|---|---|---|
 | S1 | 7, 8, 24 | Cold start: splash, letters popping in, "Play it!", tagline | 8 s | `rec_splash.mp4` |

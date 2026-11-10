@@ -1,6 +1,17 @@
 tools/node_modules/
 tools/_preview.pptx
 ~$*
-# generated clips and final video belong on Google Drive, not in git
+
+# video: installed packages, prepared media, renders and generated data are rebuilt by the scripts
+video/node_modules/
+video/public/
+video/out/
+video/src/generated/
+
+# large media belongs on Google Drive, not in git
 *.mp4
+*.mov
+*.wav
+*.mp3
 01_Video_Pitch/generated/
+__pycache__/

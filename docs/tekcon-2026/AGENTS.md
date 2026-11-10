@@ -13,19 +13,21 @@ The official requirements are summarised in `README.md`. The survey behind the r
 
 ## The one rule that matters most
 
-**You edit three kinds of file. Scripts build everything else.**
+**You edit four kinds of file. Scripts build everything else.**
 
 | You may edit | What it holds |
 |---|---|
 | `round2_data.json` | Every survey number |
 | `content.json` | Every word on the poster, and which figures are shown |
 | `templates/*.template.md` | The wording of the narration script and storyboard |
+| `video/timeline.json` | The shots of the pitch video: cues, assets, labels |
 
 | Never edit by hand | Why |
 |---|---|
 | `02_Research_Poster/*.pptx` | Rebuilt from the files above; hand edits are lost |
 | `01_Video_Pitch/narration_script.md`, `storyboard.md` | Generated; they say so on line 1 |
-| `tools/*.js` | Layout, font sizes and checks. Change only if the user asks for a layout change |
+| `tools/*.js`, `video/src/` | Layout, scenes, font sizes and checks. Change only if the user asks for a design change |
+| `video/public/`, `video/out/`, `video/src/generated/` | Produced by the scripts |
 
 After **any** edit, run this and read the output:
 
@@ -95,6 +97,12 @@ powershell -ExecutionPolicy Bypass -File export_preview.ps1 -Source ..\02_Resear
 ```
 
 Then open `02_Research_Poster/poster_preview.png` and check: no text runs outside its card, no text overlaps a picture, nothing is cut off at the bottom edge. If you cannot view images, say so and ask the user to look.
+
+## The pitch video
+
+The video is rendered from code. For anything about it, use the project skill `playit-video` (`.agents/skills/playit-video/SKILL.md`): where media goes, the working loop, how to change timing, voice and music, and when to stop and ask. One-time installation is in `SETUP_WINDOWS.md`.
+
+There is also a second, separate route: `01_Video_Pitch/antigravity_freeform_brief.md` asks you to make the video your own way, with no prescribed tools. Use it only when the user asks for the freeform version, and keep its output in `video_freeform/` so the two can be compared.
 
 ## Common tasks
 

@@ -1,0 +1,7 @@
+# Voice and caption timing for the pitch video. Install with:  python -m pip install -r requirements.txt
+faster-whisper
+soundfile
+numpy
+kokoro
+# Voice cloning (large download, slow without a graphics card). Install only when you are ready for the final voice:
+#   python -m pip install chatterbox-tts

@@ -1,0 +1,22 @@
+{
+  "name": "playit-pitch-video",
+  "private": true,
+  "version": "1.0.0",
+  "description": "PlayIT two-minute pitch video, rendered with Remotion from timeline.json",
+  "scripts": {
+    "studio": "remotion studio src/index.jsx",
+    "stills": "node scripts/render.mjs stills",
+    "draft": "node scripts/render.mjs draft",
+    "final": "node scripts/render.mjs final"
+  },
+  "dependencies": {
+    "@fontsource/lexend": "^5.0.0",
+    "@fontsource/sniglet": "^5.0.0",
+    "@remotion/bundler": "4.0.542",
+    "@remotion/cli": "4.0.542",
+    "@remotion/renderer": "4.0.542",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.542"
+  }
+}

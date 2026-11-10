@@ -179,7 +179,13 @@ txt([...c.team.members, c.team.adviser].map((m, i, a) => ({ text: m, options: { 
 const qx = tx + tmw + GAP;
 box(qx, y5, qw, h5, C.teal, { r: 0.35 });
 slot(c.qr.asset, "QR code\n(square)", qx + 0.3, y5 + 0.35, 2.4, 2.4);
-txt(c.qr.label, qx + 2.95, y5 + 0.3, qw - 3.2, 2.5, { size: 22, bold: true, color: C.white, valign: "middle" });
+// Optional second code: appears only when assets/<app_qr.asset> exists. The required video QR is unchanged.
+const appQr = c.app_qr && fs.existsSync(path.join(ROOT, "assets", c.app_qr.asset));
+txt(c.qr.label, qx + 2.95, y5 + 0.3, qw - 3.2, appQr ? 1.25 : 2.5, { size: appQr ? 17 : 22, bold: true, color: C.white, valign: "middle" });
+if (appQr) {
+  slot(c.app_qr.asset, "", qx + 2.95, y5 + 1.6, 1.15, 1.15);
+  txt(c.app_qr.label, qx + 4.15, y5 + 1.6, qw - 4.3, 1.15, { size: 12, bold: true, color: C.white, valign: "middle" });
+}
 
 // ---------- 6. References ----------
 const y6 = y5 + h5 + GAP;

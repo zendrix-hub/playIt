@@ -4,10 +4,18 @@
   "version": "1.0.0",
   "description": "Builds the PlayIT poster and pitch script from content.json and round2_data.json",
   "scripts": {
-    "build": "node build_poster.js && node build_pitch.js && node check.js",
+    "build": "node build_poster.js && node build_pitch.js && node build_video_data.js && node check.js",
     "poster": "node build_poster.js",
     "pitch": "node build_pitch.js",
-    "check": "node check.js"
+    "check": "node check.js",
+    "video:prep": "node prep_media.js && node build_video_data.js",
+    "video:voice": "python voice/make_voice.py && python voice/align.py && node build_video_data.js",
+    "video:stills": "node build_video_data.js && npm --prefix ../video run stills",
+    "video:draft": "node build_video_data.js && npm --prefix ../video run draft",
+    "video:final": "node prep_media.js && node build_video_data.js && npm --prefix ../video run final && node check.js",
+    "video:studio": "node build_video_data.js && npm --prefix ../video run studio"
   },
-  "dependencies": { "pptxgenjs": "^3.12.0" }
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
 }

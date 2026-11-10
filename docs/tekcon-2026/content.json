@@ -84,6 +84,7 @@
   ],
 
   "qr": { "label": "Scan to Watch Our 2-Minute Project Pitch", "asset": "qr_pitch.png" },
+  "app_qr": { "_readme": "Optional. Shown only if this file exists in assets/. See README.md for the caveats.", "label": "Try the app (Android)", "asset": "qr_app.png" },
   "lily_asset": "lily_waving.png",
 
   "pitch_fields": {
