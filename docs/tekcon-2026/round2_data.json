@@ -1,0 +1,79 @@
+{
+  "_readme": "Every Round 2 number used by the poster and the video script. While status is 'projected' the poster shows a PROJECTED tag on each results tile. When the survey closes: replace the values with the real ones, set status to 'actual', then rebuild the poster (see README.md).",
+  "status": "projected",
+  "round": 2,
+  "participants_total": 30,
+  "groups": {
+    "children": 16,
+    "parents": 9,
+    "teachers": 5,
+    "technical": 0
+  },
+  "children": {
+    "n": 16,
+    "happy_face": 15,
+    "okay_face": 1,
+    "sad_face": 0,
+    "map_entry_independent": 14,
+    "completed_letter_unaided": 13,
+    "sayit_first_try": 12,
+    "sayit_within_two_tries": 15,
+    "findit_no_hearts_lost": 9,
+    "findit_one_or_two_mistakes": 6,
+    "findit_needed_help": 1,
+    "blendit_smooth": 8,
+    "blendit_minor_retries": 5,
+    "blendit_needed_hint": 3,
+    "median_seconds_to_first_letter": 9,
+    "median_seconds_sayit": 4,
+    "median_seconds_blendit": 21
+  },
+  "parents": {
+    "n": 9,
+    "usefulness_mean": 4.5,
+    "ease_of_use_mean": 4.2,
+    "dashboard_clarity_mean": 4.3,
+    "math_gate_mean": 4.6,
+    "offline_benefit_mean": 4.8,
+    "safety_no_ads_mean": 4.7,
+    "intention_to_keep_using_mean": 4.4,
+    "home_internet_always_wifi": 2,
+    "home_internet_mobile_or_patchy": 5,
+    "home_internet_none": 2,
+    "sus_score": null,
+    "sus_n": null,
+    "_sus_note": "Leave as null until real SUS answers are scored (see survey/SUS_parent_section.md). Not shown on the poster yet."
+  },
+  "teachers": {
+    "n": 5,
+    "item_means": {
+      "PED-01 Marungko order": 4.8,
+      "PED-02 Sound quality (Hear It)": 4.4,
+      "PED-03 Speech practice (Say It)": 4.6,
+      "PED-04 Pictures (Find It)": 4.6,
+      "PED-05 Word blending (Blend It)": 4.8,
+      "PED-06 26-letter adaptation": 4.8,
+      "PED-07 Gentle feedback": 4.8
+    },
+    "overall_mean": 4.7,
+    "items_where_all_rated_4_or_higher": 6,
+    "items_total": 7
+  },
+  "technical": {
+    "_note": "No technical evaluators in the final design (16 learners, 9 parents, 5 teachers). Kept at zero so the totals still check.",
+    "n": 0,
+    "speech_reply_within_half_second": 0,
+    "animations_smooth": 0,
+    "progress_kept_after_force_close": 0
+  },
+  "actual_figures_not_from_round2": {
+    "unit_tests_passed": 691,
+    "unit_tests_failed": 0,
+    "round1_participants": 25,
+    "round1_sus": 75.5,
+    "round1_sus_n": 5,
+    "round1_children_fun": "15 of 16",
+    "teacher_quote": "The app is very useful and engaging for Grade 1 learners.",
+    "teacher_quote_source": "DepEd Grade 1 teacher, Round 1 (T-1)"
+  }
+}

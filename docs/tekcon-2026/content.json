@@ -1,0 +1,103 @@
+{
+  "_readme": "All wording on the poster. Edit text here, then run `npm run build` inside tools/. Numbers are never typed here: write {path} to pull a value from round2_data.json, for example {children.happy_face}. Keep text short; tools/check.js fails if a line is too long for its space.",
+
+  "team_code": "G56",
+  "logo": "PlayIT",
+  "tagline": "Offline phonics for Grade 1 learners",
+  "full_title": "An Offline-First Gamified Early Literacy Mobile Application Using the DepEd Marungko Approach",
+  "org_line": "Group 56 · IT411 Capstone & Research 2 · CCS, CIT-University",
+
+  "headline": { "value": "children.happy_face", "of": "children.n", "label": "children chose the happy face" },
+
+  "problem": {
+    "heading": "The Problem",
+    "items": [
+      { "title": "One teacher, many readers", "text": "Little one-on-one time for letter sounds." },
+      { "title": "Few materials at home", "text": "Worksheets cannot listen or answer back." },
+      { "title": "No steady internet", "text": "Most reading apps need a connection." }
+    ]
+  },
+
+  "solution": {
+    "heading": "Our Solution",
+    "text": "A phonics game where Lily the Tarsier teaches letter sounds, listens to the child, and cheers them on.",
+    "badges": ["100% offline", "Hears the child", "Marungko order"]
+  },
+
+  "how": {
+    "heading": "How It Works",
+    "subline": "26 letters · 7 chapters · m, s, a, i first",
+    "steps": [
+      { "label": "1  Hear It", "asset": "screen_hearit.png" },
+      { "label": "2  Say It", "asset": "screen_sayit.png" },
+      { "label": "3  Find It", "asset": "screen_findit.png" },
+      { "label": "4  Blend It", "asset": "screen_blendit.png" }
+    ],
+    "parent": {
+      "title": "For parents",
+      "text": "Parent Zone shows progress in plain words and saves a PDF report.",
+      "asset": "screen_parent.png"
+    },
+    "tech": ["Kotlin + Jetpack Compose", "Clean Architecture, MVVM", "Room database + Vosk speech", "No internet permission"]
+  },
+
+  "results": {
+    "heading": "Results & Validation",
+    "subline": "Round {round} · {participants_total} participants: {groups.children} Grade 1 learners · {groups.parents} parents · {groups.teachers} teachers",
+    "users_heading": "Our users: Grade 1 learners, observed while playing",
+    "adults_heading": "The adults who guide them, rating 1 to 5",
+    "counts": [
+      { "value": "children.happy_face", "of": "children.n", "label": "chose the happy face after playing" },
+      { "value": "children.sayit_first_try", "of": "children.n", "label": "passed Say It on the first try" },
+      { "value": "children.completed_letter_unaided", "of": "children.n", "label": "finished a letter with no adult help" }
+    ],
+    "ratings": [
+      { "value": "parents.usefulness_mean", "label": "Parents: useful for learning at home (n = {parents.n})", "goal": 4.2 },
+      { "value": "parents.offline_benefit_mean", "label": "Parents: offline is practical for us (n = {parents.n})", "goal": null },
+      { "value": "teachers.overall_mean", "label": "Teachers: teaching quality, 7 items (n = {teachers.n})", "goal": 4.0 }
+    ],
+    "quote": "“{actual_figures_not_from_round2.teacher_quote}”",
+    "quote_source": "{actual_figures_not_from_round2.teacher_quote_source}",
+    "footer": "Software quality: {actual_figures_not_from_round2.unit_tests_passed} automated unit tests pass, {actual_figures_not_from_round2.unit_tests_failed} fail"
+  },
+
+  "impact": {
+    "heading": "Impact",
+    "points": [
+      "Reading practice anywhere: no signal, no load, no ads.",
+      "Next: measure reading gains over a full term."
+    ]
+  },
+
+  "team": {
+    "heading": "Our Team",
+    "members": ["Zendrix Riva (Lead)", "John James Palis", "Kaysean Miel", "Ashlee Skye Durano", "Erik Samuel Bien"],
+    "adviser": "Adviser: Mr. Joemarie C. Amparo",
+    "asset": "team_pixar.png"
+  },
+
+  "references": [
+    "Brooke, J. (1996). SUS: A quick and dirty usability scale. In Usability Evaluation in Industry.",
+    "Davis, F. D. (1989). Perceived usefulness, perceived ease of use, and user acceptance of information technology. MIS Quarterly, 13(3).",
+    "Ehri, L. C., Deffner, N. D., & Wilce, L. S. (1984). Pictorial mnemonics for phonics. Journal of Educational Psychology, 76(5).",
+    "Gonzalez-Frey, S. M., & Ehri, L. C. (2021). Connected phonation is more effective than segmented phonation. Scientific Studies of Reading, 25(3)."
+  ],
+
+  "qr": { "label": "Scan to Watch Our 2-Minute Project Pitch", "asset": "qr_pitch.png" },
+  "lily_asset": "lily_waving.png",
+
+  "pitch_fields": {
+    "_readme": "Names used as {{name}} in templates/*.template.md, and where each value comes from in round2_data.json. Add a line here to use a new figure in the script.",
+    "total": "participants_total",
+    "ch_n": "children.n",
+    "ch_happy": "children.happy_face",
+    "ch_sayit": "children.sayit_first_try",
+    "pa_n": "parents.n",
+    "pa_useful": "parents.usefulness_mean",
+    "pa_offline": "parents.offline_benefit_mean",
+    "te_n": "teachers.n",
+    "te_overall": "teachers.overall_mean",
+    "tests": "actual_figures_not_from_round2.unit_tests_passed",
+    "tests_fail": "actual_figures_not_from_round2.unit_tests_failed"
+  }
+}

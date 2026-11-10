@@ -1,0 +1,13 @@
+{
+  "name": "playit-tekcon-kit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Builds the PlayIT poster and pitch script from content.json and round2_data.json",
+  "scripts": {
+    "build": "node build_poster.js && node build_pitch.js && node check.js",
+    "poster": "node build_poster.js",
+    "pitch": "node build_pitch.js",
+    "check": "node check.js"
+  },
+  "dependencies": { "pptxgenjs": "^3.12.0" }
+}

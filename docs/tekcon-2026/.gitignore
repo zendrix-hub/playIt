@@ -1,0 +1,6 @@
+tools/node_modules/
+tools/_preview.pptx
+~$*
+# generated clips and final video belong on Google Drive, not in git
+*.mp4
+01_Video_Pitch/generated/
