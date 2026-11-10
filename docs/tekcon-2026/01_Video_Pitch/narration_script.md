@@ -14,7 +14,7 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 >
 > *Mmm.*
 >
-> Her teacher has a full classroom. Her mama is still at work. And the signal at home is gone again.
+> Her teacher has a full classroom. Her nanay is still at work. And the signal at home is gone again.
 >
 > So Mia closes the book.
 

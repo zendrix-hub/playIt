@@ -23,6 +23,10 @@ A two-minute video rendered from code. You do not edit video by hand and you do 
 
 0:00 Problem · 0:20 Solution · 0:40 Demonstration · 1:10 Results and validation · 1:40 Impact and close · 2:00 end. The brief requires this flow and a maximum of two minutes. Never move a beat boundary. If the voice does not fit a beat, cut words; do not stretch the beat.
 
+## The setting is the Philippines
+
+Every scene is set in the Philippines: a Filipino home and public-school classroom in the story world, and Lily's island (Chocolate Hills of Bohol, coconut palms, a bahay kubo, fiesta banderitas) in the app world. Generated art must follow the Philippine details in `01_Video_Pitch/antigravity_brief_video.md`; redo any image that could pass for a generic Western setting. Music, if used, should be a light instrumental with a Filipino flavour. Do not use the national flag or emblems as decoration.
+
 ## Where media goes
 
 | Put this | Here | Becomes |

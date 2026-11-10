@@ -50,7 +50,7 @@ const Report = () => {
 const Airplane = ({ entering }) => {
   const k = usePop(entering ? 1.2 : -10);
   return (
-    <div style={{ position: "absolute", right: 60, top: 50, transform: `scale(${k})`, transformOrigin: "100% 0%", background: C.card, border: `4px solid ${C.teal}`, borderRadius: 40,
+    <div style={{ position: "absolute", right: 60, top: 84, transform: `scale(${k})`, transformOrigin: "100% 0%", background: C.card, border: `4px solid ${C.teal}`, borderRadius: 40,
       padding: "14px 30px", fontFamily: BODY, fontWeight: 700, fontSize: 34, color: C.teal }}>✈ No internet</div>
   );
 };

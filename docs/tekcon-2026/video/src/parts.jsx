@@ -53,23 +53,66 @@ export const StoryPicture = ({ clip, still, move = "push-in", label, dim }) => {
   );
 };
 
-// Lily's island: the plate B1 if it exists, otherwise drawn in code in the app's flat style.
+// Small flat-style pieces of a Philippine landscape, drawn in code.
+const Palm = ({ x, y, h = 300, lean = 6 }) => (
+  <div style={{ position: "absolute", left: x, top: y, width: 10, height: h, transform: `rotate(${lean}deg)`, transformOrigin: "50% 100%" }}>
+    <div style={{ position: "absolute", left: -8, top: 0, width: 26, height: h, borderRadius: 13, background: "#9A6B3F" }} />
+    {[-70, -35, 0, 35, 70].map((a) => (
+      <div key={a} style={{ position: "absolute", left: 5, top: 0, width: h * 0.62, height: h * 0.16, borderRadius: "0 100% 0 100%", background: a % 70 === 0 ? "#2E9A3E" : "#3FB14F",
+        transform: `rotate(${a - 90}deg)`, transformOrigin: "0% 50%" }} />
+    ))}
+    {[0, 1, 2].map((k) => <div key={k} style={{ position: "absolute", left: -10 + k * 12, top: 8, width: 20, height: 20, borderRadius: "50%", background: "#6B4A2A" }} />)}
+  </div>
+);
+const BahayKubo = ({ x, y, s = 1 }) => (
+  <div style={{ position: "absolute", left: x, top: y, width: 240 * s, height: 220 * s }}>
+    <div style={{ position: "absolute", left: 0, top: 0, width: 0, height: 0, borderLeft: `${120 * s}px solid transparent`, borderRight: `${120 * s}px solid transparent`, borderBottom: `${100 * s}px solid #B8863B` }} />
+    <div style={{ position: "absolute", left: 30 * s, top: 96 * s, width: 180 * s, height: 78 * s, background: "#E8C98A", borderRadius: 6 }} />
+    <div style={{ position: "absolute", left: 66 * s, top: 112 * s, width: 44 * s, height: 40 * s, background: "#FFF6DE", border: `${4 * s}px solid #9A6B3F`, boxSizing: "border-box" }} />
+    <div style={{ position: "absolute", left: 136 * s, top: 112 * s, width: 40 * s, height: 62 * s, background: "#9A6B3F", borderRadius: `${6 * s}px ${6 * s}px 0 0` }} />
+    {[40, 110, 186].map((l) => <div key={l} style={{ position: "absolute", left: l * s, top: 172 * s, width: 12 * s, height: 46 * s, background: "#7A5230" }} />)}
+  </div>
+);
+const Banderitas = () => {
+  const cols = [C.steps[1], C.sun, C.steps[3], C.steps[4], C.steps[2], C.teal];
+  return (
+    <div style={{ position: "absolute", left: 0, top: 0, width: "100%", height: 70 }}>
+      <div style={{ position: "absolute", left: -20, top: -46, width: 1960, height: 80, borderRadius: "50%", border: "3px solid #9A6B3F", borderTop: "none", boxSizing: "border-box" }} />
+      {Array.from({ length: 30 }).map((_, i) => {
+        const u = i / 29, drop = 30 * Math.sin(Math.PI * u);
+        return <div key={i} style={{ position: "absolute", left: 14 + i * 65, top: 2 + drop, width: 0, height: 0, borderLeft: "17px solid transparent", borderRight: "17px solid transparent", borderTop: `30px solid ${cols[i % cols.length]}` }} />;
+      })}
+    </div>
+  );
+};
+
+// Lily's island, set in the Philippines: the plate B1 if it exists, otherwise drawn in code
+// (Chocolate Hills of Bohol, where tarsiers live; coconut palms; a bahay kubo; fiesta banderitas).
 export const Stage = ({ children, shift = 0 }) => (
   <AbsoluteFill style={{ background: `linear-gradient(${C.sky} 0%, ${C.sky} 35%, ${C.sand} 100%)`, overflow: "hidden" }}>
     {has("story/B1.png") ? (
       <Img src={staticFile("story/B1.png")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     ) : (
       <>
-        <div style={{ position: "absolute", left: 60, top: 40, width: 130, height: 130, borderRadius: "50%", background: C.sun }} />
-        {[[420, 150, 260], [1250, 90, 320], [1560, 230, 200]].map(([x, y, w], i) => (
+        <div style={{ position: "absolute", left: 70, top: 96, width: 120, height: 120, borderRadius: "50%", background: C.sun }} />
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((k) => (
+          <div key={k} style={{ position: "absolute", left: 124, top: 150, width: 12, height: 44, borderRadius: 6, background: C.sun, transform: `rotate(${k * 45}deg) translateY(-98px)`, transformOrigin: "50% 0%" }} />
+        ))}
+        {[[520, 170, 240], [1250, 130, 300], [1560, 250, 190]].map(([x, y, w], i) => (
           <div key={i} style={{ position: "absolute", left: x - shift * 0.2, top: y, width: w, height: w * 0.32, borderRadius: w, background: "#FFFFFF", opacity: 0.9 }} />
         ))}
-        <div style={{ position: "absolute", left: -200 - shift * 0.5, top: 640, width: 1300, height: 700, borderRadius: "50%", background: "#8FD08A" }} />
-        <div style={{ position: "absolute", left: 800 - shift * 0.5, top: 690, width: 1500, height: 700, borderRadius: "50%", background: "#6FC06A" }} />
+        {[[-80, 610, 520, "#A7C97A"], [330, 650, 440, "#96BE6B"], [700, 620, 560, "#A7C97A"], [1180, 660, 430, "#96BE6B"], [1540, 610, 560, "#A7C97A"]].map(([x, y, w, col], i) => (
+          <div key={i} style={{ position: "absolute", left: x - shift * 0.35, top: y, width: w, height: w * 0.95, borderRadius: "50% 50% 0 0 / 60% 60% 0 0", background: col }} />
+        ))}
+        <div style={{ position: "absolute", left: -100, top: 800, width: 2200, height: 300, background: "#7CC46F" }} />
+        <BahayKubo x={1560 - shift * 0.5} y={640} s={0.9} />
+        <Palm x={60} y={470} h={360} lean={-7} />
+        <Palm x={1850} y={520} h={330} lean={8} />
         <div style={{ position: "absolute", left: -100, top: 900, width: 2200, height: 400, borderRadius: "50% 50% 0 0", background: C.sand }} />
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <div key={i} style={{ position: "absolute", left: 180 + i * 330 - shift, top: 960, width: 150, height: 46, borderRadius: "50%", background: "#F2DDB8" }} />
         ))}
+        <Banderitas />
       </>
     )}
     {children}

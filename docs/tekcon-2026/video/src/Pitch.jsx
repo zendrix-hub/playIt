@@ -36,7 +36,7 @@ const ProjectedTag = () => {
   const b = D.timeline.beats.find((x) => x.beat === 4);
   if (!D.projected || t < b.start || t >= b.end) return null;
   return (
-    <div style={{ position: "absolute", left: 50, top: 44, background: C.sun, border: `3px solid ${C.brown}`, color: C.brown, fontFamily: BODY, fontWeight: 700, fontSize: 28, padding: "10px 26px", borderRadius: 30 }}>
+    <div style={{ position: "absolute", left: 220, top: 84, background: C.sun, border: `3px solid ${C.brown}`, color: C.brown, fontFamily: BODY, fontWeight: 700, fontSize: 28, padding: "10px 26px", borderRadius: 30 }}>
       PROJECTED — replace with real results
     </div>
   );

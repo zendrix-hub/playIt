@@ -12,9 +12,19 @@ You are making still images and short clips for a two-minute student pitch video
 - `assets/narrator_pixar.png` and `assets/team_pixar.png` for the art style of the story world.
 - `assets/lily_transition_8s.mp4` as the motion reference for item V3.
 
-**Style, story world:** 3D animated family film look. Soft rounded shapes, large expressive eyes, warm evening light from a single lamp, shallow depth of field, gentle film grain. A modest Filipino home: wooden table, capiz or jalousie window, a small lamp, a school bag. Match the look of the reference images rather than any named studio or existing film.
+**The setting is the Philippines in every image.** This is a hard requirement, not a flavour. If an image could pass for a Western suburb, classroom or countryside, redo it.
 
-**Style, app world:** Lily exactly as in `lily_waving.png`: flat shapes, no outline, orange `#FA842C` with darker orange `#E96D25` shading, cream `#FFE8CE` belly, peach `#FEC484` rings round the eyes, pink `#FE9FA3` blush. Background a soft gradient from sky `#E1F3FA` to sand `#FFF2DC`.
+**Style, story world:** 3D animated family film look. Soft rounded shapes, large expressive eyes, warm evening light from a single lamp, shallow depth of field, gentle film grain. Match the look of the reference images rather than any named studio or existing film.
+
+Philippine details to draw from (use a few per image, never all at once):
+- **Home:** a modest provincial house; capiz-shell or jalousie windows; a wooden table with a crocheted or plastic floral cover; a banig mat; an electric fan; a wall calendar; tsinelas by the door; a sampaguita garland; a school bag and a public-school uniform (white blouse or polo, dark skirt or shorts) on a hook.
+- **Outside the window:** coconut palms, a banana plant, a sari-sari store's light, a parked tricycle, a distant jeepney, laundry on a line.
+- **Classroom:** a crowded public-school room; wooden armchairs; a green chalkboard; an alphabet chart above it; electric fans; many pupils in uniform; one teacher.
+- **People:** Filipino features, warm brown skin tones, dark hair.
+
+**Style, app world:** Lily exactly as in `lily_waving.png`: flat shapes, no outline, orange `#FA842C` with darker orange `#E96D25` shading, cream `#FFE8CE` belly, peach `#FEC484` rings round the eyes, pink `#FE9FA3` blush. Background a soft gradient from sky `#E1F3FA` to sand `#FFF2DC`. The landscape is the app's own island, taken from its chapter settings: the Chocolate Hills of Bohol (rounded, evenly shaped hills; the tarsier's home), coconut palms, rice terraces, a mango tree, a bahay kubo on stilts, and a string of fiesta banderitas across the sky.
+
+**Avoid:** national flags or emblems as decoration, real brand names, text of any kind, and stereotypes that mock or exaggerate poverty. The home is modest and cared for.
 
 **Characters:**
 - **Mia:** a six-year-old Filipino girl, short dark hair with a small yellow clip, plain school blouse. Keep her face, hair and clothes identical in every image. Generate G1 first, then attach G1 as a reference for every later image of her.
@@ -30,10 +40,10 @@ You are making still images and short clips for a two-minute student pitch video
 
 | ID | Shot | Prompt |
 |---|---|---|
-| G1 | 1 | Wide establishing shot at dusk of a small Filipino house, one window glowing. Through the window, Mia sits at a wooden table with an open early reader, her finger under a large letter M. Warm lamp, cool blue evening outside. |
+| G1 | 1 | Wide establishing shot at dusk of a small Filipino provincial house among coconut palms and banana plants, capiz-shell window glowing, a tricycle parked outside. Through the window, Mia sits at a wooden table with an open early reader, her finger under a large letter M. Warm lamp, cool blue evening outside. |
 | G2 | 2 | Close-up of Mia's face in lamp light, lips pressed together as she tries to make the "mmm" sound, eyebrows unsure. The book edge is in soft focus at the bottom. |
-| G3 | 3 | A crowded Grade 1 classroom seen from the back row: many small heads, one kind teacher far away at the board. Mia is small in the foreground with her hand half raised. |
-| G4 | 3 | The same home at evening: an empty chair by the door, a hook where a work bag usually hangs, a wall clock. Quiet, a little lonely, not sad. |
+| G3 | 3 | A crowded Philippine public-school Grade 1 classroom seen from the back row: wooden armchairs, green chalkboard, electric fans, many small heads in uniform, one kind teacher far away at the board. Mia is small in the foreground with her hand half raised. |
+| G4 | 3 | The same home at evening: an empty chair by the door, tsinelas missing from their usual spot, a hook where a work bag usually hangs, a wall clock. Quiet, a little lonely, not sad. |
 | G5 | 3 | A phone lying on the wooden table, its screen showing an empty signal icon and nothing else. Mia's small hand rests beside it. |
 | G6 | 4 | Mia gently closing her book, eyes down. The lamp light is dimmer. Hold the feeling of giving up for tonight. |
 | G7 | 5 | The phone on the table lights up. Two huge round tarsier eyes and the top of Lily's head peek over the bottom edge of the screen. Mia looks up, surprised. Light from the screen on her face. Use `lily_pixar.png`. |
@@ -44,7 +54,7 @@ You are making still images and short clips for a two-minute student pitch video
 
 | ID | Shots | Prompt |
 |---|---|---|
-| B1 | 6 to 20 | Lily's island as a wide stage in the flat app style: a soft sky `#E1F3FA` at the top fading to warm sand `#FFF2DC` at the bottom, low rounded green hills, a few round clouds, a winding sand path running left to right across the lower third with four flat stepping stones along it. A round sun in the upper left, in the same spot the lamp occupies in G7. The centre of the frame is calm and empty, because a phone will be placed there. No outlines, no texture, no text. |
+| B1 | 6 to 20 | Lily's island in the Philippines as a wide stage in the flat app style: a soft sky `#E1F3FA` at the top fading to warm sand `#FFF2DC` at the bottom, the Chocolate Hills of Bohol as rows of evenly rounded hills, a coconut palm at each edge, a small bahay kubo on stilts at the right, a string of colourful fiesta banderitas across the top, a few round clouds, a winding sand path running left to right across the lower third with four flat stepping stones along it. A round sun in the upper left, in the same spot the lamp occupies in G7. The centre of the frame is calm and empty, because a phone will be placed there. No outlines, no texture, no text. |
 | B2 | 6 | The same composition as G7 (table, phone, lamp, window, Mia's position) redrawn in the flat app style and colours, with the table shape reading as the start of the island path and the lamp as the sun. This is the halfway picture for the morph. |
 
 ## Clips (4 to 6 seconds each, no camera shake)

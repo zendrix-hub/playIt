@@ -59,7 +59,7 @@ Do not install voice cloning (`chatterbox-tts`) yet.
 
 Lily's poses can be copied from the app repository if it is on this PC: `app/src/main/assets/images/mascot/`. Do that yourself if you can find it.
 
-Whatever is missing, carry on with the phases that do not need it. Placeholders are fine until Phase 7.
+Whatever is missing, carry on to Phase 3 so the user can see the placeholders, then ask for the files there.
 
 ## Phase 3 — Build and first look
 
@@ -73,11 +73,17 @@ Look at `02_Research_Poster/poster_preview.png` if you can render it (see `AGENT
 
 Report: which poster slots and which video shots still show placeholders.
 
+**STOP if anything in the Phase 2 table is missing.** Ask for it as a checklist: one line per missing file, with the exact file name and the folder it goes in, and what it is used for. Say which items you can make yourself (the generated story art in Phase 4) and which only the user can supply (their own art, the app recordings, the voice sample, fresh screenshots). End with: "Add what you can, then send the same message again. To go ahead without the rest, say: continue without them."
+
+When the user sends the message again, re-check. If they said to continue without them, go on to Phase 4 and do not ask again for the same files until Phase 7 or 8, where real recordings and pictures are required.
+
 ## Phase 4 — Story art (generated)
 
 **Check:** which of `G1`–`G7`, `G9`, `G10`, `B1`, `B2` (png) and `V1`–`V4` (mp4) exist in `01_Video_Pitch/generated/`.
 
 Follow `01_Video_Pitch/antigravity_brief_video.md`. Order matters:
+
+Every image is set in the Philippines; follow the Philippine details in the brief and redo any image that looks like a generic Western setting.
 
 1. **G7** (Lily peeking over the phone) and **B1** (the island stage). These are the start and end of the morph.
 

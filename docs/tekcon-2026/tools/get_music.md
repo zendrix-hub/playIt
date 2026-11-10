@@ -24,4 +24,4 @@ Run it from the kit folder. Keep one file in `assets/music/`; the build uses the
 
 Write the credit in `assets/music/CREDITS.md`: title, artist, link, licence, date downloaded. If the licence asks for attribution, put the same line in the video description on Google Drive.
 
-The music plays quietly under the voice (about 12% volume). Pick something light and instrumental; lyrics fight with narration.
+The music plays quietly under the voice (about 12% volume). Pick something light and instrumental with a Filipino flavour (bandurria or rondalla strings, ukulele, light kulintang-style percussion); lyrics fight with narration.

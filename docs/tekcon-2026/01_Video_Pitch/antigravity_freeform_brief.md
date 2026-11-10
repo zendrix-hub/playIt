@@ -30,8 +30,9 @@ These come from the conference brief and are not open to interpretation.
 5. **Every number matches `round2_data.json`**, is shown with its group size ("12 of 16", "n = 9"), and is never rounded up. While that file says `"status": "projected"`, mark the results as projected on screen.
 6. **Children are the users; parents and teachers are the bridge to them.** Show the children's results first. Never say "30 users".
 7. **No claim that children learned to read better.** The study measured reactions to the app.
-8. **Nothing you do not have the right to use:** no copyrighted music or footage, no real brands, no recognisable real people other than the team's own art, no real child's face.
-9. **A cloned voice only with its owner's agreement.**
+8. **The setting is the Philippines throughout:** a Filipino home and public-school classroom for the story, and a Philippine island landscape (Chocolate Hills, coconut palms, rice terraces, a bahay kubo, fiesta banderitas) for the app world. Filipino characters. Nothing that could pass for a generic Western setting. Details are listed in `antigravity_brief_video.md`.
+9. **Nothing you do not have the right to use:** no copyrighted music or footage, no real brands, no recognisable real people other than the team's own art, no real child's face.
+10. **A cloned voice only with its owner's agreement.**
 
 ## What is yours to decide
 
@@ -43,7 +44,7 @@ Two things the team cares about, in their words: the move from the problem into 
 
 1. Before making anything, write a one-page plan in `video_freeform/PLAN.md`: your concept in three sentences, a shot list with times, which tools you will use for what, and anything you need from the user. Show it and wait for a yes.
 2. Make the first 40 seconds (problem and solution) and show them before going further. The style is decided there.
-3. Finish the rest, then check your own work against the nine points above, one by one, and write the result in `video_freeform/CHECK.md`. Say plainly which points you could not verify.
+3. Finish the rest, then check your own work against the ten points above, one by one, and write the result in `video_freeform/CHECK.md`. Say plainly which points you could not verify.
 4. Measure the final length and state it. If you cannot measure it, say so.
 5. Deliver `video_freeform/<TeamCode>_2-Minute_Pitch_freeform.mp4`.
 

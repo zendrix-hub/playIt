@@ -5,6 +5,8 @@
 
 **The feeling we are after:** "Kids would love this." The story carries the heart; the demo and the numbers prove it.
 
+**The setting is the Philippines, throughout.** The story world is a Filipino home and a public-school classroom; the app world is Lily's island, drawn from the app's own chapters (Chocolate Hills of Bohol, where tarsiers live, coconut palms, rice terraces, a bahay kubo, fiesta banderitas). Nothing should look like a generic Western suburb or classroom.
+
 **The idea in one line:** A small girl gets stuck on one small sound, and a small tarsier with very big eyes helps her through it, with no internet needed.
 
 **Two worlds, on purpose:**
@@ -24,7 +26,7 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 |---|---|---|---|---|---|---|
 | 1 | 0:00–0:05 | Wide evening shot. A small house, one window lit. Slow push in. Mia at a table with an open reader, her finger under a big letter **M**. | "This is Mia. She is six, and tonight she is stuck on one small sound." | none | Crickets, soft piano, one note at a time | G1 → V1 |
 | 2 | 0:05–0:08 | Close on Mia's face. She tries: lips press together, unsure. | *"Mmm."* (Mia, small and uncertain) | none | Piano holds | G2 |
-| 3 | 0:08–0:16 | Three quick pictures, each sliding in like a page turn: a crowded classroom with one teacher; an empty chair by the door with a work bag gone; a phone showing no signal bars. | "Her teacher has a full classroom. Her mama is still at work. And the signal at home is gone again." | Tiny labels: *one teacher* · *no one free* · *no signal* | A soft page-turn on each | G3, G4, G5 |
+| 3 | 0:08–0:16 | Three quick pictures, each sliding in like a page turn: a crowded classroom with one teacher; an empty chair by the door with a work bag gone; a phone showing no signal bars. | "Her teacher has a full classroom. Her nanay is still at work. And the signal at home is gone again." | Tiny labels: *one teacher* · *no one free* · *no signal* | A soft page-turn on each | G3, G4, G5 |
 | 4 | 0:16–0:20 | Back on Mia. She closes the book. The light dims a little. Hold for a breath. | "So Mia closes the book." | none | Piano stops. One second of quiet. | G6 |
 
 **Director's note:** do not rush shot 4. The quiet is what makes shot 5 land.
@@ -109,7 +111,7 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 
 ## Sound and music
 
-- Two music moods: a sparse piano for Beat 1, then one playful track from shot 5 to the end. Free sources: YouTube Audio Library, Pixabay Music. Keep the licence note.
+- Two music moods: a sparse piano or solo guitar for Beat 1, then one playful instrumental from shot 5 to the end. A Filipino flavour suits it: bandurria or rondalla strings, ukulele, light kulintang-style percussion. Free sources: YouTube Audio Library, Pixabay Music. Keep the licence note.
 - Keep music about 18 dB under the voice. Drop it further during shot 12 so the child's voice is clear.
 - Sound effects: CapCut's built-in library is enough.
 
