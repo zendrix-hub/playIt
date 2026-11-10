@@ -81,7 +81,7 @@ When the user sends the message again, re-check. If they said to continue withou
 
 **Check:** which of `G1`–`G7`, `G9`, `G10`, `B1`, `B2` (png) and `V1`–`V4` (mp4) exist in `01_Video_Pitch/generated/`.
 
-Follow `01_Video_Pitch/antigravity_brief_video.md`. Order matters:
+Follow `01_Video_Pitch/antigravity_brief_video.md`. The prompts are already written there; use them as they are and do not ask the user to write prompts. When you show a result, show the prompt you used beside it, so the user can ask for a change in plain words ("make the room darker", "Mia should look younger"). Apply such changes by editing that prompt in the brief, then regenerate. Order matters:
 
 Every image is set in the Philippines; follow the Philippine details in the brief and redo any image that looks like a generic Western setting.
 
@@ -90,7 +90,7 @@ Every image is set in the Philippines; follow the Philippine details in the brie
    **STOP — show G7 and B1 and wait for approval.** The whole look depends on these two.
 
 2. After approval: **G1** (it fixes Mia's appearance), then G2 to G6, G9, G10, attaching G1 as the reference for Mia each time.
-3. **B2**, then the clips: **V3** (the morph) first, then V1, V2, V4.
+3. **B2**, then the clips: **V3** (the morph) first, then V1, V2, V4. Make each clip by image-to-video from its approved still, as the brief says, so it shows exactly that picture in motion. If you have no image-to-video tool, STOP and tell the user; they can make the clips elsewhere from the same stills and save them as `V1.mp4`–`V4.mp4` in `01_Video_Pitch/generated/`.
 4. If V3 or any clip is not clean after three tries, leave it out. The video falls back to a still with a camera move, and to a coded blend for the morph. Say which ones fell back.
 
 Then run `npm run video:prep` and `npm run video:stills`, and look again.

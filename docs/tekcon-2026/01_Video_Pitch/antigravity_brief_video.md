@@ -59,6 +59,12 @@ Philippine details to draw from (use a few per image, never all at once):
 
 ## Clips (4 to 6 seconds each, no camera shake)
 
+**Every clip is made from an approved still, not from text alone.** Use image-to-video: give the still in the "From" column as the first frame, so the clip shows exactly that picture coming to life, with the same characters, room and lighting. The text below describes only the motion. For V3, give G7 as the first frame and B1 as the last frame.
+
+- Do not regenerate the scene from a text description; the characters would change.
+- Keep the motion small and slow. Big movements make faces and details drift.
+- If your tools cannot do image-to-video, say so and stop. The user can make the clips in another image-to-video tool from the same stills and motion lines, and save them here as `V1.mp4`, `V2.mp4`, `V3.mp4`, `V4.mp4`. The video picks them up on the next `npm run video:prep`.
+
 | ID | From | Motion |
 |---|---|---|
 | V1 | G1 | Slow push in toward the lit window. Leaves move slightly. |
