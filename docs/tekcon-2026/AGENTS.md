@@ -2,6 +2,8 @@
 
 Read this whole file before changing anything. It applies to Antigravity with any Gemini model.
 
+If the user asks you to "execute the runbook", follow `ANTIGRAVITY_RUN.md` phase by phase.
+
 ## What this folder is
 
 The TekCon 2026 kit for **PlayIT**, a student capstone: an offline phonics app for Grade 1 Filipino learners, with a tarsier mascot named Lily. Two deliverables, both due **14 November 2026**:

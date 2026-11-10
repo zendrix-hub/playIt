@@ -2,6 +2,10 @@
 
 A research poster and a two-minute pitch video, both built by scripts from a few plain files. Deadline: **14 November 2026**.
 
+## Quickest start with Antigravity
+
+Open this folder in Antigravity and send: **"Read ANTIGRAVITY_RUN.md and execute it."** The agent sets up, builds, generates art, drafts the video, and stops only where it needs you. Send the same message again to continue.
+
 ## Read this first
 
 **The Round 2 numbers are projections.** The survey is still running. The poster shows a yellow PROJECTED banner and the script shows those numbers in [brackets]. The brief asks for actual results, so put the real numbers in before you print or record. The reasoning behind each projection is in `round2_projection_notes.md`.
@@ -55,6 +59,7 @@ npm run video:final     full-size MP4, then the checker
 
 | File | What it is |
 |---|---|
+| `ANTIGRAVITY_RUN.md` | The runbook: one file the agent reads and executes, phase by phase |
 | `AGENTS.md` | Rules for an AI agent editing this kit |
 | `01_Video_Pitch/storyboard.md` | 24 shots across the five required beats (generated) |
 | `01_Video_Pitch/narration_script.md` | The spoken words only (generated) |
