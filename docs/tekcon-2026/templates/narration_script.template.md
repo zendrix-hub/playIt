@@ -23,7 +23,7 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 >
 > **LILY:** Mabuhay! Ready to learn to read?
 >
-> This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, it listens to a child's voice, and it needs no internet at all.
+> This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, listens to the child, and works offline.
 
 ## Beat 3 — Demonstration (0:40–1:10)
 
@@ -39,13 +39,13 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 
 ## Beat 4 — Results and validation (1:10–1:40)
 
-> We tested PlayIT with **{{total}}** people: **{{ch_n}}** children, plus parents and teachers.
+> We tested with **{{total}}** people: **{{ch_n}}** children, plus parents and teachers.
 >
 > **{{ch_happy}}** of **{{ch_n}}** children chose the happy face. **{{ch_sayit}}** of **{{ch_n}}** passed Say It first try.
 >
-> The grown-ups who open the door? Parents rated it **{{pa_useful}}** out of 5 for home learning, **{{pa_offline}}** for working offline. Teachers scored its teaching **{{te_overall}}**.
+> The grown-ups? Parents gave it **{{pa_useful}}** for home learning, **{{pa_offline}}** offline. Teachers scored teaching **{{te_overall}}**.
 >
-> One teacher called it "very useful and engaging for Grade 1 learners."
+> One teacher called it "very useful and engaging."
 >
 > {{tests}} tests pass.
 

@@ -2,7 +2,7 @@
 # PlayIT — narration script (2:00)
 
 Narrator: your Pixar-style character, in your own voice. Lily's lines are your voice pitched up.
-Pace: calm storyteller, about 135 words a minute. Total below is 258 words, about 1:55 at that pace.
+Pace: calm storyteller, about 135 words a minute. Total below is 237 words, about 1:45 at that pace.
 
 Numbers in **[brackets]** are projections from `../round2_data.json`. Record Beat 4 last, after the survey closes, and read the real numbers.
 
@@ -24,7 +24,7 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 >
 > **LILY:** Mabuhay! Ready to learn to read?
 >
-> This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, it listens to a child's voice, and it needs no internet at all.
+> This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, listens to the child, and works offline.
 
 ## Beat 3 — Demonstration (0:40–1:10)
 
@@ -40,13 +40,13 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 
 ## Beat 4 — Results and validation (1:10–1:40)
 
-> We tested PlayIT with **[30]** people: **[16]** children, plus parents and teachers.
+> We tested with **[30]** people: **[16]** children, plus parents and teachers.
 >
 > **[15]** of **[16]** children chose the happy face. **[12]** of **[16]** passed Say It first try.
 >
-> The grown-ups who open the door? Parents rated it **[4.5]** out of 5 for home learning, **[4.8]** for working offline. Teachers scored its teaching **[4.7]**.
+> The grown-ups? Parents gave it **[4.5]** for home learning, **[4.8]** offline. Teachers scored teaching **[4.7]**.
 >
-> One teacher called it "very useful and engaging for Grade 1 learners."
+> One teacher called it "very useful and engaging."
 >
 > 691 tests pass.
 
