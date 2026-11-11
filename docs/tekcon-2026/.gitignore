@@ -19,3 +19,10 @@ __pycache__/
 # local tools installed for voice work (uv, Python environment)
 tools/.bin/
 tools/voice/.venv/
+
+# the film (film/) is a web page that needs its own sound to play, and its draft render is kept for review
+!film/voice/*.wav
+!film/sfx/*
+!film/music/*.wav
+!film/film_draft.mp4
+film/_shots/

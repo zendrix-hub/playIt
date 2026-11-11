@@ -1,0 +1,149 @@
+[
+ {
+  "id": "b1_01",
+  "beat": 1,
+  "speaker": "narrator",
+  "text": "This is Mia. She is six, and tonight she is stuck on one small sound.",
+  "start": 0.25
+ },
+ {
+  "id": "b1_02",
+  "beat": 1,
+  "speaker": "mia",
+  "text": "Mmm.",
+  "start": 5.58
+ },
+ {
+  "id": "b1_03",
+  "beat": 1,
+  "speaker": "narrator",
+  "text": "Her teacher has a full classroom. Her nanay is still at work. And the signal at home is gone again.",
+  "start": 6.68
+ },
+ {
+  "id": "b1_04",
+  "beat": 1,
+  "speaker": "narrator",
+  "text": "So Mia closes the book.",
+  "start": 15.11
+ },
+ {
+  "id": "b2_01",
+  "beat": 2,
+  "speaker": "narrator",
+  "text": "Then someone small, with very big eyes, peeks in.",
+  "start": 20.25
+ },
+ {
+  "id": "b2_02",
+  "beat": 2,
+  "speaker": "lily",
+  "text": "Mabuhay! Ready to learn to read?",
+  "start": 24.54
+ },
+ {
+  "id": "b2_03",
+  "beat": 2,
+  "speaker": "narrator",
+  "text": "This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, listens to the child, and works offline.",
+  "start": 27.68
+ },
+ {
+  "id": "b3_01",
+  "beat": 3,
+  "speaker": "narrator",
+  "text": "Watch. Airplane mode, on.",
+  "start": 40.25
+ },
+ {
+  "id": "b3_02",
+  "beat": 3,
+  "speaker": "narrator",
+  "text": "Mia taps her letter. First, she hears it. Then she says it, and the phone itself checks her voice. Nothing leaves the device.",
+  "start": 43.38
+ },
+ {
+  "id": "b3_03",
+  "beat": 3,
+  "speaker": "narrator",
+  "text": "Miss it? Lily never scolds. She shows the mouth shape and says it with her.",
+  "start": 53.47
+ },
+ {
+  "id": "b3_04",
+  "beat": 3,
+  "speaker": "narrator",
+  "text": "Next, she finds the pictures that start with the sound. Then the letters blend into real words.",
+  "start": 59.39
+ },
+ {
+  "id": "b3_05",
+  "beat": 3,
+  "speaker": "narrator",
+  "text": "And parents get a plain progress report.",
+  "start": 65.87
+ },
+ {
+  "id": "b4_01",
+  "beat": 4,
+  "speaker": "narrator",
+  "text": "We tested with 30 people: 16 children, plus parents and teachers.",
+  "start": 70.25
+ },
+ {
+  "id": "b4_02",
+  "beat": 4,
+  "speaker": "narrator",
+  "text": "15 of 16 children chose the happy face. 12 of 16 passed Say It first try.",
+  "start": 75.82
+ },
+ {
+  "id": "b4_03",
+  "beat": 4,
+  "speaker": "narrator",
+  "text": "The grown-ups who open the door? Parents gave it 4.5 for home learning, 4.8 offline. Teachers scored teaching 4.7.",
+  "start": 82.79
+ },
+ {
+  "id": "b4_04",
+  "beat": 4,
+  "speaker": "narrator",
+  "text": "One teacher called it \"very useful and engaging for Grade 1 learners.\"",
+  "start": 91.69
+ },
+ {
+  "id": "b4_05",
+  "beat": 4,
+  "speaker": "narrator",
+  "text": "691 tests pass.",
+  "start": 96.97
+ },
+ {
+  "id": "b5_01",
+  "beat": 5,
+  "speaker": "narrator",
+  "text": "No signal. No ads. No child left waiting for a turn.",
+  "start": 100.25
+ },
+ {
+  "id": "b5_02",
+  "beat": 5,
+  "speaker": "narrator",
+  "text": "Just a little tarsier, and one sound at a time.",
+  "start": 106
+ },
+ {
+  "id": "b5_03",
+  "beat": 5,
+  "speaker": "narrator",
+  "text": "We are Group 56 from CIT University, and this is PlayIT.",
+  "start": 110.53
+ },
+ {
+  "id": "b5_04",
+  "beat": 5,
+  "speaker": "lily",
+  "text": "Play it!",
+  "start": 116.71
+ }
+]

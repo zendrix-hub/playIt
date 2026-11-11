@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlayIT pitch — flat storybook style mock-up</title>
+<style>
+@font-face { font-family: "Sniglet"; src: url("fonts/sniglet-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Sniglet"; src: url("fonts/sniglet-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Lexend"; src: url("fonts/lexend-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Lexend"; src: url("fonts/lexend-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #12222b; color: #e8f1f1; font-family: "Lexend", "Segoe UI", sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 22px 20px 40px; }
+h1 { font-family: "Sniglet", "Segoe UI", sans-serif; font-weight: 800; font-size: 26px; margin: 0 0 4px; color: #FFC53D; }
+p.lead { margin: 0 0 14px; color: #a9c3c6; font-size: 15px; }
+
+.stage { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #E1F3FA; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+.stage svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.cap { position: absolute; left: 50%; bottom: 5.5%; transform: translateX(-50%); max-width: 82%; padding: .45em .9em; border-radius: .6em;
+  background: rgba(20,24,30,.82); color: #fff; font-weight: 600; font-size: clamp(12px, 2.1vw, 25px); text-align: center; opacity: 0; white-space: nowrap; }
+.cap b { color: #FFC53D; font-weight: 600; }
+.tag { position: absolute; left: 14px; top: 12px; padding: 4px 12px; border-radius: 99px; background: #FFC53D; color: #3a2a00; font-size: 12px; font-weight: 600; }
+
+.bar { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+button { font: inherit; font-weight: 600; padding: 8px 16px; border-radius: 10px; border: 0; background: #0B7F7A; color: #fff; cursor: pointer; }
+button:hover { background: #0e9690; }
+input[type=range] { flex: 1; accent-color: #FFC53D; }
+#clock { width: 92px; text-align: right; font-variant-numeric: tabular-nums; color: #a9c3c6; font-size: 14px; }
+.notes { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 14px; line-height: 1.5; }
+.notes div { background: #1b3440; border-radius: 12px; padding: 12px 16px; }
+.notes h2 { font-size: 15px; margin: 0 0 6px; color: #FFC53D; font-weight: 600; }
+.notes ul { margin: 0; padding-left: 18px; }
+
+/* things that never stop moving */
+svg [class], svg [style*="transform-origin"], #sparks, #sunRays { transform-box: fill-box; }
+.frond { transform-box: view-box !important; transform-origin: 0 0 !important; }
+.sway  { transform-origin: 50% 100%; animation: sway 5.5s ease-in-out infinite alternate; }
+.sway2 { transform-origin: 50% 100%; animation: sway 6.8s ease-in-out -2s infinite alternate-reverse; }
+@keyframes sway { from { transform: rotate(-2.6deg); } to { transform: rotate(3deg); } }
+.frond { animation: frond 3.4s ease-in-out infinite alternate; }
+@keyframes frond { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
+.flag { transform-origin: 50% 0%; animation: flag 1.9s ease-in-out infinite alternate; }
+.flag:nth-child(odd) { animation-duration: 2.3s; animation-delay: -.8s; }
+@keyframes flag { from { transform: rotate(-7deg) skewX(-5deg); } to { transform: rotate(8deg) skewX(6deg); } }
+.cloud { animation: drift 46s linear infinite; }
+.cloud.b { animation-duration: 64s; animation-delay: -30s; }
+@keyframes drift { from { transform: translateX(-260px); } to { transform: translateX(1500px); } }
+.flick { animation: flick 2.7s ease-in-out infinite; transform-origin: 50% 50%; }
+@keyframes flick { 0%,100% { opacity: .95; transform: scale(1); } 22% { opacity: .78; transform: scale(.97); } 41% { opacity: 1; transform: scale(1.03); } 63% { opacity: .84; } 80% { opacity: .98; transform: scale(1.01); } }
+.blink { transform-origin: 50% 50%; animation: blink 4.3s infinite; }
+@keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.08); } }
+.breathe { transform-origin: 50% 100%; animation: breathe 3.6s ease-in-out infinite alternate; }
+@keyframes breathe { from { transform: scaleY(1); } to { transform: scaleY(1.025); } }
+.bob { transform-origin: 50% 100%; animation: bob 1.5s ease-in-out infinite alternate; }
+@keyframes bob { from { transform: translateY(0) scale(1, 1); } to { transform: translateY(-7px) scale(.985, 1.02); } }
+.twinkle { animation: tw 2.2s ease-in-out infinite alternate; }
+.twinkle:nth-child(even) { animation-delay: -1.1s; }
+@keyframes tw { from { opacity: .25; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>PlayIT pitch — flat storybook style</h1>
+  <p class="lead">Mock-up of the first 18 seconds (problem, then Lily arrives). Everything is drawn in code except Lily, who is the app's real mascot art. Silent; captions show the narration.</p>
+
+  <div class="stage" id="stage">
+    <svg viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice" aria-label="Animated storybook scene">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE6F5"/><stop offset=".75" stop-color="#E1F3FA"/><stop offset="1" stop-color="#FFF2DC"/></linearGradient>
+        <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27286B"/><stop offset=".55" stop-color="#8A4E8C"/><stop offset=".82" stop-color="#F08A5D"/><stop offset="1" stop-color="#FFC987"/></linearGradient>
+        <radialGradient id="lampGlow"><stop offset="0" stop-color="#FFE7A3" stop-opacity=".95"/><stop offset=".45" stop-color="#FFC53D" stop-opacity=".38"/><stop offset="1" stop-color="#FFC53D" stop-opacity="0"/></radialGradient>
+        <radialGradient id="phoneGlow"><stop offset="0" stop-color="#ffffff" stop-opacity="1"/><stop offset=".4" stop-color="#FFE07A" stop-opacity=".7"/><stop offset="1" stop-color="#FFC53D" stop-opacity="0"/></radialGradient>
+        <clipPath id="outOfPhone"><rect x="560" y="-200" width="420" height="693"/></clipPath>
+        <g id="palmTop">
+          <g class="frond"><path d="M0 0 C40 -46 110 -52 168 -18 C112 -22 56 -6 0 0Z" fill="#3FA34D"/></g>
+          <g class="frond" style="animation-delay:-1s"><path d="M0 0 C30 -80 92 -112 150 -100 C98 -84 46 -44 0 0Z" fill="#2E9A3E"/></g>
+          <g class="frond" style="animation-delay:-2s"><path d="M0 0 C-40 -46 -110 -52 -168 -18 C-112 -22 -56 -6 0 0Z" fill="#3FA34D"/></g>
+          <g class="frond" style="animation-delay:-.5s"><path d="M0 0 C-30 -80 -92 -112 -150 -100 C-98 -84 -46 -44 0 0Z" fill="#2E9A3E"/></g>
+          <g class="frond" style="animation-delay:-1.6s"><path d="M0 0 C-14 -70 -6 -126 20 -150 C26 -100 18 -50 0 0Z" fill="#4DB45B"/></g>
+          <circle cx="-8" cy="8" r="13" fill="#7A4A23"/><circle cx="12" cy="12" r="12" fill="#8B5A2B"/>
+        </g>
+      </defs>
+
+      <!-- sky: day underneath, dusk on top and fading away -->
+      <rect width="1280" height="720" fill="url(#sky)"/>
+      <circle id="sun" cx="930" cy="205" r="62" fill="#FFC53D"/>
+      <g id="sunRays" opacity=".0" stroke="#FFC53D" stroke-width="9" stroke-linecap="round">
+        <path d="M930 110v-34M930 334v-34M835 205h-34M1059 205h-34M863 138l-24-24M1021 296l-24-24M863 272l-24 24M1021 114l-24 24"/>
+      </g>
+      <rect id="duskSky" width="1280" height="720" fill="url(#dusk)"/>
+      <g id="stars" fill="#fff">
+        <circle class="twinkle" cx="120" cy="80" r="3"/><circle class="twinkle" cx="300" cy="140" r="2.2"/><circle class="twinkle" cx="470" cy="60" r="2.6"/>
+        <circle class="twinkle" cx="660" cy="110" r="2"/><circle class="twinkle" cx="830" cy="70" r="3"/><circle class="twinkle" cx="1010" cy="130" r="2.2"/>
+        <circle class="twinkle" cx="1160" cy="64" r="2.8"/><circle class="twinkle" cx="1220" cy="190" r="2"/><circle class="twinkle" cx="210" cy="220" r="2"/>
+      </g>
+      <g fill="#fff" opacity=".9">
+        <g class="cloud"><ellipse cx="0" cy="150" rx="70" ry="26"/><ellipse cx="46" cy="132" rx="46" ry="30"/><ellipse cx="-40" cy="138" rx="38" ry="22"/></g>
+        <g class="cloud b"><ellipse cx="0" cy="250" rx="56" ry="20"/><ellipse cx="38" cy="236" rx="38" ry="24"/></g>
+      </g>
+
+      <!-- Chocolate Hills -->
+      <g>
+        <path d="M-40 540 C40 400 150 400 240 540Z" fill="#9CCB6B"/><path d="M150 540 C230 430 330 430 410 540Z" fill="#7FB55A"/>
+        <path d="M330 540 C400 440 500 440 580 540Z" fill="#A9703F"/><path d="M700 540 C770 448 860 448 930 540Z" fill="#8F5A33"/>
+        <path d="M860 540 C950 410 1070 410 1160 540Z" fill="#9CCB6B"/><path d="M1080 540 C1150 450 1250 450 1330 540Z" fill="#A9703F"/>
+      </g>
+      <!-- sand and path -->
+      <path d="M0 520 H1280 V720 H0Z" fill="#FFF2DC"/>
+      <path d="M-20 640 C200 590 360 690 620 640 S1040 560 1300 620 V720 H-20Z" fill="#F8DFB4"/>
+
+      <!-- bahay kubo -->
+      <g transform="translate(70 318)">
+        <path d="M34 214V150M206 214V150M70 214V160M170 214V160" stroke="#7A4A23" stroke-width="10" stroke-linecap="round"/>
+        <rect x="18" y="86" width="204" height="78" rx="4" fill="#C68A4E"/>
+        <path d="M18 112H222M18 138H222" stroke="#A9703F" stroke-width="3"/>
+        <rect x="96" y="100" width="42" height="64" fill="#7A4A23"/>
+        <rect id="kuboWin" x="158" y="104" width="40" height="34" rx="3" fill="#FFD77A"/>
+        <path d="M178 104v34M158 121h40" stroke="#A9703F" stroke-width="3"/>
+        <path d="M-6 92 L120 6 L246 92Z" fill="#E3B866"/><path d="M-6 92 L120 6 L246 92" fill="none" stroke="#C99A45" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M30 70l20-14M70 46l24-16M150 30l24 16M190 56l20 14" stroke="#C99A45" stroke-width="4" stroke-linecap="round"/>
+        <path d="M104 164l-16 50M130 164l16 50M92 182h50M86 200h62" stroke="#7A4A23" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- palms -->
+      <g transform="translate(40 250)"><g class="sway"><path d="M0 330 C-14 220 6 110 44 0" stroke="#8B5A2B" stroke-width="22" fill="none" stroke-linecap="round"/><use href="#palmTop" x="44" y="0"/></g></g>
+      <g transform="translate(1196 230)"><g class="sway2"><path d="M40 350 C56 230 34 120 0 0" stroke="#8B5A2B" stroke-width="22" fill="none" stroke-linecap="round"/><use href="#palmTop" x="0" y="0"/></g></g>
+
+      <!-- banderitas -->
+      <path d="M-10 26 C300 110 420 20 640 84 S1000 20 1290 30" fill="none" stroke="#8B5A2B" stroke-width="3"/>
+      <g>
+        <path class="flag" d="M50 44l34 6-12 44Z" fill="#F2545B"/><path class="flag" d="M130 62l34 5-13 44Z" fill="#FFC53D"/>
+        <path class="flag" d="M212 74l34 2-15 45Z" fill="#3BA7D9"/><path class="flag" d="M296 78l34-2-17 46Z" fill="#2E9A3E"/>
+        <path class="flag" d="M380 72l34-5-16 46Z" fill="#F7922F"/><path class="flag" d="M462 64l34-2-18 46Z" fill="#F2545B"/>
+        <path class="flag" d="M546 66l34 4-14 45Z" fill="#FFC53D"/><path class="flag" d="M630 80l34 3-15 45Z" fill="#3BA7D9"/>
+        <path class="flag" d="M716 86l34-3-17 46Z" fill="#2E9A3E"/><path class="flag" d="M802 78l34-6-16 46Z" fill="#F7922F"/>
+        <path class="flag" d="M886 64l34-7-15 46Z" fill="#F2545B"/><path class="flag" d="M970 48l34-6-16 46Z" fill="#FFC53D"/>
+        <path class="flag" d="M1054 36l34-4-17 46Z" fill="#3BA7D9"/><path class="flag" d="M1140 30l34-1-17 46Z" fill="#2E9A3E"/>
+      </g>
+
+      <!-- ============ MIA ============ -->
+      <g id="mia">
+        <!-- chair back -->
+        <path d="M440 400 h160 a14 14 0 0 1 14 14 v110 h-188 v-110 a14 14 0 0 1 14 -14Z" fill="#9A6234"/>
+        <g id="miaBody">
+          <g class="breathe">
+            <path d="M436 520 C436 446 468 420 520 420 C572 420 604 446 604 520Z" fill="#FFFFFF"/>
+            <path d="M486 424 C494 446 546 446 554 424 C546 416 494 416 486 424Z" fill="#C98E63"/>
+            <path d="M482 422 C478 446 500 456 518 444 C504 438 492 430 482 422Z" fill="#F4F1EA" stroke="#D9D3C6" stroke-width="2"/>
+            <path d="M558 422 C562 446 540 456 522 444 C536 438 548 430 558 422Z" fill="#F4F1EA" stroke="#D9D3C6" stroke-width="2"/>
+          </g>
+          <!-- head -->
+          <g id="miaHead" style="transform-origin: 50% 92%">
+            <path d="M444 372 C430 300 468 268 520 268 C572 268 610 300 596 372 C600 404 586 420 574 422 L466 422 C454 420 440 404 444 372Z" fill="#2A1B18"/>
+            <ellipse cx="520" cy="360" rx="62" ry="64" fill="#C98E63"/>
+            <ellipse cx="458" cy="368" rx="9" ry="13" fill="#B97D54"/><ellipse cx="582" cy="368" rx="9" ry="13" fill="#B97D54"/>
+            <path d="M456 352 C452 300 486 282 524 284 C566 286 590 308 584 352 C572 326 548 312 520 312 C500 334 476 342 456 352Z" fill="#2A1B18"/>
+            <rect x="470" y="306" width="30" height="11" rx="5.5" fill="#FFC53D" transform="rotate(-24 485 311)"/>
+            <ellipse id="blushL" cx="482" cy="388" rx="13" ry="8" fill="#F2545B" opacity=".22"/><ellipse id="blushR" cx="558" cy="388" rx="13" ry="8" fill="#F2545B" opacity=".22"/>
+            <g id="browL" style="transform-origin: 100% 50%"><path d="M478 340 q16 -8 30 -2" stroke="#2A1B18" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+            <g id="browR" style="transform-origin: 0% 50%"><path d="M532 338 q14 -6 30 2" stroke="#2A1B18" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+            <g class="blink">
+              <ellipse cx="495" cy="364" rx="12" ry="14" fill="#fff"/><ellipse cx="545" cy="364" rx="12" ry="14" fill="#fff"/>
+              <g id="pupils">
+                <circle cx="495" cy="366" r="8" fill="#3A2318"/><circle cx="545" cy="366" r="8" fill="#3A2318"/>
+                <circle cx="498" cy="363" r="2.6" fill="#fff"/><circle cx="548" cy="363" r="2.6" fill="#fff"/>
+              </g>
+            </g>
+            <path d="M518 376 q4 8 -3 10" stroke="#A86B45" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path id="mNeutral" d="M506 402 q14 8 28 0" stroke="#7A3B2E" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <g id="mMmm" opacity="0" style="transform-origin: 50% 50%"><path d="M508 404 h24" stroke="#7A3B2E" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+            <path id="mSad" opacity="0" d="M506 408 q14 -9 28 0" stroke="#7A3B2E" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <g id="mHappy" opacity="0"><path d="M500 398 q20 4 40 0 q-4 22 -20 22 q-16 0 -20 -22Z" fill="#7A2E2E"/><path d="M510 414 q10 -6 20 0 q-4 6 -10 6 q-6 0 -10 -6Z" fill="#F28B8B"/><path d="M503 399 q17 4 34 0 l-1 5 q-16 3 -32 0Z" fill="#fff"/></g>
+          </g>
+        </g>
+      </g>
+
+      <!-- "Mmm" floating from her mouth -->
+      <g font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" fill="#fff" stroke="#0B7F7A" stroke-width="2.5" paint-order="stroke">
+        <text class="mmm" id="mm1" x="566" y="398" font-size="34" opacity="0">M</text>
+        <text class="mmm" id="mm2" x="592" y="386" font-size="28" opacity="0">m</text>
+        <text class="mmm" id="mm3" x="614" y="374" font-size="24" opacity="0">m…</text>
+      </g>
+
+      <!-- table -->
+      <g>
+        <path d="M352 524 v130 M880 524 v130" stroke="#7A4A23" stroke-width="22" stroke-linecap="round"/>
+        <rect x="300" y="496" width="640" height="32" rx="10" fill="#B8763E"/>
+        <rect x="300" y="496" width="640" height="10" rx="5" fill="#CF8E53"/>
+      </g>
+
+      <!-- Mia's arms on the table -->
+      <g id="armL" style="transform-origin: 20% 20%"><path d="M452 470 C440 492 452 500 486 496" stroke="#fff" stroke-width="30" fill="none" stroke-linecap="round"/><circle cx="492" cy="494" r="14" fill="#C98E63"/></g>
+      <g id="armR" style="transform-origin: 85% 15%"><path d="M590 470 C604 490 590 498 566 492" stroke="#fff" stroke-width="30" fill="none" stroke-linecap="round"/><circle cx="558" cy="490" r="14" fill="#C98E63"/></g>
+
+      <!-- book: open, then closed -->
+      <g id="bookOpen" style="transform-origin: 50% 100%">
+        <path d="M448 496 l14 -40 h58 v40Z" fill="#FFFDF6" stroke="#D9D3C6" stroke-width="2"/>
+        <path d="M592 496 l-14 -40 h-58 v40Z" fill="#FFFDF6" stroke="#D9D3C6" stroke-width="2"/>
+        <path d="M520 456 v40" stroke="#D9D3C6" stroke-width="3"/>
+        <text x="475" y="490" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="32" fill="#0B7F7A">M</text>
+        <path d="M534 468 h34 M534 478 h30 M534 488 h34" stroke="#C9C2B2" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <g id="bookClosed" opacity="0" style="transform-origin: 50% 100%">
+        <rect x="462" y="478" width="116" height="18" rx="4" fill="#2E9A3E"/><rect x="462" y="490" width="116" height="6" rx="2" fill="#FFFDF6"/>
+        <rect x="474" y="482" width="40" height="5" rx="2.5" fill="#BFE6C4"/>
+      </g>
+
+      <!-- lamp -->
+      <g>
+        <rect x="372" y="484" width="46" height="12" rx="5" fill="#7A4A23"/><rect x="390" y="430" width="10" height="56" fill="#8B5A2B"/>
+        <path d="M356 432 l18 -52 h42 l18 52Z" fill="#FFE39A"/>
+      </g>
+
+      <!-- phone lying on the table -->
+      <g id="phone">
+        <path d="M688 496 l16 -22 h110 l16 22Z" fill="#1E2A33"/>
+        <path id="phoneScreen" d="M700 492 l11 -15 h96 l11 15Z" fill="#33424C"/>
+      </g>
+
+      <!-- dusk light over everything drawn so far -->
+      <rect id="duskVeil" width="1280" height="720" fill="#1B1F5A" opacity=".5" style="mix-blend-mode: multiply"/>
+
+      <!-- lights sit above the dusk -->
+      <g id="lampLight"><circle class="flick" cx="395" cy="410" r="230" fill="url(#lampGlow)" style="mix-blend-mode: screen"/></g>
+      <g id="phoneLight" opacity="0"><ellipse class="flick" cx="759" cy="470" rx="200" ry="150" fill="url(#phoneGlow)" style="mix-blend-mode: screen"/></g>
+      <g id="rings" fill="none" stroke="#FFE07A" stroke-width="5" opacity="0">
+        <ellipse id="ring1" cx="759" cy="484" rx="60" ry="14" style="transform-origin: 50% 50%"/>
+        <ellipse id="ring2" cx="759" cy="484" rx="60" ry="14" style="transform-origin: 50% 50%"/>
+      </g>
+
+      <!-- thought bubbles: the three obstacles -->
+      <g font-family="Lexend, Segoe UI, sans-serif" font-size="17" font-weight="600" text-anchor="middle" fill="#3a3024">
+        <g id="tb1" opacity="0" style="transform-origin: 50% 100%">
+          <circle cx="300" cy="196" r="88" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="4"/><circle cx="384" cy="286" r="11" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="3"/><circle cx="406" cy="310" r="6" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="3"/>
+          <circle cx="300" cy="158" r="13" fill="#0B7F7A"/><path d="M282 196 q18 -26 36 0Z" fill="#0B7F7A"/>
+          <g fill="#F7922F"><circle cx="262" cy="206" r="7"/><circle cx="281" cy="212" r="7"/><circle cx="300" cy="214" r="7"/><circle cx="319" cy="212" r="7"/><circle cx="338" cy="206" r="7"/></g>
+          <text x="300" y="244">full classroom</text>
+        </g>
+        <g id="tb2" opacity="0" style="transform-origin: 50% 100%">
+          <circle cx="520" cy="150" r="88" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="4"/><circle cx="520" cy="252" r="9" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="3"/>
+          <circle cx="520" cy="134" r="34" fill="#fff" stroke="#3BA7D9" stroke-width="6"/>
+          <g id="clockHand" style="transform-origin: 50% 100%"><path d="M520 134 v-22" stroke="#3a3024" stroke-width="5" stroke-linecap="round"/></g>
+          <path d="M520 134 h15" stroke="#3a3024" stroke-width="5" stroke-linecap="round"/>
+          <text x="520" y="200">nanay at work</text>
+        </g>
+        <g id="tb3" opacity="0" style="transform-origin: 50% 100%">
+          <circle cx="740" cy="196" r="88" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="4"/><circle cx="656" cy="286" r="11" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="3"/><circle cx="634" cy="310" r="6" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="3"/>
+          <g fill="#C9C2B2"><rect x="704" y="196" width="12" height="14" rx="3"/><rect x="722" y="184" width="12" height="26" rx="3"/><rect x="740" y="170" width="12" height="40" rx="3"/><rect x="758" y="154" width="12" height="56" rx="3"/></g>
+          <path d="M770 150 l22 22 M792 150 l-22 22" stroke="#F2545B" stroke-width="7" stroke-linecap="round"/>
+          <text x="740" y="244">no signal</text>
+        </g>
+      </g>
+
+      <!-- ============ LILY (the app's real art) ============ -->
+      <g clip-path="url(#outOfPhone)">
+        <g id="lily" style="transform-origin: 50% 100%">
+          <g id="lilyBob">
+            <image id="lilyA" href="img/lily_waving.png" x="634" y="252" width="250" height="250"/>
+            <image id="lilyB" href="img/lily_waving_talk.png" x="634" y="252" width="250" height="250" opacity="0"/>
+          </g>
+        </g>
+      </g>
+      <g id="sparks" fill="#FFE07A" opacity="0">
+        <path class="sp" d="M640 330 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6Z"/><path class="sp" d="M900 300 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5Z"/>
+        <path class="sp" d="M860 220 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z"/><path class="sp" d="M680 230 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z"/>
+      </g>
+
+      <!-- Lily's speech bubble -->
+      <g id="bubble" opacity="0" style="transform-origin: 0% 100%">
+        <path d="M900 250 h300 a22 22 0 0 1 22 22 v64 a22 22 0 0 1 -22 22 h-250 l-34 30 6 -30 h-22 a22 22 0 0 1 -22 -22 v-64 a22 22 0 0 1 22 -22Z" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="5"/>
+        <text x="1050" y="296" text-anchor="middle" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="32" fill="#0B7F7A">Mabuhay!</text>
+        <text x="1050" y="332" text-anchor="middle" font-family="Lexend, Segoe UI, sans-serif" font-weight="600" font-size="21" fill="#3a3024">Ready to learn to read?</text>
+      </g>
+    </svg>
+
+    <div class="tag">MOCK-UP · style test, not the final video</div>
+    <div class="cap" id="c1">This is Mia. She is six, and tonight she is stuck on one small sound.</div>
+    <div class="cap" id="c2">Mmm.</div>
+    <div class="cap" id="c3">Her teacher has a full classroom. Her nanay is still at work.</div>
+    <div class="cap" id="c4">And the signal at home is gone again.</div>
+    <div class="cap" id="c5">So Mia closes the book.</div>
+    <div class="cap" id="c6">Then someone small, with very big eyes, peeks in.</div>
+    <div class="cap" id="c7"><b>Lily:</b> Mabuhay! Ready to learn to read?</div>
+  </div>
+
+  <div class="bar">
+    <button id="play">Pause</button>
+    <button id="restart">Restart</button>
+    <input id="scrub" type="range" min="0" max="18" step="0.01" value="0" aria-label="Scrub through the scene">
+    <span id="clock">0.0 / 18.0 s</span>
+  </div>
+
+  <div class="notes">
+    <div><h2>What moves</h2><ul>
+      <li>Mia: head, eyes, brows, mouth, arms, breathing, blinking</li>
+      <li>Lily: peeks, hops out, lands, bobs, talks (the app's own talking art)</li>
+      <li>World: palms, banderitas, clouds, lamp flicker, stars, dusk turning to day</li>
+      <li>Props: book closing, phone glow and rings, thought bubbles, the "Mmm" letters</li>
+    </ul></div>
+    <div><h2>What to judge</h2><ul>
+      <li>Is this Mia acceptable as the story's child?</li>
+      <li>Is there enough motion, or still too calm?</li>
+      <li>Does the dusk-to-day change work as Lily's arrival?</li>
+      <li>The real video adds your cloned voice, music and app sounds.</li>
+    </ul></div>
+  </div>
+</main>
+
+<script>
+const T = 18;               // seconds in the loop
+const anims = [];
+// A(selector, [[second, {css props}, easing], ...]) — keyframes written in seconds
+function A(sel, frames) {
+  const el = document.querySelector(sel);
+  const f = frames.slice();
+  if (f[0][0] > 0) f.unshift([0, f[0][1]]);
+  if (f[f.length - 1][0] < T) f.push([T, f[f.length - 1][1]]);
+  const kf = f.map(([t, props, ease]) => ({ offset: t / T, easing: ease || "ease-in-out", ...props }));
+  anims.push(el.animate(kf, { duration: T * 1000, iterations: Infinity }));
+}
+const show = (sel, a, b, max = 1) => A(sel, [[Math.max(0, a - .25), { opacity: 0 }], [a, { opacity: max }], [b, { opacity: max }], [Math.min(T, b + .25), { opacity: 0 }]]);
+const pop = (sel, a, b) => A(sel, [
+  [a - .01, { opacity: 0, transform: "scale(.2)" }], [a + .28, { opacity: 1, transform: "scale(1.12)" }, "ease-out"],
+  [a + .45, { opacity: 1, transform: "scale(1)" }], [b, { opacity: 1, transform: "scale(1)" }], [b + .3, { opacity: 0, transform: "scale(.6)" }]]);
+
+/* ---- light: dusk until Lily arrives (14.2 s), then day ---- */
+A("#duskSky",  [[0, { opacity: 1 }], [14.1, { opacity: 1 }], [16, { opacity: 0 }], [17.6, { opacity: 0 }], [18, { opacity: 1 }]]);
+A("#duskVeil", [[0, { opacity: .5 }], [11.2, { opacity: .5 }], [12.6, { opacity: .62 }], [14.1, { opacity: .62 }], [15.8, { opacity: 0 }], [17.6, { opacity: 0 }], [18, { opacity: .5 }]]);
+A("#stars",    [[0, { opacity: 1 }], [14.1, { opacity: 1 }], [15.2, { opacity: 0 }], [17.7, { opacity: 0 }], [18, { opacity: 1 }]]);
+A("#sun",      [[0, { transform: "translateY(330px)" }], [14.1, { transform: "translateY(330px)" }], [16.2, { transform: "translateY(0px)" }, "cubic-bezier(.2,1.3,.4,1)"], [17.7, { transform: "translateY(0px)" }], [18, { transform: "translateY(330px)" }]]);
+A("#sunRays",  [[0, { opacity: 0, transform: "rotate(0deg)" }], [15.6, { opacity: 0, transform: "rotate(0deg)" }], [16.4, { opacity: .9, transform: "rotate(12deg)" }], [17.6, { opacity: .9, transform: "rotate(30deg)" }], [18, { opacity: 0, transform: "rotate(30deg)" }]]);
+document.querySelector("#sunRays").style.transformOrigin = "50% 50%";
+A("#lampLight",[[0, { opacity: 1 }], [11.3, { opacity: 1 }], [12.4, { opacity: .45 }], [14.1, { opacity: .45 }], [15.4, { opacity: 0 }], [17.7, { opacity: 0 }], [18, { opacity: 1 }]]);
+A("#kuboWin",  [[0, { fill: "#FFD77A" }], [14.2, { fill: "#FFD77A" }], [15.8, { fill: "#7A4A23" }], [17.7, { fill: "#7A4A23" }], [18, { fill: "#FFD77A" }]]);
+
+/* ---- Mia ---- */
+A("#miaHead", [
+  [0, { transform: "rotate(0deg) translateY(0px)" }], [1.2, { transform: "rotate(7deg) translateY(4px)" }], [4.8, { transform: "rotate(7deg) translateY(4px)" }],
+  [5.3, { transform: "rotate(3deg) translateY(0px)" }], [6.6, { transform: "rotate(5deg) translateY(2px)" }],
+  [7.4, { transform: "rotate(-6deg) translateY(-2px)" }], [8.6, { transform: "rotate(-1deg) translateY(-3px)" }], [9.9, { transform: "rotate(6deg) translateY(-2px)" }],
+  [11.2, { transform: "rotate(4deg) translateY(2px)" }], [12.2, { transform: "rotate(13deg) translateY(12px)" }], [12.9, { transform: "rotate(13deg) translateY(12px)" }],
+  [13.5, { transform: "rotate(8deg) translateY(4px)" }], [14.5, { transform: "rotate(-9deg) translateY(-8px)" }, "cubic-bezier(.3,1.6,.5,1)"], [15.2, { transform: "rotate(-5deg) translateY(-3px)" }],
+  [16.2, { transform: "rotate(-8deg) translateY(-5px)" }], [17.4, { transform: "rotate(-5deg) translateY(-3px)" }], [18, { transform: "rotate(0deg) translateY(0px)" }]]);
+A("#miaBody", [[0, { transform: "translateY(0px)" }], [11.4, { transform: "translateY(0px)" }], [12.2, { transform: "translateY(9px)" }], [13.4, { transform: "translateY(9px)" }], [14.5, { transform: "translateY(-6px)" }, "cubic-bezier(.3,1.6,.5,1)"], [15.4, { transform: "translateY(0px)" }]]);
+A("#pupils", [
+  [0, { transform: "translate(0px,0px)" }], [1.2, { transform: "translate(-3px,6px)" }], [2.6, { transform: "translate(3px,6px)" }], [3.8, { transform: "translate(-3px,6px)" }], [4.8, { transform: "translate(0px,6px)" }],
+  [7.4, { transform: "translate(-6px,-6px)" }], [8.6, { transform: "translate(0px,-8px)" }], [9.9, { transform: "translate(6px,-6px)" }],
+  [11.3, { transform: "translate(0px,6px)" }], [12.9, { transform: "translate(0px,7px)" }], [13.4, { transform: "translate(7px,3px)" }], [14.5, { transform: "translate(7px,-3px)" }], [17.6, { transform: "translate(7px,-3px)" }], [18, { transform: "translate(0px,0px)" }]]);
+A("#browL", [[0, { transform: "rotate(0deg) translateY(0px)" }], [5.2, { transform: "rotate(0deg) translateY(0px)" }], [6.2, { transform: "rotate(-16deg) translateY(-3px)" }], [13.6, { transform: "rotate(-18deg) translateY(-3px)" }], [14.5, { transform: "rotate(6deg) translateY(-9px)" }], [17.6, { transform: "rotate(6deg) translateY(-9px)" }], [18, { transform: "rotate(0deg) translateY(0px)" }]]);
+A("#browR", [[0, { transform: "rotate(0deg) translateY(0px)" }], [5.2, { transform: "rotate(0deg) translateY(0px)" }], [6.2, { transform: "rotate(16deg) translateY(-3px)" }], [13.6, { transform: "rotate(18deg) translateY(-3px)" }], [14.5, { transform: "rotate(-6deg) translateY(-9px)" }], [17.6, { transform: "rotate(-6deg) translateY(-9px)" }], [18, { transform: "rotate(0deg) translateY(0px)" }]]);
+show("#mNeutral", 0, 4.9); show("#mSad", 6.7, 14.1); show("#mHappy", 14.5, 17.7);
+A("#mMmm", [[4.9, { opacity: 0, transform: "scaleX(1)" }], [5.1, { opacity: 1, transform: "scaleX(1)" }], [5.4, { opacity: 1, transform: "scaleX(.7)" }], [5.7, { opacity: 1, transform: "scaleX(1.1)" }], [6, { opacity: 1, transform: "scaleX(.7)" }], [6.3, { opacity: 1, transform: "scaleX(1)" }], [6.6, { opacity: 1, transform: "scaleX(.85)" }], [6.8, { opacity: 0, transform: "scaleX(1)" }]]);
+A("#blushL", [[0, { opacity: .22 }], [14.3, { opacity: .22 }], [15, { opacity: .6 }], [17.6, { opacity: .6 }], [18, { opacity: .22 }]]);
+A("#blushR", [[0, { opacity: .22 }], [14.3, { opacity: .22 }], [15, { opacity: .6 }], [17.6, { opacity: .6 }], [18, { opacity: .22 }]]);
+// finger tracing the letter, then pushing the book shut, then hands up in delight
+A("#armL", [[0, { transform: "translate(0px,0px) rotate(0deg)" }], [1.4, { transform: "translate(-8px,-4px) rotate(0deg)" }], [2.2, { transform: "translate(2px,-12px) rotate(0deg)" }], [3, { transform: "translate(8px,-4px) rotate(0deg)" }], [3.8, { transform: "translate(-6px,-6px) rotate(0deg)" }], [4.8, { transform: "translate(0px,0px) rotate(0deg)" }],
+  [11.3, { transform: "translate(0px,0px) rotate(0deg)" }], [11.9, { transform: "translate(14px,-6px) rotate(0deg)" }], [12.6, { transform: "translate(-4px,4px) rotate(0deg)" }], [14.2, { transform: "translate(-4px,4px) rotate(0deg)" }], [14.7, { transform: "translate(-16px,-34px) rotate(-30deg)" }, "cubic-bezier(.3,1.6,.5,1)"], [17.5, { transform: "translate(-16px,-30px) rotate(-26deg)" }], [18, { transform: "translate(0px,0px) rotate(0deg)" }]]);
+A("#armR", [[0, { transform: "translate(0px,0px) rotate(0deg)" }], [11.3, { transform: "translate(0px,0px) rotate(0deg)" }], [11.9, { transform: "translate(-14px,-6px) rotate(0deg)" }], [12.6, { transform: "translate(4px,4px) rotate(0deg)" }], [14.2, { transform: "translate(4px,4px) rotate(0deg)" }], [14.7, { transform: "translate(16px,-34px) rotate(30deg)" }, "cubic-bezier(.3,1.6,.5,1)"], [17.5, { transform: "translate(16px,-30px) rotate(26deg)" }], [18, { transform: "translate(0px,0px) rotate(0deg)" }]]);
+
+/* ---- the "Mmm" letters ---- */
+[["#mm1", 5.0], ["#mm2", 5.35], ["#mm3", 5.7]].forEach(([s, a]) => A(s, [
+  [a, { opacity: 0, transform: "translate(0px,0px) rotate(0deg) scale(.5)" }], [a + .25, { opacity: 1, transform: "translate(8px,-12px) rotate(-8deg) scale(1)" }],
+  [a + .9, { opacity: 1, transform: "translate(26px,-46px) rotate(9deg) scale(1.05)" }], [a + 1.6, { opacity: 0, transform: "translate(34px,-84px) rotate(-6deg) scale(.9)" }]]));
+
+/* ---- the three obstacles ---- */
+pop("#tb1", 7.3, 10.9); pop("#tb2", 8.5, 11.0); pop("#tb3", 9.8, 11.1);
+A("#clockHand", [[8.5, { transform: "rotate(0deg)" }, "linear"], [11.2, { transform: "rotate(720deg)" }]]);
+
+/* ---- the book ---- */
+A("#bookOpen",   [[0, { opacity: 1, transform: "scaleY(1)" }], [11.6, { opacity: 1, transform: "scaleY(1)" }], [12.0, { opacity: 1, transform: "scaleY(.3)" }, "ease-in"], [12.02, { opacity: 0, transform: "scaleY(.3)" }], [17.6, { opacity: 0, transform: "scaleY(.3)" }], [18, { opacity: 1, transform: "scaleY(1)" }]]);
+A("#bookClosed", [[12.0, { opacity: 0, transform: "scaleY(1.5)" }], [12.02, { opacity: 1, transform: "scaleY(1.5)" }], [12.25, { opacity: 1, transform: "scaleY(.9)" }], [12.4, { opacity: 1, transform: "scaleY(1)" }], [17.6, { opacity: 1, transform: "scaleY(1)" }], [18, { opacity: 0, transform: "scaleY(1)" }]]);
+
+/* ---- the phone wakes up ---- */
+A("#phoneScreen", [[0, { fill: "#33424C" }], [12.7, { fill: "#33424C" }], [13.0, { fill: "#FFF6CF" }], [17.6, { fill: "#FFF6CF" }], [18, { fill: "#33424C" }]]);
+A("#phoneLight",  [[12.7, { opacity: 0 }], [13.2, { opacity: .9 }], [14.3, { opacity: 1 }], [15.6, { opacity: .25 }], [17.6, { opacity: .25 }], [18, { opacity: 0 }]]);
+A("#rings", [[12.8, { opacity: 0 }], [12.9, { opacity: 1 }], [15, { opacity: 1 }], [15.4, { opacity: 0 }]]);
+["#ring1", "#ring2"].forEach((s, i) => { const f = [[0, { transform: "scale(.3)", opacity: 0 }]]; for (let t = 12.8 + i * .45; t < 15.2; t += .9) { f.push([t, { transform: "scale(.3)", opacity: 1 }, "ease-out"]); f.push([t + .88, { transform: "scale(2.6)", opacity: 0 }, "steps(1)"]); } A(s, f); });
+
+/* ---- Lily: peek, hop out, land, talk ---- */
+A("#lily", [
+  [0, { transform: "translateY(260px) scale(.8,.8)" }], [12.9, { transform: "translateY(260px) scale(.8,.8)" }],
+  [13.5, { transform: "translateY(168px) scale(.8,.8)" }, "ease-out"], [13.75, { transform: "translateY(176px) scale(.8,.8)" }], [14.05, { transform: "translateY(166px) scale(.8,.8)" }],
+  [14.2, { transform: "translateY(178px) scale(.86,.72)" }, "cubic-bezier(.2,.8,.3,1)"],
+  [14.6, { transform: "translateY(-96px) scale(.94,1.12)" }, "cubic-bezier(.5,0,.8,.4)"],
+  [14.95, { transform: "translateY(0px) scale(1.14,.84)" }, "ease-out"], [15.15, { transform: "translateY(-14px) scale(.97,1.05)" }], [15.35, { transform: "translateY(0px) scale(1,1)" }],
+  [17.55, { transform: "translateY(0px) scale(1,1)" }], [18, { transform: "translateY(260px) scale(.8,.8)" }]]);
+// mouth flap: swap between the app's closed and talking drawings while she speaks
+(() => { const f = [[0, { opacity: 0 }, "steps(1)"]]; let on = true; for (let t = 15.5; t < 17.3; t += .14) { f.push([t, { opacity: on ? 1 : 0 }, "steps(1)"]); on = !on; } f.push([17.3, { opacity: 0 }, "steps(1)"]); A("#lilyB", f); })();
+A("#sparks", [[14.5, { opacity: 0, transform: "scale(.4)" }], [14.9, { opacity: 1, transform: "scale(1)" }], [15.8, { opacity: 0, transform: "scale(1.25)" }]]);
+document.querySelector("#sparks").style.transformOrigin = "50% 60%";
+pop("#bubble", 15.4, 17.5);
+
+/* ---- captions ---- */
+const cap = (id, a, b) => A(id, [[Math.max(0, a - .2), { opacity: 0 }], [a, { opacity: 1 }], [b, { opacity: 1 }], [b + .2, { opacity: 0 }]]);
+cap("#c1", .3, 4.7); cap("#c2", 5.1, 6.7); cap("#c3", 7.2, 9.6); cap("#c4", 9.8, 11.1); cap("#c5", 11.4, 12.7); cap("#c6", 13, 15.1); cap("#c7", 15.5, 17.6);
+
+/* ---- controls ---- */
+const scrub = document.querySelector("#scrub"), clock = document.querySelector("#clock"), play = document.querySelector("#play");
+let paused = false;
+const setPaused = p => { paused = p; anims.forEach(a => p ? a.pause() : a.play()); play.textContent = p ? "Play" : "Pause"; };
+play.onclick = () => setPaused(!paused);
+document.querySelector("#restart").onclick = () => { anims.forEach(a => a.currentTime = 0); setPaused(false); };
+scrub.oninput = () => { setPaused(true); anims.forEach(a => a.currentTime = scrub.value * 1000); };
+// open with ?t=14.6 to freeze on one moment
+const q = new URLSearchParams(location.search).get("t");
+if (q !== null) { anims.forEach(a => a.currentTime = parseFloat(q) * 1000); setPaused(true); }
+(function tick() {
+  const t = ((anims[0].currentTime || 0) / 1000) % T;
+  if (!scrub.matches(":active")) scrub.value = t;
+  clock.textContent = t.toFixed(1) + " / " + T.toFixed(1) + " s";
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

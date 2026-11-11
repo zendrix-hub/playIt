@@ -2,6 +2,12 @@
 
 A research poster and a two-minute pitch video, both built by scripts from a few plain files. Deadline: **14 November 2026**.
 
+## The video is now the film in `film/`
+
+Since 11 November the two-minute video is `film/`: Mia, Lily and the scenery drawn and animated in code in Lily's art style, with the app's real screenshots inside the phone. Open `film/film.html` in Chrome to watch it with sound, or watch the draft render `film/film_draft.mp4`. `film/README.md` explains how it is built, how to render the MP4, and what to change when the real survey numbers arrive. `mockups/` holds the look tests that led to it.
+
+The earlier video built from generated story pictures (`video/timeline.json`, `video/src/scenes/`) is kept but no longer the one being finished. The generated pictures and clips in `assets/` and `01_Video_Pitch/generated/` were a guide for the look and are not used in the film.
+
 ## Quickest start
 
 The poster and video are now produced by Claude Code on the team's PC. Open the repo in Claude Code and send: **"Read docs/tekcon-2026/CLAUDE_HANDOFF.md and carry it out."** That file holds the decisions, the remaining steps and what is still needed from the team.

@@ -117,3 +117,13 @@ What was done, and where it differs from the plan above:
 Not verified, because nobody on the build side can hear: how close the clone sounds to the user, the pronunciation of "nanay", "DepEd" and "Marungko", whether the 1.17x Beat 4 sounds rushed, and whether the music bed and effects are pleasant. Whisper's transcript matched the script on every line.
 
 Seen in the stills and left alone: `G3.png` (classroom) has garbled writing on the board and alphabet cards, and `team_pixar.png` has a misspelt sign behind the team. Both are generated pictures that cannot be regenerated here.
+
+## Update, afternoon of 11 Nov: the video changed direction
+
+The user watched the draft above and rejected it as too static (still pictures with slow zooms). The video is now the film in `film/`, drawn and animated in code in Lily's art style; read `film/README.md` before touching it. The user approved the look step by step from the pages in `mockups/`. The generated story pictures are a guide only and must not appear in the film.
+
+- A full 120-second draft is at `film/film_draft.mp4` (960x540, voice, music and app sounds). It was checked by pulling 31 frames from the MP4; nobody on the build side has listened to it.
+- The film reuses the cloned narration from this session. Four lines have estimated word timing (see `film/README.md`).
+- Still to do: the user's notes on the draft; the real survey numbers and new Beat 4 voice lines; the final 1080p render; the QR code.
+- The uv-managed Python that the voice tools used is no longer on this PC (`AppData\Roaming\uv\python` is missing), so cloning and Whisper cannot run until it is reinstalled.
+
