@@ -2,9 +2,11 @@
 
 A research poster and a two-minute pitch video, both built by scripts from a few plain files. Deadline: **14 November 2026**.
 
-## Quickest start with Antigravity
+## Quickest start
 
-Open this folder in Antigravity and send: **"Read ANTIGRAVITY_RUN.md and execute it."** The agent sets up, builds, generates art, drafts the video, and stops only where it needs you. Send the same message again to continue.
+The poster and video are now produced by Claude Code on the team's PC. Open the repo in Claude Code and send: **"Read docs/tekcon-2026/CLAUDE_HANDOFF.md and carry it out."** That file holds the decisions, the remaining steps and what is still needed from the team.
+
+The Antigravity files in this folder (`ANTIGRAVITY_RUN.md`, `.agents/`, the `antigravity_*` briefs, `SETUP_WINDOWS.md`) were used for one run and are kept only as background.
 
 ## Read this first
 
