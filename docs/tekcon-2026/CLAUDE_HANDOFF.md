@@ -183,21 +183,45 @@ The required high-resolution software product logo has been generated in `docs/t
    - Recreate the team portrait and participant illustrations in the exact 2D flat storybook art style of Lily and Mia.
    - Prompts for "nano banana" / image generator have been provided to the user.
 
-### 4. Incoming User Assets (Updated 11 Nov Night)
-The user has provided the following fresh assets in `assets/`:
+### 4. Newly Added Assets in Repo (11 Nov Night)
+The user has provided all visual and voice assets in `assets/`:
 1. `voice_sample_2.m4a` / `voice_sample_2.wav`: 96-second high-quality audio sample containing authentic Filipino phonetics, natural pronunciation of *nanay*, *Mia*, *Marungko*, *DepEd*, *CIT University*, and numbers. Use this for re-cloning.
 2. `learners.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of Filipino Grade 1 learners holding books and tablets.
 3. `teachers.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of Filipino Grade 1 teachers and parents.
-4. *Pending Group Image:* The user will supply the real group photo of the five team members, plus a 2D storybook illustration (`team_2d.png`) generated from it, to replace `team_pixar.png` and integrate into Beat 5 of `film/s3.js`.
+4. `team_2d.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of the five team members smiling together in the video's art style, replacing `team_pixar.png`.
+5. `03_Software_Product_Logo/`: The official product logos featuring the approved Concept 1 Lily mascot face emblem:
+   - `Product_Logo_2000x2000.png` (transparent background master)
+   - `Product_Logo_512x512.png` (transparent background web/app icon)
+   - Plus AppIcon squircle badge variants (`Product_Logo_AppIcon_*.png`).
 
-### 5. Remaining Action Items for Claude
-1. Re-run voice cloning using `assets/voice_sample_2.wav` (`python tools/voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample_2.wav`).
-2. Wire Lily's real app audio files into `film/voice/`:
+### 5. Schedule & Execution Rules: Nov 12 vs. Nov 13
+
+> [!IMPORTANT]
+> **USER DIRECTIVE ON TIMING:**
+> - **On Nov 12 (Absorption & Prep Day):** DO NOT recreate or trigger final video/poster renders yet. Just adopt and absorb what has been newly added in the assets, code, and handoff. Prepare voice cloning, adapt the code, and await the Round 2 survey closure in the evening.
+> - **On Nov 13 (Final Output Recreation Day):** Perform the final end-to-end recreation: enter final survey numbers (`status: "actual"`), inject final Google Drive video QR code, render the full 1080p MP4 film, export final poster PDF/PPTX, and assemble the Drive submission folders. Print on Nov 13 for Nov 14 submission.
+
+### 6. Step-by-Step Execution Plan for Claude
+
+#### Phase A (Nov 12 — Adopt & Absorb):
+1. **Narration Voice Re-clone:** Run Chatterbox on `assets/voice_sample_2.wav` (`python tools/voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample_2.wav`). This fixes *nanay* and gives natural Filipino inflection.
+2. **Lily Voice Replacement:** Copy in-app studio audio files to `film/voice/`:
    - `b2_02.wav` <- `app/src/main/assets/audio/vo/ui/ret_welcome_back.wav` (or `vo_map_tarana.wav`).
    - `b5_04.wav` <- `app/src/main/assets/audio/vo/lesson/vo_complete_01.wav`.
-3. In `film/s2.js`: remove the airplane toggle animation card, update `b3_01` cue.
-4. In `film/s3.js`: remove `b4_05` ("691 tests pass") from Beat 4, restoring Beat 4 to natural 1.0x speed. Integrate `learners.jpg` and `teachers.jpg` into the results display. In Beat 5, wire `team_2d.png` when provided.
-5. Once Round 2 survey numbers freeze (evening of 12 Nov), update `round2_data.json` with status `actual`, run `npm run build` in `tools/` until 0 failed, and render the final 1080p MP4 film.
+3. **Beat 3 Demo Code Adjustment:** In `film/s2.js`, remove the airplane toggle animation card. Update narration line `b3_01` to transition smoothly into the lesson.
+4. **Beat 4 Results Code Adjustment:** In `film/s3.js` and `lines.json`, remove `b4_05` ("691 tests pass"). This frees ~2.7s, allowing Beat 4 lines to run at natural **1.0x human speaking speed** (removing the previous 1.17x artificial speed-up!). Display `learners.jpg` and `teachers.jpg` alongside the score cards.
+5. **Beat 5 Team Visual Adjustment:** In `film/s3.js`, wire `assets/team_2d.jpg` into the team display segment.
+6. **Evening of Nov 12:** Receive the real Round 2 survey numbers from the user.
+
+#### Phase B (Nov 13 — Final Output Recreation & Packaging):
+1. **Enter Real Survey Numbers:** Update `round2_data.json` with the final counts and set `"status": "actual"` (this automatically removes the yellow PROJECTED banner).
+2. **Re-synthesize Beat 4:** Re-run voice synthesis for Beat 4 lines with the actual numbers.
+3. **Render Final 1080p Pitch Film:** Render `film/` at 1080p (`TeamCode_2-Minute_Pitch.mp4`). Verify length is <= 120.0s.
+4. **Final Drive Link & QR Code:** User uploads the video to Google Drive. Claude generates `assets/qr_pitch.png` from that link and runs `npm run build` in `tools/` to rebuild the poster.
+5. **Final Poster Export:** Export `Research_Poster.pdf` and `Research_Poster_Source.pptx`.
+6. **Package Submission Tree:** Populate `06_TekCon_2026_Presentation/` (folders `01_Research_Poster/`, `02_Video_Pitch/`, `03_Software_Product_Logo/`).
+7. **Verify & Print:** Verify `check.js` prints `READY TO PRINT AND RECORD: yes` and team prints cartolina poster on Nov 13.
+
 
 
 
