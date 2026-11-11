@@ -127,3 +127,77 @@ The user watched the draft above and rejected it as too static (still pictures w
 - Still to do: the user's notes on the draft; the real survey numbers and new Beat 4 voice lines; the final 1080p render; the QR code.
 - The uv-managed Python that the voice tools used is no longer on this PC (`AppData\Roaming\uv\python` is missing), so cloning and Whisper cannot run until it is reinstalled.
 
+## Update, evening of 11 Nov: User Review & Instructor Specifications
+
+The user reviewed `film/film_draft.mp4` and provided the instructor's updated rubric and specific fixes for the pitch and deliverables.
+
+### 1. Updated Instructor Deliverables & Google Drive Structure
+Due date: **November 14, 2026** (Round 2 survey freeze: evening of 12 Nov, Print: 13 Nov).
+Required Google Drive layout:
+```text
+TeamCode/
+└── 06_TekCon_2026_Presentation/
+    ├── 01_Research_Poster/
+    │   ├── Research_Poster.pdf
+    │   └── Research_Poster_Source (PPTX)
+    ├── 02_Video_Pitch/
+    │   └── TeamCode_2-Minute_Pitch.mp4
+    └── 03_Software_Product_Logo/
+        ├── Product_Logo_2000x2000.png
+        └── Product_Logo_512x512.png
+```
+
+### 2. Software Product Logo (Done)
+The required high-resolution software product logo has been generated in `docs/tekcon-2026/03_Software_Product_Logo/`:
+- `Product_Logo_2000x2000.png` (2000x2000 px, 32-bit RGBA, transparent background, clean vector-style anti-aliased mascot).
+- `Product_Logo_512x512.png` (512x512 px, 32-bit RGBA, transparent background, optimized for web/app store icon).
+- Bonus AppIcon variants with the rounded squircle badge are also present (`Product_Logo_AppIcon_*.png`).
+
+### 3. Decisions & Fixes for the Video Film (`film/`)
+
+1. **Mascot Voice (Lily): Use Real In-App Audio**
+   - The pitched-up TTS voice for Lily in `b2_02` and `b5_04` is rejected.
+   - Use Lily's actual voice talent recordings from the app in `app/src/main/assets/audio/vo/`:
+     - **Beat 2 Greeting (`b2_02`):** Use `ret_welcome_back.wav` ("Welcome back! Ready to keep learning?" - 1.49s) or `vo_map_tarana.wav` ("Tara na!" - 2.72s) or `vo_welcome_01.wav` ("Hi there! I'm so happy you're here. Let's play and learn together!" - 3.48s).
+     - **Beat 5 Outro (`b5_04`):** Use `vo_complete_01.wav` ("You did it! I'm so proud of you!" - 1.85s) or `vo_correct_01.wav` ("Yes! That's it!" - 1.06s).
+   - Wire the selected `.wav` files into `film/voice/` and adjust `lines.json` and `s2.js` / `s3.js` timings to match.
+
+2. **Narration Voice Sample & "nanay" Pronunciation**
+   - In `b1_03`, "nanay" sounded unnatural because the previous voice sample was in English only.
+   - The user will record a fresh voice sample containing Filipino phonetics, vowel sounds, and project terms (*nanay*, *Mia*, *Marungko*, *DepEd*, *CIT University*, etc.).
+   - When the user places the new audio in `assets/voice_sample.wav`, re-run `make_voice.py` / Chatterbox cloning.
+
+3. **Drop "691 tests pass" from Pitch Video (`b4_05`)**
+   - "691 tests pass" is developer jargon irrelevant to pitch viewers.
+   - Cutting `b4_05` saves ~2.7 seconds in Beat 4.
+   - **Crucial win:** Beat 4 was artificially sped up to 1.17x to squeeze under 30 seconds. Removing `b4_05` allows Beat 4 to run at natural **1.0x human speaking speed** without rushing!
+   - On the research poster (`02_Research_Poster/`), keep "691 Automated Tests (100% Pass)" on the bottom technical software engineering chip.
+
+4. **Remove Airplane Mode Toggle from Beat 3 (`b3_01`)**
+   - PlayIT is completely offline by design. Turning on airplane mode is unnecessary and distracts from the phonics demonstration.
+   - Change `b3_01` narration to a direct transition: e.g. "Watch Mia learn." or "No Wi-Fi needed — Mia just taps her letter."
+   - In `film/s2.js`, remove the airplane toggle overlay and go directly to the lesson screen.
+
+5. **Visual Art Style Consistency (2D Flat Storybook Style)**
+   - The 3D Pixar render (`team_pixar.png`) does not match the rest of the 2D film.
+   - Recreate the team portrait and participant illustrations in the exact 2D flat storybook art style of Lily and Mia.
+   - Prompts for "nano banana" / image generator have been provided to the user.
+
+### 4. Incoming User Assets (Updated 11 Nov Night)
+The user has provided the following fresh assets in `assets/`:
+1. `voice_sample_2.m4a` / `voice_sample_2.wav`: 96-second high-quality audio sample containing authentic Filipino phonetics, natural pronunciation of *nanay*, *Mia*, *Marungko*, *DepEd*, *CIT University*, and numbers. Use this for re-cloning.
+2. `learners.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of Filipino Grade 1 learners holding books and tablets.
+3. `teachers.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of Filipino Grade 1 teachers and parents.
+4. *Pending Group Image:* The user will supply the real group photo of the five team members, plus a 2D storybook illustration (`team_2d.png`) generated from it, to replace `team_pixar.png` and integrate into Beat 5 of `film/s3.js`.
+
+### 5. Remaining Action Items for Claude
+1. Re-run voice cloning using `assets/voice_sample_2.wav` (`python tools/voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample_2.wav`).
+2. Wire Lily's real app audio files into `film/voice/`:
+   - `b2_02.wav` <- `app/src/main/assets/audio/vo/ui/ret_welcome_back.wav` (or `vo_map_tarana.wav`).
+   - `b5_04.wav` <- `app/src/main/assets/audio/vo/lesson/vo_complete_01.wav`.
+3. In `film/s2.js`: remove the airplane toggle animation card, update `b3_01` cue.
+4. In `film/s3.js`: remove `b4_05` ("691 tests pass") from Beat 4, restoring Beat 4 to natural 1.0x speed. Integrate `learners.jpg` and `teachers.jpg` into the results display. In Beat 5, wire `team_2d.png` when provided.
+5. Once Round 2 survey numbers freeze (evening of 12 Nov), update `round2_data.json` with status `actual`, run `npm run build` in `tools/` until 0 failed, and render the final 1080p MP4 film.
+
+
+
