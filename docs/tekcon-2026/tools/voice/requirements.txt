@@ -1,7 +1,10 @@
-# Voice and caption timing for the pitch video. Install with:  python -m pip install -r requirements.txt
-faster-whisper
+# Voice and caption timing for the pitch video. What is installed in tools/voice/.venv on the team PC:
+#   .bin\uv.exe venv --python 3.11 voice\.venv
+#   .bin\uv.exe pip install --python voice\.venv\Scripts\python.exe -r voice\requirements.txt
+chatterbox-tts        # voice cloning (pulls in the CPU build of PyTorch on Windows)
+faster-whisper        # word timings for captions
 soundfile
 numpy
-kokoro
-# Voice cloning (large download, slow without a graphics card). Install only when you are ready for the final voice:
-#   python -m pip install chatterbox-tts
+imageio-ffmpeg        # a full ffmpeg, used for Lily's pitch and for preparing recordings
+setuptools<81         # chatterbox's watermark step needs pkg_resources
+# Fallback voice only (not installed): kokoro

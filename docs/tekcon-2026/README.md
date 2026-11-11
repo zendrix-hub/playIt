@@ -47,6 +47,25 @@ npm run video:draft     quick half-size video
 npm run video:final     full-size MP4, then the checker
 ```
 
+On this PC (no admin rights, no system Python or ffmpeg) the voice tools live in `tools/voice/.venv`, made with `tools/.bin/uv.exe`. Both folders are local only and not in git. The commands that were actually run:
+
+```
+cd tools                                        (in Git Bash)
+PY=voice/.venv/Scripts/python.exe
+node get_app_sounds.js                          the app's own sound effects -> assets/sfx/
+$PY voice/make_music.py                         music bed from the app's pluck -> assets/music/bed.wav
+bash voice/get_model.sh                         the voice model, once (about 3 GB)
+$PY voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample.wav
+$PY voice/fit_beats.py                          tighten a beat whose lines overrun its window
+$PY voice/align.py                              word timings for the captions
+$PY voice/check_voice.py                        what Whisper hears in each line, beside the script
+node prep_media.js && node build_video_data.js
+export PITCH_BROWSER="C:/Program Files/Google/Chrome/Application/chrome.exe"
+npm --prefix ../video run draft                 (or: final)
+node ../video/scripts/render.mjs frames --at=25.5,61     pictures at chosen seconds, to check a moment
+```
+
+- **Until recordings arrive, the phone shows real screenshots.** Each demo shot names a `screen` (a real app screenshot in `assets/`) and where the tap rings go. Drop a `rec_*.mp4` into `assets/recordings/` and it replaces its screenshot on the next `video:prep`.
 - **It always renders.** Anything not supplied yet shows as a dashed orange placeholder naming the file needed, so you can judge the pacing before the art exists.
 - **The picture follows the voice.** Each shot starts when the narrator reaches its cue words.
 - **Real footage is required.** The brief asks for actual recordings or demonstrations of the working system. Put screen recordings (or a filmed phone) in `assets/recordings/`; they play inside the phone on screen.

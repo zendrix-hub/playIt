@@ -36,7 +36,13 @@ def chatterbox_engine(sample):
         sys.exit("Chatterbox needs --sample pointing at a 10-20 second WAV of the voice to clone.")
     import soundfile as sf
     from chatterbox.tts import ChatterboxTTS
-    model = ChatterboxTTS.from_pretrained(device="cpu")
+    # A model folder fetched by voice/get_model.sh is used if it is complete; otherwise the library downloads its own.
+    local = os.path.join(HERE, ".venv", "models", "chatterbox")
+    if all(os.path.exists(os.path.join(local, f)) for f in ("ve.safetensors", "t3_cfg.safetensors", "s3gen.safetensors", "tokenizer.json")):
+        from pathlib import Path
+        model = ChatterboxTTS.from_local(Path(local), "cpu")
+    else:
+        model = ChatterboxTTS.from_pretrained(device="cpu")
 
     def say(text, path):
         wav = model.generate(text, audio_prompt_path=sample)
@@ -57,13 +63,24 @@ def ffmpeg_exe():
 
 
 # Spellings the voice reads wrongly, and how to say them. Captions keep the script's spelling.
-SAY = {"PlayIT": "Play It", "DepEd": "Dep Ed", "CIT University": "C I T University", "nanay": "nah-nai"}
+SAY = {"PlayIT": "Play It", "DepEd": "Dep-Ed", "CIT University": "C I T University", "nanay": "nah-nai"}
+
+
+ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+
+
+def number_words(n):
+    """100 to 999 in words. The voice garbles a bare three-digit number."""
+    under = lambda k: ONES[k] if k < 20 else TENS[k // 10 - 2] + ("-" + ONES[k % 10] if k % 10 else "")
+    return ONES[n // 100] + " hundred" + (" " + under(n % 100) if n % 100 else "")
 
 
 def spoken(text):
+    import re
     for a, b in SAY.items():
         text = text.replace(a, b)
-    return text
+    return re.sub(r"(?<![\d.])\d{3}(?![\d.])", lambda m: number_words(int(m.group())), text)
 
 
 def pitch_up(path, factor=1.26):
@@ -138,6 +155,9 @@ def main():
         if ln["speaker"] == "lily":
             pitch_up(out)
         finish(out)
+        stale = out[:-4] + ".orig.wav"   # kept by fit_beats.py; a new take replaces it
+        if os.path.exists(stale):
+            os.remove(stale)
         made += 1
     print(f"Voice lines: {made} generated, {skipped} skipped. Engine: {a.engine}.")
 

@@ -99,3 +99,21 @@ How the kit works: `round2_data.json` (numbers) and `content.json` (poster wordi
 - Only real screenshots or recordings go inside the phone frame. No invented app screens.
 - Clone only the user's own voice.
 - Report what you could not run, see or hear as not verified. Do not imply it works.
+
+## Status after the 11 Nov Claude Code session
+
+Steps 2 to 8 are done. The draft is `video/out/draft.mp4` (120.0 s, 960x540, H.264 + AAC; a build output, not in git). **Waiting for the user's notes on the draft.** Steps 9 and 10 remain.
+
+What was done, and where it differs from the plan above:
+
+- **Voice:** cloned from `assets/voice_sample.wav` with Chatterbox on the CPU (about 25 minutes for 20 lines). The library's own model download stalled on this network, so `tools/voice/get_model.sh` fetches the model in parallel pieces into `tools/voice/.venv/models/chatterbox/`, and `make_voice.py` uses that folder. Kokoro was not needed and is not installed.
+- **New voice steps:** `fit_beats.py` (speeds a beat's lines up, pitch unchanged, when they would overrun the beat's window), then `align.py`, and `check_voice.py` (prints what Whisper hears in each line beside the script). Run order: `make_voice.py`, `fit_beats.py`, `align.py`, `check_voice.py`.
+- **Beat 4 is sped up 1.17x** to fit its 30 seconds; Beat 2 by 1.003x. The other beats are untouched. When the real numbers arrive, cutting about six words from Beat 4 would let it run at natural speed.
+- **Full ffmpeg:** a direct download from GitHub was refused by the permission system, so ffmpeg comes from the `imageio-ffmpeg` pip package inside the venv. `tools/media.js` finds it. ffprobe is Remotion's copy.
+- **Music:** youtube.com and pixabay.com are blocked, so `tools/voice/make_music.py` builds the bed from the app's own pluck sound. Sound effects are the app's own, copied by `tools/get_app_sounds.js`. See `assets/music/CREDITS.md`.
+- **Demo:** shots 7 to 14 show real screenshots from `docs/screenshots/` on `main`. Shot 15 (Parent Zone) still shows the orange placeholder: there is no real Parent Zone screen yet.
+- **Mia's "Mmm"** (line `b1_02`) is silent; it is not generated. Supply `assets/voice/b1_02.wav` to fill it.
+
+Not verified, because nobody on the build side can hear: how close the clone sounds to the user, the pronunciation of "nanay", "DepEd" and "Marungko", whether the 1.17x Beat 4 sounds rushed, and whether the music bed and effects are pleasant. Whisper's transcript matched the script on every line.
+
+Seen in the stills and left alone: `G3.png` (classroom) has garbled writing on the board and alphabet cards, and `team_pixar.png` has a misspelt sign behind the team. Both are generated pictures that cannot be regenerated here.

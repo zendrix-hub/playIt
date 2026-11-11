@@ -131,7 +131,7 @@ export const ResultsTests = () => {
         ))}
       </div>
       <Card style={{ left: 460, top: 360, width: 1000, height: 320, transform: `scale(${pop})` }}>
-        <div style={{ position: "absolute", left: 0, right: 0, top: 50, textAlign: "center", ...big, fontSize: 130 }}>{N.testsPass} tests pass</div>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 50, textAlign: "center", ...big, fontSize: 112, whiteSpace: "nowrap" }}>{N.testsPass} tests pass</div>
         <div style={{ position: "absolute", left: 0, right: 0, top: 210, textAlign: "center", fontFamily: BODY, fontSize: 44, color: C.grey }}>{N.testsFail} fail</div>
       </Card>
     </Stage>
