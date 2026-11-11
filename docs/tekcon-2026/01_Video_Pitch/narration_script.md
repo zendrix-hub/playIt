@@ -2,7 +2,7 @@
 # PlayIT — narration script (2:00)
 
 Narrator: your Pixar-style character, in your own voice. Lily's lines are your voice pitched up.
-Pace: calm storyteller, about 135 words a minute. Total below is 237 words, about 1:45 at that pace.
+Pace: calm storyteller, about 135 words a minute. Total below is 245 words, about 1:49 at that pace.
 
 Numbers in **[brackets]** are projections from `../round2_data.json`. Record Beat 4 last, after the survey closes, and read the real numbers.
 
@@ -44,9 +44,9 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 >
 > **[15]** of **[16]** children chose the happy face. **[12]** of **[16]** passed Say It first try.
 >
-> The grown-ups? Parents gave it **[4.5]** for home learning, **[4.8]** offline. Teachers scored teaching **[4.7]**.
+> The grown-ups who open the door? Parents gave it **[4.5]** for home learning, **[4.8]** offline. Teachers scored teaching **[4.7]**.
 >
-> One teacher called it "very useful and engaging."
+> One teacher called it "very useful and engaging for Grade 1 learners."
 >
 > 691 tests pass.
 

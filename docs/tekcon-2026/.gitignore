@@ -15,3 +15,7 @@ video/src/generated/
 *.mp3
 01_Video_Pitch/generated/
 __pycache__/
+
+# local tools installed for voice work (uv, Python environment)
+tools/.bin/
+tools/voice/.venv/

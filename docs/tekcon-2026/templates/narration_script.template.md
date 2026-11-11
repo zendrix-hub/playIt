@@ -43,9 +43,9 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 >
 > **{{ch_happy}}** of **{{ch_n}}** children chose the happy face. **{{ch_sayit}}** of **{{ch_n}}** passed Say It first try.
 >
-> The grown-ups? Parents gave it **{{pa_useful}}** for home learning, **{{pa_offline}}** offline. Teachers scored teaching **{{te_overall}}**.
+> The grown-ups who open the door? Parents gave it **{{pa_useful}}** for home learning, **{{pa_offline}}** offline. Teachers scored teaching **{{te_overall}}**.
 >
-> One teacher called it "very useful and engaging."
+> One teacher called it "very useful and engaging for Grade 1 learners."
 >
 > {{tests}} tests pass.
 
