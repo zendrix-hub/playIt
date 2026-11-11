@@ -1,7 +1,7 @@
 // Shared building blocks. Every picture goes through has()/Slot so a missing file
 // becomes a labelled placeholder instead of a failed render.
 import React from "react";
-import { AbsoluteFill, Img, OffthreadVideo, staticFile, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, Img, OffthreadVideo, staticFile, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import data from "./generated/data.json";
 import { C, BODY, TITLE } from "./theme";
 
@@ -28,27 +28,47 @@ export const Placeholder = ({ label, dark }) => (
   </AbsoluteFill>
 );
 
-// A full-frame clip or still with a slow camera move; falls back to a placeholder.
-export const StoryPicture = ({ clip, still, move = "push-in", label, dim }) => {
+export const easeInOut = Easing.inOut(Easing.cubic);
+// A lamp that never sits quite still: three slow sines, the same on every render.
+const flicker = (t, seed = 0) => 0.5 + 0.22 * Math.sin(t * 5.3 + seed) + 0.16 * Math.sin(t * 11.7 + seed * 2.1) + 0.12 * Math.sin(t * 19.9 + seed * 3.7);
+
+// A full-frame clip or still. A real clip wins; otherwise the still moves by code:
+// an eased push-in or pull-out toward `focus`, warm lamp flicker at each of `lights`,
+// a soft pulse at `glow`, and an evening vignette. Positions are [x%, y%] of the picture.
+export const StoryPicture = ({ clip, still, move = "push-in", label, dim, focus = [50, 50], lights = [], glow, vignette = true, children }) => {
   const { t, dur } = useT();
-  const k = interpolate(t, [0, dur], [0, 1]);
-  const scale = move === "pull-out" ? 1.1 - 0.08 * k : 1.02 + 0.08 * k;
+  const k = interpolate(t, [0, dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const e = easeInOut(k);
+  const scale = move === "none" ? 1 : move === "pull-out" ? 1.15 - 0.11 * e : 1.03 + 0.12 * e;
   const inner = { width: "100%", height: "100%", objectFit: "cover" };
-  let body;
+  let body, isStill = false;
   if (has("story/" + clip)) {
     const s = clipSeconds("story/" + clip);
     const rate = s ? Math.min(1.5, Math.max(0.5, s / dur)) : 1;
     body = <OffthreadVideo src={staticFile("story/" + clip)} muted playbackRate={rate} style={inner} />;
   } else if (has("story/" + still) || has("img/" + still)) {
     const p = has("story/" + still) ? "story/" + still : "img/" + still;
-    body = <Img src={staticFile(p)} style={{ ...inner, transform: `scale(${scale})` }} />;
+    isStill = true;
+    body = <Img src={staticFile(p)} style={inner} />;
   } else {
     body = <Placeholder dark label={`STORY WORLD (Pixar style)\n${label || ""}\nneeds: ${[clip, still].filter(Boolean).join(" or ")}`} />;
   }
   return (
     <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
-      {body}
-      {dim ? <AbsoluteFill style={{ background: "#000", opacity: 0.35 * k }} /> : null}
+      <AbsoluteFill style={isStill ? { transform: `scale(${scale})`, transformOrigin: `${focus[0]}% ${focus[1]}%` } : null}>
+        {body}
+        {isStill ? children : null}
+        {isStill ? lights.map(([x, y, r = 34], i) => (
+          <AbsoluteFill key={i} style={{ mixBlendMode: "screen", opacity: 0.1 + 0.2 * flicker(t, i * 1.9 + x),
+            background: `radial-gradient(circle at ${x}% ${y}%, rgba(255,186,96,0.95) 0%, rgba(255,160,70,0.35) ${r * 0.45}%, rgba(255,160,70,0) ${r}%)` }} />
+        )) : null}
+        {isStill && glow ? (
+          <AbsoluteFill style={{ mixBlendMode: "screen", opacity: 0.3 + 0.3 * (0.5 + 0.5 * Math.sin(t * 3.4)),
+            background: `radial-gradient(circle at ${glow[0]}% ${glow[1]}%, rgba(255,226,150,1) 0%, rgba(255,197,61,0.45) 12%, rgba(255,197,61,0) 30%)` }} />
+        ) : null}
+      </AbsoluteFill>
+      {isStill && vignette ? <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 46%, rgba(10,12,30,0) 52%, rgba(10,12,30,0.5) 100%)" }} /> : null}
+      {dim ? <AbsoluteFill style={{ background: "#000", opacity: 0.4 * easeInOut(k) }} /> : null}
     </AbsoluteFill>
   );
 };
@@ -119,22 +139,14 @@ export const Stage = ({ children, shift = 0 }) => (
   </AbsoluteFill>
 );
 
-// The phone frame. Real footage plays inside; nothing in here is ever drawn or generated.
-export const Phone = ({ rec, x = 960, y = 520, h = 760, audio = false, tilt = 0 }) => {
-  const { dur } = useT();
+// The phone frame. Only real app screens go inside: a screen recording, or a real screenshot.
+export const Phone = ({ x = 960, y = 520, h = 760, tilt = 0, children }) => {
   const w = h * 0.49;
-  const p = "rec/" + rec;
-  const s = clipSeconds(p);
-  const rate = s ? Math.min(1.25, Math.max(0.75, s / dur)) : 1;
   return (
     <div style={{ position: "absolute", left: x - w / 2, top: y - h / 2, width: w, height: h, borderRadius: 46, background: "#1B1B1F",
       padding: 14, boxSizing: "border-box", boxShadow: "0 24px 60px rgba(74,46,24,0.35)", transform: `rotate(${tilt}deg)` }}>
       <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: 34, overflow: "hidden", background: "#FFFFFF" }}>
-        {has(p) ? (
-          <OffthreadVideo src={staticFile(p)} muted={!audio} volume={audio ? 1 : 0} playbackRate={rate} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        ) : (
-          <Placeholder label={`REAL APP FOOTAGE\n${rec}\n(screen recording\nor filmed phone)`} />
-        )}
+        {children}
       </div>
     </div>
   );

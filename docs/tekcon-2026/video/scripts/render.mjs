@@ -1,5 +1,6 @@
 // Renders the pitch video.   node scripts/render.mjs stills | draft | final   [--shots=3,12]
 //   stills : one PNG per shot into out/stills/  (look at these before rendering video)
+//   frames : pictures at chosen times, e.g. --at=25.5,26.4  -> out/stills/at_025.50.png
 //   draft  : half-size MP4 for quick review     -> out/draft.mp4
 //   final  : 1920x1080 MP4                      -> out/<TeamCode>_2-Minute_Pitch.mp4
 import { bundle } from "@remotion/bundler";
@@ -27,7 +28,14 @@ const serveUrl = await bundle({ entryPoint: path.join(root, "src", "index.jsx"),
 const composition = await selectComposition({ serveUrl, id: "Pitch", browserExecutable, chromeMode });
 const fps = composition.fps;
 
-if (mode === "stills") {
+if (mode === "frames") {
+  const at = (process.argv.find((a) => a.startsWith("--at=")) || "").replace("--at=", "").split(",").filter(Boolean).map(Number);
+  for (const t of at) {
+    const file = path.join(out, "stills", `at_${t.toFixed(2).padStart(6, "0")}.png`);
+    await renderStill({ composition, serveUrl, output: file, frame: Math.min(composition.durationInFrames - 1, Math.round(t * fps)), scale: 0.5, browserExecutable, chromeMode });
+    console.log(`  ${t}s -> ${path.relative(root, file)}`);
+  }
+} else if (mode === "stills") {
   const shots = data.timeline.shots.filter((s) => !only.length || only.includes(s.id));
   for (const s of shots) {
     const frame = Math.min(composition.durationInFrames - 1, Math.round((s.start + (s.end - s.start) * 0.8) * fps));

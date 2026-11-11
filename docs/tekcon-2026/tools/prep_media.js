@@ -36,6 +36,7 @@ list(G, /\.(png|jpe?g)$/i).forEach((f) => put(f, "story"));
 list(G, /\.(mp4|mov|webm)$/i).forEach((f) =>
   put(f, "story", ["-vf", "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fps=30", "-an", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart"]));
 list(path.join(A, "voice"), /\.wav$/i).forEach((f) => put(f, "voice"));
+list(path.join(A, "sfx"), /\.(mp3|wav|ogg)$/i).forEach((f) => put(f, "sfx")); // the app's own sounds (node get_app_sounds.js)
 const music = list(path.join(A, "music"), /\.(mp3|m4a|wav|ogg)$/i);
 if (music.length) put(music[0], "music");
 if (music.length > 1) console.log("  more than one file in assets/music/; using " + path.basename(music[0]));

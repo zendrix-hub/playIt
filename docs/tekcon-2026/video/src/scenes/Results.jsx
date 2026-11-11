@@ -2,7 +2,7 @@
 // No number is typed in this file.
 import React from "react";
 import { interpolate } from "remotion";
-import { D, Stage, Lily, useT, usePop, fade } from "../parts";
+import { D, Stage, Lily, useT, usePop, fade, easeInOut } from "../parts";
 import { C, BODY, TITLE } from "../theme";
 
 const N = D.numbers;
@@ -81,18 +81,25 @@ const Bar = ({ item, y, at }) => {
     </div>
   );
 };
+// The deck of the bridge: y for a given x, so the figures stand on it.
+const deckY = (x) => { const u = (x - 180) / 1560; return 950 - 600 * u * (1 - u); };
 export const ResultsBridge = () => {
   const { t, dur } = useT();
-  const draw = fade(t, 0.1, 1.0);
+  const draw = easeInOut(fade(t, 0.1, 1.0));
+  const pass = easeInOut(fade(t, 1.0, 2.6));
+  const px = interpolate(pass, [0, 1], [760, 1270]);
+  const stand = (x, s) => ({ x: x - s / 2, y: deckY(x) - s * 1.7 - 12, s });
   return (
     <Stage>
       {/* the bridge: the grown-ups pass the phone across to the child */}
-      <div style={{ position: "absolute", left: 180, top: 800, width: 1560 * draw, height: 150, borderRadius: "780px 780px 0 0", border: `26px solid ${C.brown}`, borderBottom: "none", boxSizing: "border-box", opacity: 0.85 }} />
-      <Person x={330} y={690} s={64} color="#9CCFCB" k={usePop(0.5)} />
-      <Person x={430} y={690} s={64} color="#C8B9A8" k={usePop(0.6)} />
-      <Person x={1500} y={722} s={50} color={C.teal} k={usePop(0.9)} />
-      <div style={{ position: "absolute", left: interpolate(fade(t, 1.0, 2.6), [0, 1], [520, 1430]), top: 690 - Math.sin(fade(t, 1.0, 2.6) * Math.PI) * 60, width: 46, height: 84, borderRadius: 10, background: "#1B1B1F", border: `4px solid ${C.white}`, boxSizing: "border-box" }} />
-      <Card style={{ left: 240, top: 80, width: 1440, height: 560 }}>
+      <svg width="1920" height="1080" style={{ position: "absolute", left: 0, top: 0 }}>
+        <path d="M 180 950 Q 960 650 1740 950" fill="none" stroke={C.brown} strokeWidth="26" strokeLinecap="round" opacity="0.85" pathLength="1" strokeDasharray="1" strokeDashoffset={1 - draw} />
+      </svg>
+      <Person {...stand(600, 64)} color="#9CCFCB" k={usePop(0.5)} />
+      <Person {...stand(700, 64)} color="#C8B9A8" k={usePop(0.6)} />
+      <Person {...stand(1330, 50)} color={C.teal} k={usePop(0.9)} />
+      <div style={{ position: "absolute", left: px - 23, top: deckY(px) - 150 - Math.sin(pass * Math.PI) * 40, width: 46, height: 84, borderRadius: 10, background: "#1B1B1F", border: `4px solid ${C.white}`, boxSizing: "border-box", opacity: fade(t, 0.8, 1.0) }} />
+      <Card style={{ left: 240, top: 96, width: 1440, height: 560 }}>
         <div style={{ position: "absolute", left: 60, top: 36, fontFamily: BODY, fontWeight: 700, fontSize: 42, color: C.teal }}>{D.content.results.adults_heading}</div>
         {N.ratings.map((r, i) => <Bar key={i} item={r} y={120 + i * 140} at={0.8 + i * (dur - 2.4) / 3} />)}
       </Card>

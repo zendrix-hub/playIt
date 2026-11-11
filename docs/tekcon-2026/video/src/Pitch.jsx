@@ -35,9 +35,12 @@ const ProjectedTag = () => {
   const t = useCurrentFrame() / fps;
   const b = D.timeline.beats.find((x) => x.beat === 4);
   if (!D.projected || t < b.start || t >= b.end) return null;
+  // top centre, above every results card, so it never covers a heading
   return (
-    <div style={{ position: "absolute", left: 220, top: 84, background: C.sun, border: `3px solid ${C.brown}`, color: C.brown, fontFamily: BODY, fontWeight: 700, fontSize: 28, padding: "10px 26px", borderRadius: 30 }}>
-      PROJECTED — replace with real results
+    <div style={{ position: "absolute", left: 0, right: 0, top: 14, display: "flex", justifyContent: "center" }}>
+      <div style={{ background: C.sun, border: `3px solid ${C.brown}`, color: C.brown, fontFamily: BODY, fontWeight: 700, fontSize: 26, padding: "8px 26px", borderRadius: 30 }}>
+        PROJECTED — replace with real results
+      </div>
     </div>
   );
 };
@@ -59,7 +62,13 @@ export const Pitch = () => {
           <Audio src={staticFile(v.file)} />
         </Sequence>
       ))}
-      {D.music ? <Audio src={staticFile(D.music)} volume={0.12} loop /> : null}
+      {/* the app's own sounds, placed by each shot's "sfx" list: [file, seconds into the shot, volume] */}
+      {D.timeline.shots.flatMap((shot) => (shot.sfx || []).filter(([f]) => has("sfx/" + f)).map(([f, at, vol = 0.3], i) => (
+        <Sequence key={`${shot.id}-${i}`} from={Math.round((shot.start + Math.min(at, Math.max(0, shot.end - shot.start - 0.3))) * fps)} name={`sfx ${f}`}>
+          <Audio src={staticFile("sfx/" + f)} volume={vol} />
+        </Sequence>
+      )))}
+      {D.music ? <Audio src={staticFile(D.music)} volume={D.timeline.musicVolume || 0.12} /> : null}
       <ProjectedTag />
       <Captions />
     </AbsoluteFill>

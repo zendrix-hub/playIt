@@ -1,7 +1,7 @@
 // Beats 2-3 in the app's own flat style. The stage is Lily's island; the phone plays REAL footage.
 import React from "react";
-import { AbsoluteFill, interpolate } from "remotion";
-import { Stage, Phone, Lily, Pill, Logo, useT, usePop, fade } from "../parts";
+import { AbsoluteFill, Img, OffthreadVideo, staticFile, interpolate } from "remotion";
+import { D, Stage, Phone, Placeholder, Lily, Pill, Logo, has, clipSeconds, useT, usePop, fade, easeInOut } from "../parts";
 import { C, BODY, TITLE, STEP_NAMES } from "../theme";
 
 const Rings = () => {
@@ -55,19 +55,67 @@ const Airplane = ({ entering }) => {
   );
 };
 
+// What plays inside the phone. A real screen recording (assets/recordings/rec_*.mp4) always wins.
+// Until it arrives, the real screenshot named in the shot's `screen` is shown, with a tap ring at
+// each of `taps` ([x%, y%, seconds into the shot]). Nothing else is ever put in the phone.
+const Tap = ({ x, y, at }) => {
+  const { t } = useT();
+  const k = fade(t, at, at + 0.55);
+  if (t < at - 0.25 || k >= 1) return null;
+  const press = fade(t, at - 0.25, at);
+  return (
+    <>
+      <div style={{ position: "absolute", left: `${x}%`, top: `${y}%`, width: 150 * k + 30, height: 150 * k + 30, transform: "translate(-50%, -50%)", borderRadius: "50%", border: `${8 * (1 - k) + 2}px solid ${C.sun}`, boxSizing: "border-box", opacity: 1 - k }} />
+      <div style={{ position: "absolute", left: `${x}%`, top: `${y}%`, width: 46, height: 46, transform: `translate(-50%, -50%) scale(${1.3 - 0.3 * press})`, borderRadius: "50%", background: "rgba(255,255,255,0.75)", border: `4px solid ${C.brown}`, boxSizing: "border-box", opacity: press * (1 - k) }} />
+    </>
+  );
+};
+const Screen = ({ rec, screen, taps = [], audio, span, offset = 0 }) => {
+  const p = "rec/" + rec;
+  if (has(p)) {
+    const s = clipSeconds(p);
+    const rate = s ? Math.min(1.25, Math.max(0.75, s / span)) : 1;
+    return <OffthreadVideo src={staticFile(p)} muted={!audio} volume={audio ? 1 : 0} playbackRate={rate} style={{ width: "100%", height: "100%", objectFit: "cover" }} />;
+  }
+  if (screen && has("img/" + screen)) {
+    return (
+      <>
+        <Img src={staticFile("img/" + screen)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        {taps.map(([x, y, at], i) => <Tap key={i} x={x} y={y} at={at + offset} />)}
+      </>
+    );
+  }
+  return <Placeholder label={`REAL APP SCREEN NEEDED\n${rec}\n(screen recording\nor filmed phone)`} />;
+};
+// The key of what a shot leaves on the phone, so the next shot knows whether the screen changed.
+const shown = (rec, screen) => (has("rec/" + rec) ? "rec:" + rec : "img:" + (screen || rec));
+
 export const DemoShot = ({ shot }) => {
   const { t, dur } = useT();
-  const slide = interpolate(t, [0, 0.6], [140, 0], { extrapolateRight: "clamp" });
   const cut = dur * (shot.split || 0.5);
   const second = shot.rec2 && t > cut;
   const step = second ? shot.step2 : shot.step;
   const showAirplane = shot.id >= 9; // pinned from the moment airplane mode goes on
+  // screens slide across inside the phone whenever the screen changes
+  const demos = D.timeline.shots.filter((x) => x.type === "demo");
+  const prev = demos[demos.findIndex((x) => x.id === shot.id) - 1];
+  const prevKey = prev ? (prev.rec2 ? shown(prev.rec2, prev.screen2) : shown(prev.rec, prev.screen)) : null;
+  const firstKey = shown(shot.rec, shot.screen);
+  const SLIDE = 0.45;
+  const in1 = prev && prevKey !== firstKey ? easeInOut(fade(t, 0, SLIDE)) : 1;
+  const in2 = shot.rec2 ? easeInOut(fade(t, cut, cut + SLIDE)) : 0;
+  const layer = (x) => ({ position: "absolute", inset: 0, transform: `translateX(${x}%)` });
+  const rise = prev ? 0 : (1 - easeInOut(fade(t, 0, 0.7))) * 900; // the phone slides up when the demo begins
   return (
-    <Stage shift={shot.id * 60 - slide}>
-      {shot.title ? <Logo size={190} x={1380} y={330} at={0.4} /> : null}
-      {shot.title ? <div style={{ position: "absolute", left: 1380, top: 480, transform: "translate(-50%, -50%)", fontFamily: TITLE, fontSize: 50, color: C.teal, whiteSpace: "nowrap", opacity: fade(t, 1.4, 2.0) }}>Offline phonics for Grade 1 learners</div> : null}
+    <Stage>
+      {shot.title ? <Logo size={190} x={1430} y={330} at={0.4} /> : null}
+      {shot.title ? <div style={{ position: "absolute", left: 1430, top: 480, transform: "translate(-50%, -50%)", fontFamily: TITLE, fontSize: 44, color: C.teal, whiteSpace: "nowrap", opacity: fade(t, 1.4, 2.0) }}>Offline phonics for Grade 1 learners</div> : null}
       {shot.badges ? shot.badges.map((b, i) => <Pill key={b} text={b} color={C.teal} x={1400} y={300 + i * 130} size={50} at={0.3 + i * 1.3} />) : null}
-      <Phone rec={second ? shot.rec2 : shot.rec} x={960 - (shot.title || shot.badges ? 130 : 0)} audio={Boolean(shot.recAudio)} tilt={shot.airplane ? interpolate(t, [0, 0.5], [-5, 0], { extrapolateRight: "clamp" }) : 0} />
+      <Phone x={960 - (shot.title || shot.badges ? 130 : 0)} y={520 + rise} tilt={shot.airplane ? interpolate(t, [0, 0.5], [-5, 0], { extrapolateRight: "clamp" }) : 0}>
+        {in1 < 1 ? <div style={layer(-100 * in1)}><Screen rec={prev.rec2 || prev.rec} screen={prev.rec2 ? prev.screen2 : prev.screen} span={dur} /></div> : null}
+        {in2 < 1 ? <div style={layer(100 * (1 - in1) - 100 * in2)}><Screen rec={shot.rec} screen={shot.screen} taps={shot.taps} audio={Boolean(shot.recAudio)} span={shot.rec2 ? cut : dur} /></div> : null}
+        {shot.rec2 && in2 > 0 ? <div style={layer(100 * (1 - in2))}><Screen rec={shot.rec2} screen={shot.screen2} taps={shot.taps2} span={dur - cut} offset={cut} /></div> : null}
+      </Phone>
       <Lily pose={shot.pose} x={shot.title || shot.badges ? 380 : 470} y={770} size={380} />
       {step ? <Pill text={STEP_NAMES[step]} color={C.steps[step]} x={470} y={250} size={56} at={second ? cut + 0.1 : 0.15} /> : null}
       {shot.label ? <Pill text={shot.label} color={C.teal} x={470} y={250} size={56} at={0.15} /> : null}
