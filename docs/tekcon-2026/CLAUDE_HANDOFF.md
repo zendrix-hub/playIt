@@ -89,7 +89,7 @@ How the kit works: `round2_data.json` (numbers) and `content.json` (poster wordi
 
 - Phone screen recordings per `01_Video_Pitch/screen_recording_shotlist.md`, including a Parent Zone screen. The brief asks for actual recordings.
 - `round2_data.json` is already updated and frozen at `N = 30` (`status: "actual"`); do not alter pitch/poster figures unless the team lead directs otherwise (extra survey respondents go to the research paper only).
-- The team code. `G56` is a stand-in.
+- The team code is confirmed: **`G56`** (`Group 56`). Do not change it.
 - The final MP4 uploaded to Google Drive (Anyone with the link, Viewer) and the link.
 - Lexend and Sniglet installed on the PC that exports the poster PDF.
 
@@ -240,3 +240,29 @@ At the user's request ("finish the rendering of the video"), the film was render
 - Not verified: nobody on the build side has listened to it.
 - If the team code changes from `G56`, the file name and the "Group 56" line change with it, so render again.
 - `check.js` in a fresh clone reports two FAILs that are timestamp artifacts of the checkout, not content problems: "poster is older than round2_data.json" (the pptx was built from the frozen data in `e0c3081`) and "video data is out of date" (the gitignored `video/src/generated/data.json` of the old slideshow pipeline; `node tools/build_video_data.js` clears it). The poster still needs its QR code before printing.
+
+---
+
+## Status, 12 Nov night (local turnover to Phase B teammate)
+
+1. **Team Code Confirmed:** **`G56`** (`Group 56`). Keep `team_code: "G56"` in `content.json` and `"Group 56"` in `film/lines.json`.
+2. **Gemini Music Integrated & Ducked (`film/music/bed.wav`):**
+   - Replaced the fallback pluck bed in `film/music/bed.wav` (`120.00s`, 44.1 kHz stereo PCM, RMS `-21.3 dBFS`, Peak `-2.3 dBFS`) using `film/tools/make_gemini_bed.py` from `assets/music/bed_gemini.mp3`.
+   - Applies section leveling across Beats 1–5, a `-3.5 dB` vocal-clarity EQ dip at `2.2 kHz`, automatic speech ducking around every active voice span in `film/data.json` (~`-40.9 dBFS` effective under speech at `lib.js` `vol = 0.12`, `+6 dB` gentle swell in pauses, softened `16.5–19.6s` Beat 1–2 dusk transition), and clean fade-out to `120.00s`.
+   - **Important after any voice change:** After editing/re-cloning any lines and running `node film/tools/make_data.mjs`, always re-run `python film/tools/make_gemini_bed.py` before rendering so the music ducking stays aligned to updated voice timestamps.
+   - `assets/music/sting_lily.mp3` (~62.4s) and `assets/music/sting_end.mp3` (~59.7s) remain unused full-length files in `assets/music/` unless trimmed to ~3s.
+3. **Narration Lines Flagged for Improvement Before Final 1080p Render:**
+   - Auditing `film/voice/*.wav` showed Chatterbox pronunciation/delivery issues on:
+     - `b2_03`: `"DepEd's"` sounds like **"step ed's"** (*"It follows DepEd's Marungko order..."* — check `SAY` in `tools/voice/make_voice.py` or replace with user recording).
+     - `b3_03`: `"says it with her"` sounds slurred like **"sess it with her"** (and *"mouth shape"* is slightly muffled).
+     - `b3_02b`: slight hiss on *"leaves"* (*"Nothing leaves the device"*).
+     - `b4_03`: slightly flat/rushed delivery on `4.6 / 4.4 / 4.7`.
+     - `b1_02` (`"Mmm."` at `6.02s`): still silent (no `.wav` file).
+   - Once the user supplies fresh voice takes or confirms wording/phonetic tweaks, redo those lines (either user WAVs or Chatterbox re-clone), re-align (`align_new.py` -> `fit_lines.mjs` -> `make_data.mjs` -> `make_gemini_bed.py`), then render `film/` at 1080p (`G56_2-Minute_Pitch.mp4`).
+4. **Google Drive Submission Folder Ready (`rivazendrix@gmail.com`):**
+   - Root folder **`G56`** (`anyoneWithLink` = `writer` / public): https://drive.google.com/drive/folders/1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc
+   - **`06_TekCon_2026_Presentation`**: https://drive.google.com/drive/folders/1i5cwHsEJi6J9wtvKMbD69Lq2TKiRp4QZ
+     - **`01_Research_Poster`** (`https://drive.google.com/drive/folders/1Vt1b6a8LttqVPXs9Mp25DEfFFAJYrlD4`): holds draft `Research_Poster_Source.pptx` (ID `1wscATs5hQfgEfdSBukD8bjkzSOPH-cZM`). Update with final QR version and upload `Research_Poster.pdf`.
+     - **`02_Video_Pitch`** (`https://drive.google.com/drive/folders/1CnDth_WJxj12brFLvHOXoXnecNhv-d8_`): empty. Upload final `G56_2-Minute_Pitch.mp4` here, then generate `assets/qr_pitch.png` from that MP4's Drive link and rebuild the poster.
+     - **`03_Software_Product_Logo`** (`https://drive.google.com/drive/folders/1gKq1PWo5ESfFRRJkTeHZHvb6LwNtqGC4`): **complete** — already contains `Product_Logo_2000x2000.png` (ID `1s2DdEnVvx8GPwMqzy5Z3gtsb3MGHxm8g`) and `Product_Logo_512x512.png` (ID `1DKRWiiT1QN5NubzocRY_hX0hsVJoFqeH`).
+   - *(Reminder: after all uploads are finished, switch `G56` public link permission from Editor back to Viewer before final submission/QR printing.)*
