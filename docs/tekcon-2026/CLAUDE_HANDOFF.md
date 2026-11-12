@@ -225,3 +225,15 @@ The user has provided all visual and voice assets in `assets/`:
 
 
 
+
+## Status, 12 Nov (cloud session): final film rendered
+
+At the user's request ("finish the rendering of the video"), the film was rendered at full size from the content of commit `e0c3081`, ahead of the Nov 13 plan in section 5.
+
+- `video/out/G56_2-Minute_Pitch.mp4`: 1920x1080, 30 fps, 3600 frames, 120.0 s, H.264 + AAC stereo 48 kHz, about 66 MB, integrated loudness -20.8 LUFS, peak -3.5 dB. A build output, not in git; it was sent to the user in the chat.
+- `film/film_draft.mp4` (the review copy in git) is that render scaled to 960x540. It replaces the 11 Nov draft.
+- `node film/tools/make_data.mjs` regenerated `film/data.json` with no change, so the picture follows the current voice files.
+- Checked by looking at a frame every 5 s across the whole film; no blank or broken frames. Voice is present in every beat; the music bed is silent 0:17-0:20 by design.
+- Not verified: nobody on the build side has listened to it.
+- If the team code changes from `G56`, the file name and the "Group 56" line change with it, so render again.
+- `check.js` in a fresh clone reports two FAILs that are timestamp artifacts of the checkout, not content problems: "poster is older than round2_data.json" (the pptx was built from the frozen data in `e0c3081`) and "video data is out of date" (the gitignored `video/src/generated/data.json` of the old slideshow pipeline; `node tools/build_video_data.js` clears it). The poster still needs its QR code before printing.
