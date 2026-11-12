@@ -59,6 +59,66 @@ Create an original 22-second instrumental finale for a children's educational ap
 
 ---
 
+## Option C: backup styles (if A and B don't feel right)
+
+Each is a full 2-minute version; if Gemini cuts it short, ask for "a 30-second loopable version" of the same prompt and I will loop it.
+
+**C1. Folk village, more Filipino.** Save as `assets/music/backup_folk.wav`.
+
+```
+Create an original 2-minute instrumental for a children's educational video set in the Philippines, no vocals. A light Filipino folk feel: rondalla ensemble with bandurria, octavina and guitar, plus soft marimba and a gentle bamboo percussion shaker. Happy, sunny, village-fiesta feeling, but calm enough to sit under a narrator. Write an original melody; do not copy any existing song. Major key, about 96 BPM. Start soft and simple, become brighter after 20 seconds, stay steady and light through the middle, and end on a clear final chord at exactly 2 minutes. No drums, no singing.
+```
+
+**C2. Toddler-show bounce, simpler.** Save as `assets/music/backup_bounce.wav`.
+
+```
+Create an original 2-minute instrumental for a preschool learning video, no vocals. Cheerful and simple like a toddler learning show: ukulele strumming, xylophone melody, soft hand claps on beats 2 and 4, a light bass. Short, catchy, friendly melody repeated with small changes. Major key, about 110 BPM. Keep it soft and even so a narrator can talk over it the whole time. End neatly on a final chord at exactly 2 minutes. No singing, no humming.
+```
+
+**C3. Soft and warm, very calm.** Save as `assets/music/backup_calm.wav`.
+
+```
+Create an original 2-minute instrumental for a heartwarming children's education video, no vocals. Soft piano and celesta with gentle plucked ukulele and light pizzicato strings, warm and hopeful, like a storybook coming to life. Major key, about 88 BPM. Sparse, with lots of space for a narrator's voice. Gently lifts after 20 seconds and grows a little fuller in the last 20 seconds, ending on a soft final chord at exactly 2 minutes. No drums, no singing.
+```
+
+**C4. Island morning, light tropical.** Save as `assets/music/backup_island.wav`.
+
+```
+Create an original 2-minute instrumental for a children's app video set on a sunny tropical island in the Philippines, no vocals. Ukulele, steel-string guitar picking, marimba, soft bongos and a light shaker. Breezy, happy, relaxed, like a bright morning by the sea. Major key, about 100 BPM. Simple repeating melody, mixed soft to sit under a narrator. Ends on a clear final chord at exactly 2 minutes. No heavy drums, no singing.
+```
+
+---
+
+## Option D: two short sound moments (nice to have)
+
+These play on top of whichever music we use.
+
+**D1. Lily appears (0:24).** Save as `assets/music/sting_lily.wav`.
+
+```
+Create a 3-second original magical sparkle sound for a children's cartoon: a quick rising glockenspiel and chime glissando with a soft shimmer, ending bright and happy. No voice.
+```
+
+**D2. Happy ending (1:57).** Save as `assets/music/sting_end.wav`.
+
+```
+Create a 3-second original happy ending flourish for a children's cartoon: ukulele strum and xylophone run landing on one bright major chord that rings and fades. No voice.
+```
+
+---
+
+## If Gemini will not make music
+
+The same prompts work in other tools. Keep "instrumental" switched on where the tool has that option:
+
+- **Suno** (custom mode, Instrumental on): paste the prompt into the style box, or shorten it to a style line such as `instrumental, children's, playful, ukulele, marimba, glockenspiel, Filipino rondalla, 100 bpm, soft, warm`.
+- **Udio**: use the same short style line, Instrumental on, then extend to 2 minutes.
+- **Stable Audio** or **Google MusicFX**: paste the short pieces from Option B; they work best with 30 to 45 seconds.
+
+Check each tool's terms allow use in a school project, and note the tool and date in `assets/music/CREDITS.md`.
+
+---
+
 ## Tips
 
 - If a result has singing or humming, add "strictly instrumental" and try again.
