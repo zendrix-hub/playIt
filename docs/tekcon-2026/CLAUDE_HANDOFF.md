@@ -193,6 +193,9 @@ The user has provided all visual and voice assets in `assets/`:
    - `Product_Logo_2000x2000.png` (transparent background master)
    - `Product_Logo_512x512.png` (transparent background web/app icon)
    - Plus AppIcon squircle badge variants (`Product_Logo_AppIcon_*.png`).
+6. `assets/music/` (added 12 Nov afternoon):
+   - `bed_gemini.mp3` (121.3s stereo MP3): full 2-minute Gemini instrumental bed from `01_Video_Pitch/music_prompt_gemini.md`. Convert/loudness-match into `film/music/bed.wav` during Phase A/B and verify ducking under speech.
+   - `sting_lily.mp3` (62.4s) & `sting_end.mp3` (59.7s): generated from Option D1/D2 prompts, but exported full-length (~60s each instead of 3s) — inspect waveform/loudness and trim to the best ~3s sparkle/flourish clip before wiring into `film/sfx/` or keep `sfx_heart_recovery_sparkle.mp3` / `sfx_correct_chime.mp3` if cleaner.
 
 ### 5. Schedule & Execution Rules: Nov 12 vs. Nov 13
 

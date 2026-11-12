@@ -24,5 +24,6 @@ tools/voice/.venv/
 !film/voice/*.wav
 !film/sfx/*
 !film/music/*.wav
+!assets/music/*.mp3
 !film/film_draft.mp4
 film/_shots/
