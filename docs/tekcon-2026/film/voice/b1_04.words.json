@@ -1,1 +1,27 @@
-[{"word": "So", "start": 0.0, "end": 0.44}, {"word": "Mia", "start": 0.44, "end": 1.0}, {"word": "closes", "start": 1.0, "end": 1.56}, {"word": "the", "start": 1.56, "end": 1.78}, {"word": "book.", "start": 1.78, "end": 1.98}]
+[
+ {
+  "word": "So",
+  "start": 0.0,
+  "end": 0.16
+ },
+ {
+  "word": "Mia",
+  "start": 0.16,
+  "end": 0.52
+ },
+ {
+  "word": "closes",
+  "start": 0.52,
+  "end": 1.14
+ },
+ {
+  "word": "the",
+  "start": 1.14,
+  "end": 1.4
+ },
+ {
+  "word": "book.",
+  "start": 1.4,
+  "end": 1.6
+ }
+]

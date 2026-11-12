@@ -32,6 +32,7 @@
       </defs>
       <g id="cam">
       <!-- sky: day underneath, dusk on top and fading away -->
+      <g id="bgFar">
       <rect x="-200" y="-400" width="1680" height="1120" fill="url(#sky)"/>
       <g transform="translate(-570 -25)">
       <g id="sun">
@@ -111,6 +112,10 @@
       <!-- banderitas -->
       <path d="M-10 26 C300 110 420 20 640 84 S1000 20 1290 30" fill="none" stroke="#A8703F" stroke-width="4" stroke-linecap="round"/>
       <g id="flags"></g>
+      </g>
+      <!-- during the demo the far background softens and fades toward cream, most in the middle, so Mia, the phone and Lily stand out -->
+      <defs><radialGradient id="washGrad" gradientUnits="userSpaceOnUse" cx="715" cy="400" r="640"><stop offset="0" stop-color="#FFF8E7" stop-opacity=".78"/><stop offset=".55" stop-color="#FFF8E7" stop-opacity=".6"/><stop offset="1" stop-color="#FFF8E7" stop-opacity=".3"/></radialGradient></defs>
+      <rect id="bgWash" x="-400" y="-400" width="2100" height="1500" fill="url(#washGrad)" opacity="0"/>
 
       <!-- ============ MIA, drawn the way Lily is drawn: no outlines, two tones, big glossy eyes ============ -->
       <g id="mia">
@@ -204,16 +209,31 @@
         <text x="514" y="491" text-anchor="middle" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="22" fill="#fff">ABC</text>
       </g>
 
-      <!-- Mia's arms: they turn at the shoulder; at rest she holds the book by its edges -->
+      <!-- Mia's arms: short blouse sleeve, upper arm, then forearm and hand that bend at the elbow (#foreL/#foreR).
+           They turn at the shoulder; at rest she holds the book by its edges. #pointL/#pointR is the index finger for taps. -->
       <g id="armL" style="transform-origin: 470px 450px">
-        <path d="M455 474 L441 496" stroke="#DDA273" stroke-width="21" stroke-linecap="round"/>
-        <circle cx="440" cy="498" r="12.5" fill="#DDA273"/><circle cx="451" cy="492" r="5.5" fill="#DDA273"/><circle cx="452" cy="503" r="5" fill="#DDA273"/>
-        <path d="M470 450 L455 474" stroke="#F0F4F7" stroke-width="30" stroke-linecap="round"/>
+        <g id="foreL" style="transform-origin: 449px 479px">
+          <path d="M449 479 L442 497" stroke="#DDA273" stroke-width="14" stroke-linecap="round"/>
+          <g id="pointL" opacity="0"><path d="M442 499 L434 517" stroke="#DDA273" stroke-width="6.5" stroke-linecap="round"/></g>
+          <ellipse cx="441" cy="501" rx="10" ry="9" fill="#DDA273"/><circle cx="450" cy="496" r="4.6" fill="#DDA273"/>
+          <path d="M436 505 q4 3 9 1" stroke="#C98B5C" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+        <path d="M464 463 L449 479" stroke="#DDA273" stroke-width="15" stroke-linecap="round"/>
+        <circle cx="449" cy="479" r="7.2" fill="#DDA273"/>
+        <path d="M471 449 L466 461" stroke="#F0F4F7" stroke-width="22" stroke-linecap="round"/>
+        <path d="M456 462 Q465 468 476 463" stroke="#D5DDE3" stroke-width="3" fill="none" stroke-linecap="round"/>
       </g>
       <g id="armR" style="transform-origin: 570px 450px">
-        <path d="M585 474 L599 496" stroke="#C98B5C" stroke-width="21" stroke-linecap="round"/>
-        <circle cx="600" cy="498" r="12.5" fill="#C98B5C"/><circle cx="589" cy="492" r="5.5" fill="#C98B5C"/><circle cx="588" cy="503" r="5" fill="#C98B5C"/>
-        <path d="M570 450 L585 474" stroke="#DDE6EC" stroke-width="30" stroke-linecap="round"/>
+        <g id="foreR" style="transform-origin: 591px 479px">
+          <path d="M591 479 L598 497" stroke="#C98B5C" stroke-width="14" stroke-linecap="round"/>
+          <g id="pointR" opacity="0"><path d="M598 499 L606 517" stroke="#C98B5C" stroke-width="6.5" stroke-linecap="round"/></g>
+          <ellipse cx="599" cy="501" rx="10" ry="9" fill="#C98B5C"/><circle cx="590" cy="496" r="4.6" fill="#C98B5C"/>
+          <path d="M604 505 q4 3 9 1" stroke="#AE7349" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+        <path d="M576 463 L591 479" stroke="#C98B5C" stroke-width="15" stroke-linecap="round"/>
+        <circle cx="591" cy="479" r="7.2" fill="#C98B5C"/>
+        <path d="M569 449 L574 461" stroke="#DDE6EC" stroke-width="22" stroke-linecap="round"/>
+        <path d="M584 462 Q575 468 564 463" stroke="#C6D0D8" stroke-width="3" fill="none" stroke-linecap="round"/>
       </g>
 
       <!-- lamp -->
@@ -234,7 +254,7 @@
         <rect x="707" y="319" width="98" height="176" rx="17" fill="#4A342E"/>
         <rect id="phoneScreen" x="714" y="328" width="84" height="158" rx="10" fill="#27304F"/>
         <image id="phoneApp" href="img/screen_splash.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" clip-path="url(#scrClip)" opacity="0"/>
-        <g clip-path="url(#scrClip)" id="screens"><image id="scr_map" href="img/screen_map.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_hearit" href="img/screen_hearit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit" href="img/screen_sayit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit_cue" href="img/screen_sayit_cue.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_findit" href="img/screen_findit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_blendit" href="img/screen_blendit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/></g>
+        <g clip-path="url(#scrClip)" id="screens"><image id="scr_map" href="img/screen_map.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_hearit" href="img/screen_hearit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit" href="img/screen_sayit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit_cue" href="img/screen_sayit_cue.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_findit" href="img/screen_findit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_blendit" href="img/screen_blendit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="recScr" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/></g>
         <circle id="tap" cx="756" cy="410" r="9" fill="none" stroke="#FFC53D" stroke-width="3" opacity="0" style="transform-origin: 50% 50%"/>
         <path d="M718 400 L760 330 H782 L718 436Z" fill="#fff" opacity=".07"/>
         <circle cx="756" cy="335" r="3" fill="#1C1412"/>
@@ -258,24 +278,24 @@
         <g id="tb1" opacity="0" style="transform-origin: 50% 100%"><g class="floaty">
           <circle cx="300" cy="186" r="84" fill="#FFFDF6" stroke="#F7922F" stroke-width="6"/>
           <circle cx="398" cy="300" r="11" fill="#FFFDF6" stroke="#F7922F" stroke-width="4"/><circle cx="420" cy="324" r="6" fill="#FFFDF6" stroke="#F7922F" stroke-width="3"/>
-          <rect x="280" y="116" width="40" height="66" rx="20" fill="#0B7F7A"/><path d="M306 118 a20 20 0 0 1 14 18 v26 a20 20 0 0 1 -14 18Z" fill="#096B67"/>
+          <g id="tb1Art"><rect x="280" y="116" width="40" height="66" rx="20" fill="#0B7F7A"/><path d="M306 118 a20 20 0 0 1 14 18 v26 a20 20 0 0 1 -14 18Z" fill="#096B67"/>
           <circle cx="292" cy="140" r="6.5" fill="#fff"/><circle cx="308" cy="140" r="6.5" fill="#fff"/><circle cx="293" cy="141" r="3.6" fill="#4A342E"/><circle cx="309" cy="141" r="3.6" fill="#4A342E"/>
           <path d="M294 154 q6 5 12 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
           <g class="kid"><rect x="238" y="190" width="24" height="30" rx="12" fill="#F7922F"/><circle cx="246" cy="201" r="2.6" fill="#4A342E"/><circle cx="255" cy="201" r="2.6" fill="#4A342E"/></g>
           <g class="kid" style="animation-delay:-.2s"><rect x="263" y="198" width="24" height="30" rx="12" fill="#3BA7D9"/><circle cx="271" cy="209" r="2.6" fill="#4A342E"/><circle cx="280" cy="209" r="2.6" fill="#4A342E"/></g>
           <g class="kid" style="animation-delay:-.35s"><rect x="288" y="201" width="24" height="30" rx="12" fill="#F2545B"/><circle cx="296" cy="212" r="2.6" fill="#4A342E"/><circle cx="305" cy="212" r="2.6" fill="#4A342E"/></g>
           <g class="kid" style="animation-delay:-.1s"><rect x="313" y="198" width="24" height="30" rx="12" fill="#2E9A3E"/><circle cx="321" cy="209" r="2.6" fill="#4A342E"/><circle cx="330" cy="209" r="2.6" fill="#4A342E"/></g>
-          <g class="kid" style="animation-delay:-.3s"><rect x="338" y="190" width="24" height="30" rx="12" fill="#FFC53D"/><circle cx="346" cy="201" r="2.6" fill="#4A342E"/><circle cx="355" cy="201" r="2.6" fill="#4A342E"/></g>
+          <g class="kid" style="animation-delay:-.3s"><rect x="338" y="190" width="24" height="30" rx="12" fill="#FFC53D"/><circle cx="346" cy="201" r="2.6" fill="#4A342E"/><circle cx="355" cy="201" r="2.6" fill="#4A342E"/></g></g>
           <rect x="190" y="240" width="220" height="44" rx="22" fill="#F7922F"/><text x="300" y="270">Full classroom</text>
         </g></g>
         <g id="tb2" opacity="0" style="transform-origin: 50% 100%"><g class="floaty" style="animation-delay:-1.1s">
           <circle cx="520" cy="128" r="80" fill="#FFFDF6" stroke="#3BA7D9" stroke-width="6"/>
           <circle cx="520" cy="240" r="8" fill="#FFFDF6" stroke="#3BA7D9" stroke-width="3"/>
-          <rect x="530" y="138" width="24" height="22" rx="6" fill="#A8703F"/><path d="M535 138 q7 -13 14 0" stroke="#A8703F" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <g id="tb2Art"><rect x="530" y="138" width="24" height="22" rx="6" fill="#A8703F"/><path d="M535 138 q7 -13 14 0" stroke="#A8703F" stroke-width="4" fill="none" stroke-linecap="round"/>
           <rect x="486" y="116" width="42" height="56" rx="19" fill="#2E9A3E"/><path d="M513 118 a19 19 0 0 1 15 17 v18 a19 19 0 0 1 -15 17Z" fill="#23812F"/>
           <circle cx="507" cy="76" r="10" fill="#3B2A26"/><circle cx="507" cy="100" r="22" fill="#DDA273"/>
           <path d="M485 101 a22 22 0 0 1 44 0 q-10 -11 -22 -9 q-12 -2 -22 9Z" fill="#3B2A26"/>
-          <circle cx="499" cy="103" r="3.2" fill="#4A342E"/><circle cx="515" cy="103" r="3.2" fill="#4A342E"/><path d="M500 111 q7 6 14 0" stroke="#6B2E2A" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+          <circle cx="499" cy="103" r="3.2" fill="#4A342E"/><circle cx="515" cy="103" r="3.2" fill="#4A342E"/><path d="M500 111 q7 6 14 0" stroke="#6B2E2A" stroke-width="2.8" fill="none" stroke-linecap="round"/></g>
           <circle cx="568" cy="82" r="25" fill="#3BA7D9"/><circle cx="568" cy="82" r="18" fill="#fff"/>
           <g id="clockHand" style="transform-origin: 50% 100%"><path d="M568 82 v-12" stroke="#4A342E" stroke-width="4.5" stroke-linecap="round"/></g>
           <path d="M568 82 h8" stroke="#4A342E" stroke-width="4.5" stroke-linecap="round"/><circle cx="568" cy="82" r="3" fill="#F2545B"/>
@@ -338,8 +358,8 @@
       <g id="bubble" opacity="0" style="transform-origin: 0% 100%">
         <path d="M957 148 h268 a26 26 0 0 1 26 26 v80 a26 26 0 0 1 -26 26 h-222 l-52 36 14 -36 h-8 a26 26 0 0 1 -26 -26 v-80 a26 26 0 0 1 26 -26Z" fill="#0B5F5B" opacity=".35"/>
         <path d="M951 140 h268 a26 26 0 0 1 26 26 v80 a26 26 0 0 1 -26 26 h-222 l-52 36 14 -36 h-8 a26 26 0 0 1 -26 -26 v-80 a26 26 0 0 1 26 -26Z" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="6" stroke-linejoin="round"/>
-        <g id="mabuhay" style="transform-origin: 50% 50%"><text x="1085" y="206" text-anchor="middle" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="52" fill="#FFC53D" stroke="#0B7F7A" stroke-width="6" stroke-linejoin="round" paint-order="stroke">Mabuhay!</text></g>
-        <text x="1085" y="252" text-anchor="middle" font-family="Fredoka, Lexend, Segoe UI, sans-serif" font-weight="700" font-size="26" fill="#0B5F5B"><tspan id="w1">Ready </tspan><tspan id="w2">to </tspan><tspan id="w3">learn </tspan><tspan id="w4">to </tspan><tspan id="w5">read?</tspan></text>
+        <g id="mabuhay" style="transform-origin: 50% 50%"><text x="1085" y="206" text-anchor="middle" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="52" fill="#FFC53D" stroke="#0B7F7A" stroke-width="6" stroke-linejoin="round" paint-order="stroke">Hi there!</text></g>
+        <text x="1085" y="252" text-anchor="middle" font-family="Fredoka, Lexend, Segoe UI, sans-serif" font-weight="700" font-size="24" fill="#0B5F5B"><tspan id="w1">Let's </tspan><tspan id="w2">play </tspan><tspan id="w3">and </tspan><tspan id="w4">learn!</tspan><tspan id="w5"></tspan></text>
       </g>
       </g>
       <g id="ui"></g>
@@ -353,6 +373,7 @@
   </div>
 </div>
 <script src="data.js"></script>
+<script src="rec/rec.js"></script>
 <script src="lib.js"></script>
 <script src="s1.js"></script>
 <script src="s2.js"></script>

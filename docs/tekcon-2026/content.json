@@ -71,9 +71,9 @@
 
   "team": {
     "heading": "Our Team",
-    "members": ["Zendrix Riva (Lead)", "John James Palis", "Kaysean Miel", "Ashlee Skye Durano", "Erik Samuel Bien"],
+    "members": ["Zendrix Riva (Lead)", "Erik Samuel Bien", "Ashlee Skye Durano", "Kaysean Miel", "John James Palis"],
     "adviser": "Adviser: Mr. Joemarie C. Amparo",
-    "asset": "team_pixar.png"
+    "asset": "team_2d_clear.png"
   },
 
   "references": [

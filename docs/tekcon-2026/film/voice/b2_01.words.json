@@ -1,1 +1,47 @@
-[{"word": "Then", "start": 0.0, "end": 0.32}, {"word": "someone", "start": 0.62, "end": 0.96}, {"word": "small,", "start": 0.96, "end": 1.4}, {"word": "with", "start": 1.88, "end": 1.98}, {"word": "very", "start": 1.98, "end": 2.32}, {"word": "big", "start": 2.32, "end": 2.56}, {"word": "eyes,", "start": 2.56, "end": 3.0}, {"word": "peeks", "start": 3.5, "end": 3.7}, {"word": "in.", "start": 3.7, "end": 3.92}]
+[
+ {
+  "word": "Then",
+  "start": 0.0,
+  "end": 0.32
+ },
+ {
+  "word": "someone",
+  "start": 0.32,
+  "end": 0.86
+ },
+ {
+  "word": "small,",
+  "start": 0.86,
+  "end": 1.26
+ },
+ {
+  "word": "with",
+  "start": 1.5,
+  "end": 1.62
+ },
+ {
+  "word": "very",
+  "start": 1.62,
+  "end": 2.0
+ },
+ {
+  "word": "big",
+  "start": 2.0,
+  "end": 2.22
+ },
+ {
+  "word": "eyes,",
+  "start": 2.22,
+  "end": 2.7
+ },
+ {
+  "word": "peeks",
+  "start": 3.02,
+  "end": 3.26
+ },
+ {
+  "word": "in.",
+  "start": 3.26,
+  "end": 3.46
+ }
+]

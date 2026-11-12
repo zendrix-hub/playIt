@@ -1,0 +1,198 @@
+{
+  "_readme": "Which part of assets/recordings/demo.mp4 plays inside the film's phone, and when. Checked 12 Nov from stills (one per second, plus 0.1 s around the Say It pass). Not wired into the film yet. src = seconds in demo.mp4, film = seconds in the film, speed = playback speed. hold = freeze the last frame until the film time given. The pass (yellow 'I'm listening' turns into the green check) first shows at src 42.97 (the recorder stored no frames from 42.59 to 42.97 while the phone was recognising; the app's sound returns at 42.82); it lands at film 47.81, half a second after Mia's 'Mouse!' (b3_02v at 47.31).",
+  "source": "assets/recordings/demo.mp4",
+  "segments": [
+    {
+      "slot": "map",
+      "src": [
+        3.4,
+        5.9
+      ],
+      "film": [
+        42.36,
+        44.03
+      ],
+      "speed": 1.5,
+      "note": "Map scrolls to chapter 1; M is tapped at the end"
+    },
+    {
+      "slot": "hearit",
+      "src": [
+        6.0,
+        9.1
+      ],
+      "film": [
+        44.03,
+        46.1
+      ],
+      "speed": 1.5,
+      "note": "Mm, M is for Mouse; narration 'she hears it' at 45.13"
+    },
+    {
+      "slot": "sayit_turn",
+      "src": [
+        15.9,
+        16.95
+      ],
+      "film": [
+        46.1,
+        46.8
+      ],
+      "speed": 1.5,
+      "note": "'Now it's your turn' with the green mic; move Mia's mic tap to film ~46.7 so it lands just before listening starts"
+    },
+    {
+      "slot": "sayit_pass",
+      "src": [
+        41.97,
+        44.6
+      ],
+      "film": [
+        46.8,
+        49.43
+      ],
+      "speed": 1.0,
+      "hold": 52.35,
+      "note": "1x: 'I'm listening' for 1 s, then the green check at src 42.97 = film 47.80 (Mia's 'Mouse!' at 47.31 + 0.5 s); hold it under 'Nothing leaves the device'"
+    },
+    {
+      "slot": "sayit_miss",
+      "src": [
+        25.5,
+        29.5
+      ],
+      "film": [
+        52.35,
+        55.02
+      ],
+      "speed": 1.5,
+      "note": "'I didn't hear you. Say Mouse!' (orange ear); narration 'Miss it? Lily never scolds'"
+    },
+    {
+      "slot": "sayit_cue",
+      "src": [
+        35.6,
+        40.8
+      ],
+      "film": [
+        55.02,
+        58.45
+      ],
+      "speed": 1.5,
+      "note": "'Watch my lips' with the mouth picture; mouth appears at film ~55.3, narration 'shows the mouth shape' at 55.48"
+    },
+    {
+      "slot": "findit",
+      "src": [
+        45.0,
+        50.5
+      ],
+      "film": [
+        58.45,
+        62.12
+      ],
+      "speed": 1.5,
+      "note": "Mom (~48.5), Map (~49.3), Mouse (~49.7) found, then 'You found them all!'; 'Letter M complete' starts just before src 51.0, so stop at 50.5"
+    },
+    {
+      "slot": "blendit",
+      "src": [
+        81.9,
+        87.0
+      ],
+      "film": [
+        62.11,
+        65.51
+      ],
+      "speed": 1.5,
+      "note": "S, A, M placed (film ~62.5, 62.94, 63.17), Done, then 'Perfect! Great job!' and the word sounded out"
+    },
+    {
+      "slot": "parent",
+      "src": [
+        126.0,
+        131.2
+      ],
+      "film": [
+        65.5,
+        68.97
+      ],
+      "speed": 1.5,
+      "note": "Parent Zone gate (15 + 15 = 30), then 'How your child is doing'"
+    }
+  ],
+  "not_used": "Sound check (src 57-79), SIS and AM words (94-117), chapter complete (118-121), profile screen (0-2).",
+  "crop": {
+    "x": 0,
+    "y": 48,
+    "w": 576,
+    "h": 1214,
+    "_note": "removes the status bar (Wi-Fi/LTE icons, 48 px) and the Android navigation bar at the bottom"
+  },
+  "relabel": {
+    "_note": "The recording's profile is called 'Dj'; the story's child is Mia. make_rec_frames.py finds the name in each frame (it may scroll) and redraws it in the app's font (Lexend Bold).",
+    "font": "Lexend-Bold.ttf",
+    "spots": [
+      {
+        "where": "map header",
+        "frames": [
+          1271,
+          1330
+        ],
+        "ref_frame": 1271,
+        "find": [
+          150,
+          25,
+          179,
+          41
+        ],
+        "cover": [
+          131,
+          23,
+          182,
+          42
+        ],
+        "text": "Hi, Mia!",
+        "x": 133,
+        "baseline": 37,
+        "cap": 11
+      },
+      {
+        "where": "Parent Zone dashboard",
+        "frames": [
+          1965,
+          2069
+        ],
+        "ref_frame": 2005,
+        "find": [
+          83,
+          113,
+          105,
+          136
+        ],
+        "cover": [
+          81,
+          111,
+          139,
+          137
+        ],
+        "text": "Mia",
+        "x": 84,
+        "baseline": 129,
+        "cap": 13,
+        "keep": [
+          116,
+          112,
+          138,
+          135
+        ],
+        "clip_top": 88,
+        "force": [
+          1982,
+          1983
+        ],
+        "_force_note": "crossfade from the gate: the name is faint, so it is replaced at the same place without matching"
+      }
+    ]
+  }
+}

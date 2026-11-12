@@ -1,1 +1,77 @@
-[{"word": "This", "start": 0.0, "end": 0.18}, {"word": "is", "start": 0.18, "end": 0.34}, {"word": "Mia.", "start": 0.34, "end": 0.6}, {"word": "She", "start": 1.1, "end": 1.42}, {"word": "is", "start": 1.42, "end": 1.58}, {"word": "six,", "start": 1.58, "end": 1.86}, {"word": "and", "start": 1.86, "end": 2.52}, {"word": "tonight", "start": 2.52, "end": 2.86}, {"word": "she", "start": 2.86, "end": 3.24}, {"word": "is", "start": 3.24, "end": 3.38}, {"word": "stuck", "start": 3.38, "end": 3.62}, {"word": "on", "start": 3.62, "end": 3.9}, {"word": "one", "start": 3.9, "end": 4.2}, {"word": "small", "start": 4.2, "end": 4.52}, {"word": "sound.", "start": 4.52, "end": 4.88}]
+[
+ {
+  "word": "This",
+  "start": 0.0,
+  "end": 0.32
+ },
+ {
+  "word": "is",
+  "start": 0.32,
+  "end": 0.7
+ },
+ {
+  "word": "Mia.",
+  "start": 0.7,
+  "end": 1.08
+ },
+ {
+  "word": "She",
+  "start": 1.6,
+  "end": 1.86
+ },
+ {
+  "word": "is",
+  "start": 1.86,
+  "end": 1.96
+ },
+ {
+  "word": "six,",
+  "start": 1.96,
+  "end": 2.28
+ },
+ {
+  "word": "and",
+  "start": 2.76,
+  "end": 2.84
+ },
+ {
+  "word": "tonight",
+  "start": 2.84,
+  "end": 3.18
+ },
+ {
+  "word": "she",
+  "start": 3.18,
+  "end": 3.64
+ },
+ {
+  "word": "is",
+  "start": 3.64,
+  "end": 3.76
+ },
+ {
+  "word": "stuck",
+  "start": 3.76,
+  "end": 3.96
+ },
+ {
+  "word": "on",
+  "start": 3.96,
+  "end": 4.22
+ },
+ {
+  "word": "one",
+  "start": 4.22,
+  "end": 4.54
+ },
+ {
+  "word": "small",
+  "start": 4.54,
+  "end": 4.92
+ },
+ {
+  "word": "sound.",
+  "start": 4.92,
+  "end": 5.3
+ }
+]

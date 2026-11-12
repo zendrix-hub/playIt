@@ -73,7 +73,7 @@ txt(c.org_line, M + 0.6, y1 + 3.78, 9.4, 0.45, { size: 18, color: C.white, valig
 const bx = M + 10.3, bw = 4.2;
 box(bx, y1 + 0.55, bw, 2.75, C.sun, { r: 0.4 });
 txt(`${show(c.headline.value)} of ${show(c.headline.of)}`, bx + 0.2, y1 + 0.7, bw - 0.4, 1.2,
-  { face: TITLE, size: 62, bold: true, color: C.brown, align: "center", valign: "middle" });
+  { face: BODY, size: 62, bold: true, color: C.brown, align: "center", valign: "middle" });   // numbers in Lexend Bold: Sniglet's 5 reads like an S
 txt(c.headline.label, bx + 0.25, y1 + 1.9, bw - 0.5, 1.2, { size: 24, bold: true, color: C.brown, align: "center", valign: "middle" });
 slot(c.lily_asset, "LILY (hero)\nin-app flat style,\ntransparent PNG", M + 14.9, y1 + 0.2, 5.7, 4.0);
 
@@ -84,7 +84,7 @@ heading(c.problem.heading, M + 0.4, y2 + 0.22, half - 0.8);
 c.problem.items.forEach((it, i) => {
   const yy = y2 + 1.32 + i * 0.94;
   box(M + 0.45, yy + 0.04, 0.78, 0.78, C.teal, { shape: OVAL });
-  txt(String(i + 1), M + 0.45, yy + 0.04, 0.78, 0.78, { face: TITLE, size: 32, color: C.white, bold: true, align: "center", valign: "middle" });
+  txt(String(i + 1), M + 0.45, yy + 0.04, 0.78, 0.78, { face: BODY, size: 32, color: C.white, bold: true, align: "center", valign: "middle" });
   txt(it.title, M + 1.5, yy, half - 1.9, 0.44, { size: 26, bold: true, color: C.brown, valign: "middle" });
   txt(it.text, M + 1.5, yy + 0.44, half - 1.9, 0.44, { size: 24, valign: "middle" });
 });
@@ -143,7 +143,7 @@ const ry = y4 + 2.45, rh = 1.18;
 // left: people counts as rows of dots
 r.counts.forEach((it, i) => {
   const yy = ry + i * rh, v = Number(get(it.value)), n = Number(get(it.of));
-  txt(`${v} of ${n}`, M + 0.45, yy, 3.4, 1.1, { face: TITLE, size: 46, bold: true, color: C.teal, valign: "middle" });
+  txt(`${v} of ${n}`, M + 0.45, yy, 3.4, 1.1, { face: BODY, size: 46, bold: true, color: C.teal, valign: "middle" });
   const d = Math.min(0.4, (6.1 - (n - 1) * 0.1) / n);
   for (let k = 0; k < n; k++)
     box(M + 3.95 + k * (d + 0.1), yy + 0.1, d, d, k < v ? C.teal : C.off, { shape: OVAL });
@@ -157,7 +157,7 @@ r.ratings.forEach((it, i) => {
   box(rx, yy + 0.58, barW, 0.5, C.off, { r: 0.25 });
   box(rx, yy + 0.58, Math.max(0.5, barW * (v - 1) / 4), 0.5, C.teal, { r: 0.25 });
   if (it.goal) box(rx + barW * (it.goal - 1) / 4 - 0.03, yy + 0.5, 0.06, 0.66, C.brown, { shape: RECT });
-  txt(`${v.toFixed(1)} / 5`, rx + barW + 0.2, yy + 0.4, 2.6, 0.85, { face: TITLE, size: 40, bold: true, color: C.teal, valign: "middle" });
+  txt(`${v.toFixed(1)} / 5`, rx + barW + 0.2, yy + 0.4, 2.6, 0.85, { face: BODY, size: 40, bold: true, color: C.teal, valign: "middle" });
 });
 txt([{ text: fill(r.quote), options: { bold: true, italic: true, color: C.brown } },
      { text: "  — " + fill(r.quote_source), options: { color: C.grey } }],
@@ -172,10 +172,10 @@ txt(c.impact.points.map((p, i) => ({ text: p, options: { breakLine: i < c.impact
   M + 0.45, y5 + 1.1, iw - 0.8, 1.9, { size: 22, ls: 1.08 });
 const tx = M + iw + GAP;
 card(tx, y5, tmw, h5);
-slot(c.team.asset, "Pixar-style\ngroup image", tx + 0.3, y5 + 0.3, 4.2, 2.5);
-txt(c.team.heading, tx + 4.75, y5 + 0.25, tmw - 5.0, 0.55, { face: TITLE, size: 30, bold: true, color: C.brown, valign: "middle" });
+slot(c.team.asset, "Team picture\n(2D)", tx + 0.25, y5 + 0.3, 3.85, 2.5);   // a little narrower so the adviser's name fits on one line
+txt(c.team.heading, tx + 4.3, y5 + 0.25, tmw - 4.5, 0.55, { face: TITLE, size: 30, bold: true, color: C.brown, valign: "middle" });
 txt([...c.team.members, c.team.adviser].map((m, i, a) => ({ text: m, options: { breakLine: i < a.length - 1, bold: i === 0, color: i === a.length - 1 ? C.grey : C.text } })),
-  tx + 4.75, y5 + 0.85, tmw - 5.0, 2.1, { size: 18, ls: 1.08 });
+  tx + 4.3, y5 + 0.85, tmw - 4.5, 2.1, { size: 18, ls: 1.08 });
 const qx = tx + tmw + GAP;
 box(qx, y5, qw, h5, C.teal, { r: 0.35 });
 slot(c.qr.asset, "QR code\n(square)", qx + 0.3, y5 + 0.35, 2.4, 2.4);
@@ -195,6 +195,6 @@ const refCol = (CW - 0.6) / 2, perCol = Math.ceil(c.references.length / 2);
   txt(col.map((t, k) => ({ text: t, options: { breakLine: k < col.length - 1 } })),
     M + 0.1 + i * (refCol + 0.4), y6 + 0.45, refCol, H - y6 - 0.75, { size: 18, ls: 1.02 }));
 
-const outName = PREVIEW ? path.join(__dirname, "_preview.pptx") : path.join(ROOT, "02_Research_Poster", `${c.team_code}_Research_Poster_Source.pptx`);
+const outName = PREVIEW ? path.join(__dirname, "_preview.pptx") : path.join(ROOT, "02_Research_Poster", "Research_Poster_Source.pptx");   // the instructor's file name
 pptx.writeFile({ fileName: outName }).then(() =>
   console.log(`Poster written: ${path.relative(ROOT, outName)}  [Round 2 figures: ${projected ? "PROJECTED" : "ACTUAL"}]  bottom of layout at ${(y6 + 0.45).toFixed(2)} in`));

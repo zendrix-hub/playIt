@@ -11,21 +11,21 @@
   "beat": 1,
   "speaker": "mia",
   "text": "Mmm.",
-  "start": 5.58
+  "start": 6.02
  },
  {
   "id": "b1_03",
   "beat": 1,
   "speaker": "narrator",
   "text": "Her teacher has a full classroom. Her nanay is still at work. And the signal at home is gone again.",
-  "start": 6.68
+  "start": 7.12
  },
  {
   "id": "b1_04",
   "beat": 1,
   "speaker": "narrator",
   "text": "So Mia closes the book.",
-  "start": 15.11
+  "start": 14.5
  },
  {
   "id": "b2_01",
@@ -38,7 +38,7 @@
   "id": "b2_02",
   "beat": 2,
   "speaker": "lily",
-  "text": "Mabuhay! Ready to learn to read?",
+  "text": "Hi there! I'm so happy you're here. Let's play and learn together!",
   "start": 24.54
  },
  {
@@ -46,35 +46,49 @@
   "beat": 2,
   "speaker": "narrator",
   "text": "This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, listens to the child, and works offline.",
-  "start": 27.68
+  "start": 28.22
  },
  {
   "id": "b3_01",
   "beat": 3,
   "speaker": "narrator",
-  "text": "Watch. Airplane mode, on.",
+  "text": "No Wi-Fi needed. Mia just taps her letter.",
   "start": 40.25
  },
  {
   "id": "b3_02",
   "beat": 3,
   "speaker": "narrator",
-  "text": "Mia taps her letter. First, she hears it. Then she says it, and the phone itself checks her voice. Nothing leaves the device.",
-  "start": 43.38
+  "text": "First, she hears it. Then she says it,",
+  "start": 44.35
+ },
+ {
+  "id": "b3_02v",
+  "beat": 3,
+  "speaker": "mia",
+  "text": "Mouse!",
+  "start": 47.3
+ },
+ {
+  "id": "b3_02b",
+  "beat": 3,
+  "speaker": "narrator",
+  "text": "and the phone itself checks her voice. Nothing leaves the device.",
+  "start": 48.4
  },
  {
   "id": "b3_03",
   "beat": 3,
   "speaker": "narrator",
   "text": "Miss it? Lily never scolds. She shows the mouth shape and says it with her.",
-  "start": 53.47
+  "start": 52.5
  },
  {
   "id": "b3_04",
   "beat": 3,
   "speaker": "narrator",
   "text": "Next, she finds the pictures that start with the sound. Then the letters blend into real words.",
-  "start": 59.39
+  "start": 58.6
  },
  {
   "id": "b3_05",
@@ -88,35 +102,28 @@
   "beat": 4,
   "speaker": "narrator",
   "text": "We tested with 30 people: 16 children, plus 5 parents and 9 teachers.",
-  "start": 70.25
+  "start": 69
  },
  {
   "id": "b4_02",
   "beat": 4,
   "speaker": "narrator",
   "text": "15 of 16 children chose the happy face, and 14 of 16 would play it again.",
-  "start": 75.82
+  "start": 75.46
  },
  {
   "id": "b4_03",
   "beat": 4,
   "speaker": "narrator",
   "text": "The grown-ups who open the door? Parents gave it 4.6 for Grade 1 fit, 4.4 to recommend. Teachers scored teaching 4.7.",
-  "start": 82.79
+  "start": 83.0
  },
  {
   "id": "b4_04",
   "beat": 4,
   "speaker": "narrator",
   "text": "One teacher called it \"very useful and engaging for Grade 1 learners.\"",
-  "start": 91.69
- },
- {
-  "id": "b4_05",
-  "beat": 4,
-  "speaker": "narrator",
-  "text": "691 tests pass.",
-  "start": 96.97
+  "start": 94.1
  },
  {
   "id": "b5_01",

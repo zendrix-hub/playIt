@@ -89,7 +89,7 @@ try {
 } catch (e) { fail("pitch build: " + e.message); }
 
 // ---- 4. Poster file ----
-const poster = path.join(ROOT, "02_Research_Poster", `${c.team_code}_Research_Poster_Source.pptx`);
+const poster = path.join(ROOT, "02_Research_Poster", "Research_Poster_Source.pptx");
 if (!fs.existsSync(poster)) fail("poster file missing; run: npm run poster");
 else {
   const pm = fs.statSync(poster).mtimeMs;

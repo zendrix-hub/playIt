@@ -3,36 +3,567 @@
   "fps": 30,
   "musicVolume": 0.3,
   "beats": [
-    { "beat": 1, "name": "Problem", "start": 0, "end": 20 },
-    { "beat": 2, "name": "Solution", "start": 20, "end": 40 },
-    { "beat": 3, "name": "Demonstration", "start": 40, "end": 70 },
-    { "beat": 4, "name": "Results and validation", "start": 70, "end": 100 },
-    { "beat": 5, "name": "Impact and closing", "start": 100, "end": 120 }
+    {
+      "beat": 1,
+      "name": "Problem",
+      "start": 0,
+      "end": 20
+    },
+    {
+      "beat": 2,
+      "name": "Solution",
+      "start": 20,
+      "end": 40
+    },
+    {
+      "beat": 3,
+      "name": "Demonstration",
+      "start": 40,
+      "end": 70
+    },
+    {
+      "beat": 4,
+      "name": "Results and validation",
+      "start": 70,
+      "end": 100
+    },
+    {
+      "beat": 5,
+      "name": "Impact and closing",
+      "start": 100,
+      "end": 120
+    }
   ],
   "shots": [
-    { "id": 1, "start": 0, "end": 5, "type": "story", "clip": "V1.mp4", "still": "G1.png", "move": "push-in", "what": "Evening house, Mia at the table with the letter M", "focus": [72,62], "lights": [[78,40,42],[42,52,14]], "cover": { "size": [1376, 768], "patch": "1034,526 1080,524 1120,566 990,571 997,546 1032,543", "paper": ["#F6DDAE", "#FEE9BE"], "text": "M", "fontSize": 50, "matrix": [1, -0.095, -0.62, 0.72, 1056, 566] } },
-    { "id": 2, "start": 5, "end": 8, "cue": "Mmm", "type": "story", "still": "G2.png", "move": "push-in", "what": "Close on Mia trying the sound", "focus": [50,40], "lights": [[10,12,40]] },
-    { "id": 3, "start": 8, "end": 16, "cue": "Her teacher has", "type": "triptych", "stills": ["G3.png", "G4.png", "G5.png"], "labels": ["one teacher", "no one free", "no signal"], "what": "Crowded class, empty chair, no signal", "focus": ["50% 50%", "82% 60%", "32% 60%"] },
-    { "id": 4, "start": 16, "end": 20, "cue": "So Mia closes", "type": "story", "still": "G6.png", "move": "pull-out", "dim": true, "what": "Mia closes the book", "focus": [45,45], "lights": [[88,46,36]] },
-    { "id": 5, "start": 20, "end": 24, "type": "story", "clip": "V2.mp4", "still": "G7.png", "move": "push-in", "what": "Lily's eyes peek over the phone", "focus": [50,76], "lights": [[19,36,30]], "glow": [51,82], "sfx": [["sfx_node_unlock_chime.mp3",0.4,0.3]] },
-    { "id": 6, "start": 24, "end": 29, "cue": "peeks in", "type": "morph", "clip": "V3.mp4", "stills": ["G7.png", "B2.png", "B1.png"], "what": "The room changes into the app's style", "from": [51,82], "lilyFrom": [35,72], "sfx": [["sfx_heart_recovery_sparkle.mp3",0.5,0.3],["sfx_opening_pluck.wav",4,0.35]] },
-    { "id": 7, "start": 29, "end": 35, "cue": "This is Lily", "type": "demo", "rec": "rec_splash.mp4", "pose": "waving", "title": true, "what": "Splash screen in the phone, PlayIT title", "screen": "screen_splash.png" },
-    { "id": 8, "start": 35, "end": 40, "cue": "It follows", "type": "demo", "rec": "rec_splash.mp4", "pose": "idle", "badges": ["Marungko order", "Listens", "100% offline"], "what": "Three badges", "screen": "screen_nameprompt.png", "sfx": [["sfx_opening_pluck.wav",0.3,0.22],["sfx_opening_pluck.wav",1.6,0.22],["sfx_opening_pluck.wav",2.9,0.22]] },
-    { "id": 9, "start": 40, "end": 43, "type": "demo", "rec": "rec_airplane.mp4", "pose": "idle", "airplane": "enter", "what": "Airplane mode on", "screen": "screen_map.png", "sfx": [["sfx_opening_pluck.wav",1.2,0.25]] },
-    { "id": 10, "start": 43, "end": 45, "cue": "Mia taps", "type": "demo", "rec": "rec_map.mp4", "pose": "pointing", "what": "Map, tap the letter M", "screen": "screen_map.png", "taps": [[50,52.5,0.7]], "sfx": [["sfx_opening_pluck.wav",0.7,0.25]] },
-    { "id": 11, "start": 45, "end": 48, "cue": "First, she hears", "type": "demo", "rec": "rec_hearit.mp4", "pose": "listening", "step": 1, "prop": "rings", "what": "Hear It", "screen": "screen_hearit.png", "taps": [[50,76,0.9]], "sfx": [["ph_m.wav",0.9,0.5]] },
-    { "id": 12, "start": 48, "end": 54, "cue": "Then she says", "type": "demo", "rec": "rec_sayit_pass.mp4", "pose": "celebrating", "step": 2, "prop": "padlock", "note": "checked on the phone", "recAudio": true, "what": "Say It, a real child's voice", "screen": "screen_sayit.png", "taps": [[50,69.5,1]], "sfx": [["sfx_correct_chime.mp3",2.4,0.28]] },
-    { "id": 13, "start": 54, "end": 60, "cue": "Miss it", "type": "demo", "rec": "rec_sayit_cue.mp4", "pose": "encouraging", "step": 2, "what": "A miss, then the mouth-shape cue", "screen": "screen_sayit_cue.png", "taps": [[65.5,67,2.4]] },
-    { "id": 14, "start": 60, "end": 67, "cue": "Next, she finds", "type": "demo", "rec": "rec_findit.mp4", "rec2": "rec_blendit.mp4", "pose": "celebrating", "step": 3, "step2": 4, "prop": "tiles", "what": "Find It, then Blend It", "cue2": "Then the letters", "screen": "screen_findit.png", "taps": [[73,50,0.9],[26,69,1.6],[73,69,2.3]], "screen2": "screen_blendit.png", "taps2": [[69.5,80,0.8],[29,80,1.4],[50,80,2]], "sfx": [["sfx_opening_pluck.wav",0.9,0.2],["sfx_opening_pluck.wav",1.6,0.2],["sfx_opening_pluck.wav",2.3,0.2]] },
-    { "id": 15, "start": 67, "end": 70, "cue": "And parents get", "type": "demo", "rec": "rec_parent.mp4", "pose": "idle", "label": "Parent Zone", "prop": "report", "what": "Parent Zone and the report", "screen": "screen_parent.png" },
-    { "id": 16, "start": 70, "end": 74, "type": "results_people", "what": "30 participants; the children step forward" },
-    { "id": 17, "start": 74, "end": 81, "cue": "@b4_02", "type": "results_counts", "what": "Happy faces, then first-try Say It" },
-    { "id": 18, "start": 81, "end": 89, "cue": "The grown-ups", "type": "results_bridge", "what": "The bridge: parents and teachers" },
-    { "id": 19, "start": 89, "end": 96, "cue": "One teacher called", "type": "results_quote", "what": "Teacher quote" },
-    { "id": 20, "start": 96, "end": 100, "cue": "@b4_05", "type": "results_tests", "what": "Tests pass", "sfx": [["sfx_streak_badge_unlock.mp3",1,0.3]] },
-    { "id": 21, "start": 100, "end": 106, "type": "story", "clip": "V4.mp4", "still": "G9.png", "move": "push-in", "what": "Mia reads aloud, Lily beside her", "focus": [55,60], "lights": [[90,64,30],[20,36,26]] },
-    { "id": 22, "start": 106, "end": 110, "cue": "Just a little tarsier", "type": "story", "still": "G10.png", "move": "push-in", "what": "Mia proud, Lily cheering", "focus": [60,45], "lights": [[96,62,30],[20,36,26]] },
-    { "id": 23, "start": 110, "end": 116, "cue": "We are Group", "type": "team", "still": "team_pixar.png", "what": "Team reveal" },
-    { "id": 24, "start": 116, "end": 120, "cue": "@b5_04", "type": "logo", "pose": "waving", "what": "Logo card, Play it!", "sfx": [["sfx_correct_chime.mp3",1.6,0.28]] }
+    {
+      "id": 1,
+      "start": 0,
+      "end": 5,
+      "type": "story",
+      "clip": "V1.mp4",
+      "still": "G1.png",
+      "move": "push-in",
+      "what": "Evening house, Mia at the table with the letter M",
+      "focus": [
+        72,
+        62
+      ],
+      "lights": [
+        [
+          78,
+          40,
+          42
+        ],
+        [
+          42,
+          52,
+          14
+        ]
+      ],
+      "cover": {
+        "size": [
+          1376,
+          768
+        ],
+        "patch": "1034,526 1080,524 1120,566 990,571 997,546 1032,543",
+        "paper": [
+          "#F6DDAE",
+          "#FEE9BE"
+        ],
+        "text": "M",
+        "fontSize": 50,
+        "matrix": [
+          1,
+          -0.095,
+          -0.62,
+          0.72,
+          1056,
+          566
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "start": 5,
+      "end": 8,
+      "cue": "Mmm",
+      "type": "story",
+      "still": "G2.png",
+      "move": "push-in",
+      "what": "Close on Mia trying the sound",
+      "focus": [
+        50,
+        40
+      ],
+      "lights": [
+        [
+          10,
+          12,
+          40
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "start": 8,
+      "end": 16,
+      "cue": "Her teacher has",
+      "type": "triptych",
+      "stills": [
+        "G3.png",
+        "G4.png",
+        "G5.png"
+      ],
+      "labels": [
+        "one teacher",
+        "no one free",
+        "no signal"
+      ],
+      "what": "Crowded class, empty chair, no signal",
+      "focus": [
+        "50% 50%",
+        "82% 60%",
+        "32% 60%"
+      ]
+    },
+    {
+      "id": 4,
+      "start": 16,
+      "end": 20,
+      "cue": "So Mia closes",
+      "type": "story",
+      "still": "G6.png",
+      "move": "pull-out",
+      "dim": true,
+      "what": "Mia closes the book",
+      "focus": [
+        45,
+        45
+      ],
+      "lights": [
+        [
+          88,
+          46,
+          36
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "start": 20,
+      "end": 24,
+      "type": "story",
+      "clip": "V2.mp4",
+      "still": "G7.png",
+      "move": "push-in",
+      "what": "Lily's eyes peek over the phone",
+      "focus": [
+        50,
+        76
+      ],
+      "lights": [
+        [
+          19,
+          36,
+          30
+        ]
+      ],
+      "glow": [
+        51,
+        82
+      ],
+      "sfx": [
+        [
+          "sfx_node_unlock_chime.mp3",
+          0.4,
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "start": 24,
+      "end": 29,
+      "cue": "Hi there",
+      "type": "morph",
+      "clip": "V3.mp4",
+      "stills": [
+        "G7.png",
+        "B2.png",
+        "B1.png"
+      ],
+      "what": "The room changes into the app's style",
+      "from": [
+        51,
+        82
+      ],
+      "lilyFrom": [
+        35,
+        72
+      ],
+      "sfx": [
+        [
+          "sfx_heart_recovery_sparkle.mp3",
+          0.5,
+          0.3
+        ],
+        [
+          "sfx_opening_pluck.wav",
+          4,
+          0.35
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "start": 29,
+      "end": 35,
+      "cue": "This is Lily",
+      "type": "demo",
+      "rec": "rec_splash.mp4",
+      "pose": "waving",
+      "title": true,
+      "what": "Splash screen in the phone, PlayIT title",
+      "screen": "screen_splash.png"
+    },
+    {
+      "id": 8,
+      "start": 35,
+      "end": 40,
+      "cue": "It follows",
+      "type": "demo",
+      "rec": "rec_splash.mp4",
+      "pose": "idle",
+      "badges": [
+        "Marungko order",
+        "Listens",
+        "100% offline"
+      ],
+      "what": "Three badges",
+      "screen": "screen_nameprompt.png",
+      "sfx": [
+        [
+          "sfx_opening_pluck.wav",
+          0.3,
+          0.22
+        ],
+        [
+          "sfx_opening_pluck.wav",
+          1.6,
+          0.22
+        ],
+        [
+          "sfx_opening_pluck.wav",
+          2.9,
+          0.22
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "start": 40,
+      "end": 43,
+      "type": "demo",
+      "rec": "rec_map.mp4",
+      "pose": "idle",
+      "what": "No Wi-Fi needed chip; the app is offline by design",
+      "screen": "screen_map.png",
+      "sfx": [
+        [
+          "sfx_opening_pluck.wav",
+          1.2,
+          0.25
+        ]
+      ]
+    },
+    {
+      "id": 10,
+      "start": 43,
+      "end": 45,
+      "cue": "Mia just taps",
+      "type": "demo",
+      "rec": "rec_map.mp4",
+      "pose": "pointing",
+      "what": "Map, tap the letter M",
+      "screen": "screen_map.png",
+      "taps": [
+        [
+          50,
+          52.5,
+          0.7
+        ]
+      ],
+      "sfx": [
+        [
+          "sfx_opening_pluck.wav",
+          0.7,
+          0.25
+        ]
+      ]
+    },
+    {
+      "id": 11,
+      "start": 45,
+      "end": 48,
+      "cue": "First, she hears",
+      "type": "demo",
+      "rec": "rec_hearit.mp4",
+      "pose": "listening",
+      "step": 1,
+      "prop": "rings",
+      "what": "Hear It",
+      "screen": "screen_hearit.png",
+      "taps": [
+        [
+          50,
+          76,
+          0.9
+        ]
+      ],
+      "sfx": [
+        [
+          "ph_m.wav",
+          0.9,
+          0.5
+        ]
+      ]
+    },
+    {
+      "id": 12,
+      "start": 48,
+      "end": 54,
+      "cue": "Then she says",
+      "type": "demo",
+      "rec": "rec_sayit_pass.mp4",
+      "pose": "celebrating",
+      "step": 2,
+      "prop": "padlock",
+      "note": "checked on the phone",
+      "recAudio": true,
+      "what": "Say It, a real child's voice",
+      "screen": "screen_sayit.png",
+      "taps": [
+        [
+          50,
+          69.5,
+          1
+        ]
+      ],
+      "sfx": [
+        [
+          "sfx_correct_chime.mp3",
+          2.4,
+          0.28
+        ]
+      ]
+    },
+    {
+      "id": 13,
+      "start": 54,
+      "end": 60,
+      "cue": "Miss it",
+      "type": "demo",
+      "rec": "rec_sayit_cue.mp4",
+      "pose": "encouraging",
+      "step": 2,
+      "what": "A miss, then the mouth-shape cue",
+      "screen": "screen_sayit_cue.png",
+      "taps": [
+        [
+          65.5,
+          67,
+          2.4
+        ]
+      ]
+    },
+    {
+      "id": 14,
+      "start": 60,
+      "end": 67,
+      "cue": "Next, she finds",
+      "type": "demo",
+      "rec": "rec_findit.mp4",
+      "rec2": "rec_blendit.mp4",
+      "pose": "celebrating",
+      "step": 3,
+      "step2": 4,
+      "prop": "tiles",
+      "what": "Find It, then Blend It",
+      "cue2": "Then the letters",
+      "screen": "screen_findit.png",
+      "taps": [
+        [
+          73,
+          50,
+          0.9
+        ],
+        [
+          26,
+          69,
+          1.6
+        ],
+        [
+          73,
+          69,
+          2.3
+        ]
+      ],
+      "screen2": "screen_blendit.png",
+      "taps2": [
+        [
+          69.5,
+          80,
+          0.8
+        ],
+        [
+          29,
+          80,
+          1.4
+        ],
+        [
+          50,
+          80,
+          2
+        ]
+      ],
+      "sfx": [
+        [
+          "sfx_opening_pluck.wav",
+          0.9,
+          0.2
+        ],
+        [
+          "sfx_opening_pluck.wav",
+          1.6,
+          0.2
+        ],
+        [
+          "sfx_opening_pluck.wav",
+          2.3,
+          0.2
+        ]
+      ]
+    },
+    {
+      "id": 15,
+      "start": 67,
+      "end": 70,
+      "cue": "And parents get",
+      "type": "demo",
+      "rec": "rec_parent.mp4",
+      "pose": "idle",
+      "label": "Parent Zone",
+      "prop": "report",
+      "what": "Parent Zone and the report",
+      "screen": "screen_parent.png"
+    },
+    {
+      "id": 16,
+      "start": 70,
+      "end": 74,
+      "type": "results_people",
+      "what": "30 participants; the children step forward"
+    },
+    {
+      "id": 17,
+      "start": 74,
+      "end": 81,
+      "cue": "@b4_02",
+      "type": "results_counts",
+      "what": "Happy faces, then first-try Say It"
+    },
+    {
+      "id": 18,
+      "start": 81,
+      "end": 89,
+      "cue": "The grown-ups",
+      "type": "results_bridge",
+      "what": "The bridge: parents and teachers"
+    },
+    {
+      "id": 19,
+      "start": 89,
+      "end": 100,
+      "cue": "One teacher called",
+      "type": "results_quote",
+      "what": "Teacher quote"
+    },
+    {
+      "id": 20,
+      "start": 100,
+      "end": 106,
+      "type": "story",
+      "clip": "V4.mp4",
+      "still": "G9.png",
+      "move": "push-in",
+      "what": "Mia reads aloud, Lily beside her",
+      "focus": [
+        55,
+        60
+      ],
+      "lights": [
+        [
+          90,
+          64,
+          30
+        ],
+        [
+          20,
+          36,
+          26
+        ]
+      ]
+    },
+    {
+      "id": 21,
+      "start": 106,
+      "end": 110,
+      "cue": "Just a little tarsier",
+      "type": "story",
+      "still": "G10.png",
+      "move": "push-in",
+      "what": "Mia proud, Lily cheering",
+      "focus": [
+        60,
+        45
+      ],
+      "lights": [
+        [
+          96,
+          62,
+          30
+        ],
+        [
+          20,
+          36,
+          26
+        ]
+      ]
+    },
+    {
+      "id": 22,
+      "start": 110,
+      "end": 116,
+      "cue": "We are Group",
+      "type": "team",
+      "still": "team_2d.jpg",
+      "what": "Team reveal"
+    },
+    {
+      "id": 23,
+      "start": 116,
+      "end": 120,
+      "cue": "@b5_04",
+      "type": "logo",
+      "pose": "waving",
+      "what": "Logo card, Play it!",
+      "sfx": [
+        [
+          "sfx_correct_chime.mp3",
+          1.6,
+          0.28
+        ]
+      ]
+    }
   ]
 }

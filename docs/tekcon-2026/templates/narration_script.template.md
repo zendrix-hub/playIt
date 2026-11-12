@@ -1,6 +1,6 @@
 # PlayIT — narration script (2:00)
 
-Narrator: your Pixar-style character, in your own voice. Lily's lines are your voice pitched up.
+Narrator: your own voice (cloned from your sample). Lily's lines are her real recordings from the app. This script matches the film in `film/lines.json`.
 Pace: calm storyteller, about 135 words a minute. {{count_line}}
 
 {{status_line}}
@@ -21,15 +21,19 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 
 > Then someone small, with very big eyes, peeks in.
 >
-> **LILY:** Mabuhay! Ready to learn to read?
+> **LILY:** Hi there! I'm so happy you're here. Let's play and learn together!
 >
 > This is Lily, and this is PlayIT: a phonics game for Grade 1 learners. It follows DepEd's Marungko order, listens to the child, and works offline.
 
 ## Beat 3 — Demonstration (0:40–1:10)
 
-> Watch. Airplane mode, on.
+> No Wi-Fi needed. Mia just taps her letter.
 >
-> Mia taps her letter. First, she hears it. Then she says it, and the phone itself checks her voice. Nothing leaves the device.
+> First, she hears it. Then she says it,
+>
+> *"Mouse!"*
+>
+> and the phone itself checks her voice. Nothing leaves the device.
 >
 > Miss it? Lily never scolds. She shows the mouth shape and says it with her.
 >
@@ -46,8 +50,6 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 > The grown-ups who open the door? Parents gave it **{{pa_fit}}** for Grade 1 fit, **{{pa_rec}}** to recommend. Teachers scored teaching **{{te_overall}}**.
 >
 > One teacher called it "very useful and engaging for Grade 1 learners."
->
-> {{tests}} tests pass.
 
 ## Beat 5 — Impact and close (1:40–2:00)
 
@@ -65,6 +67,8 @@ Pace: calm storyteller, about 135 words a minute. {{count_line}}
 
 - Children are the users; parents and teachers are the bridge. They decide whether the app reaches a child, which is why their ratings are in the pitch. Keep the two groups' numbers separate.
 - Mia is a story character, not a survey participant. Do not present her as a real case.
-- The teacher quote is real and comes from Round 1 (teacher T-1). If a Round 2 teacher gives you a better line, swap it.
-- "{{tests}} automated tests pass" is from the app's README. Re-check the count on the build you submit.
+- Mia's "Mouse!" in Beat 3 is your own voice, saying the Say It word shown on the real app screen.
+- The numbers are frozen (12 Nov) at 30 participants across Rounds 1 and 2: the children's smiley-face answers and the parents' ratings are from Round 1; the teachers' teaching score ({{te_overall}}) is the Round 2 rubric, answered by {{te_r2_n}} of the {{te_n}} teachers. Later answers go to the research paper only.
+- The teacher quote is real and comes from Round 1 (teacher T-1).
+- The {{tests}} automated tests stay on the poster only. They were cut from the pitch on 11 Nov: viewers do not need them, and the cut lets Beat 4 run at a natural pace.
 - If you run long, cut "And parents get a plain progress report" from Beat 3 and show it on screen only.

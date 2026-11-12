@@ -95,6 +95,15 @@ const arm = side => {            // side: -1 = the arm on the left of the screen
   return f;
 };
 KM("#armL", arm(-1)); KM("#armR", arm(1));
+// the elbows: the tracing forearm rocks while the finger follows the letter; the arms bend in over her head when she cheers
+const E0 = R(0, 0, 0), elbow = side => {
+  const f = [[0, E0]];
+  if (side < 0) f.push([1.0, E0], [1.3, R(0, 0, 14)], [1.8, R(0, 0, 4)], [2.4, R(0, 0, 14)], [3.0, R(0, 0, 4)], [3.6, R(0, 0, 14)], [4.2, R(0, 0, 6)], [4.9, E0]);
+  f.push([11.3, E0], [11.9, R(0, 0, -side * 16)], [12.6, R(0, 0, -side * 6)], [14.2, R(0, 0, -side * 6)], [14.55, R(0, 0, side * 14), "cubic-bezier(.3,1.5,.5,1)"], [17.4, R(0, 0, side * 14)]);
+  return f;
+};
+KM("#foreL", elbow(-1)); KM("#foreR", elbow(1));
+KM("#pointL", [[0, { opacity: 0 }], [1.0, { opacity: 0 }], [1.15, { opacity: 1 }], [4.8, { opacity: 1 }], [4.95, { opacity: 0 }]]);
 // eyes squeeze shut in delight for a moment when Lily lands
 KM("#eyesOpen",  [[0, { opacity: 1 }, "steps(1)"], [14.9, { opacity: 0 }, "steps(1)"], [15.5, { opacity: 1 }, "steps(1)"]]);
 KM("#eyesHappy", [[0, { opacity: 0 }, "steps(1)"], [14.9, { opacity: 1 }, "steps(1)"], [15.5, { opacity: 0 }, "steps(1)"]]);

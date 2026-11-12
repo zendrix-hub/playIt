@@ -1,1 +1,42 @@
-[{"word": "Mia", "start": 0.0, "end": 0.36}, {"word": "taps", "start": 0.36, "end": 0.8}, {"word": "her", "start": 0.8, "end": 1.06}, {"word": "letter.", "start": 1.06, "end": 1.42}, {"word": "First,", "start": 2.32, "end": 2.64}, {"word": "she", "start": 2.9, "end": 3.1}, {"word": "hears", "start": 3.1, "end": 3.36}, {"word": "it.", "start": 3.36, "end": 3.84}, {"word": "Then", "start": 4.46, "end": 4.7}, {"word": "she", "start": 4.7, "end": 4.88}, {"word": "says", "start": 4.88, "end": 5.1}, {"word": "it,", "start": 5.1, "end": 5.44}, {"word": "and", "start": 5.44, "end": 5.94}, {"word": "the", "start": 5.94, "end": 6.08}, {"word": "phone", "start": 6.08, "end": 6.32}, {"word": "itself", "start": 6.32, "end": 6.7}, {"word": "checks", "start": 6.7, "end": 7.08}, {"word": "her", "start": 7.08, "end": 7.36}, {"word": "voice.", "start": 7.36, "end": 7.64}, {"word": "Nothing", "start": 8.38, "end": 8.58}, {"word": "leaves", "start": 8.58, "end": 9.0}, {"word": "the", "start": 9.0, "end": 9.24}, {"word": "device.", "start": 9.24, "end": 9.56}]
+[
+ {
+  "word": "First,",
+  "start": 0.0,
+  "end": 0.32
+ },
+ {
+  "word": "she",
+  "start": 0.6,
+  "end": 0.78
+ },
+ {
+  "word": "hears",
+  "start": 0.78,
+  "end": 1.02
+ },
+ {
+  "word": "it.",
+  "start": 1.02,
+  "end": 1.38
+ },
+ {
+  "word": "Then",
+  "start": 1.92,
+  "end": 2.06
+ },
+ {
+  "word": "she",
+  "start": 2.06,
+  "end": 2.22
+ },
+ {
+  "word": "says",
+  "start": 2.22,
+  "end": 2.44
+ },
+ {
+  "word": "it,",
+  "start": 2.44,
+  "end": 2.7
+ }
+]

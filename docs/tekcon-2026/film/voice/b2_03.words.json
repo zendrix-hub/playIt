@@ -1,1 +1,132 @@
-[{"word": "This", "start": 0.0, "end": 0.45}, {"word": "is", "start": 0.45, "end": 0.9}, {"word": "Lily,", "start": 0.9, "end": 1.35}, {"word": "and", "start": 1.35, "end": 1.8}, {"word": "this", "start": 1.8, "end": 2.25}, {"word": "is", "start": 2.25, "end": 2.7}, {"word": "PlayIT:", "start": 2.7, "end": 3.14}, {"word": "a", "start": 3.14, "end": 3.59}, {"word": "phonics", "start": 3.59, "end": 4.04}, {"word": "game", "start": 4.04, "end": 4.49}, {"word": "for", "start": 4.49, "end": 4.94}, {"word": "Grade", "start": 4.94, "end": 5.39}, {"word": "1", "start": 5.39, "end": 5.84}, {"word": "learners.", "start": 5.84, "end": 6.29}, {"word": "It", "start": 6.29, "end": 6.74}, {"word": "follows", "start": 6.74, "end": 7.19}, {"word": "DepEd's", "start": 7.19, "end": 7.64}, {"word": "Marungko", "start": 7.64, "end": 8.09}, {"word": "order,", "start": 8.09, "end": 8.54}, {"word": "listens", "start": 8.54, "end": 8.98}, {"word": "to", "start": 8.98, "end": 9.43}, {"word": "the", "start": 9.43, "end": 9.88}, {"word": "child,", "start": 9.88, "end": 10.33}, {"word": "and", "start": 10.33, "end": 10.78}, {"word": "works", "start": 10.78, "end": 11.23}, {"word": "offline.", "start": 11.23, "end": 11.68}]
+[
+ {
+  "word": "This",
+  "start": 0.0,
+  "end": 0.16
+ },
+ {
+  "word": "is",
+  "start": 0.16,
+  "end": 0.3
+ },
+ {
+  "word": "Lily,",
+  "start": 0.3,
+  "end": 0.54
+ },
+ {
+  "word": "and",
+  "start": 0.92,
+  "end": 1.06
+ },
+ {
+  "word": "this",
+  "start": 1.06,
+  "end": 1.28
+ },
+ {
+  "word": "is",
+  "start": 1.28,
+  "end": 1.46
+ },
+ {
+  "word": "PlayIT:",
+  "start": 1.46,
+  "end": 1.98
+ },
+ {
+  "word": "a",
+  "start": 2.5,
+  "end": 2.62
+ },
+ {
+  "word": "phonics",
+  "start": 2.62,
+  "end": 2.94
+ },
+ {
+  "word": "game",
+  "start": 2.94,
+  "end": 3.24
+ },
+ {
+  "word": "for",
+  "start": 3.24,
+  "end": 3.48
+ },
+ {
+  "word": "Grade",
+  "start": 3.48,
+  "end": 3.74
+ },
+ {
+  "word": "1",
+  "start": 3.74,
+  "end": 4.06
+ },
+ {
+  "word": "learners.",
+  "start": 4.06,
+  "end": 4.42
+ },
+ {
+  "word": "It",
+  "start": 5.28,
+  "end": 5.42
+ },
+ {
+  "word": "follows",
+  "start": 5.42,
+  "end": 5.78
+ },
+ {
+  "word": "DepEd's",
+  "start": 5.78,
+  "end": 6.5
+ },
+ {
+  "word": "Marungko",
+  "start": 6.5,
+  "end": 6.98
+ },
+ {
+  "word": "order,",
+  "start": 6.98,
+  "end": 7.28
+ },
+ {
+  "word": "listens",
+  "start": 7.94,
+  "end": 8.08
+ },
+ {
+  "word": "to",
+  "start": 8.08,
+  "end": 8.4
+ },
+ {
+  "word": "the",
+  "start": 8.4,
+  "end": 8.52
+ },
+ {
+  "word": "child,",
+  "start": 8.52,
+  "end": 8.86
+ },
+ {
+  "word": "and",
+  "start": 9.36,
+  "end": 9.44
+ },
+ {
+  "word": "works",
+  "start": 9.44,
+  "end": 9.7
+ },
+ {
+  "word": "offline.",
+  "start": 9.7,
+  "end": 10.12
+ }
+]

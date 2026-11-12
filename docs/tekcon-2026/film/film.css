@@ -47,7 +47,7 @@ svg [class], svg [style*="transform-origin"], #sparks, #sunRays { transform-box:
 .bob { transform-origin: 50% 100%; animation: bob 1.5s ease-in-out infinite alternate; }
 @keyframes bob { from { transform: translateY(0) scale(1, 1); } to { transform: translateY(-7px) scale(.985, 1.02); } }
 #cam { transform-box: view-box !important; transform-origin: 640px 420px !important; }
-#armL, #armR, #legL, #legR { transform-box: view-box !important; }
+#armL, #armR, #foreL, #foreR, #legL, #legR { transform-box: view-box !important; }
 #phoneBig { transform-box: view-box !important; transform-origin: 756px 498px !important; }
 .shimmer { animation: shimmer 2.4s linear infinite; }
 @keyframes shimmer { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -120; } }

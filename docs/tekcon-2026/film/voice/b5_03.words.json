@@ -1,1 +1,57 @@
-[{"word": "We", "start": 0.0, "end": 0.53}, {"word": "are", "start": 0.53, "end": 1.05}, {"word": "Group", "start": 1.05, "end": 1.58}, {"word": "56", "start": 1.58, "end": 2.11}, {"word": "from", "start": 2.11, "end": 2.64}, {"word": "CIT", "start": 2.64, "end": 3.16}, {"word": "University,", "start": 3.16, "end": 3.69}, {"word": "and", "start": 3.69, "end": 4.22}, {"word": "this", "start": 4.22, "end": 4.75}, {"word": "is", "start": 4.75, "end": 5.27}, {"word": "PlayIT.", "start": 5.27, "end": 5.8}]
+[
+ {
+  "word": "We",
+  "start": 0.0,
+  "end": 0.16
+ },
+ {
+  "word": "are",
+  "start": 0.16,
+  "end": 0.32
+ },
+ {
+  "word": "Group",
+  "start": 0.32,
+  "end": 0.48
+ },
+ {
+  "word": "56",
+  "start": 0.48,
+  "end": 1.12
+ },
+ {
+  "word": "from",
+  "start": 1.12,
+  "end": 1.82
+ },
+ {
+  "word": "CIT",
+  "start": 1.82,
+  "end": 2.4
+ },
+ {
+  "word": "University,",
+  "start": 2.4,
+  "end": 2.82
+ },
+ {
+  "word": "and",
+  "start": 3.88,
+  "end": 3.98
+ },
+ {
+  "word": "this",
+  "start": 3.98,
+  "end": 4.16
+ },
+ {
+  "word": "is",
+  "start": 4.16,
+  "end": 4.34
+ },
+ {
+  "word": "PlayIT.",
+  "start": 4.34,
+  "end": 4.82
+ }
+]

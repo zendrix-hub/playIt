@@ -16,7 +16,7 @@ The Antigravity files in this folder (`ANTIGRAVITY_RUN.md`, `.agents/`, the `ant
 
 ## Read this first
 
-**The Round 2 numbers are projections.** The survey is still running. The poster shows a yellow PROJECTED banner and the script shows those numbers in [brackets]. The brief asks for actual results, so put the real numbers in before you print or record. The reasoning behind each projection is in `round2_projection_notes.md`.
+**The survey numbers are final (frozen 12 Nov).** `round2_data.json` holds the verified results for 30 participants across Rounds 1 and 2 (16 Grade 1 learners, 5 parents or supervising adults, 9 teachers), with `status: "actual"`. Answers collected after the freeze go to the research paper, not the poster or the film. `round2_projection_notes.md` is kept only as history.
 
 ## How the kit works
 
@@ -156,16 +156,21 @@ More reliable on the day: one or two phones at your poster with the app already 
 
 ## Submission names
 
-`G56` is a stand-in. Set the real code in `content.json` (`team_code`).
+The instructor's layout (11 Nov). `G56` is a stand-in; set the real code in `content.json` (`team_code`), which names the video.
 
 ```
 TeamCode/
 └── 06_TekCon_2026_Presentation/
     ├── 01_Research_Poster/
-    │   ├── TeamCode_Research_Poster.pdf
-    │   └── TeamCode_Research_Poster_Source      (the pptx)
-    └── 02_Video_Pitch/
-        └── TeamCode_2-Minute_Pitch.mp4
+    │   ├── Research_Poster.pdf
+    │   └── Research_Poster_Source.pptx
+    ├── 02_Video_Pitch/
+    │   └── TeamCode_2-Minute_Pitch.mp4
+    └── 03_Software_Product_Logo/
+        ├── Product_Logo_2000x2000.png
+        └── Product_Logo_512x512.png
 ```
+
+Only the two logo files above go in the logo folder; the AppIcon and Concept1 variants stay out.
 
 Plus one printed copy on cartolina.

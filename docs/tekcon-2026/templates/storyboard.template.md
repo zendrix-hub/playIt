@@ -4,18 +4,15 @@
 
 **The feeling we are after:** "Kids would love this." The story carries the heart; the demo and the numbers prove it.
 
-**The setting is the Philippines, throughout.** The story world is a Filipino home and a public-school classroom; the app world is Lily's island, drawn from the app's own chapters (Chocolate Hills of Bohol, where tarsiers live, coconut palms, rice terraces, a bahay kubo, fiesta banderitas). Nothing should look like a generic Western suburb or classroom.
+**The setting is the Philippines, throughout:** a bahay kubo, coconut palms, the Chocolate Hills of Bohol where tarsiers live, a river, fiesta banderitas, children in Filipino school uniforms, teachers in filipiniana and barong.
 
 **The idea in one line:** A small girl gets stuck on one small sound, and a small tarsier with very big eyes helps her through it, with no internet needed.
 
-**Two worlds, on purpose:**
-- **Story world** (Pixar style): Mia, the narrator, Lily in 3D. Warm evening light. Used for the problem and the close.
-- **App world** (PlayIT's own flat style): Lily's island, sky-to-sand colours, Lily in her real in-app look. Used for the solution, the demo and the results. The demo is **animated in this style**, with the real app playing inside a phone frame at the centre.
-- **The morph** between them is the turning point of the film: the whole room changes style, not just Lily. Your 8-second clip is the reference for that move.
+**How the film is made:** one flat storybook world, drawn and animated in code in the art style of Lily, the app's mascot: no outlines, two-tone shading, big glossy eyes, pink cheeks. Text and graphics follow toddler learning videos: chunky outlined letters, sing-along captions where each spoken word turns yellow and hops, and labels that pop in. The phone only ever shows **real screenshots of the working app**. Everything is in `film/`; `film/README.md` explains how to watch and render it.
 
-**Cast:** the Narrator (your Pixar character, your voice) · Mia, age 6 (story character) · Lily the Tarsier · the team (group image).
+**Cast:** the Narrator (your own voice, cloned from your sample) · Mia, age 6 (story character, white blouse, navy skirt, hair clip) · Lily the Tarsier (her real in-app drawings and her real app voice) · the team (`team_2d.jpg`).
 
-Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are explained at the bottom.
+Every scene is timed to the words of the voice, so the times below are approximate. Full narration text is in `narration_script.md`.
 
 ---
 
@@ -23,10 +20,10 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 
 | # | Time | What we see | Narration | On-screen text | Sound | Asset |
 |---|---|---|---|---|---|---|
-| 1 | 0:00–0:05 | Wide evening shot. A small house, one window lit. Slow push in. Mia at a table with an open reader, her finger under a big letter **M**. | "This is Mia. She is six, and tonight she is stuck on one small sound." | none | Crickets, soft piano, one note at a time | G1 → V1 |
-| 2 | 0:05–0:08 | Close on Mia's face. She tries: lips press together, unsure. | *"Mmm."* (Mia, small and uncertain) | none | Piano holds | G2 |
-| 3 | 0:08–0:16 | Three quick pictures, each sliding in like a page turn: a crowded classroom with one teacher; an empty chair by the door with a work bag gone; a phone showing no signal bars. | "Her teacher has a full classroom. Her nanay is still at work. And the signal at home is gone again." | Tiny labels: *one teacher* · *no one free* · *no signal* | A soft page-turn on each | G3, G4, G5 |
-| 4 | 0:16–0:20 | Back on Mia. She closes the book. The light dims a little. Hold for a breath. | "So Mia closes the book." | none | Piano stops. One second of quiet. | G6 |
+| 1 | 0:00–0:05 | Dusk outside a bahay kubo, the hills and palms dark against an orange sky. Mia sits at a wooden table under a lamp with her reader open; a big letter **M** on the page. A "Mia" label pops in above her. | "This is Mia. She is six, and tonight she is stuck on one small sound." | **Mia** | Soft music bed, crickets | Drawn in code |
+| 2 | 0:05–0:07 | Mia presses her lips together and tries. A card pops up beside her face. | *"Mmm."* (Mia; silent in the draft) | **Mm ?** | none | Drawn in code |
+| 3 | 0:07–0:15 | Three thought bubbles float up from Mia, one per phrase, each with a small drawing: a crowded classroom, Nanay away at work, a phone with no signal bars. Her brows drop. | "Her teacher has a full classroom. Her nanay is still at work. And the signal at home is gone again." | *Full classroom* · *Nanay at work* · *No signal* | A soft pop on each bubble | Drawn in code |
+| 4 | 0:15–0:20 | The bubbles fade. Mia closes the book and looks down. The sky darkens to night; stars come out. Hold for a breath. | "So Mia closes the book." | none | Music thins. A second of quiet. | Drawn in code |
 
 **Director's note:** do not rush shot 4. The quiet is what makes shot 5 land.
 
@@ -36,31 +33,31 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 
 | # | Time | What we see | Narration | On-screen text | Sound | Asset |
 |---|---|---|---|---|---|---|
-| 5 | 0:20–0:24 | Mama's phone on the table lights up. Two huge round eyes rise over the edge of the screen. Mia looks up. | "Then someone small, with very big eyes, peeks in." | none | A bright "bloop". Music restarts, playful, ukulele and marimba | G7 → V2 |
-| 6 | 0:24–0:29 | **The morph.** Lily hops out, waves, and as she does the whole room changes style around her in one smooth sweep from the phone outward: the lamp becomes the sun, the wooden table becomes the island path, the evening blue becomes sky-to-sand, and Lily flattens into her in-app look. No hard cut. | **Lily:** "Mabuhay! Ready to learn to read?" | none | One rising sparkle sweep that lasts the whole morph | V3 (start frame G7, end frame B1; your 8-second clip is the motion reference) |
-| 7 | 0:29–0:35 | App world. A phone frame slides up at the centre of the island, playing the real splash screen: the PlayIT letters pop in one by one. Lily stands beside it. | "This is Lily, and this is PlayIT: a phonics game for Grade 1 learners." | **PlayIT** · *Offline phonics for Grade 1 learners* | The app's own "Play it!" clip, low | B1 + S1 + L (waving) |
-| 8 | 0:35–0:40 | Three badges pop in beside Lily, one per phrase. | "It follows DepEd's Marungko order, listens to the child, and works offline." | **Marungko order** · **Listens** · **100% offline** | A pop on each badge | B1 + S1 + L + text overlay |
+| 5 | 0:20–0:24 | The phone on the table lights up. Two huge round eyes rise over its top edge: Lily peeks out. Mia looks up. | "Then someone small, with very big eyes, peeks in." | none | A bright chime | Lily's real poses |
+| 6 | 0:24–0:28 | Lily hops out of the phone and lands cheering. The night turns to a bright day around her: the sun rises, a rainbow arcs over the hills, banderitas flutter, butterflies come out. Lily waves and talks. | **Lily** (real app voice): "Hi there! I'm so happy you're here. Let's play and learn together!" | Speech bubble: **Hi there!** *Let's play and learn!* | Sparkle | Lily's real poses, `vo_welcome_01.wav` |
+| 7 | 0:28–0:34 | A "Lily" label pops above her. The big PlayIT logo bounces in with its tagline. | "This is Lily, and this is PlayIT: a phonics game for Grade 1 learners." | **Lily** · **PlayIT** · *Offline phonics for Grade 1 learners* | A pop | Drawn in code |
+| 8 | 0:34–0:40 | Three round badges pop in, one per phrase. | "It follows DepEd's Marungko order, listens to the child, and works offline." | **Marungko order** · **Listens to the child** · **Works offline** | A pop on each badge | Drawn in code |
 
 ---
 
 ## Beat 3 — The Demonstration (0:40–1:10)
 
-**Animated in the app's own style.** The stage is Lily's island (B1). A large phone frame sits at the centre and **plays the real screen recordings**, so the judges see the working system, as the brief requires. Everything around the phone is animated: Lily moves and reacts using her real in-app poses, step labels pop in with their step colour, and each step slides to the next along the island path. Never redraw or generate the app's screens; only the real recordings go inside the phone.
+**The working system, inside the phone.** The phone grows to fill the stage and shows the real app screens in the order the narrator walks through them. Around it, Mia taps and speaks, Lily reacts with her real in-app poses, and a coloured step label pops in for each step. Never redraw the app's screens; only real screenshots or recordings go inside the phone.
 
 | # | Time | What we see | Narration | On-screen text | Sound | Asset |
 |---|---|---|---|---|---|---|
-| 9 | 0:40–0:43 | The phone frame tilts toward us. Inside it, a finger turns on airplane mode. A small ✈ badge pops out of the phone and pins itself to the top corner of the stage, where it stays for the whole demo. | "Watch. Airplane mode, on." | ✈ *No internet* | A click, then a pop | B1 + S2 |
-| 10 | 0:43–0:45 | Inside the phone: the map, a tap on the glowing **M**. Outside it: Lily points at the phone. | "Mia taps her letter." | none | App sounds, real | S3 + L (pointing) |
-| 11 | 0:45–0:48 | The stage slides one stop along the path. A sky-blue label pops in. Inside the phone: Hear It. Sound rings ripple out from the phone toward Lily, who cups her ear. | "First, she hears it." | **1 Hear It** | Let Lily's real "mmm" be heard | S4 + L (listening) |
-| 12 | 0:48–0:54 | Slide to the next stop, apricot label. Inside the phone: Say It, a real child's voice says "mouse", the pass animation plays. Outside: a voice wave travels from the edge of the screen **into** the phone and stops there; a small padlock closes on the phone. Lily celebrates. | "Then she says it, and the phone itself checks her voice. Nothing leaves the device." | **2 Say It** · *checked on the phone* | The child's real voice, clear | S5 + L (celebrating) |
-| 13 | 0:54–1:00 | Inside the phone: a miss, then the mouth-shape cue. The cue picture grows out of the phone and floats large beside Lily, who mouths along. | "Miss it? Lily never scolds. She shows the mouth shape and says it with her." | none | App sounds | S6 + L (encouraging) |
-| 14 | 1:00–1:07 | Two quick stops along the path. Leaf-green label: three pictures tapped inside the phone. Hibiscus label: letter tiles fly out of the phone, snap together as **SAM** above it, and three stars pop. | "Next, she finds the pictures that start with the sound. Then the letters blend into real words." | **3 Find It** → **4 Blend It** | Star chime | S7, S8 + L (celebrating) |
-| 15 | 1:07–1:10 | The phone turns to face a grown-up's hand. Inside: Parent Zone and the report. A report page slides out of the phone and settles beside it. | "And parents get a plain progress report." | **Parent Zone** | Paper sound | S9 |
+| 9 | 0:40–0:42 | The phone grows to fill the stage. A small chip with a crossed-out Wi-Fi sign pops in at the top corner and stays for the whole demo. There is no switch to flip: the app is offline by design. | "No Wi-Fi needed." | *No Wi-Fi needed* | A soft chime | Drawn in code |
+| 10 | 0:42–0:44 | Inside the phone: the lesson map. A tap ring lands on the letter. Mia's hand taps; Lily points. | "Mia just taps her letter." | none | The app's tap sound | `screen_map.png` · Lily pointing |
+| 11 | 0:44–0:47 | Inside the phone: Hear It. Sound waves ripple out of the phone; Lily cups her ear. | "First, she hears it." | **1 Hear It** | Lily's real "mmm" from the app | `screen_hearit.png` · Lily listening |
+| 12 | 0:47–0:53 | Inside the phone: Say It. Mia taps the microphone and says the word on the screen, **"Mouse!"** (your own voice); the word floats from her mouth **into** the phone. A big green check pops. When the screen recording is in, this moment plays at real speed so the app's pass lands just after the word; the rest of the demo plays at 1.5x. | "Then she says it," · **Mia:** *"Mouse!"* · "and the phone itself checks her voice. Nothing leaves the device." | **2 Say It** · *Stays on the phone* | Correct chime | `screen_sayit.png` · Lily celebrating |
+| 13 | 0:53–0:59 | A miss: a heart, then the mouth-shape cue. The app's own "lips together" picture grows out beside the phone while Lily encourages Mia. | "Miss it? Lily never scolds. She shows the mouth shape and says it with her." | *Lips together* | Soft pop, then sparkle | `screen_sayit_cue.png`, `mouth_lips_together.png` · Lily encouraging |
+| 14 | 0:59–1:06 | Find It: stars pop over the right pictures. Blend It: the letter tiles **A M S** bounce in. | "Next, she finds the pictures that start with the sound. Then the letters blend into real words." | **3 Find It** → **4 Blend It** | Star chime | `screen_findit.png`, `screen_blendit.png` |
+| 15 | 1:06–1:09 | The phone shrinks back onto the table. A progress report card drops in above it, its bars filling up, marked *For parents* with a PDF tag. | "And parents get a plain progress report." | **Progress report** · *For parents* | Unlock chime | Drawn in code (replace with a Parent Zone screen when recorded) |
 
 **Director's notes:**
-- Keep one continuous stage for the whole demo. Movement between steps is a slide along the path, never a cut to black.
+- One continuous stage for the whole demo; no cuts to black.
 - Lily reacts, she does not explain. One pose per step, with a small hop on each change.
-- Speed a recording up to 1.25x if a screen drags. Never cut the moment the child's voice is heard.
+- When the phone screen recordings arrive, they replace the screenshots inside the phone; nothing else changes.
 
 ---
 
@@ -68,13 +65,14 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 
 {{status_line}}
 
+A cream board slides over the scene. The numbers are the frozen results (12 Nov, 30 participants, Rounds 1 and 2); the yellow **PROJECTED** tag only appears if `round2_data.json` is set back to projected. Every number comes from `round2_data.json`. The board starts about a second early (1:09) so the narration can run at a natural pace.
+
 | # | Time | What we see | Narration | On-screen text | Sound | Asset |
 |---|---|---|---|---|---|---|
-| 16 | 1:10–1:14 | Lily (flat style) stands beside a row of {{total_plain}} small figures. The {{ch_n}} children step forward first, larger and in teal, labelled as our users. The {{pa_n}} parents and {{te_n}} teachers stand behind them, each with a hand on a child's shoulder. | "We tested with {{total}} people: {{ch_n}} children, plus {{pa_n}} parents and {{te_n}} teachers." | **{{total}} participants** · {{ch_n}} Grade 1 learners (our users) · {{pa_n}} parents/adults · {{te_n}} teachers | Music drops a little under the voice | B1 + L, made in the editor |
-| 17 | 1:14–1:21 | A row of smiley faces, one per child; {{ch_happy}} light up. Then a second row for replaying; {{ch_again}} light up. | "{{ch_happy}} of {{ch_n}} children chose the happy face, and {{ch_again}} of {{ch_n}} would play it again." | **{{ch_happy}} of {{ch_n}}** happy · **{{ch_again}} of {{ch_n}}** play again | A tick for each one lighting up | Made in the editor |
-| 18 | 1:21–1:29 | **The bridge.** A small flat bridge draws itself across the island path: a parent and a teacher stand on it and pass the phone across to a child on the other side. Three score cards flip up along the bridge, one at a time. | "The grown-ups who open the door? Parents gave it {{pa_fit}} for Grade 1 fit, {{pa_rec}} to recommend. Teachers scored teaching {{te_overall}}." | *Parents and teachers: the bridge to the child* · **{{pa_fit}}/5** Grade 1 fit · **{{pa_rec}}/5** recommend · **{{te_overall}}/5** R2 teaching (n={{te_r2_n}}) | Card flip | Made in the editor |
-| 19 | 1:29–1:36 | The quote appears as a speech bubble from a simple teacher figure. | "One teacher called it 'very useful and engaging for Grade 1 learners.'" | *"Very useful and engaging for Grade 1 learners."* — DepEd Grade 1 teacher | none | Made in the editor |
-| 20 | 1:36–1:40 | A wall of green ticks fills the screen, ending on the number. | "{{tests}} tests pass." | **{{tests}} tests pass · {{tests_fail}} fail** | Rising chime | Made in the editor |
+| 16 | 1:09–1:15 | A big **{{total}}** on the left. Two tilted picture cards pop in, drawn in the film's style: the Grade 1 learners with their books, a tablet and backpacks, then the parents and teachers (a mum with her phone, a dad, teachers in filipiniana and barong with a picture book, IDs and a lesson planner). | "We tested with {{total}} people: {{ch_n}} children, plus {{pa_n}} parents and {{te_n}} teachers." | **{{total}} people** · *{{ch_n}} Grade 1 learners* · *{{pa_n}} parents · {{te_n}} teachers* | A pluck on each card | Drawn in code (from the references `learners.jpg`, `teachers.jpg`) |
+| 17 | 1:15–1:23 | The cards fly away. {{ch_n}} small learners hop in, drawn in Mia's style in school uniforms; {{pa_n}} parents and {{te_n}} teachers stand faded below them. A smiley badge pops over {{ch_happy}} of the children, then a green check over the {{ch_again}} who would play again. | "{{ch_happy}} of {{ch_n}} children chose the happy face, and {{ch_again}} of {{ch_n}} would play it again." | **{{ch_happy}} of {{ch_n}}** *chose the happy face* · **{{ch_again}} of {{ch_n}}** *would play it again* · *{{ch_n}} children · our users* | A chime as each row lights up | Drawn in code |
+| 18 | 1:23–1:33 | **The bridge.** The children step aside and the grown-ups light up: parents in everyday clothes, teachers in filipiniana and barong with ID lanyards. On the left, the drawn parents-and-teachers card under *The bridge to the child*. Three score cards pop up, one per number, their stars filling. | "The grown-ups who open the door? Parents gave it {{pa_fit}} for Grade 1 fit, {{pa_rec}} to recommend. Teachers scored teaching {{te_overall}}." | **The bridge** *to the child* · **{{pa_fit}}** Grade 1 fit · **{{pa_rec}}** Recommend · **{{te_overall}}** Teaching | A pluck per card | Drawn in code |
+| 19 | 1:33–1:40 | A big speech bubble from a teacher in filipiniana with her ID. | "One teacher called it 'very useful and engaging for Grade 1 learners.'" | *"Very useful and engaging for Grade 1 learners."* — DepEd Grade 1 teacher | none | Drawn in code |
 
 ---
 
@@ -82,10 +80,10 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 
 | # | Time | What we see | Narration | On-screen text | Sound | Asset |
 |---|---|---|---|---|---|---|
-| 21 | 1:40–1:46 | Story world again. Same table, same evening, but warmer. Mia reads aloud from the same book, finger under the words. The phone is propped up beside her with Lily on it. | "No signal. No ads. No child left waiting for a turn." | none | Music swells, full and warm | G9 → V4 |
-| 22 | 1:46–1:50 | Close on Mia and Lily. Mia says the sound, proud this time. Lily cheers. | "Just a little tarsier, and one sound at a time." | none | Mia: a confident "Mmm!" | G10 |
-| 23 | 1:50–1:56 | Pull back to reveal the team in Pixar style, standing behind Mia like the people who made her evening better. Names appear under each. | "We are Group 56 from CIT University, and this is PlayIT." | Team names · Group 56 · CIT-U | Music holds | Your group image (A1) |
-| 24 | 1:56–2:00 | Logo card on the sky-to-sand background. Lily waves. | **Lily:** "Play it!" | **PlayIT** · *Offline phonics for Grade 1 learners* | Final chime, clean cut | S1 or A2 + logo |
+| 20 | 1:40–1:46 | Back in the bright day with Mia and Lily. Three round stamps pop in, each crossed out in red. Mia opens her book again and reads, finger moving along the page. | "No signal. No ads. No child left waiting for a turn." | **No signal** · **No ads** · **No waiting** | A pop on each stamp | Drawn in code |
+| 21 | 1:46–1:50 | Lily hops and cheers; hearts float up. Mia says her sound, proud this time, and cheers. | "Just a little tarsier, and one sound at a time." | none | Sparkle | Lily's real poses |
+| 22 | 1:50–1:56 | The scene softens behind a cream veil. A "Group 56 · CIT University" ribbon, then the team picture pops up in a card. The five names pop in a row beneath it (the lead marked *Lead*), then the adviser. | "We are Group 56 from CIT University, and this is PlayIT." | **Group 56 · CIT University** · team names · adviser | A pluck per name | `team_2d.jpg` |
+| 23 | 1:56–2:00 | End card: the PlayIT logo bounces in, *Offline phonics for Grade 1 learners*, Lily waving, and a tilted **Play it!** sticker. | **Lily** (real app voice): "Play it!" | **PlayIT** · *Offline phonics for Grade 1 learners* · **Play it!** | Fanfare, then a chime | Lily's real art, `sfx_opening_playit.wav` |
 
 ---
 
@@ -95,33 +93,31 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 |---|---|---|
 | 0:00–0:20 Problem | Mia, stuck on one sound | 1–4 |
 | 0:20–0:40 Solution | Lily arrives; PlayIT in one sentence | 5–8 |
-| 0:40–1:10 Demonstration | Real app, airplane mode on | 9–15 |
-| 1:10–1:40 Results and validation | Rounds 1–2, {{total_plain}} participants | 16–20 |
-| 1:40–2:00 Impact and closing | Mia reads; the team; "Play it!" | 21–24 |
+| 0:40–1:10 Demonstration | The real app, offline by design | 9–15 |
+| 1:10–1:40 Results and validation | Rounds 1–2, {{total_plain}} participants | 16–19 |
+| 1:40–2:00 Impact and closing | Mia reads; the team; "Play it!" | 20–23 |
 
-## Asset codes
+## Assets
 
-- **A** = art you already have. A1 group image, A2 Lily art, A3 your 8-second clip, A4 your narrator character.
-- **G** = story-world still to generate (see `antigravity_brief_video.md`).
-- **B** = app-world background plate to generate (same file). B1 is Lily's island.
-- **V** = short generated clip (same file). V3 is the morph.
-- **L** = Lily's real in-app poses, taken from the app: `lily_waving`, `lily_pointing`, `lily_listening`, `lily_celebrating`, `lily_encouraging`, `lily_thinking`, `lily_idle`. No generation needed.
-- **S** = screen recording of the real app (see `screen_recording_shotlist.md`).
+- **Drawn in code:** Mia, the scenery, the phone, the book, every label, the results board and its people (`film/film.html`, `film/s1.js` to `s3.js`).
+- **Lily:** her real in-app drawings, including the talking ones (`film/img/lily_*.png`).
+- **The app inside the phone:** real screenshots (`film/img/screen_*.png`) until the phone screen recordings arrive.
+- **Pictures:** only the team's own picture, `team_2d.jpg`. The learners and the parents and teachers are redrawn in code from `learners.jpg` and `teachers.jpg`, which are references only.
+- The generated story pictures and clips in `assets/` were a guide for the look only and are not in the film.
 
 ## Sound and music
 
-- Two music moods: a sparse piano or solo guitar for Beat 1, then one playful instrumental from shot 5 to the end. A Filipino flavour suits it: bandurria or rondalla strings, ukulele, light kulintang-style percussion. Free sources: YouTube Audio Library, Pixabay Music. Keep the licence note.
-- Keep music about 18 dB under the voice. Drop it further during shot 12 so the child's voice is clear.
-- Sound effects: CapCut's built-in library is enough.
+- A soft music bed under the whole film (`film/music/bed.wav`), well below the voice.
+- Sound effects are the app's own sounds (`film/sfx/`): chimes, plucks, the fanfare and Lily's "Play it!".
 
 ## Voice
 
-1. Record on a phone in a small quiet room, 15 cm from your mouth, one beat per take.
-2. Clean it with Adobe Podcast Enhance (free) or CapCut noise reduction.
-3. Lily's lines: record them yourself, then raise the pitch 4 to 5 semitones in CapCut or Audacity.
-4. Optional clone of your own voice for fixing single lines: Chatterbox or F5-TTS (free, open source). Only clone a voice whose owner agrees.
-5. Record Beat 4 last, once the real numbers are in.
+1. The narrator is your own voice, cloned from `assets/voice_sample_2.wav` (the stretch with "Her nanay is still at work") with Chatterbox: `film/tools/clone_lines.py`.
+2. Whisper checks every new take against the script and saves the word times for the captions: `film/tools/align_new.py`.
+3. Lily's lines are her real recordings from the app. Nobody imitates her.
+4. Beat 4 is re-voiced last, once the real numbers are in.
+5. Only clone a voice whose owner agrees.
 
-## Editing (free)
+## Rendering
 
-CapCut desktop, 1920 x 1080, 30 fps. Export MP4 (H.264). Name it `TeamCode_2-Minute_Pitch.mp4`. Check the final length is 2:00 or less before uploading.
+Inside `video/`, with `PITCH_BROWSER` set to Chrome: `node scripts\render_film.mjs final` writes `out\<TeamCode>_2-Minute_Pitch.mp4` at 1920 x 1080, 30 fps. Check the final length is 2:00 or less before uploading.

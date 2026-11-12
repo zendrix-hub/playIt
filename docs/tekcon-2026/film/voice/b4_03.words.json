@@ -1,1 +1,107 @@
-[{"word": "The", "start": 0.0, "end": 0.45}, {"word": "grown-ups", "start": 0.45, "end": 0.89}, {"word": "who", "start": 0.89, "end": 1.34}, {"word": "open", "start": 1.34, "end": 1.79}, {"word": "the", "start": 1.79, "end": 2.23}, {"word": "door?", "start": 2.23, "end": 2.68}, {"word": "Parents", "start": 2.68, "end": 3.12}, {"word": "gave", "start": 3.12, "end": 3.57}, {"word": "it", "start": 3.57, "end": 4.02}, {"word": "4.5", "start": 4.02, "end": 4.46}, {"word": "for", "start": 4.46, "end": 4.91}, {"word": "home", "start": 4.91, "end": 5.36}, {"word": "learning,", "start": 5.36, "end": 5.8}, {"word": "4.8", "start": 5.8, "end": 6.25}, {"word": "offline.", "start": 6.25, "end": 6.69}, {"word": "Teachers", "start": 6.69, "end": 7.14}, {"word": "scored", "start": 7.14, "end": 7.59}, {"word": "teaching", "start": 7.59, "end": 8.03}, {"word": "4.7.", "start": 8.03, "end": 8.48}]
+[
+ {
+  "word": "The",
+  "start": 0.0,
+  "end": 0.16
+ },
+ {
+  "word": "grown-ups",
+  "start": 0.16,
+  "end": 0.58
+ },
+ {
+  "word": "who",
+  "start": 0.58,
+  "end": 0.86
+ },
+ {
+  "word": "open",
+  "start": 0.86,
+  "end": 1.1
+ },
+ {
+  "word": "the",
+  "start": 1.1,
+  "end": 1.28
+ },
+ {
+  "word": "door?",
+  "start": 1.28,
+  "end": 1.56
+ },
+ {
+  "word": "Parents",
+  "start": 2.4,
+  "end": 2.7
+ },
+ {
+  "word": "gave",
+  "start": 2.7,
+  "end": 2.98
+ },
+ {
+  "word": "it",
+  "start": 2.98,
+  "end": 3.18
+ },
+ {
+  "word": "4.6",
+  "start": 3.18,
+  "end": 4.2
+ },
+ {
+  "word": "for",
+  "start": 4.2,
+  "end": 4.64
+ },
+ {
+  "word": "Grade",
+  "start": 4.64,
+  "end": 4.84
+ },
+ {
+  "word": "1",
+  "start": 4.84,
+  "end": 5.1
+ },
+ {
+  "word": "fit,",
+  "start": 5.1,
+  "end": 5.4
+ },
+ {
+  "word": "4.4",
+  "start": 5.9,
+  "end": 6.72
+ },
+ {
+  "word": "to",
+  "start": 6.72,
+  "end": 6.96
+ },
+ {
+  "word": "recommend.",
+  "start": 6.96,
+  "end": 7.42
+ },
+ {
+  "word": "Teachers",
+  "start": 7.42,
+  "end": 8.64
+ },
+ {
+  "word": "scored",
+  "start": 8.64,
+  "end": 8.98
+ },
+ {
+  "word": "teaching",
+  "start": 8.98,
+  "end": 9.44
+ },
+ {
+  "word": "4.7.",
+  "start": 9.44,
+  "end": 10.36
+ }
+]

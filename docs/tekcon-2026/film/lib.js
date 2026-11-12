@@ -54,7 +54,10 @@ function flap(sel, a, b, step = .13) { const f = [[0, { opacity: 0 }, "steps(1)"
 
 /* ---------- the first 28 seconds were designed on an 18-second mock-up clock; this maps that clock onto the voice ---------- */
 const WARP = [[0, 0], [5, 5.4], [5.1, 5.58], [6.9, 6.95], [7.0, 6.97], [7.3, cue("b1_03", "teacher")], [8.5, cue("b1_03", "nanay")], [9.8, cue("b1_03", "signal")],
-  [10.9, 14.95], [11.3, 15.2], [12.4, 16.95], [12.69, 19.4], [12.7, 19.5], [13.5, 21.0], [14.05, 24.0], [14.2, 24.3], [14.6, 24.66], [14.95, 24.95], [15.4, 25.05], [17.6, 27.6]];
+  // every point below follows the voice, so a new recording moves the picture with it
+  [10.9, LINE.b1_03.end + .03], [11.3, cue("b1_04", "So") + .09], [12.4, cue("b1_04", "book") + .06], [12.69, LINE.b2_01.start - .85], [12.7, LINE.b2_01.start - .75],
+  [13.5, cue("b2_01", "small") - .21], [14.05, cue("b2_01", "peeks") + .25], [14.2, cue("b2_01", "in") + .35], [14.6, LINE.b2_02.start + .12], [14.95, LINE.b2_02.start + .41],
+  [15.4, LINE.b2_02.start + .51], [17.6, LINE.b2_03.start - .08]];
 function warp(t) { for (let i = 1; i < WARP.length; i++) if (t <= WARP[i][0]) { const [a, A2] = WARP[i - 1], [b, B2] = WARP[i]; return A2 + (B2 - A2) * (t - a) / (b - a); } return WARP[WARP.length - 1][1]; }
 const KM = (sel, frames) => K(sel, frames.filter(f => f[0] <= 17.6001).map(f => [warp(f[0]), f[1], f[2]]));
 const showM = (sel, a, b, max = 1) => KM(sel, [[Math.max(0, a - .25), { opacity: 0 }], [a, { opacity: max }], [b, { opacity: max }], [b + .25, { opacity: 0 }]]);
@@ -96,7 +99,7 @@ function captions() {
 
 /* ---------- the clock ---------- */
 let ANIMS = [];
-window.seek = t => { const ms = Math.max(0, Math.min(T, t)) * 1000; for (const a of ANIMS) a.currentTime = ms; window.FILM_T = t; };
+window.seek = t => { const ms = Math.max(0, Math.min(T, t)) * 1000; for (const a of ANIMS) a.currentTime = ms; window.FILM_T = t; for (const f of window.ON_SEEK || []) f(t); };
 async function boot() {
   captions();
   await Promise.all(["800 40px Sniglet", "400 40px Sniglet", "700 40px Fredoka", "600 40px Fredoka"].map(f => document.fonts.load(f)));

@@ -1,1 +1,52 @@
-[{"word": "Just", "start": 0.0, "end": 0.24}, {"word": "a", "start": 0.24, "end": 0.44}, {"word": "little", "start": 0.44, "end": 0.86}, {"word": "tarsier,", "start": 0.86, "end": 1.66}, {"word": "and", "start": 2.04, "end": 2.34}, {"word": "one", "start": 2.34, "end": 2.72}, {"word": "sound", "start": 2.72, "end": 3.2}, {"word": "at", "start": 3.2, "end": 3.62}, {"word": "a", "start": 3.62, "end": 3.76}, {"word": "time.", "start": 3.76, "end": 4.08}]
+[
+ {
+  "word": "Just",
+  "start": 0.0,
+  "end": 0.24
+ },
+ {
+  "word": "a",
+  "start": 0.24,
+  "end": 0.5
+ },
+ {
+  "word": "little",
+  "start": 0.5,
+  "end": 0.78
+ },
+ {
+  "word": "tarsier,",
+  "start": 0.78,
+  "end": 1.42
+ },
+ {
+  "word": "and",
+  "start": 1.68,
+  "end": 1.86
+ },
+ {
+  "word": "one",
+  "start": 1.86,
+  "end": 2.16
+ },
+ {
+  "word": "sound",
+  "start": 2.16,
+  "end": 2.56
+ },
+ {
+  "word": "at",
+  "start": 2.56,
+  "end": 2.94
+ },
+ {
+  "word": "a",
+  "start": 2.94,
+  "end": 3.08
+ },
+ {
+  "word": "time.",
+  "start": 3.08,
+  "end": 3.32
+ }
+]
