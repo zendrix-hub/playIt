@@ -1,7 +1,7 @@
 {
  "duration": 120,
  "fps": 30,
- "projected": true,
+ "projected": false,
  "beats": [
   0,
   20,
@@ -899,66 +899,76 @@
    "id": "b4_01",
    "beat": 4,
    "speaker": "narrator",
-   "text": "We tested with 30 people: 16 children, plus parents and teachers.",
+   "text": "We tested with 30 people: 16 children, plus 5 parents and 9 teachers.",
    "start": 70.25,
    "end": 75.62,
    "file": "voice/b4_01.wav",
-   "timing": "heard",
+   "timing": "pauses",
    "words": [
     {
      "w": "We",
-     "s": 70.25,
-     "e": 70.47
+     "s": 70.29,
+     "e": 70.58
     },
     {
      "w": "tested",
-     "s": 70.47,
-     "e": 70.83
+     "s": 70.58,
+     "e": 71.17
     },
     {
      "w": "with",
-     "s": 70.83,
-     "e": 71.49
+     "s": 71.17,
+     "e": 71.47
     },
     {
      "w": "30",
-     "s": 71.49,
-     "e": 71.91
+     "s": 71.47,
+     "e": 72.06
     },
     {
      "w": "people:",
-     "s": 71.91,
-     "e": 72.33
+     "s": 72.06,
+     "e": 72.35
     },
     {
      "w": "16",
-     "s": 73.07,
-     "e": 73.07
+     "s": 72.77,
+     "e": 73.21
     },
     {
      "w": "children,",
-     "s": 73.07,
-     "e": 73.63
+     "s": 73.21,
+     "e": 73.65
     },
     {
      "w": "plus",
-     "s": 73.95,
-     "e": 74.15
+     "s": 73.65,
+     "e": 73.87
+    },
+    {
+     "w": "5",
+     "s": 73.87,
+     "e": 74.09
     },
     {
      "w": "parents",
-     "s": 74.15,
-     "e": 74.61
+     "s": 74.09,
+     "e": 74.53
     },
     {
      "w": "and",
-     "s": 74.61,
-     "e": 75.07
+     "s": 74.53,
+     "e": 74.75
+    },
+    {
+     "w": "9",
+     "s": 74.75,
+     "e": 74.97
     },
     {
      "w": "teachers.",
-     "s": 75.07,
-     "e": 75.39
+     "s": 74.97,
+     "e": 75.41
     }
    ]
   },
@@ -966,7 +976,7 @@
    "id": "b4_02",
    "beat": 4,
    "speaker": "narrator",
-   "text": "15 of 16 children chose the happy face. 12 of 16 passed Say It first try.",
+   "text": "15 of 16 children chose the happy face, and 14 of 16 would play it again.",
    "start": 75.82,
    "end": 82.59,
    "file": "voice/b4_02.wav",
@@ -1008,47 +1018,47 @@
      "e": 78.1
     },
     {
-     "w": "face.",
+     "w": "face,",
      "s": 78.1,
      "e": 78.46
     },
     {
-     "w": "12",
+     "w": "and",
      "s": 79.02,
      "e": 79.3
     },
     {
-     "w": "of",
+     "w": "14",
      "s": 79.3,
      "e": 79.44
     },
     {
-     "w": "16",
+     "w": "of",
      "s": 79.44,
      "e": 79.84
     },
     {
-     "w": "passed",
+     "w": "16",
      "s": 79.84,
      "e": 80.26
     },
     {
-     "w": "Say",
+     "w": "would",
      "s": 81.36,
      "e": 81.72
     },
     {
-     "w": "It",
+     "w": "play",
      "s": 81.72,
      "e": 81.86
     },
     {
-     "w": "first",
+     "w": "it",
      "s": 81.86,
      "e": 82.1
     },
     {
-     "w": "try.",
+     "w": "again.",
      "s": 82.1,
      "e": 82.46
     }
@@ -1058,7 +1068,7 @@
    "id": "b4_03",
    "beat": 4,
    "speaker": "narrator",
-   "text": "The grown-ups who open the door? Parents gave it 4.5 for home learning, 4.8 offline. Teachers scored teaching 4.7.",
+   "text": "The grown-ups who open the door? Parents gave it 4.6 for Grade 1 fit, 4.4 to recommend. Teachers scored teaching 4.7.",
    "start": 82.79,
    "end": 91.49,
    "file": "voice/b4_03.wav",
@@ -1097,46 +1107,56 @@
     {
      "w": "Parents",
      "s": 85.05,
-     "e": 85.5
+     "e": 85.48
     },
     {
      "w": "gave",
-     "s": 85.5,
-     "e": 85.73
+     "s": 85.48,
+     "e": 85.69
     },
     {
      "w": "it",
-     "s": 85.73,
-     "e": 85.96
+     "s": 85.69,
+     "e": 85.91
     },
     {
-     "w": "4.5",
-     "s": 85.96,
-     "e": 86.64
+     "w": "4.6",
+     "s": 85.91,
+     "e": 86.55
     },
     {
      "w": "for",
-     "s": 86.64,
-     "e": 86.87
+     "s": 86.55,
+     "e": 86.77
     },
     {
-     "w": "home",
-     "s": 86.87,
-     "e": 87.09
+     "w": "Grade",
+     "s": 86.77,
+     "e": 86.98
     },
     {
-     "w": "learning,",
-     "s": 87.09,
-     "e": 87.55
+     "w": "1",
+     "s": 86.98,
+     "e": 87.19
     },
     {
-     "w": "4.8",
-     "s": 87.55,
-     "e": 88.23
+     "w": "fit,",
+     "s": 87.19,
+     "e": 87.41
     },
     {
-     "w": "offline.",
-     "s": 88.23,
+     "w": "4.4",
+     "s": 87.41,
+     "e": 88.05
+    },
+    {
+     "w": "to",
+     "s": 88.05,
+     "e": 88.27
+    },
+    {
+     "w": "recommend.",
+     "s": 88.27,
      "e": 88.91
     },
     {
@@ -1482,13 +1502,13 @@
  "numbers": {
   "total": 30,
   "children": 16,
-  "parents": 9,
-  "teachers": 5,
+  "parents": 5,
+  "teachers": 9,
   "happy": 15,
-  "sayit": 12,
-  "paUseful": 4.5,
-  "paOffline": 4.8,
-  "teOverall": 4.7,
+  "again": 14,
+  "paFit": 4.6,
+  "paRec": 4.4,
+  "teOverall": 4.725,
   "tests": 691
  },
  "team": {

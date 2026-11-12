@@ -7,8 +7,8 @@ K("#bubble", [[27.45, { opacity: 1, transform: "scale(1)" }], [27.75, { opacity:
    Beat 4 — the board
    ===================================================================================================== */
 const t30 = cue("b4_01", "30"), t16 = cue("b4_01", "16"), tPar = cue("b4_01", "parents"), tTea = cue("b4_01", "teachers"),
-  t15 = cue("b4_02", "15"), tHappy = cue("b4_02", "children"), t12 = cue("b4_02", "12"), tPassed = cue("b4_02", "passed"),
-  tGrown = cue("b4_03", "grown"), tS1 = cue("b4_03", "4.5"), tS2 = cue("b4_03", "4.8"), tS3 = cue("b4_03", "4.7"),
+  t15 = cue("b4_02", "15"), tHappy = cue("b4_02", "children"), t14 = cue("b4_02", "14"), tAgain = cue("b4_02", "again"),
+  tGrown = cue("b4_03", "grown"), tS1 = cue("b4_03", "4.6"), tS2 = cue("b4_03", "4.4"), tS3 = cue("b4_03", "4.7"),
   tQuote = cue("b4_04", "One"), tTests = cue("b4_05", "691");
 const big2 = (id, n, sub, extra = "") => `<g id="${id}" opacity="0" style="transform-origin: 50% 50%">
   <text x="245" y="250" text-anchor="middle" ${FONT_T} font-size="170" fill="${TEAL}" stroke="#fff" stroke-width="18" stroke-linejoin="round" paint-order="stroke">${n}</text>
@@ -23,7 +23,7 @@ UI(`<g id="board" opacity="0">
   ${D.projected ? `<rect x="40" y="26" width="356" height="44" rx="22" fill="#FFC53D"/><text x="218" y="56" text-anchor="middle" ${FONT_B} font-size="21" fill="#3A2A00">PROJECTED · not final results</text>` : ""}
   ${big2("n30", N.total, "people")}
   ${big2("n15", N.happy, "of " + N.children, `<circle cx="245" cy="380" r="40" fill="#FFC53D"/><circle cx="231" cy="371" r="5" fill="${INK}"/><circle cx="259" cy="371" r="5" fill="${INK}"/><path d="M225 388 q20 20 40 0" stroke="${INK}" stroke-width="6" fill="none" stroke-linecap="round"/><text x="245" y="462" text-anchor="middle" ${FONT_B} font-size="29" fill="#0B3F4A">chose the happy face</text>`)}
-  ${big2("n12", N.sayit, "of " + N.children, `<circle cx="245" cy="380" r="40" fill="${STEP[1]}"/><rect x="237" y="356" width="16" height="30" rx="8" fill="#fff"/><path d="M229 376 a16 16 0 0 0 32 0" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M245 393 v10 M236 403 h18" stroke="#fff" stroke-width="5" stroke-linecap="round"/><text x="245" y="462" text-anchor="middle" ${FONT_B} font-size="29" fill="#0B3F4A">passed Say It first try</text>`)}
+  ${big2("n14", N.again, "of " + N.children, `<circle cx="245" cy="380" r="40" fill="${STEP[1]}"/><path d="${STAR}" transform="translate(245 381) scale(1.25)" fill="#fff"/><text x="245" y="462" text-anchor="middle" ${FONT_B} font-size="29" fill="#0B3F4A">would play it again</text>`)}
   <g id="bridge" opacity="0" style="transform-origin: 50% 50%"><text x="245" y="206" text-anchor="middle" ${FONT_T} font-size="58" fill="${TEAL}" stroke="#fff" stroke-width="12" stroke-linejoin="round" paint-order="stroke">The bridge</text>
     <text x="245" y="260" text-anchor="middle" ${FONT_B} font-size="34" fill="#0B3F4A">to the child</text>
     <path d="M120 410 Q245 300 370 410" stroke="#A8703F" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M150 388 v34 M197 362 v60 M245 352 v70 M293 362 v60 M340 388 v34" stroke="#C98A52" stroke-width="8" stroke-linecap="round"/>
@@ -38,7 +38,7 @@ UI(`<g id="board" opacity="0">
     ${p ? "" : `<path d="M${x + 13} 462 h16 l-8 12Z" fill="#fff"/>`}</g>`; }).join("")}
     <text id="parLabel" opacity="0" x="${470 + (N.parents * 50 - 8) / 2}" y="528" text-anchor="middle" ${FONT_B} font-size="30" fill="${STEP[2]}">${N.parents} parents</text>
     <text id="teaLabel" opacity="0" x="${adultX(N.parents) + (N.teachers * 50 - 8) / 2}" y="528" text-anchor="middle" ${FONT_B} font-size="30" fill="${TEAL}">${N.teachers} teachers</text></g>
-  ${[[N.paUseful, "Home learning", "parents", STEP[2]], [N.paOffline, "Works offline", "parents", STEP[2]], [N.teOverall, "Teaching", "teachers", TEAL]].map(([v, l1, l2, c], i) => { const x = 470 + i * 250; return `<g id="sc${i}" opacity="0" style="transform-origin: 50% 100%">
+  ${[[N.paFit, "Grade 1 fit", "parents/adults", STEP[2]], [N.paRec, "Recommend", "parents/adults", STEP[2]], [N.teOverall, "Teaching (R2)", "teachers", TEAL]].map(([v, l1, l2, c], i) => { const x = 470 + i * 250; return `<g id="sc${i}" opacity="0" style="transform-origin: 50% 100%">
     <rect x="${x + 6}" y="128" width="226" height="226" rx="30" fill="#0B5F5B" opacity=".2"/><rect x="${x}" y="120" width="226" height="226" rx="30" fill="#fff" stroke="${c}" stroke-width="8"/>
     <text x="${x + 113}" y="214" text-anchor="middle" ${FONT_T} font-size="92" fill="${c}">${v.toFixed(1)}</text><text x="${x + 113}" y="242" text-anchor="middle" ${FONT_B} font-size="21" fill="#5B6B6B" font-weight="600">out of 5</text>
     <clipPath id="scc${i}"><rect x="${x + 28}" y="250" width="${170 * v / 5}" height="40"/></clipPath>
@@ -63,14 +63,14 @@ for (let i = 0; i < N.children; i++) hopIn("#kid" + i, t16 - .1 + i * .05);
 show("#kidsLabel", t16 + .6, tGrown - .2); S("sfx_opening_pluck.wav", t16 - .1, .22);
 for (let j = 0; j < N.parents + N.teachers; j++) hopIn("#ad" + j, (j < N.parents ? tPar - .15 + j * .05 : tTea - .15 + (j - N.parents) * .06));
 show("#parLabel", tPar + .35, tQuote - .3); show("#teaLabel", tTea + .3, tQuote - .3); S("sfx_opening_pluck.wav", tPar - .1, .2); S("sfx_opening_pluck.wav", tTea - .1, .2);
-// 15 of 16 chose the happy face; 12 of 16 passed Say It first try
-pop("#n15", t15 - .1, t12 - .25); pop("#n12", t12 - .1, tGrown - .25);
+// 15 of 16 chose the happy face; 14 of 16 would play it again
+pop("#n15", t15 - .1, t14 - .25); pop("#n14", t14 - .1, tGrown - .25);
 K("#adults", [[t15 - .1, { opacity: 1 }], [t15 + .3, { opacity: .3 }], [tGrown - .3, { opacity: .3 }], [tGrown, { opacity: 1 }], [tQuote - .35, { opacity: 1 }], [tQuote - .05, { opacity: 0 }]]);
 for (let i = 0; i < N.children; i++) {
-  if (i < N.happy) { const t = tHappy + .1 + i * .085; pop("#kf" + i, t, t12 - .35); hop("#kid" + i, t); }
-  if (i < N.sayit) { const t = tPassed - .1 + i * .11; pop("#kc" + i, t, tGrown - .35); hop("#kid" + i, t); }
+  if (i < N.happy) { const t = tHappy + .1 + i * .085; pop("#kf" + i, t, t14 - .35); hop("#kid" + i, t); }
+  if (i < N.again) { const t = tAgain - .1 + i * .11; pop("#kc" + i, t, tGrown - .35); hop("#kid" + i, t); }
 }
-S("sfx_correct_chime.mp3", tHappy + .1, .22); S("sfx_correct_chime.mp3", tPassed - .1, .22);
+S("sfx_correct_chime.mp3", tHappy + .1, .22); S("sfx_correct_chime.mp3", tAgain - .1, .22);
 // the grown-ups who open the door: the bridge, and their three scores
 K("#kids", [[tGrown - .3, { opacity: 1 }], [tGrown, { opacity: 0 }]]);
 pop("#bridge", tGrown - .1, tQuote - .3);

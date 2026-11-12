@@ -67,13 +67,13 @@ Full narration text is in `narration_script.md`. Asset codes (G1, V1, S1…) are
 
 ## Beat 4 — Results and Validation (1:10–1:40)
 
-Numbers in **[brackets]** are projections from `../round2_data.json`. Record Beat 4 last, after the survey closes, and read the real numbers.
+All numbers are the final survey results from `../round2_data.json`.
 
 | # | Time | What we see | Narration | On-screen text | Sound | Asset |
 |---|---|---|---|---|---|---|
-| 16 | 1:10–1:14 | Lily (flat style) stands beside a row of 30 small figures. The [16] children step forward first, larger and in teal, labelled as our users. The [9] parents and [5] teachers stand behind them, each with a hand on a child's shoulder. | "We tested with [30] people: [16] children, plus parents and teachers." | **[30] participants** · [16] Grade 1 learners (our users) · [9] parents · [5] teachers | Music drops a little under the voice | B1 + L, made in the editor |
-| 17 | 1:14–1:21 | A row of smiley faces, one per child; [15] light up. Then a row of microphones; [12] light up. | "[15] of [16] children chose the happy face. [12] of [16] passed Say It first try." | **[15] of [16]** happy · **[12] of [16]** first try | A tick for each one lighting up | Made in the editor |
-| 18 | 1:21–1:29 | **The bridge.** A small flat bridge draws itself across the island path: a parent and a teacher stand on it and pass the phone across to a child on the other side. Three score cards flip up along the bridge, one at a time. | "The grown-ups who open the door? Parents gave it [4.5] for home learning, [4.8] offline. Teachers scored teaching [4.7]." | *Parents and teachers: the bridge to the child* · **[4.5]/5** learning at home · **[4.8]/5** offline · **[4.7]/5** teaching quality | Card flip | Made in the editor |
+| 16 | 1:10–1:14 | Lily (flat style) stands beside a row of 30 small figures. The 16 children step forward first, larger and in teal, labelled as our users. The 5 parents and 9 teachers stand behind them, each with a hand on a child's shoulder. | "We tested with 30 people: 16 children, plus 5 parents and 9 teachers." | **30 participants** · 16 Grade 1 learners (our users) · 5 parents/adults · 9 teachers | Music drops a little under the voice | B1 + L, made in the editor |
+| 17 | 1:14–1:21 | A row of smiley faces, one per child; 15 light up. Then a second row for replaying; 14 light up. | "15 of 16 children chose the happy face, and 14 of 16 would play it again." | **15 of 16** happy · **14 of 16** play again | A tick for each one lighting up | Made in the editor |
+| 18 | 1:21–1:29 | **The bridge.** A small flat bridge draws itself across the island path: a parent and a teacher stand on it and pass the phone across to a child on the other side. Three score cards flip up along the bridge, one at a time. | "The grown-ups who open the door? Parents gave it 4.6 for Grade 1 fit, 4.4 to recommend. Teachers scored teaching 4.7." | *Parents and teachers: the bridge to the child* · **4.6/5** Grade 1 fit · **4.4/5** recommend · **4.7/5** R2 teaching (n=5) | Card flip | Made in the editor |
 | 19 | 1:29–1:36 | The quote appears as a speech bubble from a simple teacher figure. | "One teacher called it 'very useful and engaging for Grade 1 learners.'" | *"Very useful and engaging for Grade 1 learners."* — DepEd Grade 1 teacher | none | Made in the editor |
 | 20 | 1:36–1:40 | A wall of green ticks fills the screen, ending on the number. | "691 tests pass." | **691 tests pass · 0 fail** | Rising chime | Made in the editor |
 
@@ -97,7 +97,7 @@ Numbers in **[brackets]** are projections from `../round2_data.json`. Record Bea
 | 0:00–0:20 Problem | Mia, stuck on one sound | 1–4 |
 | 0:20–0:40 Solution | Lily arrives; PlayIT in one sentence | 5–8 |
 | 0:40–1:10 Demonstration | Real app, airplane mode on | 9–15 |
-| 1:10–1:40 Results and validation | Round 2, 30 participants | 16–20 |
+| 1:10–1:40 Results and validation | Rounds 1–2, 30 participants | 16–20 |
 | 1:40–2:00 Impact and closing | Mia reads; the team; "Play it!" | 21–24 |
 
 ## Asset codes

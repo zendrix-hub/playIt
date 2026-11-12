@@ -16,18 +16,26 @@ ok(gsum === data.participants_total, `groups add up to ${data.participants_total
 [["children", ch], ["parents", pa], ["teachers", te], ["technical", tc]].forEach(([k, o]) =>
   ok(o.n === g[k], `${k}.n matches groups.${k} (${o.n})`, `${k}.n is ${o.n} but groups.${k} is ${g[k]}`));
 const splits = [
-  ["happy/okay/sad faces", ch.happy_face + ch.okay_face + ch.sad_face, ch.n],
-  ["Find It outcomes", ch.findit_no_hearts_lost + ch.findit_one_or_two_mistakes + ch.findit_needed_help, ch.n],
-  ["Blend It outcomes", ch.blendit_smooth + ch.blendit_minor_retries + ch.blendit_needed_hint, ch.n],
-  ["home internet answers", pa.home_internet_always_wifi + pa.home_internet_mobile_or_patchy + pa.home_internet_none, pa.n],
+  ["happy/okay/sad faces", [ch.happy_face, ch.okay_face, ch.sad_face], ch.n, true],
+  ["liked-characters faces", [ch.liked_characters_happy, ch.liked_characters_okay, ch.liked_characters_neutral], ch.n, false],
+  ["play-again faces", [ch.play_again_happy, ch.play_again_okay, ch.play_again_neutral], ch.n, false],
+  ["easy-to-play faces", [ch.easy_to_play_happy, ch.easy_to_play_okay, ch.easy_to_play_neutral], ch.n, false],
+  ["Find It outcomes", [ch.findit_no_hearts_lost, ch.findit_one_or_two_mistakes, ch.findit_needed_help], ch.n, false],
+  ["Blend It outcomes", [ch.blendit_smooth, ch.blendit_minor_retries, ch.blendit_needed_hint], ch.n, false],
+  ["home internet answers", [pa.home_internet_always_wifi, pa.home_internet_mobile_or_patchy, pa.home_internet_none], pa.n, false],
 ];
-splits.forEach(([name, sum, n]) => ok(sum === n, `${name} add up to ${n}`, `${name} add up to ${sum}, should be ${n}`));
+splits.forEach(([name, vals, n, required]) => {
+  if (!required && vals.every((v) => v == null)) return;
+  const sum = vals.reduce((a, b) => a + b, 0);
+  ok(sum === n, `${name} add up to ${n}`, `${name} add up to ${sum}, should be ${n}`);
+});
 [["children", ch], ["technical", tc]].forEach(([k, o]) => Object.entries(o).forEach(([f, v]) => {
   if (f !== "n" && !f.startsWith("median") && !f.startsWith("_") && typeof v === "number" && (v < 0 || v > o.n || !Number.isInteger(v)))
     fail(`${k}.${f} is ${v}; it must be a whole number of people from 0 to ${o.n}`);
 }));
-ok(ch.sayit_within_two_tries >= ch.sayit_first_try, "Say It within two tries is at least the first-try count", "sayit_within_two_tries is smaller than sayit_first_try");
-const means = [...Object.entries(pa).filter(([k]) => k.endsWith("_mean")).map(([k, v]) => ["parents." + k, v]),
+if (ch.sayit_first_try != null && ch.sayit_within_two_tries != null)
+  ok(ch.sayit_within_two_tries >= ch.sayit_first_try, "Say It within two tries is at least the first-try count", "sayit_within_two_tries is smaller than sayit_first_try");
+const means = [...Object.entries(pa).filter(([k, v]) => k.endsWith("_mean") && v !== null).map(([k, v]) => ["parents." + k, v]),
   ...Object.entries(te.item_means).map(([k, v]) => ["teachers " + k, v]), ["teachers.overall_mean", te.overall_mean]];
 const badMeans = means.filter(([, v]) => typeof v !== "number" || v < 1 || v > 5);
 ok(badMeans.length === 0, "all ratings are between 1 and 5", "ratings outside 1 to 5: " + badMeans.map(([k, v]) => `${k}=${v}`).join(", "));

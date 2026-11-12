@@ -18,7 +18,7 @@ function wav(file) {
   const dur = n / fmt.rate, first = quiet.findIndex(q => !q) * 0.02, last = (quiet.length - [...quiet].reverse().findIndex(q => !q)) * 0.02;
   return { dur, first: Math.max(0, first), last: Math.min(dur, last), gaps: gaps.filter(g => g[0] > first + 0.1 && g[1] < last - 0.1) };
 }
-const syl = w => { const t = w.replace(/[^a-z0-9.]/gi, ""); if (/^\d/.test(t)) return ({ "30": 2, "16": 2, "15": 2, "12": 1, "4.5": 3, "4.8": 3, "4.7": 3, "691": 6, "1": 1, "56": 3 })[t.replace(/\.$/, "")] || t.replace(/\./g, "").length + 1; return Math.max(1, (t.toLowerCase().replace(/e$/, "").match(/[aeiouy]+/g) || []).length); };
+const syl = w => { const t = w.replace(/[^a-z0-9.]/gi, ""); if (/^\d/.test(t)) return ({ "30": 2, "16": 2, "15": 2, "14": 2, "12": 1, "5": 1, "9": 1, "4.6": 3, "4.4": 3, "4.5": 3, "4.8": 3, "4.7": 3, "691": 6, "1": 1, "56": 3 })[t.replace(/\.$/, "")] || t.replace(/\./g, "").length + 1; return Math.max(1, (t.toLowerCase().replace(/e$/, "").match(/[aeiouy]+/g) || []).length); };
 
 const voice = lines.map(l => {
   const file = path.join(F, "voice", l.id + ".wav"), has = fs.existsSync(file), script = l.text.split(/\s+/);
@@ -41,7 +41,7 @@ const data = {
   duration: 120, fps: 30, projected: R.status !== "actual",
   beats: [0, 20, 40, 70, 100, 120], voice,
   numbers: { total: R.participants_total, children: R.groups.children, parents: R.groups.parents, teachers: R.groups.teachers,
-    happy: R.children.happy_face, sayit: R.children.sayit_first_try, paUseful: R.parents.usefulness_mean, paOffline: R.parents.offline_benefit_mean, teOverall: R.teachers.overall_mean,
+    happy: R.children.happy_face, again: R.children.play_again_happy, paFit: R.parents.grade1_fit_mean, paRec: R.parents.recommend_mean, teOverall: R.teachers.overall_mean,
     tests: R.actual_figures_not_from_round2.unit_tests_passed },
   team: { members: C.team.members, adviser: C.team.adviser },
 };

@@ -25,8 +25,8 @@ How the kit works: `round2_data.json` (numbers) and `content.json` (poster wordi
 ## Decisions the user has made (do not reopen)
 
 - **Story:** Mia, a six-year-old Grade 1 learner in the Philippines, cannot get help with the letter M; Lily the Tarsier appears; the Pixar-style room changes into the app's flat style; the demo happens in the app's style; results; close. The setting must be visibly Philippine.
-- **Participants:** 30 in total = 16 Grade 1 learners (the users, observed) + 9 parents + 5 teachers. Parents and teachers are "the bridge to the child". Say counts, not percentages. No claims of learning gains.
-- **Numbers:** the Round 2 figures in `round2_data.json` are projections (`status: projected`) and show a PROJECTED tag. The user brings real figures by the evening of 12 Nov.
+- **Participants (FROZEN 12 Nov at N = 30):** 30 in total across Rounds 1–2 = 16 Grade 1 learners (`smileyometer`, Round 1) + 5 parents/supervising adults (`SUSaccessibility`, Round 1, SUS = 75.5) + up to 9 unique teachers/reading specialists across Round 1 and Round 2 (`teacherpedagogy` 4, `teacherpedagogy2` 4, `teacherpedagogy3` 5; Round 2 Likert rating comes from `teacherpedagogy3`, n = 5). Any future respondents collected later go strictly to the **research paper**, not the poster or pitch video. Parents and teachers are "the bridge to the child". Say counts, not percentages. No claims of learning gains.
+- **Numbers (`status: "actual"`):** `round2_data.json`, `content.json`, `templates/`, `film/lines.json`, `film/s3.js`, and `film/tools/make_data.mjs` have been updated and frozen on 12 Nov with the verified workbook results (`15 of 16` happy face, `14 of 16` play again, `15 of 16` liked characters; `4.6/5` Grade 1 fit, `4.4/5` recommend, `4.7/5` R2 teaching; `status: "actual"`, removing the PROJECTED banner and `[brackets]`). Uncollected sub-task (`sayit_first_try`) and parent TAM (`usefulness`, `offline`) fields are `null`.
 - **Voice:** clone the user's voice from `assets/voice_sample.wav`. If cloning cannot be made to work on this PC, fall back to a generated voice (Kokoro) and tell the user plainly. Lily's lines are the same voice pitched up.
 - **Story motion:** no generated video clips. The stills move by code (Remotion), with ffmpeg, Whisper and yt-dlp as helpers.
 - **App footage:** real app screenshots inside the phone frame now; the user's phone screen recordings replace them when they arrive.
@@ -88,7 +88,7 @@ How the kit works: `round2_data.json` (numbers) and `content.json` (poster wordi
 ## Needed from the user
 
 - Phone screen recordings per `01_Video_Pitch/screen_recording_shotlist.md`, including a Parent Zone screen. The brief asks for actual recordings.
-- The real survey numbers by the evening of 12 Nov.
+- `round2_data.json` is already updated and frozen at `N = 30` (`status: "actual"`); do not alter pitch/poster figures unless the team lead directs otherwise (extra survey respondents go to the research paper only).
 - The team code. `G56` is a stand-in.
 - The final MP4 uploaded to Google Drive (Anyone with the link, Viewer) and the link.
 - Lexend and Sniglet installed on the PC that exports the poster PDF.
@@ -198,24 +198,24 @@ The user has provided all visual and voice assets in `assets/`:
 
 > [!IMPORTANT]
 > **USER DIRECTIVE ON TIMING:**
-> - **On Nov 12 (Absorption & Prep Day):** DO NOT recreate or trigger final video/poster renders yet. Just adopt and absorb what has been newly added in the assets, code, and handoff. Prepare voice cloning, adapt the code, and await the Round 2 survey closure in the evening.
-> - **On Nov 13 (Final Output Recreation Day):** Perform the final end-to-end recreation: enter final survey numbers (`status: "actual"`), inject final Google Drive video QR code, render the full 1080p MP4 film, export final poster PDF/PPTX, and assemble the Drive submission folders. Print on Nov 13 for Nov 14 submission.
+> - **On Nov 12 (Absorption & Prep Day):** DO NOT recreate or trigger final video/poster renders yet. Just adopt and absorb what has been newly added in the assets, frozen `N = 30` data (`status: "actual"`), and handoff. Prepare voice cloning, adapt the code, and verify `film/data.json` + Beat 4 script changes cleanly.
+> - **On Nov 13 (Final Output Recreation Day):** Re-synthesize the updated narration (`voice_sample_2.wav` + Beat 4 `b4_01..b4_03` with the frozen `N = 30` numbers), inject final Google Drive video QR code, render the full 1080p MP4 film, export final poster PDF/PPTX, and assemble the Drive submission folders. Print on Nov 13 for Nov 14 submission.
 
 ### 6. Step-by-Step Execution Plan for Claude
 
 #### Phase A (Nov 12 — Adopt & Absorb):
-1. **Narration Voice Re-clone:** Run Chatterbox on `assets/voice_sample_2.wav` (`python tools/voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample_2.wav`). This fixes *nanay* and gives natural Filipino inflection.
+1. **Narration Voice Re-clone Prep:** Run Chatterbox on `assets/voice_sample_2.wav` (`python tools/voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample_2.wav`), covering the updated `film/lines.json` (especially `b4_01`–`b4_03` with `30 people: 16 children, 5 parents, 9 teachers`, `15 of 16` happy / `14 of 16` play again, `4.6` fit / `4.4` recommend / `4.7` teaching). This also fixes *nanay* and gives natural Filipino inflection.
 2. **Lily Voice Replacement:** Copy in-app studio audio files to `film/voice/`:
    - `b2_02.wav` <- `app/src/main/assets/audio/vo/ui/ret_welcome_back.wav` (or `vo_map_tarana.wav`).
    - `b5_04.wav` <- `app/src/main/assets/audio/vo/lesson/vo_complete_01.wav`.
 3. **Beat 3 Demo Code Adjustment:** In `film/s2.js`, remove the airplane toggle animation card. Update narration line `b3_01` to transition smoothly into the lesson.
-4. **Beat 4 Results Code Adjustment:** In `film/s3.js` and `lines.json`, remove `b4_05` ("691 tests pass"). This frees ~2.7s, allowing Beat 4 lines to run at natural **1.0x human speaking speed** (removing the previous 1.17x artificial speed-up!). Display `learners.jpg` and `teachers.jpg` alongside the score cards.
+4. **Beat 4 Results Code Adjustment:** `film/s3.js`, `film/lines.json`, `film/tools/make_data.mjs`, `round2_data.json`, and `content.json` are already aligned to the frozen real `N = 30` metrics (`status: "actual"`). In `film/s3.js` and `lines.json`, remove `b4_05` ("691 tests pass") from the video, freeing ~2.7s so Beat 4 runs at natural **1.0x human speaking speed** (removing the previous 1.17x speed-up!), and display `learners.jpg` and `teachers.jpg` alongside the score cards.
 5. **Beat 5 Team Visual Adjustment:** In `film/s3.js`, wire `assets/team_2d.jpg` into the team display segment.
-6. **Evening of Nov 12:** Receive the real Round 2 survey numbers from the user.
+6. **Confirm `make_data.mjs` + `check.js`:** Verify `node film/tools/make_data.mjs` aligns timestamps cleanly once new audio `.wav` files are generated.
 
 #### Phase B (Nov 13 — Final Output Recreation & Packaging):
-1. **Enter Real Survey Numbers:** Update `round2_data.json` with the final counts and set `"status": "actual"` (this automatically removes the yellow PROJECTED banner).
-2. **Re-synthesize Beat 4:** Re-run voice synthesis for Beat 4 lines with the actual numbers.
+1. **Verify Frozen Survey Numbers:** Confirm `round2_data.json` (`N = 30`, `status: "actual"`) still matches team-lead sign-off (future survey additions go to the research paper only).
+2. **Verify All Re-synthesized Audio:** Confirm `b1_01..b5_04` (including `b3_01` and `b4_01..b4_03`) fit inside every beat window without overruns, then run `node film/tools/make_data.mjs`.
 3. **Render Final 1080p Pitch Film:** Render `film/` at 1080p (`TeamCode_2-Minute_Pitch.mp4`). Verify length is <= 120.0s.
 4. **Final Drive Link & QR Code:** User uploads the video to Google Drive. Claude generates `assets/qr_pitch.png` from that link and runs `npm run build` in `tools/` to rebuild the poster.
 5. **Final Poster Export:** Export `Research_Poster.pdf` and `Research_Poster_Source.pptx`.

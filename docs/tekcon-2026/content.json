@@ -43,22 +43,22 @@
 
   "results": {
     "heading": "Results & Validation",
-    "subline": "Round {round} · {participants_total} participants: {groups.children} Grade 1 learners · {groups.parents} parents · {groups.teachers} teachers",
+    "subline": "Rounds {round} · {participants_total} participants: {groups.children} Grade 1 learners · {groups.parents} parents/adults · {groups.teachers} teachers",
     "users_heading": "Our users: Grade 1 learners, observed while playing",
     "adults_heading": "The bridge to the child: parents and teachers (1 to 5)",
     "counts": [
       { "value": "children.happy_face", "of": "children.n", "label": "chose the happy face after playing" },
-      { "value": "children.sayit_first_try", "of": "children.n", "label": "passed Say It on the first try" },
-      { "value": "children.completed_letter_unaided", "of": "children.n", "label": "finished a letter with no adult help" }
+      { "value": "children.play_again_happy", "of": "children.n", "label": "said they would play it again" },
+      { "value": "children.liked_characters_happy", "of": "children.n", "label": "liked the characters (top face)" }
     ],
     "ratings": [
-      { "value": "parents.usefulness_mean", "label": "Parents: useful for learning at home (n = {parents.n})", "goal": 4.2 },
-      { "value": "parents.offline_benefit_mean", "label": "Parents: offline is practical for us (n = {parents.n})", "goal": null },
-      { "value": "teachers.overall_mean", "label": "Teachers: teaching quality, 7 items (n = {teachers.n})", "goal": 4.0 }
+      { "value": "parents.grade1_fit_mean", "label": "Parents/adults: Grade 1 fit (n = {parents.n})", "goal": null },
+      { "value": "parents.recommend_mean", "label": "Parents/adults: would recommend (n = {parents.n})", "goal": null },
+      { "value": "teachers.overall_mean", "label": "Teachers: R2 teaching, 16 items (n = {teachers.likert_r2_n})", "goal": 4.0 }
     ],
     "quote": "“{actual_figures_not_from_round2.teacher_quote}”",
     "quote_source": "{actual_figures_not_from_round2.teacher_quote_source}",
-    "footer": "Software quality: {actual_figures_not_from_round2.unit_tests_passed} automated unit tests pass, {actual_figures_not_from_round2.unit_tests_failed} fail"
+    "footer": "SUS usability: {parents.sus_score} (n = {parents.sus_n}) · Software tests: {actual_figures_not_from_round2.unit_tests_passed} pass, {actual_figures_not_from_round2.unit_tests_failed} fail"
   },
 
   "impact": {
@@ -92,11 +92,12 @@
     "total": "participants_total",
     "ch_n": "children.n",
     "ch_happy": "children.happy_face",
-    "ch_sayit": "children.sayit_first_try",
+    "ch_again": "children.play_again_happy",
     "pa_n": "parents.n",
-    "pa_useful": "parents.usefulness_mean",
-    "pa_offline": "parents.offline_benefit_mean",
+    "pa_fit": "parents.grade1_fit_mean",
+    "pa_rec": "parents.recommend_mean",
     "te_n": "teachers.n",
+    "te_r2_n": "teachers.likert_r2_n",
     "te_overall": "teachers.overall_mean",
     "tests": "actual_figures_not_from_round2.unit_tests_passed",
     "tests_fail": "actual_figures_not_from_round2.unit_tests_failed"
