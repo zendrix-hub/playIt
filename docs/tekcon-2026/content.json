@@ -86,6 +86,7 @@
   "qr": { "label": "Scan to Watch Our 2-Minute Project Pitch", "asset": "qr_pitch.png" },
   "app_qr": { "_readme": "Optional. Shown only if this file exists in assets/. See README.md for the caveats.", "label": "Try the app (Android)", "asset": "qr_app.png" },
   "lily_asset": "lily_waving.png",
+  "logo_asset": "product_logo.png",
 
   "pitch_fields": {
     "_readme": "Names used as {{name}} in templates/*.template.md, and where each value comes from in round2_data.json. Add a line here to use a new figure in the script.",

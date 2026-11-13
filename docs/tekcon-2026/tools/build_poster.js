@@ -64,8 +64,13 @@ const y1 = 0.5, h1 = 4.4;
 box(0, 0, W, y1 + h1 + 0.15, C.skyPale, { shape: RECT });
 box(M, y1, CW, h1, C.teal, { r: 0.5 });
 const logoCols = [C.sun, C.white, C.sun, C.white, C.sun, C.white];
+// The product logo (the app's launcher icon, the same file as 03_Software_Product_Logo/) sits in front of the word "PlayIT",
+// like an app icon beside its name. Without the file the wordmark stays where it always was.
+const hasLogo = c.logo_asset && fs.existsSync(path.join(ROOT, "assets", c.logo_asset));
+const wordX = hasLogo ? M + 2.55 : M + 0.6;
+if (hasLogo) slot(c.logo_asset, "", M + 0.42, y1 + 0.14, 1.95, 1.95);
 s.addText([...c.logo].map((ch, i) => ({ text: ch, options: { color: logoCols[i % logoCols.length] } })),
-  { x: M + 0.6, y: y1 + 0.1, w: 8.6, h: 2.0, fontFace: TITLE, fontSize: 130, bold: true, margin: 0, valign: "middle" });
+  { x: wordX, y: y1 + 0.1, w: M + 10.15 - wordX, h: 2.0, fontFace: TITLE, fontSize: 130, bold: true, margin: 0, valign: "middle" });
 txt(c.tagline, M + 0.6, y1 + 2.1, 9.4, 0.6, { face: TITLE, size: 32, color: C.sun, valign: "middle" });
 txt(c.full_title, M + 0.6, y1 + 2.78, 9.4, 0.95, { size: 21, color: C.white, bold: true });
 txt(c.org_line, M + 0.6, y1 + 3.78, 9.4, 0.45, { size: 18, color: C.white, valign: "middle" });
