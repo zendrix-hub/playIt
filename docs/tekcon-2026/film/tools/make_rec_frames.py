@@ -25,10 +25,10 @@ frames = sorted(int(os.path.basename(f)[2:6]) for f in glob.glob(os.path.join(OU
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 RL = P.get("relabel")
+fp = lambda n: os.path.join(OUT, f"f_{n:04d}.jpg")
 if RL:
     font_file = os.path.join(os.environ.get("LOCALAPPDATA", ""), "Microsoft", "Windows", "Fonts", RL["font"])
     if not os.path.exists(font_file): font_file = os.path.join(os.environ.get("WINDIR", "C:/Windows"), "Fonts", RL["font"])
-    fp = lambda n: os.path.join(OUT, f"f_{n:04d}.jpg")
     for sp in RL["spots"]:
         size = round(sp["cap"] / 0.7); font = ImageFont.truetype(font_file, size)
         x0, y0, x1, y1 = sp["find"]
@@ -43,6 +43,10 @@ if RL:
                 err = np.abs(G[y0 + dy:y1 + dy, x0:x1] - T)[vis].mean()
                 if best is None or err < best[0]: best = (err, dy)
             if n in sp.get("force", []): best = (0, 0)
+            if n in sp.get("erase", []):         # a faint leftover of the old name: smooth it over, write nothing
+                cx0, cy0, cx1, cy1 = sp["cover"]; B = np.asarray(im).astype(float).copy(); wv = np.linspace(0, 1, cx1 - cx0 + 1)[None, :, None]
+                B[cy0:cy1 + 1, cx0:cx1 + 1] = B[cy0:cy1 + 1, cx0 - 2:cx0 - 1] * (1 - wv) + B[cy0:cy1 + 1, cx1 + 1:cx1 + 2] * wv
+                Image.fromarray(B.clip(0, 255).astype("uint8")).save(fp(n), quality=92); done += 1; continue
             if best is None or best[0] > 30:     # the name is not on this frame
                 if best and best[0] < 45: print(f"  frame {n}: name only partly matched (error {best[0]:.0f}, dy {best[1]}), left as recorded")
                 continue
@@ -62,6 +66,15 @@ if RL:
             if top > 0: im.paste(orig.crop((0, 0, im.width, top)), (0, 0))   # the header stays on top
             im.save(fp(n), quality=92); done += 1
         print(f"relabel {sp['where']}: {done} frames")
+# the recording phone's edge-panel handle (a grey bar at the right edge) is not part of the app: paint it over
+EB = P.get("edge_bar")
+if EB:
+    x, (r0, r1) = EB["x"], EB["rows"]
+    for n in frames:
+        A = np.asarray(Image.open(fp(n)).convert("RGB")).astype(float).copy()
+        A[r0:r1 + 1, x:] = A[r0:r1 + 1, x - 2:x].mean(axis=1, keepdims=True)
+        Image.fromarray(A.clip(0, 255).astype("uint8")).save(fp(n), quality=92)
+    print(f"edge bar painted over in {len(frames)} frames")
 with open(os.path.join(OUT, "rec.js"), "w") as fh:
     fh.write("// Written by tools/make_rec_frames.py. Do not edit.\nwindow.REC = " + json.dumps({"fps": FPS, "segments": segs, "frames": frames}) + ";\n")
 print(len(frames), "frames,", round(sum(os.path.getsize(os.path.join(OUT, f"f_{n:04d}.jpg")) for n in frames) / 1e6, 1), "MB")

@@ -2,72 +2,72 @@
  {
   "word": "This",
   "start": 0.0,
-  "end": 0.16
+  "end": 0.24
  },
  {
   "word": "is",
-  "start": 0.16,
-  "end": 0.3
+  "start": 0.24,
+  "end": 0.38
  },
  {
   "word": "Lily,",
-  "start": 0.3,
-  "end": 0.54
+  "start": 0.38,
+  "end": 0.64
  },
  {
   "word": "and",
-  "start": 0.92,
-  "end": 1.06
+  "start": 1.08,
+  "end": 1.18
  },
  {
   "word": "this",
-  "start": 1.06,
-  "end": 1.28
+  "start": 1.18,
+  "end": 1.4
  },
  {
   "word": "is",
-  "start": 1.28,
-  "end": 1.46
+  "start": 1.4,
+  "end": 1.58
  },
  {
   "word": "PlayIT:",
-  "start": 1.46,
-  "end": 1.98
+  "start": 1.58,
+  "end": 2.04
  },
  {
   "word": "a",
-  "start": 2.5,
-  "end": 2.62
+  "start": 2.58,
+  "end": 2.68
  },
  {
   "word": "phonics",
-  "start": 2.62,
-  "end": 2.94
+  "start": 2.68,
+  "end": 3.0
  },
  {
   "word": "game",
-  "start": 2.94,
-  "end": 3.24
+  "start": 3.0,
+  "end": 3.28
  },
  {
   "word": "for",
-  "start": 3.24,
-  "end": 3.48
+  "start": 3.28,
+  "end": 3.58
  },
  {
   "word": "Grade",
-  "start": 3.48,
-  "end": 3.74
+  "start": 3.58,
+  "end": 3.8
  },
  {
   "word": "1",
-  "start": 3.74,
+  "start": 3.8,
   "end": 4.06
  },
  {
   "word": "learners.",
   "start": 4.06,
-  "end": 4.42
+  "end": 4.38
  },
  {
   "word": "It",
@@ -82,51 +82,51 @@
  {
   "word": "DepEd's",
   "start": 5.78,
-  "end": 6.5
+  "end": 6.38
  },
  {
   "word": "Marungko",
-  "start": 6.5,
-  "end": 6.98
+  "start": 6.38,
+  "end": 6.82
  },
  {
   "word": "order,",
-  "start": 6.98,
-  "end": 7.28
+  "start": 6.82,
+  "end": 7.16
  },
  {
   "word": "listens",
-  "start": 7.94,
-  "end": 8.08
+  "start": 7.68,
+  "end": 7.94
  },
  {
   "word": "to",
-  "start": 8.08,
-  "end": 8.4
+  "start": 7.94,
+  "end": 8.22
  },
  {
   "word": "the",
-  "start": 8.4,
-  "end": 8.52
+  "start": 8.22,
+  "end": 8.32
  },
  {
   "word": "child,",
-  "start": 8.52,
-  "end": 8.86
+  "start": 8.32,
+  "end": 8.68
  },
  {
   "word": "and",
-  "start": 9.36,
-  "end": 9.44
+  "start": 9.18,
+  "end": 9.3
  },
  {
   "word": "works",
-  "start": 9.44,
-  "end": 9.7
+  "start": 9.3,
+  "end": 9.58
  },
  {
   "word": "offline.",
-  "start": 9.7,
-  "end": 10.12
+  "start": 9.58,
+  "end": 10.06
  }
 ]

@@ -124,7 +124,7 @@ UI(`<g id="board" opacity="0">
     ${adultFig(x, 404, !p, p ? j : j - N.parents)}</g>`; }).join("")}
     <text id="parLabel" opacity="0" x="${470 + (N.parents * 50 - 8) / 2}" y="528" text-anchor="middle" ${FONT_B} font-size="30" fill="${STEP[2]}">${N.parents} parents</text>
     <text id="teaLabel" opacity="0" x="${adultX(N.parents) + (N.teachers * 50 - 8) / 2}" y="528" text-anchor="middle" ${FONT_B} font-size="30" fill="${TEAL}">${N.teachers} teachers</text></g>
-  ${[[N.paFit, "Grade 1 fit", "parents", STEP[2]], [N.paRec, "Recommend", "parents", STEP[2]], [N.teOverall, "Teaching", "teachers", TEAL]].map(([v, l1, l2, c], i) => { const x = 470 + i * 250; return `<g id="sc${i}" opacity="0" style="transform-origin: 50% 100%">
+  ${[[N.paFit, "Grade 1 fit", `${N.parents} parents`, STEP[2]], [N.paRec, "Recommend", `${N.parents} parents`, STEP[2]], [N.teOverall, "Teaching", `${N.teRated} of ${N.teachers} teachers`, TEAL]].map(([v, l1, l2, c], i) => { const x = 470 + i * 250; return `<g id="sc${i}" opacity="0" style="transform-origin: 50% 100%">
     <rect x="${x + 6}" y="128" width="226" height="226" rx="30" fill="#0B5F5B" opacity=".2"/><rect x="${x}" y="120" width="226" height="226" rx="30" fill="#fff" stroke="${c}" stroke-width="8"/>
     <text x="${x + 113}" y="214" text-anchor="middle" ${FONT_T} font-size="92" fill="${c}">${v.toFixed(1)}</text><text x="${x + 113}" y="242" text-anchor="middle" ${FONT_B} font-size="21" fill="#5B6B6B" font-weight="600">out of 5</text>
     <clipPath id="scc${i}"><rect x="${x + 28}" y="250" width="${170 * v / 5}" height="40"/></clipPath>
@@ -185,10 +185,10 @@ noStamp(2, 950, (x, y) => `<circle cx="${x}" cy="${y}" r="36" fill="${STEP[0]}"/
 // Mia opens her book again and reads
 K("#bookClosed", [[100.5, { opacity: 1 }, "steps(1)"], [100.7, { opacity: 0 }, "steps(1)"]]);
 K("#bookOpen", [[100.69, { opacity: 0, transform: "scaleY(.3)" }, "steps(1)"], [100.7, { opacity: 1, transform: "scaleY(.3)" }, "ease-out"], [100.95, { opacity: 1, transform: "scaleY(1.08)" }], [101.1, { opacity: 1, transform: "scaleY(1)" }]]);
-K("#armL", [[100.3, R(0, 0, 0)], [100.6, R(0, -6, -22)], [101.0, R(0, 0, 0)], [101.6, R(0, -4, -30)], [102.3, R(0, -6, -44)], [103.0, R(0, -4, -32)], [103.7, R(0, -6, -46)], [104.4, R(0, -4, -34)], [105.2, R(0, -6, -42)], [105.9, R(0, 0, 0)]]);
-K("#armR", [[100.3, R(0, 0, 0)], [100.6, R(0, -6, 22)], [101.0, R(0, 0, 0)]]);
-K("#foreL", [[101.3, R(0, 0, 0)], [101.6, R(0, 0, 12)], [102.3, R(0, 0, 3)], [103.0, R(0, 0, 12)], [103.7, R(0, 0, 3)], [104.4, R(0, 0, 12)], [105.2, R(0, 0, 4)], [105.9, R(0, 0, 0)]]);
-K("#pointL", [[101.3, { opacity: 0 }], [101.45, { opacity: 1 }], [105.8, { opacity: 1 }], [105.95, { opacity: 0 }]]);
+// both hands lift the book open by its top corners; the right one goes back to the table, the left one traces the letter again
+armK("L", [[100.4, REST], [100.75, LR("L", 0, 30)], [101.02, LIFT("L")], [101.4, HIDE], [105.6, HIDE], [105.95, REST]]);
+armK("R", [[100.4, REST], [100.75, LR("R", 0, 30)], [101.02, LIFT("R")], [101.45, REST]]);
+tracing([101.6, 102.3, 103.0, 103.7, 104.4, 105.2]); front("L", 100.52, 101.3); front("R", 100.52, 101.35);
 K("#miaHead", [[69.6, HD(-4, -2)], [100.0, HD(-4, -2)], [101.2, HD(7, 4)], [105.8, HD(7, 4)], [106.4, HD(-5, -2)], [110.4, HD(-5, -2)]]);
 K("#pupils", [[69.6, PU(5, -5)], [100.0, PU(5, -5)], [101.2, PU(-3, 6)], [103.4, PU(3, 6)], [105.6, PU(-2, 6)], [106.3, PU(7, -2)], [110.4, PU(7, -2)]]);
 // one sound at a time

@@ -14,8 +14,8 @@
         <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27286B"/><stop offset=".55" stop-color="#8A4E8C"/><stop offset=".82" stop-color="#F08A5D"/><stop offset="1" stop-color="#FFC987"/></linearGradient>
         <radialGradient id="lampGlow"><stop offset="0" stop-color="#FFE7A3" stop-opacity=".95"/><stop offset=".45" stop-color="#FFC53D" stop-opacity=".38"/><stop offset="1" stop-color="#FFC53D" stop-opacity="0"/></radialGradient>
         <radialGradient id="phoneGlow"><stop offset="0" stop-color="#ffffff" stop-opacity="1"/><stop offset=".4" stop-color="#FFE07A" stop-opacity=".7"/><stop offset="1" stop-color="#FFC53D" stop-opacity="0"/></radialGradient>
-        <clipPath id="outOfPhone"><rect x="540" y="-400" width="860" height="718"/><rect id="clipRight" x="812" y="318" width="600" height="500"/></clipPath>
-        <clipPath id="scrClip"><rect x="714" y="328" width="84" height="158" rx="10"/></clipPath>
+        <clipPath id="outOfPhone"><rect x="540" y="-400" width="860" height="718"/><rect id="clipRight" x="808" y="318" width="600" height="500"/></clipPath>
+        <clipPath id="scrClip"><rect x="718.5" y="328" width="75" height="158" rx="8"/></clipPath>
         <mask id="moonMask"><rect x="1000" y="40" width="200" height="200" fill="#fff"/><circle cx="1112" cy="104" r="36" fill="#000"/></mask>
         <clipPath id="faceClip"><rect x="450" y="292" width="140" height="136" rx="62"/></clipPath>
         <clipPath id="torsoClip"><path d="M462 546 V446 C462 418 490 410 520 410 C550 410 578 418 578 446 V546Z"/></clipPath>
@@ -187,6 +187,34 @@
         <path d="M352 521h60M640 522h110" stroke="#B87A45" stroke-width="4" stroke-linecap="round"/>
       </g>
 
+      <!-- Mia's arms. Each has a short blouse sleeve, an upper arm, and a forearm with a hand that bends at the elbow (#foreL/#foreR).
+           At rest the forearms lie on the table with a hand on each side of the book, never on it. The arms are drawn BEHIND the book.
+           Each hand has two drawings: #fingL/#fingR (open, four fingers and a thumb) and #pointL/#pointR (index finger out, for taps).
+           #tshL/#tshR are the hands' shadows on the table. This block is written by tools/gen_arms.py; its numbers must match ARM in lib.js ("Mia's arms"). -->
+      <ellipse id="tshL" cx="395.4" cy="500.3" rx="17.5" ry="6.6" fill="#55371C" fill-opacity=".42"/><ellipse id="tshR" cx="644.6" cy="500.3" rx="17.5" ry="6.6" fill="#55371C" fill-opacity=".42"/>
+      <g id="armL" style="transform-origin: 470px 452px">
+        <g id="foreL" style="transform-origin: 440px 480px">
+          <path d="M440 480 L408.7 490.4" stroke="#DDA273" stroke-width="13" stroke-linecap="round"/>
+          <g id="fingL"><ellipse cx="395.4" cy="492.9" rx="12.6" ry="8.2" fill="#DDA273"/><path d="M386.2 494.9 L385.8 502.3" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M392.3 494.9 L392.2 504.5" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M398.5 494.9 L398.7 504.5" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M404.6 494.9 L405.1 502.3" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M389.3 496.4 L389 502.1" stroke="#BE7F52" stroke-width="1.2" stroke-linecap="round"/><path d="M395.4 496.4 L395.4 502.1" stroke="#BE7F52" stroke-width="1.2" stroke-linecap="round"/><path d="M401.6 496.4 L401.9 502.1" stroke="#BE7F52" stroke-width="1.2" stroke-linecap="round"/><path d="M405 488.5 L409 492.3" stroke="#DDA273" stroke-width="5.6" stroke-linecap="round"/></g>
+          <g id="pointL" opacity="0"><ellipse cx="403" cy="492.3" rx="8.6" ry="10" fill="#DDA273" transform="rotate(161.6 403 492.3)"/><path d="M397.8 492.6 L394.4 493.7" stroke="#BE7F52" stroke-width="4.2" stroke-linecap="round"/><path d="M399.2 496.8 L395.8 497.9" stroke="#BE7F52" stroke-width="4.2" stroke-linecap="round"/><path d="M400.5 500.7 L397.1 501.9" stroke="#BE7F52" stroke-width="4.2" stroke-linecap="round"/><path d="M397.2 487.7 L383 492.5" stroke="#DDA273" stroke-width="5.4" stroke-linecap="round"/><path d="M402 483 L395.2 484" stroke="#DDA273" stroke-width="5" stroke-linecap="round"/></g>
+        </g>
+        <path d="M464 462 L440 480" stroke="#DDA273" stroke-width="15" stroke-linecap="round"/>
+        <circle cx="440" cy="480" r="7.2" fill="#DDA273"/>
+        <path d="M471 450 L465 461" stroke="#F0F4F7" stroke-width="22" stroke-linecap="round"/>
+        <path d="M455 463 Q464 469 475 464" stroke="#D5DDE3" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+      <g id="armR" style="transform-origin: 570px 452px">
+        <g id="foreR" style="transform-origin: 600px 480px">
+          <path d="M600 480 L631.3 490.4" stroke="#C98B5C" stroke-width="13" stroke-linecap="round"/>
+          <g id="fingR"><ellipse cx="644.6" cy="492.9" rx="12.6" ry="8.2" fill="#D29766"/><path d="M653.8 494.9 L654.2 502.3" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M647.7 494.9 L647.8 504.5" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M641.5 494.9 L641.3 504.5" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M635.4 494.9 L634.9 502.3" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M650.7 496.4 L651 502.1" stroke="#AE7349" stroke-width="1.2" stroke-linecap="round"/><path d="M644.6 496.4 L644.6 502.1" stroke="#AE7349" stroke-width="1.2" stroke-linecap="round"/><path d="M638.4 496.4 L638.1 502.1" stroke="#AE7349" stroke-width="1.2" stroke-linecap="round"/><path d="M635 488.5 L631 492.3" stroke="#D29766" stroke-width="5.6" stroke-linecap="round"/></g>
+          <g id="pointR" opacity="0"><ellipse cx="637" cy="492.3" rx="8.6" ry="10" fill="#D29766" transform="rotate(18.4 637 492.3)"/><path d="M642.2 492.6 L645.6 493.7" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M640.8 496.8 L644.2 497.9" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M639.5 500.7 L642.9 501.9" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M642.8 487.7 L657 492.5" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/><path d="M638 483 L644.8 484" stroke="#D29766" stroke-width="5" stroke-linecap="round"/></g>
+        </g>
+        <path d="M576 462 L600 480" stroke="#C98B5C" stroke-width="15" stroke-linecap="round"/>
+        <circle cx="600" cy="480" r="7.2" fill="#C98B5C"/>
+        <path d="M569 450 L575 461" stroke="#DDE6EC" stroke-width="22" stroke-linecap="round"/>
+        <path d="M585 463 Q576 469 565 464" stroke="#C6D0D8" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+
       <!-- book: a real open book with a cover, two pages and a big letter on each -->
       <g id="bookOpen" style="transform-origin: 50% 100%">
         <path d="M528 500 v24 l7 -7 7 7 v-24Z" fill="#FFC53D"/>
@@ -209,32 +237,26 @@
         <text x="514" y="491" text-anchor="middle" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="22" fill="#fff">ABC</text>
       </g>
 
-      <!-- Mia's arms: short blouse sleeve, upper arm, then forearm and hand that bend at the elbow (#foreL/#foreR).
-           They turn at the shoulder; at rest she holds the book by its edges. #pointL/#pointR is the index finger for taps. -->
-      <g id="armL" style="transform-origin: 470px 450px">
-        <g id="foreL" style="transform-origin: 449px 479px">
-          <path d="M449 479 L442 497" stroke="#DDA273" stroke-width="14" stroke-linecap="round"/>
-          <g id="pointL" opacity="0"><path d="M442 499 L434 517" stroke="#DDA273" stroke-width="6.5" stroke-linecap="round"/></g>
-          <ellipse cx="441" cy="501" rx="10" ry="9" fill="#DDA273"/><circle cx="450" cy="496" r="4.6" fill="#DDA273"/>
-          <path d="M436 505 q4 3 9 1" stroke="#C98B5C" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- a second copy of each forearm and hand, IN FRONT of the book. Hidden unless a hand is working on the book (tracing the letter,
+           closing or opening it): lib.js front() shows it, and every move given to #armL, #foreL ... is passed on to its copy (id + "f"). -->
+      <!-- the hand that traces the letter: it comes over the top edge of the book (the clip hides whatever is above that edge).
+           Drawn with the fingertip at 0,0; s1.js moves it along the letter with tracing(). -->
+      <clipPath id="bookClip"><path d="M412 504 L433 430 Q478 421 520 438 Q562 421 607 430 L628 504Z"/></clipPath>
+      <g clip-path="url(#bookClip)"><g id="traceHand" opacity="0"><path d="M-5 -25 L-10 -74" stroke="#DDA273" stroke-width="13" stroke-linecap="round"/><ellipse cx="-4.5" cy="-19" rx="9.6" ry="8.4" fill="#DDA273"/><path d="M-5.4 -13.6 L-5.4 -11.2" stroke="#C98B5C" stroke-width="3.9" stroke-linecap="round"/><path d="M-9.3 -13.6 L-9.3 -11.2" stroke="#C98B5C" stroke-width="3.9" stroke-linecap="round"/><path d="M-12.9 -13.6 L-12.9 -11.2" stroke="#C98B5C" stroke-width="3.9" stroke-linecap="round"/><path d="M-1 -14 L0 -2.6" stroke="#DDA273" stroke-width="5" stroke-linecap="round"/><path d="M3.6 -22.5 L5.6 -16.5" stroke="#DDA273" stroke-width="4.6" stroke-linecap="round"/></g></g>
+      <g id="frontL" opacity="0"><g id="armLf" style="transform-origin: 470px 452px">
+        <g id="foreLf" style="transform-origin: 440px 480px">
+          <path d="M440 480 L408.7 490.4" stroke="#DDA273" stroke-width="13" stroke-linecap="round"/>
+          <g id="fingLf"><ellipse cx="395.4" cy="492.9" rx="12.6" ry="8.2" fill="#DDA273"/><path d="M386.2 494.9 L385.8 502.3" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M392.3 494.9 L392.2 504.5" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M398.5 494.9 L398.7 504.5" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M404.6 494.9 L405.1 502.3" stroke="#DDA273" stroke-width="5.3" stroke-linecap="round"/><path d="M389.3 496.4 L389 502.1" stroke="#BE7F52" stroke-width="1.2" stroke-linecap="round"/><path d="M395.4 496.4 L395.4 502.1" stroke="#BE7F52" stroke-width="1.2" stroke-linecap="round"/><path d="M401.6 496.4 L401.9 502.1" stroke="#BE7F52" stroke-width="1.2" stroke-linecap="round"/><path d="M405 488.5 L409 492.3" stroke="#DDA273" stroke-width="5.6" stroke-linecap="round"/></g>
+          <g id="pointLf" opacity="0"><ellipse cx="403" cy="492.3" rx="8.6" ry="10" fill="#DDA273" transform="rotate(161.6 403 492.3)"/><path d="M397.8 492.6 L394.4 493.7" stroke="#BE7F52" stroke-width="4.2" stroke-linecap="round"/><path d="M399.2 496.8 L395.8 497.9" stroke="#BE7F52" stroke-width="4.2" stroke-linecap="round"/><path d="M400.5 500.7 L397.1 501.9" stroke="#BE7F52" stroke-width="4.2" stroke-linecap="round"/><path d="M397.2 487.7 L383 492.5" stroke="#DDA273" stroke-width="5.4" stroke-linecap="round"/><path d="M402 483 L395.2 484" stroke="#DDA273" stroke-width="5" stroke-linecap="round"/></g>
         </g>
-        <path d="M464 463 L449 479" stroke="#DDA273" stroke-width="15" stroke-linecap="round"/>
-        <circle cx="449" cy="479" r="7.2" fill="#DDA273"/>
-        <path d="M471 449 L466 461" stroke="#F0F4F7" stroke-width="22" stroke-linecap="round"/>
-        <path d="M456 462 Q465 468 476 463" stroke="#D5DDE3" stroke-width="3" fill="none" stroke-linecap="round"/>
-      </g>
-      <g id="armR" style="transform-origin: 570px 450px">
-        <g id="foreR" style="transform-origin: 591px 479px">
-          <path d="M591 479 L598 497" stroke="#C98B5C" stroke-width="14" stroke-linecap="round"/>
-          <g id="pointR" opacity="0"><path d="M598 499 L606 517" stroke="#C98B5C" stroke-width="6.5" stroke-linecap="round"/></g>
-          <ellipse cx="599" cy="501" rx="10" ry="9" fill="#C98B5C"/><circle cx="590" cy="496" r="4.6" fill="#C98B5C"/>
-          <path d="M604 505 q4 3 9 1" stroke="#AE7349" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g></g>
+      <g id="frontR" opacity="0"><g id="armRf" style="transform-origin: 570px 452px">
+        <g id="foreRf" style="transform-origin: 600px 480px">
+          <path d="M600 480 L631.3 490.4" stroke="#C98B5C" stroke-width="13" stroke-linecap="round"/>
+          <g id="fingRf"><ellipse cx="644.6" cy="492.9" rx="12.6" ry="8.2" fill="#D29766"/><path d="M653.8 494.9 L654.2 502.3" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M647.7 494.9 L647.8 504.5" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M641.5 494.9 L641.3 504.5" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M635.4 494.9 L634.9 502.3" stroke="#D29766" stroke-width="5.3" stroke-linecap="round"/><path d="M650.7 496.4 L651 502.1" stroke="#AE7349" stroke-width="1.2" stroke-linecap="round"/><path d="M644.6 496.4 L644.6 502.1" stroke="#AE7349" stroke-width="1.2" stroke-linecap="round"/><path d="M638.4 496.4 L638.1 502.1" stroke="#AE7349" stroke-width="1.2" stroke-linecap="round"/><path d="M635 488.5 L631 492.3" stroke="#D29766" stroke-width="5.6" stroke-linecap="round"/></g>
+          <g id="pointRf" opacity="0"><ellipse cx="637" cy="492.3" rx="8.6" ry="10" fill="#D29766" transform="rotate(18.4 637 492.3)"/><path d="M642.2 492.6 L645.6 493.7" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M640.8 496.8 L644.2 497.9" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M639.5 500.7 L642.9 501.9" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M642.8 487.7 L657 492.5" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/><path d="M638 483 L644.8 484" stroke="#D29766" stroke-width="5" stroke-linecap="round"/></g>
         </g>
-        <path d="M576 463 L591 479" stroke="#C98B5C" stroke-width="15" stroke-linecap="round"/>
-        <circle cx="591" cy="479" r="7.2" fill="#C98B5C"/>
-        <path d="M569 449 L574 461" stroke="#DDE6EC" stroke-width="22" stroke-linecap="round"/>
-        <path d="M584 462 Q575 468 564 463" stroke="#C6D0D8" stroke-width="3" fill="none" stroke-linecap="round"/>
-      </g>
+      </g></g>
 
       <!-- lamp -->
       <g transform="translate(-44 0)">
@@ -245,20 +267,20 @@
         <path d="M364 428 L381 386 Q386 383 391 382 L380 431Z" fill="#FFE9A6"/>
       </g>
 
-      <!-- phone: standing on a little stand so it reads as a phone; its screen shows the real app -->
+      <!-- phone: standing on a little stand so it reads as a phone; its screen shows the real app.
+           The screen is 75 x 158, the shape of the screen recording, so the whole app shows; the camera dot sits in the bezel, not over the app. -->
       <g id="phoneBig"><g id="phone" style="transform-origin: 50% 100%">
         <g id="phoneStand"><path d="M772 498 L800 426 L826 498Z" fill="#B87A45" stroke="#B87A45" stroke-width="6" stroke-linejoin="round"/>
         <rect x="692" y="490" width="140" height="12" rx="6" fill="#A8703F"/><rect x="700" y="492" width="60" height="4" rx="2" fill="#C99558"/></g>
-        <rect x="805" y="366" width="6" height="34" rx="3" fill="#2B1E1B"/>
-        <rect x="704" y="316" width="104" height="182" rx="20" fill="#2B1E1B"/>
-        <rect x="707" y="319" width="98" height="176" rx="17" fill="#4A342E"/>
-        <rect id="phoneScreen" x="714" y="328" width="84" height="158" rx="10" fill="#27304F"/>
-        <image id="phoneApp" href="img/screen_splash.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" clip-path="url(#scrClip)" opacity="0"/>
-        <g clip-path="url(#scrClip)" id="screens"><image id="scr_map" href="img/screen_map.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_hearit" href="img/screen_hearit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit" href="img/screen_sayit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit_cue" href="img/screen_sayit_cue.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_findit" href="img/screen_findit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_blendit" href="img/screen_blendit.png" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="recScr" x="714" y="328" width="84" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/></g>
+        <rect x="800.5" y="366" width="6" height="34" rx="3" fill="#2B1E1B"/>
+        <rect x="708.5" y="316" width="95" height="182" rx="19" fill="#2B1E1B"/>
+        <rect x="711.5" y="319" width="89" height="176" rx="16" fill="#4A342E"/>
+        <rect id="phoneScreen" x="718.5" y="328" width="75" height="158" rx="8" fill="#27304F"/>
+        <image id="phoneApp" href="img/screen_splash.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" clip-path="url(#scrClip)" opacity="0"/>
+        <g clip-path="url(#scrClip)" id="screens"><image id="scr_map" href="img/screen_map.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_hearit" href="img/screen_hearit.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit" href="img/screen_sayit.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_sayit_cue" href="img/screen_sayit_cue.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_findit" href="img/screen_findit.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="scr_blendit" href="img/screen_blendit.png" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="recScr" x="718.5" y="328" width="75" height="158" preserveAspectRatio="xMidYMid slice" opacity="0"/></g>
         <circle id="tap" cx="756" cy="410" r="9" fill="none" stroke="#FFC53D" stroke-width="3" opacity="0" style="transform-origin: 50% 50%"/>
-        <path d="M718 400 L760 330 H782 L718 436Z" fill="#fff" opacity=".07"/>
-        <circle cx="756" cy="335" r="3" fill="#1C1412"/>
-        <rect x="741" y="480" width="30" height="3" rx="1.5" fill="#fff" opacity=".7"/>
+        <path d="M721 400 L760 332 H780 L721 436Z" fill="#fff" opacity=".07"/>
+        <circle cx="756" cy="323.6" r="2.1" fill="#1C1412"/>
       </g></g>
 
       <!-- dusk light over everything drawn so far -->

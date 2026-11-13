@@ -138,7 +138,7 @@ const assets = [c.lily_asset, c.team.asset, c.qr.asset, c.how.parent.asset, ...c
 const missing = assets.filter((a) => !fs.existsSync(path.join(ROOT, "assets", a)));
 missing.length ? warn(`${missing.length} of ${assets.length} pictures not in assets/ yet: ${missing.join(", ")}`) : pass("all poster pictures are in assets/");
 if (projected) warn('round2_data.json status is "projected": the figures are NOT real results');
-if (c.team_code === "G56") warn('team_code is still the stand-in "G56"; confirm the official code');
+// team_code "G56" was confirmed as the official code on 12 Nov 2026.
 
 console.log("");
 console.log(`${fails} failed, ${warns} warnings.`);

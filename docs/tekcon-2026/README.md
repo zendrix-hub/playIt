@@ -171,6 +171,6 @@ TeamCode/
         └── Product_Logo_512x512.png
 ```
 
-Only the two logo files above go in the logo folder; the AppIcon and Concept1 variants stay out.
+Only the two logo files above go in the logo folder; `_previous_versions/` stays out. The logo is the app's own launcher icon rebuilt in HD (12 Nov): `tools/logo/make_logo.py` draws the frame, background and body from the icon's measured shapes and places the team's HD face art (`assets/product_logo_face.png`); run it with the voice Python, e.g. `python make_logo.py 2000 out.png`.
 
 Plus one printed copy on cartolina.

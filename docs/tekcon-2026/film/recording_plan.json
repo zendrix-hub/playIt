@@ -155,7 +155,11 @@
         "text": "Hi, Mia!",
         "x": 133,
         "baseline": 37,
-        "cap": 11
+        "cap": 11,
+        "erase": [
+          1290
+        ],
+        "_erase_note": "Frames in the map-to-lesson crossfade where the old name is too faint to match but still there: the name area is smoothed over, nothing is written."
       },
       {
         "where": "Parent Zone dashboard",
@@ -194,5 +198,13 @@
         "_force_note": "crossfade from the gate: the name is faint, so it is replaced at the same place without matching"
       }
     ]
+  },
+  "edge_bar": {
+    "x": 351,
+    "rows": [
+      571,
+      681
+    ],
+    "_note": "The recording phone's own edge-panel handle (a grey bar on the right edge, not part of PlayIT). make_rec_frames.py paints it over with the pixels just left of it."
   }
 }

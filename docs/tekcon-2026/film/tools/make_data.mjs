@@ -41,7 +41,7 @@ const data = {
   duration: 120, fps: 30, projected: R.status !== "actual",
   beats: [0, 20, 40, 70, 100, 120], voice,
   numbers: { total: R.participants_total, children: R.groups.children, parents: R.groups.parents, teachers: R.groups.teachers,
-    happy: R.children.happy_face, again: R.children.play_again_happy, paFit: R.parents.grade1_fit_mean, paRec: R.parents.recommend_mean, teOverall: R.teachers.overall_mean,
+    happy: R.children.happy_face, again: R.children.play_again_happy, paFit: R.parents.grade1_fit_mean, paRec: R.parents.recommend_mean, teOverall: R.teachers.overall_mean, teRated: R.teachers.likert_r2_n,
     tests: R.actual_figures_not_from_round2.unit_tests_passed },
   team: { members: C.team.members, adviser: C.team.adviser },
 };

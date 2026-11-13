@@ -1,268 +1,276 @@
-# Hand-off: finish the PlayIT poster and two-minute pitch video
+# PlayIT TekCon 2026 kit: hand-off
 
-Written 11 Nov 2026 by the Claude session that built this kit, for a new Claude Code session with no memory of that work. The user will say: "Read docs/tekcon-2026/CLAUDE_HANDOFF.md and carry it out." Work through the steps below in order; do not wait for approval between steps unless a step says to stop.
+Rewritten 13 Nov 2026. For a teammate (and their Claude Code session) who pulls this branch to **make the pitch better**, not only to finish or copy it. It says what was made, what the team lead (Zendrix) decided and why, how each piece is built, what went wrong on the way, and, in section 8, where the film and poster are still weak and how to tell whether a change is an improvement.
 
-## The job
+**To the Claude session reading this:** do not treat this file as a list of steps to carry out. Start by looking at the film yourself (stills across the two minutes, the script in `film/lines.json`, the poster preview) and form your own view of what works and what does not. Then compare it with section 8. Disagree with this file where you have a reason, and show the reason as a mock-up or stills.
 
-TekCon 2026 (IT411 Capstone and SoftEng). The team must submit a research poster (22.5 x 28.5 in, portrait, with a QR code to the video) and a pitch video of at most 2:00, as MP4. The official brief is summarised in `README.md`.
+To start a session: open the repo in Claude Code and say **"Read docs/tekcon-2026/CLAUDE_HANDOFF.md, then …"** followed by what you want. `film/README.md` has the detail for the film; `AGENTS.md` has the rules for numbers and poster wording. The older step-by-step plans that used to be in this file are in git history (before 13 Nov).
 
-- **Numbers freeze:** evening of 12 Nov. **Print:** 13 Nov. **Deadline:** 14 Nov.
-- **Branch:** `docs/tekcon-2026-pitch-kit`. Commit and push at the points marked below. The repo is public.
-- **You produce everything on this PC.** Antigravity (Gemini) was used for one night and is dropped. Its instruction files (`ANTIGRAVITY_RUN.md`, `.agents/`, `*antigravity*.md`, `SETUP_WINDOWS.md`) are still here; treat them as background only.
-
-## Read these first
-
-| File | Why |
-|---|---|
-| `AGENTS.md` | The rules for numbers, wording and which files are generated. They still apply to you. |
-| `README.md` | What each file is and how the build works. |
-| `video/timeline.json` | All 24 shots, their cues and assets. |
-| `tools/package.json` | The commands: `build`, `video:prep`, `video:voice`, `video:stills`, `video:draft`, `video:final`. |
-| `01_Video_Pitch/narration_script.md`, `storyboard.md` | Generated from `templates/`. Never edit them directly. |
-
-How the kit works: `round2_data.json` (numbers) and `content.json` (poster wording) plus `templates/` are the only sources. `npm run build` inside `tools/` regenerates the poster pptx, script, storyboard and video data, then runs `check.js`, which prints PASS/WARN/FAIL and `READY TO PRINT AND RECORD: yes/no`. The video is a Remotion 4 project in `video/`.
-
-## Decisions the user has made (do not reopen)
-
-- **Story:** Mia, a six-year-old Grade 1 learner in the Philippines, cannot get help with the letter M; Lily the Tarsier appears; the Pixar-style room changes into the app's flat style; the demo happens in the app's style; results; close. The setting must be visibly Philippine.
-- **Participants (FROZEN 12 Nov at N = 30):** 30 in total across Rounds 1–2 = 16 Grade 1 learners (`smileyometer`, Round 1) + 5 parents/supervising adults (`SUSaccessibility`, Round 1, SUS = 75.5) + up to 9 unique teachers/reading specialists across Round 1 and Round 2 (`teacherpedagogy` 4, `teacherpedagogy2` 4, `teacherpedagogy3` 5; Round 2 Likert rating comes from `teacherpedagogy3`, n = 5). Any future respondents collected later go strictly to the **research paper**, not the poster or pitch video. Parents and teachers are "the bridge to the child". Say counts, not percentages. No claims of learning gains.
-- **Numbers (`status: "actual"`):** `round2_data.json`, `content.json`, `templates/`, `film/lines.json`, `film/s3.js`, and `film/tools/make_data.mjs` have been updated and frozen on 12 Nov with the verified workbook results (`15 of 16` happy face, `14 of 16` play again, `15 of 16` liked characters; `4.6/5` Grade 1 fit, `4.4/5` recommend, `4.7/5` R2 teaching; `status: "actual"`, removing the PROJECTED banner and `[brackets]`). Uncollected sub-task (`sayit_first_try`) and parent TAM (`usefulness`, `offline`) fields are `null`.
-- **Voice:** clone the user's voice from `assets/voice_sample.wav`. If cloning cannot be made to work on this PC, fall back to a generated voice (Kokoro) and tell the user plainly. Lily's lines are the same voice pitched up.
-- **Story motion:** no generated video clips. The stills move by code (Remotion), with ffmpeg, Whisper and yt-dlp as helpers.
-- **App footage:** real app screenshots inside the phone frame now; the user's phone screen recordings replace them when they arrive.
-
-## Calls made by the previous session (the user saw and approved them)
-
-- **Remotion is the only renderer.** HyperFrames is not added: version 0.9, reported blank-frame bugs, too risky this close to the freeze.
-- **Install voice tools on the Windows side without admin rights:** `uv` from GitHub releases, a uv-managed Python 3.11, then the packages. Windows gets the small CPU build of PyTorch straight from PyPI.
-- **Music:** try yt-dlp once for a track licensed for reuse. If the network blocks it, build the bed from the app's own sounds, or use a track the user puts in `assets/music/`. Write the source to `assets/music/CREDITS.md`.
-- **Restore the bridge line** in Beat 4 (see step 2).
-- **Cover G1's malformed letter M** in code, since the picture cannot be regenerated here.
-
-## This PC and its network (checked 11 Nov)
-
-- Windows with WSL. Intel i7-4770S, Intel HD 4600, 16 GB RAM, no dedicated graphics card.
-- Windows has git 2.48, Node 24 and Chrome. It has **no** Python, ffmpeg, winget or yt-dlp.
-- `video/node_modules/@remotion/compositor-win32-x64-msvc/` contains `ffmpeg.exe` and `ffprobe.exe`, but it is a cut-down build: frame grabs with `-ss` work; the `fps`, `scale`, `tile` and `volumedetect` filters do not. Get a full ffmpeg build from GitHub for audio work.
-- **Reachable:** pypi.org, github.com and its release downloads, the npm registry, huggingface.co (API).
-- **Blocked or not answering:** download.pytorch.org, astral.sh, youtube.com, pixabay.com, remotion.media, fonts.gstatic.com, and one Hugging Face file host (`cdn-lfs.huggingface.co`). Model downloads may therefore fail; test early.
-- Remotion cannot download its own browser. Set `PITCH_BROWSER` to the Chrome path before rendering; `video/scripts/render.mjs` handles the rest.
-- Lexend and Sniglet are not installed in Windows. The video bundles its own fonts. For a poster preview use `PREVIEW_FONT=Calibri` (writes `tools/_preview.pptx`), or the preview shows doubled words.
-- `tools/export_preview.ps1` drives PowerPoint. The pptx cannot be overwritten while it is open in PowerPoint; ask the user to close it rather than closing it yourself.
-- On an old CPU, cloning about 240 words may take an hour or more. Start it in the background and keep working.
-
-## What exists now
-
-- Story stills `G1`–`G7`, `G9`, `G10` and plates `B1`, `B2` in `01_Video_Pitch/generated/`. They are Philippine in setting and Mia is consistent across the ones reviewed (G1, G4, G7, G10, B1). G2, G3, G5, G6, G9 and B2 have not been looked at yet: look before using them.
-- Seven Lily poses, `team_pixar.png`, `voice_sample.wav` and `.m4a` in `assets/`.
-- The poster pptx with Lily and the team picture placed; five screenshot slots and the QR slot are still empty.
-- A draft video was rendered by Antigravity (120.0 s, 960x540). It is a build output and is not in the repo.
-- Script: 237 words, about 1:45.
-- The voice scripts (`tools/voice/make_voice.py`, `align.py`) have **never been run**. Expect to fix things on first run.
-
-## Problems found in review
-
-1. In the results scene around 1:25, the yellow PROJECTED tag covers the heading "The bridge to the child: parents and teachers".
-2. The trim weakened Beat 4: "The grown-ups who open the door?" became "The grown-ups?", and the quote lost "for Grade 1 learners".
-3. In `G1.png` the letter on Mia's book is a malformed M, on screen during the opening line.
-4. Pixar-style Lily (furry tarsier) and app Lily (flat orange character) look very different, so the morph has to carry that change.
-5. The demo phone shows a "REAL APP FOOTAGE" placeholder.
-
-## Steps
-
-**Step 1 is done:** the assets from `docs/tekcon-2026-draft-preview` are merged into this branch.
-
-2. **Fix the review findings.**
-   - `video/src/scenes/Results.jsx`: move the PROJECTED tag clear of the heading; check the bridge figures sit on the bridge.
-   - `templates/narration_script.template.md` and `templates/storyboard.template.md`: bring the bridge wording back. Beat 4 must stay at or under 70 words, and the whole script at or under 265.
-   - `video/src/scenes/Story.jsx`: a clean "M" over the book page in shot 1.
-3. **Poster.** Copy the real screenshots from `docs/screenshots/` on `origin/main` (`git show origin/main:docs/screenshots/hearit.png`, and `sayit`, `findit`, `blendit`, plus `splash`, `map`, `sayit_cue`, `nameprompt`) into `assets/` under the slot names in `assets/README.md`. The Parent Zone slot stays empty until the user sends one. Run `npm run build` in `tools/`, export a preview, and look at it. **Commit and push.**
-4. **Story motion in code** (`video/src/scenes/Story.jsx`, `video/src/parts.jsx`): eased push-in and pull-out, soft light flicker and vignette on the evening scenes, a glow pulse on the phone in G7, and the morph as a sweep outward from the phone through G7 → B2 → B1, with flat Lily landing at the end. Keep the `clip` names in the timeline so real clips still win if they ever appear.
-5. **Demo with real screenshots** (`video/src/scenes/Demo.jsx`, `tools/prep_media.js`): the phone frame shows the real screenshot for each step, with a tap ring and a slide between screens. A `rec_*.mp4` in `assets/recordings/` must replace its screenshot automatically.
-6. **Voice.** Install uv, Python 3.11, `tools/voice/requirements.txt`, `chatterbox-tts` and a full ffmpeg. Run the clone with `--engine chatterbox --sample ../assets/voice_sample.wav`, then `align.py` for caption timings. You cannot hear audio: measure length and loudness, and ask the user to listen.
-7. **Music and sound.** Bed at low volume under the voice, app sounds on the demo beats, credits file written.
-8. **Draft render.** Grab a frame from every one of the 24 shots and look at each. Confirm with ffprobe: at most 120.0 s, audio present. **Commit and push**, then **stop** and ask the user to watch the MP4 and give notes.
-9. **Freeze, evening of 12 Nov.** The user gives the real numbers. Put them in `round2_data.json`, set status to `actual`, rebuild the poster, redo the Beat 4 voice lines, render the final 1080p video. `npm run build` must end with `READY TO PRINT AND RECORD: yes`. **Commit and push.**
-10. **Finish.** Make the QR from the user's Google Drive link, save it as `assets/qr_pitch.png`, rebuild, and ask the user to scan the printed-size QR with a phone before printing.
-
-## Needed from the user
-
-- Phone screen recordings per `01_Video_Pitch/screen_recording_shotlist.md`, including a Parent Zone screen. The brief asks for actual recordings.
-- `round2_data.json` is already updated and frozen at `N = 30` (`status: "actual"`); do not alter pitch/poster figures unless the team lead directs otherwise (extra survey respondents go to the research paper only).
-- The team code is confirmed: **`G56`** (`Group 56`). Do not change it.
-- The final MP4 uploaded to Google Drive (Anyone with the link, Viewer) and the link.
-- Lexend and Sniglet installed on the PC that exports the poster PDF.
-
-## Honesty rules
-
-- While numbers are projected, the PROJECTED tag stays on the poster and in the video.
-- Only real screenshots or recordings go inside the phone frame. No invented app screens.
-- Clone only the user's own voice.
-- Report what you could not run, see or hear as not verified. Do not imply it works.
-
-## Status after the 11 Nov Claude Code session
-
-Steps 2 to 8 are done. The draft is `video/out/draft.mp4` (120.0 s, 960x540, H.264 + AAC; a build output, not in git). **Waiting for the user's notes on the draft.** Steps 9 and 10 remain.
-
-What was done, and where it differs from the plan above:
-
-- **Voice:** cloned from `assets/voice_sample.wav` with Chatterbox on the CPU (about 25 minutes for 20 lines). The library's own model download stalled on this network, so `tools/voice/get_model.sh` fetches the model in parallel pieces into `tools/voice/.venv/models/chatterbox/`, and `make_voice.py` uses that folder. Kokoro was not needed and is not installed.
-- **New voice steps:** `fit_beats.py` (speeds a beat's lines up, pitch unchanged, when they would overrun the beat's window), then `align.py`, and `check_voice.py` (prints what Whisper hears in each line beside the script). Run order: `make_voice.py`, `fit_beats.py`, `align.py`, `check_voice.py`.
-- **Beat 4 is sped up 1.17x** to fit its 30 seconds; Beat 2 by 1.003x. The other beats are untouched. When the real numbers arrive, cutting about six words from Beat 4 would let it run at natural speed.
-- **Full ffmpeg:** a direct download from GitHub was refused by the permission system, so ffmpeg comes from the `imageio-ffmpeg` pip package inside the venv. `tools/media.js` finds it. ffprobe is Remotion's copy.
-- **Music:** youtube.com and pixabay.com are blocked, so `tools/voice/make_music.py` builds the bed from the app's own pluck sound. Sound effects are the app's own, copied by `tools/get_app_sounds.js`. See `assets/music/CREDITS.md`.
-- **Demo:** shots 7 to 14 show real screenshots from `docs/screenshots/` on `main`. Shot 15 (Parent Zone) still shows the orange placeholder: there is no real Parent Zone screen yet.
-- **Mia's "Mmm"** (line `b1_02`) is silent; it is not generated. Supply `assets/voice/b1_02.wav` to fill it.
-
-Not verified, because nobody on the build side can hear: how close the clone sounds to the user, the pronunciation of "nanay", "DepEd" and "Marungko", whether the 1.17x Beat 4 sounds rushed, and whether the music bed and effects are pleasant. Whisper's transcript matched the script on every line.
-
-Seen in the stills and left alone: `G3.png` (classroom) has garbled writing on the board and alphabet cards, and `team_pixar.png` has a misspelt sign behind the team. Both are generated pictures that cannot be regenerated here.
-
-## Update, afternoon of 11 Nov: the video changed direction
-
-The user watched the draft above and rejected it as too static (still pictures with slow zooms). The video is now the film in `film/`, drawn and animated in code in Lily's art style; read `film/README.md` before touching it. The user approved the look step by step from the pages in `mockups/`. The generated story pictures are a guide only and must not appear in the film.
-
-- A full 120-second draft is at `film/film_draft.mp4` (960x540, voice, music and app sounds). It was checked by pulling 31 frames from the MP4; nobody on the build side has listened to it.
-- The film reuses the cloned narration from this session. Four lines have estimated word timing (see `film/README.md`).
-- Still to do: the user's notes on the draft; the real survey numbers and new Beat 4 voice lines; the final 1080p render; the QR code.
-- The uv-managed Python that the voice tools used is no longer on this PC (`AppData\Roaming\uv\python` is missing), so cloning and Whisper cannot run until it is reinstalled.
-
-## Update, evening of 11 Nov: User Review & Instructor Specifications
-
-The user reviewed `film/film_draft.mp4` and provided the instructor's updated rubric and specific fixes for the pitch and deliverables.
-
-### 1. Updated Instructor Deliverables & Google Drive Structure
-Due date: **November 14, 2026** (Round 2 survey freeze: evening of 12 Nov, Print: 13 Nov).
-Required Google Drive layout:
-```text
-TeamCode/
-└── 06_TekCon_2026_Presentation/
-    ├── 01_Research_Poster/
-    │   ├── Research_Poster.pdf
-    │   └── Research_Poster_Source (PPTX)
-    ├── 02_Video_Pitch/
-    │   └── TeamCode_2-Minute_Pitch.mp4
-    └── 03_Software_Product_Logo/
-        ├── Product_Logo_2000x2000.png
-        └── Product_Logo_512x512.png
-```
-
-### 2. Software Product Logo (Done)
-The required high-resolution software product logo has been generated in `docs/tekcon-2026/03_Software_Product_Logo/`:
-- `Product_Logo_2000x2000.png` (2000x2000 px, 32-bit RGBA, transparent background, clean vector-style anti-aliased mascot).
-- `Product_Logo_512x512.png` (512x512 px, 32-bit RGBA, transparent background, optimized for web/app store icon).
-- Bonus AppIcon variants with the rounded squircle badge are also present (`Product_Logo_AppIcon_*.png`).
-
-### 3. Decisions & Fixes for the Video Film (`film/`)
-
-1. **Mascot Voice (Lily): Use Real In-App Audio**
-   - The pitched-up TTS voice for Lily in `b2_02` and `b5_04` is rejected.
-   - Use Lily's actual voice talent recordings from the app in `app/src/main/assets/audio/vo/`:
-     - **Beat 2 Greeting (`b2_02`):** Use `ret_welcome_back.wav` ("Welcome back! Ready to keep learning?" - 1.49s) or `vo_map_tarana.wav` ("Tara na!" - 2.72s) or `vo_welcome_01.wav` ("Hi there! I'm so happy you're here. Let's play and learn together!" - 3.48s).
-     - **Beat 5 Outro (`b5_04`):** Use `vo_complete_01.wav` ("You did it! I'm so proud of you!" - 1.85s) or `vo_correct_01.wav` ("Yes! That's it!" - 1.06s).
-   - Wire the selected `.wav` files into `film/voice/` and adjust `lines.json` and `s2.js` / `s3.js` timings to match.
-
-2. **Narration Voice Sample & "nanay" Pronunciation**
-   - In `b1_03`, "nanay" sounded unnatural because the previous voice sample was in English only.
-   - The user will record a fresh voice sample containing Filipino phonetics, vowel sounds, and project terms (*nanay*, *Mia*, *Marungko*, *DepEd*, *CIT University*, etc.).
-   - When the user places the new audio in `assets/voice_sample.wav`, re-run `make_voice.py` / Chatterbox cloning.
-
-3. **Drop "691 tests pass" from Pitch Video (`b4_05`)**
-   - "691 tests pass" is developer jargon irrelevant to pitch viewers.
-   - Cutting `b4_05` saves ~2.7 seconds in Beat 4.
-   - **Crucial win:** Beat 4 was artificially sped up to 1.17x to squeeze under 30 seconds. Removing `b4_05` allows Beat 4 to run at natural **1.0x human speaking speed** without rushing!
-   - On the research poster (`02_Research_Poster/`), keep "691 Automated Tests (100% Pass)" on the bottom technical software engineering chip.
-
-4. **Remove Airplane Mode Toggle from Beat 3 (`b3_01`)**
-   - PlayIT is completely offline by design. Turning on airplane mode is unnecessary and distracts from the phonics demonstration.
-   - Change `b3_01` narration to a direct transition: e.g. "Watch Mia learn." or "No Wi-Fi needed — Mia just taps her letter."
-   - In `film/s2.js`, remove the airplane toggle overlay and go directly to the lesson screen.
-
-5. **Visual Art Style Consistency (2D Flat Storybook Style)**
-   - The 3D Pixar render (`team_pixar.png`) does not match the rest of the 2D film.
-   - Recreate the team portrait and participant illustrations in the exact 2D flat storybook art style of Lily and Mia.
-   - Prompts for "nano banana" / image generator have been provided to the user.
-
-### 4. Newly Added Assets in Repo (11 Nov Night)
-The user has provided all visual and voice assets in `assets/`:
-1. `voice_sample_2.m4a` / `voice_sample_2.wav`: 96-second high-quality audio sample containing authentic Filipino phonetics, natural pronunciation of *nanay*, *Mia*, *Marungko*, *DepEd*, *CIT University*, and numbers. Use this for re-cloning.
-2. `learners.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of Filipino Grade 1 learners holding books and tablets.
-3. `teachers.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of Filipino Grade 1 teachers and parents.
-4. `team_2d.jpg` (2752×1536, 16:9): Flat 2D storybook illustration of the five team members smiling together in the video's art style, replacing `team_pixar.png`.
-5. `03_Software_Product_Logo/`: The official product logos featuring the approved Concept 1 Lily mascot face emblem:
-   - `Product_Logo_2000x2000.png` (transparent background master)
-   - `Product_Logo_512x512.png` (transparent background web/app icon)
-   - Plus AppIcon squircle badge variants (`Product_Logo_AppIcon_*.png`).
-6. `assets/music/` (added 12 Nov afternoon):
-   - `bed_gemini.mp3` (121.3s stereo MP3): full 2-minute Gemini instrumental bed from `01_Video_Pitch/music_prompt_gemini.md`. Convert/loudness-match into `film/music/bed.wav` during Phase A/B and verify ducking under speech.
-   - `sting_lily.mp3` (62.4s) & `sting_end.mp3` (59.7s): generated from Option D1/D2 prompts, but exported full-length (~60s each instead of 3s) — inspect waveform/loudness and trim to the best ~3s sparkle/flourish clip before wiring into `film/sfx/` or keep `sfx_heart_recovery_sparkle.mp3` / `sfx_correct_chime.mp3` if cleaner.
-
-### 5. Schedule & Execution Rules: Nov 12 vs. Nov 13
-
-> [!IMPORTANT]
-> **USER DIRECTIVE ON TIMING:**
-> - **On Nov 12 (Absorption & Prep Day):** DO NOT recreate or trigger final video/poster renders yet. Just adopt and absorb what has been newly added in the assets, frozen `N = 30` data (`status: "actual"`), and handoff. Prepare voice cloning, adapt the code, and verify `film/data.json` + Beat 4 script changes cleanly.
-> - **On Nov 13 (Final Output Recreation Day):** Re-synthesize the updated narration (`voice_sample_2.wav` + Beat 4 `b4_01..b4_03` with the frozen `N = 30` numbers), inject final Google Drive video QR code, render the full 1080p MP4 film, export final poster PDF/PPTX, and assemble the Drive submission folders. Print on Nov 13 for Nov 14 submission.
-
-### 6. Step-by-Step Execution Plan for Claude
-
-#### Phase A (Nov 12 — Adopt & Absorb):
-1. **Narration Voice Re-clone Prep:** Run Chatterbox on `assets/voice_sample_2.wav` (`python tools/voice/make_voice.py --engine chatterbox --sample ../assets/voice_sample_2.wav`), covering the updated `film/lines.json` (especially `b4_01`–`b4_03` with `30 people: 16 children, 5 parents, 9 teachers`, `15 of 16` happy / `14 of 16` play again, `4.6` fit / `4.4` recommend / `4.7` teaching). This also fixes *nanay* and gives natural Filipino inflection.
-2. **Lily Voice Replacement:** Copy in-app studio audio files to `film/voice/`:
-   - `b2_02.wav` <- `app/src/main/assets/audio/vo/ui/ret_welcome_back.wav` (or `vo_map_tarana.wav`).
-   - `b5_04.wav` <- `app/src/main/assets/audio/vo/lesson/vo_complete_01.wav`.
-3. **Beat 3 Demo Code Adjustment:** In `film/s2.js`, remove the airplane toggle animation card. Update narration line `b3_01` to transition smoothly into the lesson.
-4. **Beat 4 Results Code Adjustment:** `film/s3.js`, `film/lines.json`, `film/tools/make_data.mjs`, `round2_data.json`, and `content.json` are already aligned to the frozen real `N = 30` metrics (`status: "actual"`). In `film/s3.js` and `lines.json`, remove `b4_05` ("691 tests pass") from the video, freeing ~2.7s so Beat 4 runs at natural **1.0x human speaking speed** (removing the previous 1.17x speed-up!), and display `learners.jpg` and `teachers.jpg` alongside the score cards.
-5. **Beat 5 Team Visual Adjustment:** In `film/s3.js`, wire `assets/team_2d.jpg` into the team display segment.
-6. **Confirm `make_data.mjs` + `check.js`:** Verify `node film/tools/make_data.mjs` aligns timestamps cleanly once new audio `.wav` files are generated.
-
-#### Phase B (Nov 13 — Final Output Recreation & Packaging):
-1. **Verify Frozen Survey Numbers:** Confirm `round2_data.json` (`N = 30`, `status: "actual"`) still matches team-lead sign-off (future survey additions go to the research paper only).
-2. **Verify All Re-synthesized Audio:** Confirm `b1_01..b5_04` (including `b3_01` and `b4_01..b4_03`) fit inside every beat window without overruns, then run `node film/tools/make_data.mjs`.
-3. **Render Final 1080p Pitch Film:** Render `film/` at 1080p (`TeamCode_2-Minute_Pitch.mp4`). Verify length is <= 120.0s.
-4. **Final Drive Link & QR Code:** User uploads the video to Google Drive. Claude generates `assets/qr_pitch.png` from that link and runs `npm run build` in `tools/` to rebuild the poster.
-5. **Final Poster Export:** Export `Research_Poster.pdf` and `Research_Poster_Source.pptx`.
-6. **Package Submission Tree:** Populate `06_TekCon_2026_Presentation/` (folders `01_Research_Poster/`, `02_Video_Pitch/`, `03_Software_Product_Logo/`).
-7. **Verify & Print:** Verify `check.js` prints `READY TO PRINT AND RECORD: yes` and team prints cartolina poster on Nov 13.
-
-
-
-
-
-## Status, 12 Nov (cloud session): final film rendered
-
-At the user's request ("finish the rendering of the video"), the film was rendered at full size from the content of commit `e0c3081`, ahead of the Nov 13 plan in section 5.
-
-- `video/out/G56_2-Minute_Pitch.mp4`: 1920x1080, 30 fps, 3600 frames, 120.0 s, H.264 + AAC stereo 48 kHz, about 66 MB, integrated loudness -20.8 LUFS, peak -3.5 dB. A build output, not in git; it was sent to the user in the chat.
-- `film/film_draft.mp4` (the review copy in git) is that render scaled to 960x540. It replaces the 11 Nov draft.
-- `node film/tools/make_data.mjs` regenerated `film/data.json` with no change, so the picture follows the current voice files.
-- Checked by looking at a frame every 5 s across the whole film; no blank or broken frames. Voice is present in every beat; the music bed is silent 0:17-0:20 by design.
-- Not verified: nobody on the build side has listened to it.
-- If the team code changes from `G56`, the file name and the "Group 56" line change with it, so render again.
-- `check.js` in a fresh clone reports two FAILs that are timestamp artifacts of the checkout, not content problems: "poster is older than round2_data.json" (the pptx was built from the frozen data in `e0c3081`) and "video data is out of date" (the gitignored `video/src/generated/data.json` of the old slideshow pipeline; `node tools/build_video_data.js` clears it). The poster still needs its QR code before printing.
+Branch: `docs/tekcon-2026-pitch-kit`. The repo is public.
 
 ---
 
-## Status, 12 Nov night (local turnover to Phase B teammate)
+## 1. What has to be handed in
 
-1. **Team Code Confirmed:** **`G56`** (`Group 56`). Keep `team_code: "G56"` in `content.json` and `"Group 56"` in `film/lines.json`.
-2. **Gemini Music Integrated & Ducked (`film/music/bed.wav`):**
-   - Replaced the fallback pluck bed in `film/music/bed.wav` (`120.00s`, 44.1 kHz stereo PCM, RMS `-21.3 dBFS`, Peak `-2.3 dBFS`) using `film/tools/make_gemini_bed.py` from `assets/music/bed_gemini.mp3`.
-   - Applies section leveling across Beats 1–5, a `-3.5 dB` vocal-clarity EQ dip at `2.2 kHz`, automatic speech ducking around every active voice span in `film/data.json` (~`-40.9 dBFS` effective under speech at `lib.js` `vol = 0.12`, `+6 dB` gentle swell in pauses, softened `16.5–19.6s` Beat 1–2 dusk transition), and clean fade-out to `120.00s`.
-   - **Important after any voice change:** After editing/re-cloning any lines and running `node film/tools/make_data.mjs`, always re-run `python film/tools/make_gemini_bed.py` before rendering so the music ducking stays aligned to updated voice timestamps.
-   - `assets/music/sting_lily.mp3` (~62.4s) and `assets/music/sting_end.mp3` (~59.7s) remain unused full-length files in `assets/music/` unless trimmed to ~3s.
-3. **Narration Lines Flagged for Improvement Before Final 1080p Render:**
-   - Auditing `film/voice/*.wav` showed Chatterbox pronunciation/delivery issues on:
-     - `b2_03`: `"DepEd's"` sounds like **"step ed's"** (*"It follows DepEd's Marungko order..."* — check `SAY` in `tools/voice/make_voice.py` or replace with user recording).
-     - `b3_03`: `"says it with her"` sounds slurred like **"sess it with her"** (and *"mouth shape"* is slightly muffled).
-     - `b3_02b`: slight hiss on *"leaves"* (*"Nothing leaves the device"*).
-     - `b4_03`: slightly flat/rushed delivery on `4.6 / 4.4 / 4.7`.
-     - `b1_02` (`"Mmm."` at `6.02s`): still silent (no `.wav` file).
-   - Once the user supplies fresh voice takes or confirms wording/phonetic tweaks, redo those lines (either user WAVs or Chatterbox re-clone), re-align (`align_new.py` -> `fit_lines.mjs` -> `make_data.mjs` -> `make_gemini_bed.py`), then render `film/` at 1080p (`G56_2-Minute_Pitch.mp4`).
-4. **Google Drive Submission Folder Ready (`rivazendrix@gmail.com`):**
-   - Root folder **`G56`** (`anyoneWithLink` = `writer` / public): https://drive.google.com/drive/folders/1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc
-   - **`06_TekCon_2026_Presentation`**: https://drive.google.com/drive/folders/1i5cwHsEJi6J9wtvKMbD69Lq2TKiRp4QZ
-     - **`01_Research_Poster`** (`https://drive.google.com/drive/folders/1Vt1b6a8LttqVPXs9Mp25DEfFFAJYrlD4`): holds draft `Research_Poster_Source.pptx` (ID `1wscATs5hQfgEfdSBukD8bjkzSOPH-cZM`). Update with final QR version and upload `Research_Poster.pdf`.
-     - **`02_Video_Pitch`** (`https://drive.google.com/drive/folders/1CnDth_WJxj12brFLvHOXoXnecNhv-d8_`): empty. Upload final `G56_2-Minute_Pitch.mp4` here, then generate `assets/qr_pitch.png` from that MP4's Drive link and rebuild the poster.
-     - **`03_Software_Product_Logo`** (`https://drive.google.com/drive/folders/1gKq1PWo5ESfFRRJkTeHZHvb6LwNtqGC4`): **complete** — already contains `Product_Logo_2000x2000.png` (ID `1s2DdEnVvx8GPwMqzy5Z3gtsb3MGHxm8g`) and `Product_Logo_512x512.png` (ID `1DKRWiiT1QN5NubzocRY_hX0hsVJoFqeH`).
-   - *(Reminder: after all uploads are finished, switch `G56` public link permission from Editor back to Viewer before final submission/QR printing.)*
+Due **14 November 2026**. One printed poster on cartolina, plus this Google Drive layout (the instructor's, 11 Nov):
+
+```
+G56/
+└── 06_TekCon_2026_Presentation/
+    ├── 01_Research_Poster/        Research_Poster.pdf, Research_Poster_Source.pptx
+    ├── 02_Video_Pitch/            G56_2-Minute_Pitch.mp4
+    └── 03_Software_Product_Logo/  Product_Logo_2000x2000.png, Product_Logo_512x512.png
+```
+
+- **Poster:** 22.5 x 28.5 in, portrait, with a QR code labelled "Scan to Watch Our 2-Minute Project Pitch".
+- **Video:** MP4, 2:00 or less, in five parts: problem (to 0:20), solution (to 0:40), demonstration of the real app (to 1:10), results (to 1:40), impact and close (to 2:00).
+- **Logo:** PNG at 2000 x 2000 and 512 x 512.
+- Team code **G56** ("Group 56") is confirmed. Team: Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis. Adviser: Mr. Joemarie C. Amparo.
+- The instructor's original brief and rubric are **not** in this folder. What is here is the team's summary of it (the ten rules in section 6). If you have the rubric, check the film against it.
+
+## 2. Where things stand (13 Nov, midday)
+
+**Done**
+
+- Survey numbers frozen and real (`round2_data.json`, `status: "actual"`).
+- Poster built from the real numbers (`02_Research_Poster/Research_Poster_Source.pptx`). It is missing only its QR code.
+- Film complete in `film/`: picture, cloned narration, Lily's real voice, the real screen recording in the phone, music, captions. Exactly 120.0 s.
+- Logo: the app's launcher icon rebuilt in HD (`03_Software_Product_Logo/`).
+- Drive folders created by the team lead. Their links are with him; they are left out of this file because the repo is public.
+
+**Left, in this order**
+
+1. The team lead watches and listens to `film/film.html` and gives notes.
+2. Final render at 1080p (section 5, "Render"). The 1080p file made on 12 Nov is out of date: it has the old music, the old takes of two lines and none of the 13 Nov picture fixes. `film/film_draft.mp4` is that old render at half size.
+3. Upload the MP4 to `02_Video_Pitch` on Drive; make the QR from its link; save it as `assets/qr_pitch.png`; rebuild the poster; scan the QR from a second phone.
+4. Export `Research_Poster.pdf`, upload the poster files, and replace the two logo files on Drive if they were uploaded before the evening of 12 Nov (those were the old face-only logo).
+5. Set the Drive folder to "Anyone with the link: Viewer". Print.
+
+Nobody on the build side can hear audio. Everything about how the voice and music *sound* is unverified until a person listens.
+
+## 3. What the team lead decided, and why
+
+These are the current answers, each reached by looking at mock-ups and drafts. They are here so you know what was tried and why, not to stop you. Section 8 says which things are fixed and which are open; anything open can be changed if you show the team lead something better.
+
+**The film's look**
+- The first draft (generated story pictures with slow zooms) was rejected as "too static". The film is now drawn and animated in code, in the flat style of Lily, the app's mascot: no outlines, two-tone shading, big glossy eyes.
+- Text looks like a toddler learning video: chunky outlined letters, sing-along captions where each word lights up as it is said, pop-up labels.
+- The generated pictures and clips in `assets/` and `01_Video_Pitch/generated/` are references only and must not appear. The one picture used is the team's own `team_2d.jpg`. The learners, parents and teachers on the results board are redrawn in code.
+- The setting is the Philippines throughout (bahay kubo, palms, banderitas, "nanay", school uniform).
+
+**The story**
+- Mia, six, is stuck on the sound of M at home at night: her teacher has a full class, her nanay is at work, there is no signal. She closes the book. Lily peeks out of the phone, the scene turns to day, PlayIT is introduced, Mia uses it, results, close.
+- The move from problem to solution is a smooth change of light, not a cut.
+- During the demonstration the far background blurs and fades so Mia, the phone and Lily are the focus.
+- A phrase is not shown twice at once: "a phonics game for Grade 1 learners" appears once, under the logo, lighting up as it is spoken.
+
+**The phone and the app**
+- The phone only ever shows the real app. In the demonstration it plays Erik's screen recording, cropped to remove the status bar (Wi-Fi and LTE icons). Otherwise it shows the app's start screen, including in the problem scene.
+- The recording's profile was named "Dj"; the lead asked for it to read "Mia". This is the only edit to the real footage. If a judge asks, say so plainly.
+- The whole app screen must be visible inside the phone: nothing cut off, nothing drawn over it.
+- No airplane-mode switch; a "No Wi-Fi needed" chip stays up for the demo instead.
+- "691 tests pass" is cut from the film as developer jargon. The poster keeps it.
+
+**Mia**
+- Short puff sleeves and skin arms that bend at the elbow. Hands have four fingers and a thumb. At rest they lie on the table beside the book and must not sit on the book.
+
+**Voices and music**
+- Narrator: the team lead's own voice, cloned. Clone only the voice of someone who agreed.
+- Lily speaks only with her real recordings from the app. A pitched-up clone was rejected.
+- Mia's "Mouse!" is the lead's cloned voice, timed so the app's green check appears half a second after it. Her "Mmm." has no sound, by design.
+- Music: an instrumental the lead generated with Gemini (`assets/music/bed_gemini.mp3`), kept low under the voice.
+
+**Numbers**
+- 30 participants across Rounds 1 and 2: 16 Grade 1 learners, 5 parents or supervising adults, 9 teachers. Frozen on 12 Nov. Answers collected later go to the research paper only.
+- Children are the users and come first. Parents and teachers are "the bridge to the child". Never "30 users".
+- Every figure shows its group size. The teaching score 4.7 comes from 5 of the 9 teachers, and the film and poster both say so.
+
+**Poster and logo**
+- No product logo on the poster (Lily is already there). File names exactly as in section 1.
+- The logo must match the app's actual launcher icon, clear and HD.
+
+**How he works**
+- Show a mock-up or stills before building anything large; he decides by looking.
+- Nothing replaces the submitted film or poster until he has seen it and agreed.
+
+## 4. How the kit is built
+
+```
+round2_data.json          every survey number (frozen)
+content.json              every word on the poster, and which figures it shows
+templates/                wording of the narration script and storyboard
+tools/                    npm run build -> poster pptx, script, storyboard, then check.js
+02_Research_Poster/       the poster (generated; never edit the pptx by hand)
+03_Software_Product_Logo/ the two logo files; _previous_versions/ stays out of Drive
+assets/                   pictures, the voice sample, the screen recording, music sources
+film/                     THE VIDEO. A web page animated from one clock. Read film/README.md
+video/                    only turns film/ into an MP4 (Remotion). scripts/render_film.mjs
+mockups/                  the look tests the lead approved, in order
+```
+
+- **The film** is `film/film.html` plus `lib.js` (engine), `s1.js` (0:00–0:28), `s2.js` (0:28–1:10), `s3.js` (1:10–2:00). Scenes never use stopwatch times: `cue("b3_02", "hears")` returns the second that word is spoken, so the picture follows the voice.
+- **The script** is `film/lines.json`. `node film/tools/make_data.mjs` reads it, the voice files and the survey numbers, and writes `film/data.json` and `data.js`.
+- **Not used any more:** `video/src/scenes/`, `video/timeline.json` and the `video:*` commands in `tools/package.json` (the rejected slideshow), and the Antigravity files (`ANTIGRAVITY_RUN.md`, `.agents/`, `*antigravity*.md`, `SETUP_WINDOWS.md`). Three of the four warnings from `check.js` come from that old slideshow and can be ignored; the fourth is the missing QR.
+
+## 5. How to do things
+
+Commands are for Windows (Command Prompt or Git Bash). "Voice Python" means the Python environment with the voice tools; see "Set up" below.
+
+**Set up on a new PC**
+- Node.js, Chrome, PowerPoint. Fonts Lexend and Sniglet installed for the poster (the film bundles its own).
+- `npm install` inside `tools/` and inside `video/`.
+- Voice tools (only if you will redo voice lines, re-cut the recording or rebuild the logo): the steps in `README.md` under "The pitch video" (`uv`, Python 3.11, `tools/voice/requirements.txt`, `chatterbox-tts`, `bash tools/voice/get_model.sh` for the 3 GB model).
+
+**Watch the film**
+- Double-click `film/film.html`. It plays with sound in Chrome and has a slider.
+- One still without rendering: `chrome --headless=new --screenshot=shot.png --window-size=1280,720 --virtual-time-budget=6000 "file:///…/film/film.html?embed=1&t=47.9"`. Always look at stills after a change; put several on one sheet.
+
+**Change the picture**
+- Edit `film.html` (the drawing) or the scene file for that part. Open `film.html` and scrub to check.
+- `K(selector, [[second, {css}], …])` sets keyframes. It holds the first value from 0:00 and the last to the end, so a list that starts late still shows its first value from the start. That caused a stray screenshot on the phone for the whole first minute.
+- Mia's arms: helpers in `lib.js` ("Mia's arms"); the markup is written by `film/tools/gen_arms.py`.
+
+**Redo a spoken line** (in `film/tools/`, with the voice Python)
+1. Change the words in `../lines.json` if needed. Keep each part inside its window; the checker counts words per part.
+2. `python clone_lines.py b2_03 --takes 4`. Cloning is not exact; make several takes.
+3. `python hear.py ../voice_takes` writes down what is actually said, without showing Whisper the script. Pick the take whose words are right. Names such as "DepEd's Marungko" never match in spelling; judge them by whether they sound right ("Deped's Marunko" is right, "depth at smarunko" is not).
+4. If a word keeps coming out wrong, respell it for the voice: `--say "Dep-Ed's=Dep Ed's"`, or add it to `SAY` in `tools/voice/make_voice.py`.
+5. If the best take is too long: `python tidy_take.py ../voice_takes/b3_03_t2.wav ../voice_new/b3_03.wav` shortens the pauses. Otherwise copy the take to `../voice_new/<id>.wav`.
+6. `python align_new.py` checks the take against the script and writes its word times. Copy the `.wav` and `.words.json` into `../voice/`.
+7. `node fit_lines.mjs` (does each part still end in time?), `node make_data.mjs`, `python make_gemini_bed.py` (the music is lowered under each spoken line, so it must be rebuilt), then stills at the words that drive the picture.
+8. Ask a person to listen.
+
+**Change the screen recording** (`film/recording_plan.json`, then `python make_rec_frames.py` in `film/tools/`)
+- The plan says which seconds of `assets/recordings/demo.mp4` play when and how fast, the crop, the "Dj" to "Mia" relabel and the clean-ups.
+- The recording has a variable frame rate and stores no frames while the screen is still. A single picture grabbed at a given second can show a later moment. Check times on the cut frames in `film/rec/`.
+
+**Music**
+- Replace `assets/music/bed_gemini.mp3`, run `python film/tools/make_gemini_bed.py`, update `assets/music/CREDITS.md`. Loudness is `vol` in `film/lib.js` (`music/bed.wav`, 0.12); the script's own targets are at its top.
+
+**Render** (inside `video/`)
+```
+set PITCH_BROWSER=C:\Program Files\Google\Chrome\Application\chrome.exe
+node scripts\render_film.mjs draft 40 70     a part, 960x540, to check
+node scripts\render_film.mjs final           1920x1080 -> out\G56_2-Minute_Pitch.mp4
+```
+Then confirm 120.0 s or less, sound present, and look at a frame every few seconds.
+
+**Poster**
+- Edit `content.json` (words) only; numbers come from `round2_data.json`. Then `npm run build` inside `tools/`. It must end with 0 failed.
+- Do not shrink fonts to make text fit; shorten the words. The checker gives each field a length limit.
+- Preview picture: `powershell -File export_preview.ps1 -Source ..\02_Research_Poster\Research_Poster_Source.pptx` (PowerPoint must be closed; ask the person to close it, never close it for them).
+- QR: save the code for the video's Drive link as `assets/qr_pitch.png`, build again.
+- PDF: open the pptx in PowerPoint, File > Export > PDF. Check the page is 22.5 x 28.5 in.
+
+**Logo**
+- `python tools/logo/make_logo.py 2000 out.png` (voice Python) rebuilds it at any size.
+
+**Survey numbers**
+- Frozen. Change `round2_data.json` only if the team lead says so. Then the Beat 4 lines in `film/lines.json` and their voice files must change with it, and the poster must be rebuilt.
+
+## 6. Rules
+
+From the conference brief, as the team summarised it:
+
+1. Two minutes or less, MP4.
+2. Five parts in the order and at about the times in section 1.
+3. The demonstration shows the real, working app. No generated or redrawn app screens.
+4. Clear narration, with captions.
+5. Every number matches `round2_data.json`, is shown with its group size, and is never rounded up.
+6. Children are the users; parents and teachers are the bridge. Children's results first. Never "30 users".
+7. No claim that children learned to read better. The study measured reactions to the app.
+8. The setting is the Philippines.
+9. Nothing the team has no right to use: no copyrighted music or footage, no real brands, no real child's face.
+10. A cloned voice only with its owner's agreement.
+
+For anyone working in this folder:
+
+- Report what you could not run, see or hear as not verified.
+- A teammate improving the pitch can commit freely on their own branch. What gets submitted (the final render, the poster PDF, the files on Drive) changes only with the team lead's agreement. In a session on the team lead's own PC, commit or push only when he asks, and do not quit his programs.
+- When copying between a working folder and the repo, never mirror with deletes; copy changed files and let `git status` show the result.
+- Keep private things out of the repo (it is public): personal email addresses, and Drive links that anyone can edit.
+- AI help is disclosed if asked; `02_Research_Poster/booth_script_and_QA.md` has the answer. If the instructor wants it stated in the video, add a credit line to the end card.
+
+## 7. What went wrong, and what fixed it
+
+- **A cloned line can be wrong while every check says it is right.** Whisper, given the script as a hint, writes the script back. Listening without the hint showed "DepEd's Marungko" was "depth at smarunko". Fix: several takes, `hear.py`, pick by ear or by the blind transcript.
+- **The best take ran a second too long.** Shortening only the pauses fitted it without touching the words.
+- **Times read off the recording were off by 0.4 s** because of the missing still frames. Cutting one picture per film frame and reading times from those fixed it.
+- **A screenshot sat on the phone through the whole problem scene**, from a keyframe list that started at 1:05 (see "Change the picture").
+- **The app looked cut off in the phone** because the drawn screen was wider than a real one. The screen now has the recording's shape, 75 x 158.
+- **Mia's forearm came off her arm** after the arms were nested: `film.css` gives any element with its own turning point `transform-box: fill-box`, except those listed for `view-box`. New arm groups must be added to that list.
+- **Hands on the table disappeared**: skin and wood are nearly the same colour. A shadow under the hand and thin lines between the fingers fixed it.
+- **A tracing arm that came in from the side of the book looked like someone else's.** A hand coming over the top edge of the book reads as hers.
+- **The teaching score looked like it came from all 9 teachers.** The cards now carry their group sizes.
+- **The 1080p render was made too early** and had to be thrown away after the music and voice changed. Render last.
+- **On the lead's PC,** Remotion's bundled ffmpeg lacks most filters (no `fps`, `setpts`, `volumedetect`), and several download sites are blocked; see section 9.
+
+## 8. Making it better
+
+### What is fixed and what is open
+
+**Fixed** (changing these breaks the brief or the team's word):
+- The ten rules in section 6, the 2:00 limit, the five parts and their times, the file names.
+- The survey numbers. You may choose *which* real figures to show; you may not change one.
+- Only the real app inside the phone. A cloned voice only of someone who agreed.
+
+**Open** (the team lead decides, by seeing it):
+- The wording of the script, inside the word limits the checker enforces per part (45, 50, 68, 70, 40).
+- Every shot, pose, colour, caption, sound and piece of music, and the pacing inside each part.
+- Which figures the results board shows, the poster's wording and layout.
+- Whether the narration stays a clone or is recorded for real.
+
+### Where it is weakest, most valuable first
+
+These are the build side's own judgements, made from stills and measurements. None of the sound points has been confirmed by ear.
+
+**Sound** (probably the biggest gain, and the least checked)
+1. **Record the narration for real.** The clone is flat in places and slurs some words. `b4_03`, the three scores, is the sentence judges care about most; heard blind it says "opened the door" and "Grade 1 fits". `b3_02b` has a hiss on "leaves". A phone recording of the team lead in a quiet room, one WAV per line named by its id, drops straight into the same steps ("Redo a spoken line", from step 6). Recording even just Beat 4 would help.
+2. **Loudness.** The 12 Nov render measured -20.8 LUFS, which is quiet; online video is usually around -14 to -16. In a noisy hall on a phone speaker it may not carry. Measure the final file and bring it up with a limiter (a full ffmpeg has `loudnorm`; Remotion's bundled one does not, the voice Python's `imageio-ffmpeg` does).
+3. **Music.** It sits about 20 dB under the voice and may be inaudible. Listen on a phone speaker, not headphones. The two Gemini stings in `assets/music/` came out a minute long and are unused; a 3-second cut of each could mark Lily's entrance and the end.
+
+**Reading it on a phone** (most judges will arrive by the QR code)
+4. **Captions.** The words sit close together, and the word being spoken grows into its neighbours ("It followsDepEd'sMarungko order" in stills). More space between words (`.cap .w` in `film/film.css`) would help; then check the longest captions still fit.
+5. **The app inside the phone is small.** At phone size its text is hard to read. The lips card and the green check are enlarged beside the phone; the Hear It card and the progress report are not. Enlarge those too, or push the camera in further.
+6. **Mia's resting hands** are subtle against the table.
+
+**The results part**
+7. At 1:09 the screen is empty for about a second before the "30" pops in.
+8. Three ratings in ten seconds is a lot to take in. Consider a slower reveal or one figure fewer. Unused real figures exist: usability score 75.5 from the 5 parents, and 15 of 16 children liked the characters.
+
+**The argument**
+9. **The problem has no evidence.** It is told as a story, and the poster's three problem statements have no source either; the poster's references are about method, not about the problem. If the rubric rewards a grounded problem, add one sourced fact. Use a real citation the team has read. Do not invent one.
+10. **The close has no "what next".** The poster says "Next: measure reading gains over a full term"; the film does not. The last part has about six words to spare.
+
+**Not done at all**
+11. The instructor's rubric has not been read against the film. Get it and score each criterion.
+12. Nobody outside the team has watched it.
+
+### How to tell a change made it better
+
+- **Cold viewers.** Show it once to two or three people who have not seen it. Ask: what does the app do, who is it for, name one result, would a child like it. If they cannot answer, that part is not working, however good it looks.
+- **The real conditions.** Watch it on a phone, speaker at arm's length, with background noise.
+- **Before and after.** Keep the old version (old takes go in a folder, pictures in `film/_shots/`) and put the two side by side.
+- **Still inside the rules.** `npm run build` in `tools/` ends with 0 failed; the render is 120.0 s or less; every number still matches `round2_data.json`.
+
+### How to change things without losing what works
+
+- One change at a time, on small commits, so any of them can be undone.
+- For a picture change, make stills or a short draft render of that part (`render_film.mjs draft 40 70`) and show the team lead before going further.
+- After any voice change, rebuild the data and the music (section 5), then check the stills at the words that drive the picture.
+- Write down what you changed and why in section 10, and move anything you fixed out of this list.
+
+## 9. Notes on the team lead's PC
+
+Only relevant if you work on that machine (Windows with WSL, old i7, no graphics card).
+
+- The working copy there is `Desktop\PlayIT_TekCon_2026\`, which is not a git folder; it is copied to and from this repo by hand.
+- The voice Python is `C:\Users\riva.zn\playIt\docs\tekcon-2026\tools\voice\.venv\Scripts\python.exe`. Set `KIT_VOICE` to that `tools\voice` folder before `clone_lines.py`, because the model lives there.
+- A full draft render takes about 20 minutes; cloning takes one to two minutes per line.
+- Blocked on that network: youtube.com, pixabay.com, download.pytorch.org, astral.sh, remotion.media, fonts.gstatic.com. Set `PITCH_BROWSER` to Chrome because Remotion cannot download its own browser.
+
+## 10. Short history
+
+- **10–11 Nov:** kit and poster built; a slideshow video drafted with Antigravity, then with Claude Code; rejected as too static. The film in `film/` replaced it the same day, approved step by step from `mockups/`.
+- **12 Nov:** real survey numbers frozen; Beat 4 re-voiced; Erik's recording wired into the phone; "Dj" relabelled "Mia"; arms redrawn; logo rebuilt as the app icon; Gemini music added. A cloud session rendered 1080p from that day's state.
+- **13 Nov:** two lines re-cloned (`b2_03`, `b3_03`); group sizes on the rating cards; phone shows the start screen; one line moved under the logo; screens fitted to the phone; hands redrawn. Final render, QR, PDF and upload still to do.

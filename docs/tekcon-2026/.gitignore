@@ -27,3 +27,7 @@ tools/voice/.venv/
 !assets/music/*.mp3
 !film/film_draft.mp4
 film/_shots/
+
+# voice takes being tried out; only checked takes copied into film/voice/ are kept
+film/voice_new/
+film/voice_takes/

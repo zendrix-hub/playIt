@@ -24,6 +24,9 @@ function K(sel, frames) {
   if (!e) { console.error("K: nothing matches " + sel); return; }
   if (!REG.has(e)) REG.set(e, []);
   REG.get(e).push(...frames);
+  // Mia's arms exist twice (behind the book, and a forearm-and-hand copy in front of it): the copy gets the same moves
+  const twin = e.id && /^(arm|fore|point|fing)[LR]$/.test(e.id) && document.getElementById(e.id + "f");
+  if (twin) K(twin, frames);
 }
 function commit() {
   for (const [e, list] of REG) {
@@ -64,6 +67,34 @@ const showM = (sel, a, b, max = 1) => KM(sel, [[Math.max(0, a - .25), { opacity:
 const popM = (sel, a, b) => KM(sel, [
   [a - .01, { opacity: 0, transform: "scale(.2)" }], [a + .28, { opacity: 1, transform: "scale(1.12)" }, "ease-out"],
   [a + .45, { opacity: 1, transform: "scale(1)" }], [b, { opacity: 1, transform: "scale(1)" }], [b + .3, { opacity: 0, transform: "scale(.6)" }]]);
+
+/* ---------- Mia's arms ----------
+   Each arm has two parts: #armL / #armR turn at the shoulder, #foreL / #foreR at the elbow. A pose is { a, b }: the two angles in
+   degrees. At rest (0, 0) the forearms lie on the table with a hand on each side of the book.
+   reach() works out the pose that puts the hand, or the fingertip when pointing, on a spot in the scene. */
+const ARM = { L: { P: [470, 452], E: [440, 480], W: [408.7, 490.4] }, R: { P: [570, 452], E: [600, 480], W: [631.3, 490.4] }, hand: 47, tip: 61 };
+const REST = { a: 0, b: 0 };
+function reach(s, x, y, o = {}) {       // o.point: measure to the fingertip; o.flip: the other elbow position; o.turn: whole turns added at the elbow
+  const A = ARM[s], [px, py] = A.P, deg = r => r * 180 / Math.PI, wrap = v => ((v + 180) % 360 + 360) % 360 - 180;
+  const L1 = Math.hypot(A.E[0] - px, A.E[1] - py), L2 = o.point ? ARM.tip : ARM.hand;
+  const th0 = Math.atan2(A.E[1] - py, A.E[0] - px), f0 = Math.atan2(A.W[1] - A.E[1], A.W[0] - A.E[0]);
+  const d = Math.max(Math.abs(L1 - L2) + .5, Math.min(L1 + L2 - .5, Math.hypot(x - px, y - py)));
+  const phi = Math.atan2(y - py, x - px), al = Math.acos((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d));
+  let th = [phi + al, phi - al].sort((p, q) => Math.sin(q) - Math.sin(p))[o.flip ? 1 : 0];      // by default the lower elbow
+  const ex = px + L1 * Math.cos(th), ey = py + L1 * Math.sin(th), f = Math.atan2(y - ey, x - ex);
+  const a = wrap(deg(th - th0)), b = wrap(deg(f - f0) - a) + 360 * (o.turn || 0);
+  return { a: +a.toFixed(1), b: +b.toFixed(1) };
+}
+const LR = (s, a, b) => s === "L" ? { a, b } : { a: -a, b: -b };       // a pose given for the left arm, mirrored for the right
+// armK("L", [[second, pose, easing], ...]); km = true when the seconds are on the mock-up clock of the first 28 seconds
+function armK(s, frames, km) {
+  const f = km ? KM : K;
+  f("#arm" + s, frames.map(([t, p, e]) => [t, R(0, 0, p.a), e])); f("#fore" + s, frames.map(([t, p, e]) => [t, R(0, 0, p.b), e]));
+  f("#tsh" + s, frames.map(([t, p]) => [t, { opacity: Math.abs(p.a) + Math.abs(p.b) < 4 ? 1 : 0 }]));      // the hand's shadow on the table
+}
+const sw = (f, sel, a, b, on, off, d) => f(sel, [[a - d, { opacity: off }], [a, { opacity: on }], [b, { opacity: on }], [b + d, { opacity: off }]]);
+function pointing(s, a, b, km) { const f = km ? KM : K; sw(f, "#point" + s, a, b, 1, 0, .08); sw(f, "#fing" + s, a, b, 0, 1, .08); }   // index finger out between a and b
+function front(s, a, b, km) { sw(km ? KM : K, "#front" + s, a, b, 1, 0, .12); }       // the hand is in front of the book between a and b
 function oscM(sel, fn, step = .12) { const f = []; for (let t = 0; t <= 17.6; t += step) f.push([t, { transform: fn(t) }, "linear"]); KM(sel, f); }
 
 /* ---------- sound ---------- */
@@ -86,14 +117,17 @@ function captions() {
   }
   phrases.forEach((ph, n) => {
     const a = ph.words[0].s - .08, next = phrases[n + 1], b = Math.min(ph.words[ph.words.length - 1].e + .3, next ? next.words[0].s - .12 : T);
-    const d = document.createElement("div"); d.className = "cap"; stage.appendChild(d);
+    // a scene may place one phrase somewhere else: window.CAP_PLACE(phrase) -> { cls: extra CSS class, until: second it stays up to }
+    const place = window.CAP_PLACE ? window.CAP_PLACE(ph) : null;
+    const d = document.createElement("div"); d.className = "cap" + (place ? " " + place.cls : ""); stage.appendChild(d);
     if (ph.v.speaker === "lily") { const nm = document.createElement("b"); nm.textContent = "Lily:"; d.appendChild(nm); }
     const lo = { color: "#fff", transform: "translateY(0%) scale(1)" }, hi = { color: "#FFD23F", transform: "translateY(-9%) scale(1.14)" };
     ph.words.forEach(x => {
       const sp = document.createElement("span"); sp.className = "w"; sp.textContent = x.w; d.appendChild(sp);
       K(sp, [[x.s - .03, lo], [x.s + .05, hi, "ease-out"], [Math.max(x.s + .06, x.e - .04), hi], [x.e + .08, lo]]);
     });
-    K(d, [[Math.max(0, a - .15), { opacity: 0 }], [a, { opacity: 1 }], [b, { opacity: 1 }], [b + .12, { opacity: 0 }]]);
+    const end = place && place.until ? place.until : b;
+    K(d, [[Math.max(0, a - .15), { opacity: 0 }], [a, { opacity: 1 }], [end, { opacity: 1 }], [end + .12, { opacity: 0 }]]);
   });
 }
 

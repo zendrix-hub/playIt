@@ -83,27 +83,28 @@ showM("#mNeutral", 0, 4.9); showM("#mSad", 6.7, 14.1); showM("#mHappy", 14.5, 17
 KM("#mMmm", [[4.9, { opacity: 0, transform: "scaleX(1)" }], [5.1, { opacity: 1, transform: "scaleX(1)" }], [5.4, { opacity: 1, transform: "scaleX(.7)" }], [5.7, { opacity: 1, transform: "scaleX(1.1)" }], [6, { opacity: 1, transform: "scaleX(.7)" }], [6.3, { opacity: 1, transform: "scaleX(1)" }], [6.6, { opacity: 1, transform: "scaleX(.85)" }], [6.8, { opacity: 0, transform: "scaleX(1)" }]]);
 KM("#blushL", [[0, { opacity: .55 }], [14.3, { opacity: .55 }], [15, { opacity: 1 }], [17.6, { opacity: 1 }], [18, { opacity: .55 }]]);
 KM("#blushR", [[0, { opacity: .55 }], [14.3, { opacity: .55 }], [15, { opacity: 1 }], [17.6, { opacity: 1 }], [18, { opacity: .55 }]]);
-// finger tracing the letter, then pushing the book shut, then hands up in delight
-const arm = side => {            // side: -1 = the arm on the left of the screen, 1 = the other. Angles turn the arm about the shoulder.
-  const f = [[0, R(0, 0, 0)]];
-  if (side < 0) f.push([1.2, R(0, -4, -30)], [1.8, R(0, -6, -44)], [2.4, R(0, -4, -32)], [3.0, R(0, -6, -46)], [3.6, R(0, -4, -34)], [4.2, R(0, -6, -42)], [4.9, R(0, 0, 0)],
-    [5.6, R(0, 0, 0)], [6.2, R(0, -9, -6)], [6.34, R(0, 0, -6)], [6.48, R(0, -9, -6)], [6.62, R(0, 0, -6)], [7.2, R(0, 0, 0)]);
-  f.push([11.3, R(0, 0, 0)], [11.9, R(0, -6, side * 22)], [12.6, R(0, 0, side * 4)], [14.2, R(0, 0, side * 4)],
-    [14.55, R(0, -6, -side * 84), "cubic-bezier(.3,1.5,.5,1)"], [14.75, R(0, -6, -side * 100)], [14.95, R(0, -6, -side * 82)], [15.2, R(0, -6, -side * 98)]);
-  let open = false; for (let t = 15.45; t < 17.4; t += .15) { f.push([t, R(0, 0, side * (open ? 66 : 94))]); open = !open; }
-  f.push([17.55, R(0, 0, side * 40)], [18, R(0, 0, 0)]);
-  return f;
-};
-KM("#armL", arm(-1)); KM("#armR", arm(1));
-// the elbows: the tracing forearm rocks while the finger follows the letter; the arms bend in over her head when she cheers
-const E0 = R(0, 0, 0), elbow = side => {
-  const f = [[0, E0]];
-  if (side < 0) f.push([1.0, E0], [1.3, R(0, 0, 14)], [1.8, R(0, 0, 4)], [2.4, R(0, 0, 14)], [3.0, R(0, 0, 4)], [3.6, R(0, 0, 14)], [4.2, R(0, 0, 6)], [4.9, E0]);
-  f.push([11.3, E0], [11.9, R(0, 0, -side * 16)], [12.6, R(0, 0, -side * 6)], [14.2, R(0, 0, -side * 6)], [14.55, R(0, 0, side * 14), "cubic-bezier(.3,1.5,.5,1)"], [17.4, R(0, 0, side * 14)]);
-  return f;
-};
-KM("#foreL", elbow(-1)); KM("#foreR", elbow(1));
-KM("#pointL", [[0, { opacity: 0 }], [1.0, { opacity: 0 }], [1.15, { opacity: 1 }], [4.8, { opacity: 1 }], [4.95, { opacity: 0 }]]);
+// Her hands lie on the table beside the book. The left one reaches in and traces the letter with a finger, both press the book
+// shut, then she throws her arms up and claps. (Poses and helpers: "Mia's arms" in lib.js.)
+// Tracing: the left forearm tucks behind the book (HIDE) and her hand comes over the book's top edge (#traceHand) to follow the letter M.
+const HIDE = LR("L", 0, 178), TRACE_PTS = [[474, 487], [477, 465], [487, 478], [497, 465], [500, 487], [488, 474]], TP = ([x, y]) => ({ transform: `translate(${x}px,${y}px)` });
+function tracing(ts, km) {            // ts: the six seconds at which the fingertip is on each spot of the letter
+  const f = km ? KM : K, a = ts[0], b = ts[5];
+  f("#traceHand", [[a - .34, { opacity: 0 }, "steps(1)"], [a - .32, { opacity: 1 }, "steps(1)"], [b + .62, { opacity: 1 }, "steps(1)"], [b + .64, { opacity: 0 }, "steps(1)"]]);
+  f("#traceHand", [[a - .32, TP([478, 424])], ...ts.map((t, i) => [t, TP(TRACE_PTS[i])]), [b + .3, TP(TRACE_PTS[5])], [b + .62, TP([488, 424])]]);
+}
+const LIFT = s => LR(s, 2, 105), CHEER = (s, k) => LR(s, k, 22), CLAP = (s, shut) => shut ? LR(s, -64, 219) : LR(s, -58, 199);
+["L", "R"].forEach(s => {
+  const f = [[0, REST]];
+  if (s === "L") f.push([.8, REST], [1.15, HIDE], [4.6, HIDE], [4.95, REST],
+    [5.6, REST], [6.2, LR(s, 0, 16)], [6.34, LR(s, 0, 2)], [6.48, LR(s, 0, 16)], [6.62, LR(s, 0, 2)], [7.2, REST]);
+  // both hands go to the top corners of the book and come down with it as it shuts
+  f.push([11.3, REST], [11.62, LIFT(s)], [12.05, LR(s, 0, 30)], [12.4, REST], [14.2, REST],
+    [14.55, CHEER(s, 78), "cubic-bezier(.3,1.5,.5,1)"], [14.75, CHEER(s, 94)], [14.95, CHEER(s, 76)], [15.2, CHEER(s, 90)]);
+  let shut = true; for (let t = 15.45; t < 17.4; t += .15) { f.push([t, CLAP(s, shut)]); shut = !shut; }
+  armK(s, f, true);
+  front(s, 11.42, 12.3, true);
+});
+tracing([1.2, 1.8, 2.4, 3.0, 3.6, 4.2], true);
 // eyes squeeze shut in delight for a moment when Lily lands
 KM("#eyesOpen",  [[0, { opacity: 1 }, "steps(1)"], [14.9, { opacity: 0 }, "steps(1)"], [15.5, { opacity: 1 }, "steps(1)"]]);
 KM("#eyesHappy", [[0, { opacity: 0 }, "steps(1)"], [14.9, { opacity: 1 }, "steps(1)"], [15.5, { opacity: 0 }, "steps(1)"]]);
@@ -132,7 +133,8 @@ KM("#bookClosed", [[12.0, { opacity: 0, transform: "scaleY(1.5)" }], [12.02, { o
 /* ---- the phone wakes up ---- */
 (() => { const f = [[12.7, { transform: "rotate(0deg) translateY(0px)" }, "linear"]]; let d = 1; for (let t = 12.76; t < 13.45; t += .06) { f.push([t, { transform: `rotate(${d * 2.6}deg) translateY(-4px)` }, "linear"]); d = -d; } f.push([13.46, { transform: "rotate(0deg) translateY(0px)" }]); f.push([14.2, { transform: "rotate(0deg) translateY(5px)" }]); f.push([14.4, { transform: "rotate(0deg) translateY(0px)" }]); KM("#phone", f); })();
 KM("#phoneScreen", [[0, { fill: "#27304F" }], [12.7, { fill: "#27304F" }], [13.0, { fill: "#FFF6CF" }], [17.6, { fill: "#FFF6CF" }], [18, { fill: "#27304F" }]]);
-KM("#phoneApp", [[0, { opacity: 0 }], [13.0, { opacity: 0 }], [13.35, { opacity: 1 }], [17.6, { opacity: 1 }], [18, { opacity: 0 }]]);
+// the phone shows the app's start screen from the first second (a little dim, as an idle screen); it brightens when the phone wakes
+KM("#phoneApp", [[0, { opacity: .85 }], [12.7, { opacity: .85 }], [13.35, { opacity: 1 }], [17.6, { opacity: 1 }]]);
 KM("#phoneLight",  [[12.7, { opacity: 0 }], [13.2, { opacity: .9 }], [14.3, { opacity: 1 }], [15.6, { opacity: .25 }], [17.6, { opacity: .25 }], [18, { opacity: 0 }]]);
 KM("#rings", [[12.8, { opacity: 0 }], [12.9, { opacity: 1 }], [15, { opacity: 1 }], [15.4, { opacity: 0 }]]);
 ["#ring1", "#ring2"].forEach((s2, i) => { const f = [[0, { transform: "scale(.5)", opacity: 0 }]]; for (let t = 12.8 + i * .45; t < 15.0; t += .9) { f.push([t, { transform: "scale(.5)", opacity: 1 }, "ease-out"]); f.push([t + .88, { transform: "scale(2.5)", opacity: 0 }, "steps(1)"]); } KM(s2, f); });

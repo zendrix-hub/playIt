@@ -18,23 +18,24 @@ function miaMouth(sel, a, b) {            // swap her smile for another mouth be
 }
 function miaBounce(a, n = 3, h = 9) { const f = [[a, { transform: "translateY(0px)" }]]; for (let i = 0; i < n; i++) f.push([a + .12 + i * .34, { transform: `translateY(${-h}px)` }], [a + .3 + i * .34, { transform: "translateY(0px)" }]); K("#miaBody", f); }
 function miaCheer(a, b) {                 // both arms fly up, like Lily's cheering pose
-  K("#armL", [[a - .25, R(0, 0, 0)], [a, R(0, -6, 84), "cubic-bezier(.3,1.5,.5,1)"], [a + .2, R(0, -6, 100)], [a + .4, R(0, -6, 82)], [b, R(0, -6, 96)], [b + .3, R(0, 0, 0)]]);
-  K("#armR", [[a - .25, R(0, 0, 0)], [a, R(0, -6, -84), "cubic-bezier(.3,1.5,.5,1)"], [a + .2, R(0, -6, -100)], [a + .4, R(0, -6, -82)], [b, R(0, -6, -96)], [b + .3, R(0, 0, 0)]]);
-  [["#foreL", 1], ["#foreR", -1]].forEach(([el, s]) => K(el, [[a - .25, R(0, 0, 0)], [a, R(0, 0, -s * 14), "cubic-bezier(.3,1.5,.5,1)"], [b, R(0, 0, -s * 14)], [b + .3, R(0, 0, 0)]]));
+  ["L", "R"].forEach(s => armK(s, [[a - .25, REST], [a, CHEER(s, 78), "cubic-bezier(.3,1.5,.5,1)"], [a + .2, CHEER(s, 94)], [a + .4, CHEER(s, 76)], [b, CHEER(s, 90)], [b + .3, REST]]));
   K("#eyesOpen", [[a, { opacity: 0 }, "steps(1)"], [a + .55, { opacity: 1 }, "steps(1)"]]); K("#eyesHappy", [[a, { opacity: 1 }, "steps(1)"], [a + .55, { opacity: 0 }, "steps(1)"]]);
   miaBounce(a, 2, 10);
 }
-function miaTap(t) {                         // the arm reaches out and straightens, the index finger taps
-  K("#armR", [[t - .28, R(0, 0, 0)], [t, R(0, 0, -79), "ease-out"], [t + .22, R(0, 0, -74)], [t + .55, R(0, 0, 0)]]);
-  K("#foreR", [[t - .28, R(0, 0, 0)], [t, R(0, 0, -20), "ease-out"], [t + .22, R(0, 0, -14)], [t + .55, R(0, 0, 0)]]);
-  K("#pointR", [[t - .2, { opacity: 0 }], [t - .12, { opacity: 1 }], [t + .4, { opacity: 1 }], [t + .48, { opacity: 0 }]]);
+const TAP = reach("R", 631, 440, { point: true }), TAP_BACK = reach("R", 624, 444, { point: true });   // fingertip on the edge of the big phone
+function miaTap(t) {                         // the arm reaches out to the phone, the index finger taps
+  armK("R", [[t - .28, REST], [t, TAP, "ease-out"], [t + .22, TAP_BACK], [t + .55, REST]]);
+  pointing("R", t - .12, t + .4);
 }
 function legs(a, b, amp, spd) { const fl = [], fr = []; for (let t = a; t <= b; t += .15) { fl.push([t, { transform: `rotate(${(amp * Math.sin(t * spd)).toFixed(2)}deg)` }, "linear"]); fr.push([t, { transform: `rotate(${(amp * Math.sin(t * spd + 2.4)).toFixed(2)}deg)` }, "linear"]); } K("#legL", fl); K("#legR", fr); }
 
 /* ---------- the phone ---------- */
 const big = (x, y) => [756 + (x - 756) * 2.6, 498 + (y - 498) * 2.6];      // where a point on the small phone ends up when the phone is big
-function screen(name, t) { K("#scr_" + name, [[t - .01, { opacity: 0, transform: "translateX(84px)" }, "steps(1)"], [t, { opacity: 1, transform: "translateX(84px)" }, "ease-out"], [t + .35, { opacity: 1, transform: "translateX(0px)" }]]); }
-function tap(t, x, y) { K("#tap", [[t, { opacity: 1, transform: `translate(${x - 756}px,${y - 410}px) scale(.4)` }, "ease-out"], [t + .45, { opacity: 0, transform: `translate(${x - 756}px,${y - 410}px) scale(2.6)` }, "steps(1)"]]); S("sfx_opening_pluck.wav", t, .2); }
+function screen(name, t) { K("#scr_" + name, [[t - .01, { opacity: 0, transform: "translateX(75px)" }, "steps(1)"], [t, { opacity: 1, transform: "translateX(75px)" }, "ease-out"], [t + .35, { opacity: 1, transform: "translateX(0px)" }]]); }
+// Tap positions in this file were measured on the earlier 84-wide screen, which cut the top and bottom off the app.
+// at() moves them onto today's screen, which shows the whole app (75 wide: the recording's own shape).
+const at = (x, y) => window.REC ? [756 + (x - 756) * .8929, 327.96 + (y - 318.48) * .8929] : [756 + (x - 756) * .9151, 328 + (y - 320.67) * .9151];
+function tap(t, x, y) { [x, y] = at(x, y); K("#tap", [[t, { opacity: 1, transform: `translate(${x - 756}px,${y - 410}px) scale(.4)` }, "ease-out"], [t + .45, { opacity: 0, transform: `translate(${x - 756}px,${y - 410}px) scale(2.6)` }, "steps(1)"]]); S("sfx_opening_pluck.wav", t, .2); }
 
 K("#tap", [[0, { opacity: 0 }, "steps(1)"]]);      // the tap ring stays hidden until the first tap
 
@@ -50,8 +51,9 @@ WORLD(`<g id="tagLily" opacity="0" style="transform-origin: 50% 100%">
   <text x="869" y="277" text-anchor="middle" ${FONT_T} font-size="40" fill="#fff">Lily</text></g>`);
 UI(`<g id="logo" opacity="0" style="transform-origin: 50% 50%">
   <text x="640" y="180" text-anchor="middle" ${FONT_T} font-size="132" fill="#0B5F5B" stroke="#0B5F5B" stroke-width="20" stroke-linejoin="round" opacity=".3">PlayIT</text>
-  <text x="640" y="170" text-anchor="middle" ${FONT_T} font-size="132" stroke="#fff" stroke-width="20" stroke-linejoin="round" paint-order="stroke"><tspan fill="#FFC53D">Play</tspan><tspan fill="${TEAL}">IT</tspan></text></g>
-  <text id="tagline" opacity="0" x="640" y="246" text-anchor="middle" ${FONT_B} font-size="42" fill="#fff" stroke="#0B3F4A" stroke-width="10" stroke-linejoin="round" paint-order="stroke">A phonics game for Grade 1 learners</text>`);
+  <text x="640" y="170" text-anchor="middle" ${FONT_T} font-size="132" stroke="#fff" stroke-width="20" stroke-linejoin="round" paint-order="stroke"><tspan fill="#FFC53D">Play</tspan><tspan fill="${TEAL}">IT</tspan></text></g>`);
+// "a phonics game for Grade 1 learners" is shown once, under the logo, as a sing-along line (not also as a caption at the bottom)
+window.CAP_PLACE = ph => ph.v.id === "b2_03" && ph.words.some(x => /^phonics/i.test(x.w)) ? { cls: "capTag", until: tB1 - .75 } : null;
 const badge = (i, x, color, icon, l1, l2) => UI(`<g id="bd${i}" opacity="0" style="transform-origin: 50% 50%">
   <rect x="${x + 6}" y="184" width="300" height="118" rx="30" fill="#0B5F5B" opacity=".28"/>
   <rect x="${x}" y="176" width="300" height="118" rx="30" fill="#fff" stroke="${color}" stroke-width="8"/>
@@ -61,19 +63,17 @@ badge(1, 150, STEP[1], (x, y) => `<text x="${x}" y="${y + 13}" text-anchor="midd
 badge(2, 490, STEP[0], (x, y) => `<rect x="${x - 9}" y="${y - 27}" width="18" height="32" rx="9" fill="#fff"/><path d="M${x - 17} ${y - 6} a17 17 0 0 0 34 0" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M${x} ${y + 11} v12 M${x - 10} ${y + 23} h20" stroke="#fff" stroke-width="5" stroke-linecap="round"/>`, "Listens to", "the child");
 badge(3, 830, STEP[2], (x, y) => `<path d="M${x - 27} ${y + 1} l54 -21 -15 46 -11 -17 -15 15 -1 -15Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>`, "Works", "offline");
 
-K("#cam", [[27.6, CAM(-20, 0, 1.06)], [28.7, CAM(0, 60, 1)], [39.5, CAM(0, 60, 1)], [40.6, CAM(-80, 10, 1.08)], [window.REC ? 68.4 : 65.6, CAM(-80, 10, 1.08)], [window.REC ? 69.3 : 66.5, CAM(-60, 30, 1.04)], [69.7, CAM(-60, 30, 1.04)]]);
+K("#cam", [[27.6, CAM(-20, 0, 1.06)], [28.7, CAM(0, 60, 1)], [39.5, CAM(0, 60, 1)], [40.6, CAM(-80, 22, 1.08)], [window.REC ? 68.4 : 65.6, CAM(-80, 22, 1.08)], [window.REC ? 69.3 : 66.5, CAM(-60, 30, 1.04)], [69.7, CAM(-60, 30, 1.04)]]);
 K("#phoneLight", [[27.6, { opacity: .25 }], [29, { opacity: 0 }]]);
 K("#browL", [[27.9, { transform: "rotate(6deg) translateY(-9px)" }], [28.6, { transform: "rotate(0deg) translateY(-3px)" }]]);
 K("#browR", [[27.9, { transform: "rotate(-6deg) translateY(-9px)" }], [28.6, { transform: "rotate(0deg) translateY(-3px)" }]]);
-K("#armL", [[27.9, R(0, 0, -40)], [28.5, R(0, 0, 0)]]); K("#armR", [[27.9, R(0, 0, 40)], [28.5, R(0, 0, 0)]]);
-K("#foreL", [[27.9, R(0, 0, -14)], [28.5, R(0, 0, 0)]]); K("#foreR", [[27.9, R(0, 0, 14)], [28.5, R(0, 0, 0)]]);
+["L", "R"].forEach(s => armK(s, [[27.95, CLAP(s, false)], [28.55, REST]]));      // the clapping of Beat 2 ends: hands back on the table
 legs(27.7, 69.6, 9, 4.4);
 pop("#tagLily", tLily - .25, tPlay - .3);
 lilyHop(tLily - .2, 110, 110, 40);
 K("#logo", [[tPlay - .2, { opacity: 0, transform: "translate(0px,0px) scale(.2) rotate(-8deg)" }], [tPlay + .12, { opacity: 1, transform: "translate(0px,0px) scale(1.16) rotate(3deg)" }, "ease-out"],
   [tPlay + .34, { opacity: 1, transform: "translate(0px,0px) scale(1) rotate(0deg)" }], [tB1 - .7, { opacity: 1, transform: "translate(0px,0px) scale(1) rotate(0deg)" }],
   [tB1 - .2, { opacity: 1, transform: "translate(0px,-68px) scale(.56) rotate(0deg)" }], [39.45, { opacity: 1, transform: "translate(0px,-68px) scale(.56) rotate(0deg)" }], [39.75, { opacity: 0, transform: "translate(0px,-68px) scale(.3) rotate(0deg)" }]]);
-show("#tagline", tPhon - .1, tB1 - .75);
 K("#miaHead", [[27.6, HD(-5, -3)], [tPlay, HD(-5, -3)], [tPlay + .4, HD(-9, -6)], [tB1 - .3, HD(-8, -5)], [39.7, HD(-4, -2)]]);
 K("#pupils", [[27.6, PU(7, -3)], [tPlay, PU(7, -3)], [tPlay + .4, PU(4, -7)], [39.6, PU(4, -7)], [40.2, PU(7, 0)]]);
 S("sfx_opening_pluck.wav", tPlay - .1, .32);
@@ -132,7 +132,8 @@ if (REC) {
   });
 }
 if (!REC) screen("map", tTaps - .35); if (!REC) screen("hearit", tTaps + 1.3); if (!REC) screen("sayit", tThen - .2); if (!REC) screen("sayit_cue", tMiss - .15); if (!REC) screen("findit", tNext - .15); if (!REC) screen("blendit", tBlend0 - .15);
-["map", "hearit", "sayit", "sayit_cue", "findit", "blendit"].forEach(n => K("#scr_" + n, [[65.5, { opacity: 1 }], [65.8, { opacity: 0 }]]));
+// (only for the screenshot fallback: with the recording these would hold a stray screenshot on the phone from 0:00)
+if (!REC) ["map", "hearit", "sayit", "sayit_cue", "findit", "blendit"].forEach(n => K("#scr_" + n, [[65.5, { opacity: 1 }], [65.8, { opacity: 0 }]]));
 K("#pupils", [[40.2, PU(7, 0)], [65.6, PU(7, 0)], [66.2, PU(5, -5)]]);
 K("#miaHead", [[40.2, HD(-4, -2)], [tHears - .2, HD(-4, -2)], [tHears + .1, HD(-10, -2)], [tThen - .3, HD(-10, -2)], [tThen, HD(-4, -2)], [tMiss, HD(-4, -2)], [tMiss + .4, HD(3, 3)], [tMouth, HD(-3, 0)], [tNext, HD(-4, -2)], [69.6, HD(-4, -2)]]);
 
@@ -168,13 +169,13 @@ WORLD(`<g fill="#F2545B"><path id="hrt0" opacity="0" style="transform-origin: 50
 UI(`<g id="mouthCard" opacity="0" style="transform-origin: 50% 100%"><rect x="906" y="52" width="290" height="246" rx="30" fill="#0B5F5B" opacity=".28"/><rect x="900" y="44" width="290" height="246" rx="30" fill="#fff" stroke="${STEP[1]}" stroke-width="8"/>
   <image href="img/mouth_lips_together.png" x="967" y="52" width="156" height="156"/><text x="1045" y="246" text-anchor="middle" ${FONT_B} font-size="29" fill="#0B3F4A">Lips together</text>
   <text x="1045" y="276" text-anchor="middle" ${FONT_T} font-size="26" fill="${STEP[1]}">mmm</text></g>`);
-pop("#mouthCard", tMouth - .45, tNext - .3); tap(tMouth - .2, 769, 436);
+pop("#mouthCard", tMouth - .45, tNext - .3); if (!REC) tap(tMouth - .2, 769, 436);   // in the recording the app shows the lips by itself, so there is nothing to tap
 flap("#lily_encouraging_talk", tWith, tWith + 1.0); sayIt(tWith + .05); miaBounce(tNext - .5, 1, 8);
 // 3 Find It: three taps, three stars
 const STAR = "M0 -18 L5 -6 18 -5 8 4 11 17 0 10 -11 17 -8 4 -18 -5 -5 -6Z";
 WORLD(`<g id="stars3" fill="#FFC53D" stroke="#fff" stroke-width="4" stroke-linejoin="round">${[0, 1, 2].map(i => `<path id="star${i}" opacity="0" d="${STAR}"/>`).join("")}</g>`);
 (REC ? [[735, 433.6, 60.68], [777, 433.6, 61.28], [756, 467.2, 61.68]] : [[775, 406.5, tFinds + .2], [736.5, 439.4, tFinds + .9], [775, 439.4, tFinds + 1.6]]).forEach(([x, y, t], i) => {
-  miaTap(t - .05); tap(t, x, y); const [bx, by] = big(x, y);
+  miaTap(t - .05); tap(t, x, y); const [bx, by] = big(...at(x, y));
   K("#star" + i, [[t, { opacity: 0, transform: `translate(${bx}px,${by}px) scale(.2) rotate(0deg)` }], [t + .2, { opacity: 1, transform: `translate(${bx}px,${by - 30}px) scale(1.5) rotate(40deg)` }, "ease-out"],
     [t + .95, { opacity: 1, transform: `translate(${bx + (i - 1) * 70}px,${by - 170}px) scale(1.1) rotate(200deg)` }], [t + 1.35, { opacity: 0, transform: `translate(${bx + (i - 1) * 90}px,${by - 210}px) scale(.6) rotate(260deg)` }]]);
 });
