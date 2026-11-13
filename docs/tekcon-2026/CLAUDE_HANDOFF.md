@@ -28,7 +28,7 @@ G56/
 - Team code **G56** ("Group 56") is confirmed. Team: Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis. Adviser: Mr. Joemarie C. Amparo.
 - The instructor's original brief and rubric are **not** in this folder. What is here is the team's summary of it (the ten rules in section 6). If you have the rubric, check the film against it.
 
-## 2. Where things stand (13 Nov, midday)
+## 2. Where things stand (13 Nov, afternoon)
 
 **Done**
 
@@ -41,7 +41,7 @@ G56/
 **Left, in this order**
 
 1. The team lead watches and listens to `film/film.html` and gives notes.
-2. Final render at 1080p (section 5, "Render"). The 1080p file made on 12 Nov is out of date: it has the old music, the old takes of two lines and none of the 13 Nov picture fixes. `film/film_draft.mp4` is that old render at half size.
+2. ~~Final render~~ **Done 13 Nov afternoon:** `01_Video_Pitch/G56_2-Minute_Pitch.mp4` (1920x1080, 30 fps, 120.0 s, H.264 + AAC, -20.8 LUFS, true peak -3.3 dB), approved by the team lead. `film/film_draft.mp4` is the same render at 960x540. Render again only if the film changes.
 3. Upload the MP4 to `02_Video_Pitch` on Drive; make the QR from its link; save it as `assets/qr_pitch.png`; rebuild the poster; scan the QR from a second phone.
 4. Export `Research_Poster.pdf`, upload the poster files, and replace the two logo files on Drive if they were uploaded before the evening of 12 Nov (those were the old face-only logo).
 5. Set the Drive folder to "Anyone with the link: Viewer". Print.
