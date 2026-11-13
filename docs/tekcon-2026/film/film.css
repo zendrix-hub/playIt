@@ -51,6 +51,8 @@ svg [class], svg [style*="transform-origin"], #sparks, #sunRays { transform-box:
 #cam { transform-box: view-box !important; transform-origin: 640px 420px !important; }
 #armL, #armR, #foreL, #foreR, #armLf, #armRf, #foreLf, #foreRf, #legL, #legR { transform-box: view-box !important; }
 #phoneBig { transform-box: view-box !important; transform-origin: 756px 498px !important; }
+/* the peeking Lily copies the phone's shake, so it turns about the same point the phone does (the middle of the phone's foot) */
+#peekFollow { transform-box: view-box !important; transform-origin: 762px 502px !important; }
 .shimmer { animation: shimmer 2.4s linear infinite; }
 @keyframes shimmer { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -120; } }
 .floaty { transform-origin: 50% 50%; animation: floaty 2.6s ease-in-out infinite alternate; }

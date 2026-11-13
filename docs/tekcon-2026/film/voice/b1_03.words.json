@@ -1,102 +1,102 @@
 [
  {
   "word": "Her",
-  "start": 0.0,
-  "end": 0.2
+  "start": 0.091,
+  "end": 0.232
  },
  {
   "word": "teacher",
-  "start": 0.2,
-  "end": 0.46
+  "start": 0.272,
+  "end": 0.634
  },
  {
   "word": "has",
-  "start": 0.46,
-  "end": 0.72
+  "start": 0.674,
+  "end": 0.855
  },
  {
   "word": "a",
-  "start": 0.72,
-  "end": 0.88
+  "start": 0.915,
+  "end": 0.955
  },
  {
   "word": "full",
-  "start": 0.88,
-  "end": 1.14
+  "start": 1.056,
+  "end": 1.337
  },
  {
   "word": "classroom.",
-  "start": 1.14,
-  "end": 1.7
+  "start": 1.398,
+  "end": 2.021
  },
  {
   "word": "Her",
-  "start": 2.14,
-  "end": 2.24
+  "start": 2.382,
+  "end": 2.563
  },
  {
   "word": "nanay",
-  "start": 2.24,
-  "end": 2.82
+  "start": 2.563,
+  "end": 3.468
  },
  {
   "word": "is",
-  "start": 2.82,
-  "end": 3.1
+  "start": 3.468,
+  "end": 3.528
  },
  {
   "word": "still",
-  "start": 3.1,
-  "end": 3.32
+  "start": 3.588,
+  "end": 3.829
  },
  {
   "word": "at",
-  "start": 3.32,
-  "end": 3.48
+  "start": 3.87,
+  "end": 3.97
  },
  {
   "word": "work.",
-  "start": 3.48,
-  "end": 3.76
+  "start": 4.03,
+  "end": 4.332
  },
  {
   "word": "And",
-  "start": 4.2,
-  "end": 4.28
+  "start": 4.734,
+  "end": 4.834
  },
  {
   "word": "the",
-  "start": 4.28,
-  "end": 4.42
+  "start": 4.874,
+  "end": 4.975
  },
  {
   "word": "signal",
-  "start": 4.42,
-  "end": 4.68
+  "start": 5.035,
+  "end": 5.417
  },
  {
   "word": "at",
-  "start": 4.68,
-  "end": 4.86
+  "start": 5.477,
+  "end": 5.558
  },
  {
   "word": "home",
-  "start": 4.86,
-  "end": 5.18
+  "start": 5.598,
+  "end": 5.879
  },
  {
   "word": "is",
-  "start": 5.18,
-  "end": 5.6
+  "start": 6.281,
+  "end": 6.382
  },
  {
   "word": "gone",
-  "start": 5.6,
-  "end": 5.82
+  "start": 6.442,
+  "end": 6.663
  },
  {
   "word": "again.",
-  "start": 5.82,
-  "end": 6.08
+  "start": 6.703,
+  "end": 6.924
  }
 ]

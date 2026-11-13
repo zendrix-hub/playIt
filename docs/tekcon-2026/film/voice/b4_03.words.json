@@ -1,107 +1,107 @@
 [
  {
   "word": "The",
-  "start": 0.0,
-  "end": 0.16
+  "start": 0.111,
+  "end": 0.212
  },
  {
   "word": "grown-ups",
-  "start": 0.16,
-  "end": 0.58
+  "start": 0.252,
+  "end": 0.733
  },
  {
   "word": "who",
-  "start": 0.58,
-  "end": 0.86
+  "start": 0.954,
+  "end": 1.095
  },
  {
   "word": "open",
-  "start": 0.86,
-  "end": 1.1
+  "start": 1.095,
+  "end": 1.436
  },
  {
   "word": "the",
-  "start": 1.1,
-  "end": 1.28
+  "start": 1.436,
+  "end": 1.516
  },
  {
   "word": "door?",
-  "start": 1.28,
-  "end": 1.56
+  "start": 1.536,
+  "end": 1.797
  },
  {
   "word": "Parents",
-  "start": 2.4,
+  "start": 2.259,
   "end": 2.7
  },
  {
   "word": "gave",
-  "start": 2.7,
-  "end": 2.98
+  "start": 3.021,
+  "end": 3.242
  },
  {
   "word": "it",
-  "start": 2.98,
-  "end": 3.18
+  "start": 3.282,
+  "end": 3.363
  },
  {
   "word": "4.6",
-  "start": 3.18,
-  "end": 4.2
+  "start": 3.503,
+  "end": 4.426
  },
  {
   "word": "for",
-  "start": 4.2,
-  "end": 4.64
+  "start": 4.747,
+  "end": 4.908
  },
  {
   "word": "Grade",
-  "start": 4.64,
-  "end": 4.84
+  "start": 4.968,
+  "end": 5.249
  },
  {
   "word": "1",
-  "start": 4.84,
-  "end": 5.1
+  "start": 5.37,
+  "end": 5.51
  },
  {
   "word": "fit,",
-  "start": 5.1,
-  "end": 5.4
+  "start": 5.57,
+  "end": 5.811
  },
  {
   "word": "4.4",
-  "start": 5.9,
-  "end": 6.72
+  "start": 6.172,
+  "end": 6.594
  },
  {
   "word": "to",
-  "start": 6.72,
-  "end": 6.96
+  "start": 6.935,
+  "end": 7.035
  },
  {
   "word": "recommend.",
-  "start": 6.96,
-  "end": 7.42
+  "start": 7.096,
+  "end": 7.557
  },
  {
   "word": "Teachers",
-  "start": 7.42,
-  "end": 8.64
+  "start": 8.019,
+  "end": 8.44
  },
  {
   "word": "scored",
-  "start": 8.64,
-  "end": 8.98
+  "start": 8.521,
+  "end": 8.922
  },
  {
   "word": "teaching",
-  "start": 8.98,
-  "end": 9.44
+  "start": 9.103,
+  "end": 9.464
  },
  {
   "word": "4.7.",
-  "start": 9.44,
-  "end": 10.36
+  "start": 9.484,
+  "end": 9.624
  }
 ]

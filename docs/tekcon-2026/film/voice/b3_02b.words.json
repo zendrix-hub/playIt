@@ -1,57 +1,57 @@
 [
  {
   "word": "and",
-  "start": 0.05,
-  "end": 0.13
+  "start": 0.071,
+  "end": 0.151
  },
  {
   "word": "the",
-  "start": 0.13,
-  "end": 0.25
+  "start": 0.191,
+  "end": 0.271
  },
  {
   "word": "phone",
-  "start": 0.25,
-  "end": 0.43
+  "start": 0.332,
+  "end": 0.592
  },
  {
   "word": "itself",
-  "start": 0.43,
-  "end": 0.79
+  "start": 0.632,
+  "end": 1.033
  },
  {
   "word": "checks",
-  "start": 0.79,
-  "end": 1.15
+  "start": 1.173,
+  "end": 1.474
  },
  {
   "word": "her",
-  "start": 1.15,
-  "end": 1.41
+  "start": 1.534,
+  "end": 1.674
  },
  {
   "word": "voice.",
-  "start": 1.41,
-  "end": 1.65
+  "start": 1.714,
+  "end": 2.035
  },
  {
   "word": "Nothing",
-  "start": 2.27,
-  "end": 2.53
+  "start": 2.495,
+  "end": 2.836
  },
  {
   "word": "leaves",
-  "start": 2.53,
-  "end": 2.85
+  "start": 2.916,
+  "end": 3.177
  },
  {
   "word": "the",
-  "start": 2.85,
-  "end": 3.09
+  "start": 3.217,
+  "end": 3.297
  },
  {
   "word": "device.",
-  "start": 3.09,
-  "end": 3.39
+  "start": 3.337,
+  "end": 3.698
  }
 ]

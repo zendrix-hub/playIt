@@ -14,7 +14,7 @@
         <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27286B"/><stop offset=".55" stop-color="#8A4E8C"/><stop offset=".82" stop-color="#F08A5D"/><stop offset="1" stop-color="#FFC987"/></linearGradient>
         <radialGradient id="lampGlow"><stop offset="0" stop-color="#FFE7A3" stop-opacity=".95"/><stop offset=".45" stop-color="#FFC53D" stop-opacity=".38"/><stop offset="1" stop-color="#FFC53D" stop-opacity="0"/></radialGradient>
         <radialGradient id="phoneGlow"><stop offset="0" stop-color="#ffffff" stop-opacity="1"/><stop offset=".4" stop-color="#FFE07A" stop-opacity=".7"/><stop offset="1" stop-color="#FFC53D" stop-opacity="0"/></radialGradient>
-        <clipPath id="outOfPhone"><rect x="540" y="-400" width="860" height="718"/><rect id="clipRight" x="808" y="318" width="600" height="500"/></clipPath>
+        <clipPath id="behindPhone"><path clip-rule="evenodd" d="M-400 -400 H1700 V1100 H-400Z M708.5 335 a19 19 0 0 1 19 -19 h57 a19 19 0 0 1 19 19 v144 a19 19 0 0 1 -19 19 h-57 a19 19 0 0 1 -19 -19Z"/></clipPath>
         <clipPath id="scrClip"><rect x="718.5" y="328" width="75" height="158" rx="8"/></clipPath>
         <mask id="moonMask"><rect x="1000" y="40" width="200" height="200" fill="#fff"/><circle cx="1112" cy="104" r="36" fill="#000"/></mask>
         <clipPath id="faceClip"><rect x="450" y="292" width="140" height="136" rx="62"/></clipPath>
@@ -257,6 +257,14 @@
           <g id="pointRf" opacity="0"><ellipse cx="637" cy="492.3" rx="8.6" ry="10" fill="#D29766" transform="rotate(18.4 637 492.3)"/><path d="M642.2 492.6 L645.6 493.7" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M640.8 496.8 L644.2 497.9" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M639.5 500.7 L642.9 501.9" stroke="#AE7349" stroke-width="4.2" stroke-linecap="round"/><path d="M642.8 487.7 L657 492.5" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/><path d="M638 483 L644.8 484" stroke="#D29766" stroke-width="5" stroke-linecap="round"/></g>
         </g>
       </g></g>
+      <!-- holding the open book by its sides, like a child reading: what shows in front is the side of each hand and four fingers
+           curled over the front of the cover. Shown by holding() in lib.js while the arm behind the book is in the HOLD pose. -->
+      <g id="holdL" opacity="0"><g transform="translate(422.5 467) rotate(15.8)">
+        <ellipse cx="-5" cy="0" rx="8.5" ry="12.5" fill="#DDA273"/><path d="M-1 -8.4 L8 -8.4" stroke="#DDA273" stroke-width="5.4" stroke-linecap="round"/><path d="M-1 -2.8 L8 -2.8" stroke="#DDA273" stroke-width="5.4" stroke-linecap="round"/><path d="M-1 2.8 L8 2.8" stroke="#DDA273" stroke-width="5.4" stroke-linecap="round"/><path d="M-1 8.4 L8 8.4" stroke="#DDA273" stroke-width="5.4" stroke-linecap="round"/>
+        <path d="M1.5 -5.6 L6.5 -5.6" stroke="#BE7F52" stroke-width="1.1" stroke-linecap="round"/><path d="M1.5 0 L6.5 0" stroke="#BE7F52" stroke-width="1.1" stroke-linecap="round"/><path d="M1.5 5.6 L6.5 5.6" stroke="#BE7F52" stroke-width="1.1" stroke-linecap="round"/><path d="M-10.5 -5 Q-12.5 0 -10.5 5" stroke="#BE7F52" stroke-width="1.2" fill="none" stroke-linecap="round"/></g></g>
+      <g id="holdR" opacity="0"><g transform="translate(617.5 467) rotate(-15.8) scale(-1 1)">
+        <ellipse cx="-5" cy="0" rx="8.5" ry="12.5" fill="#D29766"/><path d="M-1 -8.4 L8 -8.4" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/><path d="M-1 -2.8 L8 -2.8" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/><path d="M-1 2.8 L8 2.8" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/><path d="M-1 8.4 L8 8.4" stroke="#D29766" stroke-width="5.4" stroke-linecap="round"/>
+        <path d="M1.5 -5.6 L6.5 -5.6" stroke="#AE7349" stroke-width="1.1" stroke-linecap="round"/><path d="M1.5 0 L6.5 0" stroke="#AE7349" stroke-width="1.1" stroke-linecap="round"/><path d="M1.5 5.6 L6.5 5.6" stroke="#AE7349" stroke-width="1.1" stroke-linecap="round"/><path d="M-10.5 -5 Q-12.5 0 -10.5 5" stroke="#AE7349" stroke-width="1.2" fill="none" stroke-linecap="round"/></g></g>
 
       <!-- lamp -->
       <g transform="translate(-44 0)">
@@ -350,7 +358,14 @@
       </g>
 
       <!-- ============ LILY (the app's real art): she peeks over the top of the phone, then hops out beside it ============ -->
-      <g id="lilyWrap" clip-path="url(#outOfPhone)">
+      <!-- the peeking Lily (small): #peekFollow copies the phone's own shake and dip, and its clip hides her wherever the phone body is -->
+      <g id="peekFollow" clip-path="url(#behindPhone)">
+        <g id="lilyPeekWrap" opacity="0">
+          <g id="lilyPeek" style="transform-origin: 50% 85%"><image href="img/lily_waving.png" x="701" y="340" width="110" height="110"/></g>
+        </g>
+      </g>
+      <!-- the full-size Lily: she takes over from the small one as it springs out, and is never clipped -->
+      <g id="lilyWrap">
         <g id="lily" style="transform-origin: 50% 100%">
           <g id="lilyBob">
             <image id="lilyA" href="img/lily_waving.png" x="634" y="252" width="250" height="250"/>
@@ -366,23 +381,23 @@
           </g>
         </g>
       </g>
-      <ellipse id="dustL" cx="826" cy="494" rx="18" ry="9" fill="#FFF2DC" opacity="0" style="transform-origin: 50% 50%"/>
-      <ellipse id="dustR" cx="912" cy="494" rx="18" ry="9" fill="#FFF2DC" opacity="0" style="transform-origin: 50% 50%"/>
+      <ellipse id="dustL" cx="882" cy="494" rx="18" ry="9" fill="#FFF2DC" opacity="0" style="transform-origin: 50% 50%"/>
+      <ellipse id="dustR" cx="968" cy="494" rx="18" ry="9" fill="#FFF2DC" opacity="0" style="transform-origin: 50% 50%"/>
       <g id="confetti"></g>
       <g id="bf1" opacity="0"><ellipse class="wingL" cx="-9" cy="0" rx="10" ry="14" fill="#F2545B"/><ellipse class="wingR" cx="9" cy="0" rx="10" ry="14" fill="#F2545B"/><rect x="-2.5" y="-10" width="5" height="20" rx="2.5" fill="#4A342E"/></g>
       <g id="bf2" opacity="0"><ellipse class="wingL" cx="-8" cy="0" rx="9" ry="12" fill="#3BA7D9"/><ellipse class="wingR" cx="8" cy="0" rx="9" ry="12" fill="#3BA7D9"/><rect x="-2.5" y="-9" width="5" height="18" rx="2.5" fill="#4A342E"/></g>
-      <g id="sparks" fill="#FFE07A" opacity="0">
+      <g transform="translate(56 0)"><g id="sparks" fill="#FFE07A" opacity="0">
         <path class="sp" d="M750 330 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6Z"/><path class="sp" d="M1010 330 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5Z"/>
         <path class="sp" d="M970 250 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z"/><path class="sp" d="M800 240 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z"/>
-      </g>
+      </g></g>
 
-      <!-- Lily's speech bubble -->
-      <g id="bubble" opacity="0" style="transform-origin: 0% 100%">
+      <!-- Lily's speech bubble (lifted a little so its tail ends just above her head where she now stands) -->
+      <g transform="translate(0 -12)"><g id="bubble" opacity="0" style="transform-origin: 0% 100%">
         <path d="M957 148 h268 a26 26 0 0 1 26 26 v80 a26 26 0 0 1 -26 26 h-222 l-52 36 14 -36 h-8 a26 26 0 0 1 -26 -26 v-80 a26 26 0 0 1 26 -26Z" fill="#0B5F5B" opacity=".35"/>
         <path d="M951 140 h268 a26 26 0 0 1 26 26 v80 a26 26 0 0 1 -26 26 h-222 l-52 36 14 -36 h-8 a26 26 0 0 1 -26 -26 v-80 a26 26 0 0 1 26 -26Z" fill="#FFFDF6" stroke="#0B7F7A" stroke-width="6" stroke-linejoin="round"/>
         <g id="mabuhay" style="transform-origin: 50% 50%"><text x="1085" y="206" text-anchor="middle" font-family="Sniglet, Segoe UI, sans-serif" font-weight="800" font-size="52" fill="#FFC53D" stroke="#0B7F7A" stroke-width="6" stroke-linejoin="round" paint-order="stroke">Hi there!</text></g>
         <text x="1085" y="252" text-anchor="middle" font-family="Fredoka, Lexend, Segoe UI, sans-serif" font-weight="700" font-size="24" fill="#0B5F5B"><tspan id="w1">Let's </tspan><tspan id="w2">play </tspan><tspan id="w3">and </tspan><tspan id="w4">learn!</tspan><tspan id="w5"></tspan></text>
-      </g>
+      </g></g>
       </g>
       <g id="ui"></g>
     </svg>

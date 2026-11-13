@@ -186,13 +186,16 @@ noStamp(2, 950, (x, y) => `<circle cx="${x}" cy="${y}" r="36" fill="${STEP[0]}"/
 K("#bookClosed", [[100.5, { opacity: 1 }, "steps(1)"], [100.7, { opacity: 0 }, "steps(1)"]]);
 K("#bookOpen", [[100.69, { opacity: 0, transform: "scaleY(.3)" }, "steps(1)"], [100.7, { opacity: 1, transform: "scaleY(.3)" }, "ease-out"], [100.95, { opacity: 1, transform: "scaleY(1.08)" }], [101.1, { opacity: 1, transform: "scaleY(1)" }]]);
 // both hands lift the book open by its top corners; the right one goes back to the table, the left one traces the letter again
-armK("L", [[100.4, REST], [100.75, LR("L", 0, 30)], [101.02, LIFT("L")], [101.4, HIDE], [105.6, HIDE], [105.95, REST]]);
-armK("R", [[100.4, REST], [100.75, LR("R", 0, 30)], [101.02, LIFT("R")], [101.45, REST]]);
+// then she holds it up by its sides again (HOLD) until she lets go to cheer
+const tHoldEnd = tOne + 1.15 - .45;
+armK("L", [[100.4, REST], [100.75, LR("L", 0, 30)], [101.02, LIFT("L")], [101.4, HIDE], [105.6, HIDE], [105.95, HOLD("L")], [tHoldEnd, HOLD("L")]]);
+armK("R", [[100.4, REST], [100.75, LR("R", 0, 30)], [101.02, LIFT("R")], [101.45, HOLD("R")], [tHoldEnd, HOLD("R")]]);
+holding("L", 105.95, tHoldEnd); holding("R", 101.45, tHoldEnd);
 tracing([101.6, 102.3, 103.0, 103.7, 104.4, 105.2]); front("L", 100.52, 101.3); front("R", 100.52, 101.35);
 K("#miaHead", [[69.6, HD(-4, -2)], [100.0, HD(-4, -2)], [101.2, HD(7, 4)], [105.8, HD(7, 4)], [106.4, HD(-5, -2)], [110.4, HD(-5, -2)]]);
 K("#pupils", [[69.6, PU(5, -5)], [100.0, PU(5, -5)], [101.2, PU(-3, 6)], [103.4, PU(3, 6)], [105.6, PU(-2, 6)], [106.3, PU(7, -2)], [110.4, PU(7, -2)]]);
 // one sound at a time
-lilyHop(tTars - .1, 210, 210, 64); sayIt(tOne - .05); miaCheer(tOne + 1.15, 110.2); lilyHop(tOne + 1.2, 210, 210, 50);
+lilyHop(tTars - .1, LX2, LX2, 64); sayIt(tOne - .05); miaCheer(tOne + 1.15, 110.2); lilyHop(tOne + 1.2, LX2, LX2, 50);
 [0, 1].forEach(i => K("#hrt" + i, [[tTars + .3 + i * .22, { opacity: 0, transform: "translateY(20px) scale(.3)" }], [tTars + .55 + i * .22, { opacity: 1, transform: "translateY(0px) scale(1.2)" }, "ease-out"], [tTars + 1.4 + i * .22, { opacity: 1, transform: "translateY(-26px) scale(1)" }], [tTars + 1.8 + i * .22, { opacity: 0, transform: "translateY(-44px) scale(.8)" }]]));
 // the team
 const names = D.team.members.map(n => n.replace(/\s*\(.*\)/, ""));

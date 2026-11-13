@@ -94,6 +94,14 @@ function armK(s, frames, km) {
 }
 const sw = (f, sel, a, b, on, off, d) => f(sel, [[a - d, { opacity: off }], [a, { opacity: on }], [b, { opacity: on }], [b + d, { opacity: off }]]);
 function pointing(s, a, b, km) { const f = km ? KM : K; sw(f, "#point" + s, a, b, 1, 0, .08); sw(f, "#fing" + s, a, b, 0, 1, .08); }   // index finger out between a and b
+// Holding the open book by its sides (like a child reading): the arm behind the book puts its hand at the side edge of the cover,
+// and between a and b the front drawing #holdL / #holdR (side of the hand, fingers curled over the cover) shows in place of the flat hand.
+const HOLD = s => reach(s, s === "L" ? 416 : 624, 467);
+function holding(s, a, b, km) {
+  const f = km ? KM : K, d = .08, on = a < d ? [[0, 1, "steps(1)"]] : [[a - d, 0], [a, 1]];
+  f("#hold" + s, [...on.map(([t, v, e]) => [t, { opacity: v }, e]), [b, { opacity: 1 }], [b + d, { opacity: 0 }]]);
+  f("#fing" + s, [...on.map(([t, v, e]) => [t, { opacity: 1 - v }, e]), [b, { opacity: 0 }], [b + d, { opacity: 1 }]]);
+}
 function front(s, a, b, km) { sw(km ? KM : K, "#front" + s, a, b, 1, 0, .12); }       // the hand is in front of the book between a and b
 function oscM(sel, fn, step = .12) { const f = []; for (let t = 0; t <= 17.6; t += step) f.push([t, { transform: fn(t) }, "linear"]); KM(sel, f); }
 

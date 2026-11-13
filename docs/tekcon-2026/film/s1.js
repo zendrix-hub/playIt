@@ -1,5 +1,8 @@
 // Beats 1 and 2a (0:00 to 0:28): Mia is stuck, Lily arrives.
 // These keyframes were designed on an 18-second mock-up clock; KM() in lib.js stretches that clock onto the real voice.
+// Where Lily stands, as a shift from her drawing's home position: beside the small phone, and beside the big phone in the demo.
+// Both keep her whole body clear of the phone, so the two never overlap.
+const LX1 = 166, LX2 = 250;
 /* ---- scenery drawn by formula: hills, banderitas ---- */
 [[90, 330, 150, "#DCC09C", "#EBD6B8"], [860, 330, 128, "#DCC09C", "#EBD6B8"], [290, 290, 122, "#C49A6C", "#D8B48A"], [1190, 320, 126, "#C49A6C", "#D8B48A"],
  [480, 270, 104, "#A9805A", "#C19A72"], [705, 250, 96, "#B58B62", "#CBA57C"], [1020, 300, 138, "#A9805A", "#C19A72"]].forEach(([x, w, h, c, hi]) => {
@@ -19,7 +22,7 @@ const FLAG = [["#F2545B", "#D8434A"], ["#FFC53D", "#F2A91E"], ["#3BA7D9", "#2B8F
 KM("#cam", [
   [0, { transform: "translate(0px,0px) scale(1.03)" }], [5, { transform: "translate(22px,-6px) scale(1.17)" }], [6.9, { transform: "translate(22px,-8px) scale(1.2)" }],
   [7.5, { transform: "translate(0px,10px) scale(1.04)" }, "ease-in-out"], [11.2, { transform: "translate(0px,10px) scale(1.07)" }],
-  [12.4, { transform: "translate(12px,-14px) scale(1.21)" }], [13.2, { transform: "translate(-80px,6px) scale(1.24)" }], [14.15, { transform: "translate(-86px,8px) scale(1.27)" }, "cubic-bezier(.3,1.5,.5,1)"],
+  [12.4, { transform: "translate(12px,-14px) scale(1.21)" }], [13.2, { transform: "translate(-108px,84px) scale(1.46)" }], [14.15, { transform: "translate(-114px,90px) scale(1.5)" }, "cubic-bezier(.3,1.15,.5,1)"],   // closer on the phone while the small Lily peeks
   [14.6, { transform: "translate(-10px,16px) scale(1.05)" }], [14.95, { transform: "translate(-10px,0px) scale(1.05)" }, "linear"],
   [15.0, { transform: "translate(-17px,6px) scale(1.05)" }, "linear"], [15.06, { transform: "translate(-4px,-5px) scale(1.05)" }, "linear"], [15.12, { transform: "translate(-14px,3px) scale(1.05)" }, "linear"], [15.18, { transform: "translate(-10px,0px) scale(1.05)" }],
   [17.5, { transform: "translate(-20px,0px) scale(1.06)" }], [18, { transform: "translate(0px,0px) scale(1.03)" }]]);
@@ -46,7 +49,7 @@ KM("#bf2", [[15.6, { opacity: 0, transform: "translate(-40px,400px)" }], [15.7, 
 
 /* ---- confetti and dust when Lily lands ---- */
 for (let i = 0; i < 18; i++) {
-  el("rect", { id: "cf" + i, x: 864, y: 440, width: 10, height: 16, rx: 3, fill: STEP[i % 5], opacity: 0, style: "transform-origin: 50% 50%" }, $("#confetti"));
+  el("rect", { id: "cf" + i, x: 754 + LX1, y: 440, width: 10, height: 16, rx: 3, fill: STEP[i % 5], opacity: 0, style: "transform-origin: 50% 50%" }, $("#confetti"));
   const dx = (i - 8.5) * 27 + (i % 3) * 9, up = 150 + (i * 37) % 130, r = 200 + i * 47;
   KM("#cf" + i, [[14.9, { opacity: 0, transform: "translate(0px,0px) rotate(0deg)" }], [14.95, { opacity: 1, transform: "translate(0px,0px) rotate(0deg)" }, "ease-out"],
     [15.45, { opacity: 1, transform: `translate(${dx}px,${-up}px) rotate(${r}deg)` }, "ease-in"], [16.5, { opacity: 0, transform: `translate(${dx * 1.45}px,70px) rotate(${r * 2.4}deg)` }]]);
@@ -93,12 +96,14 @@ function tracing(ts, km) {            // ts: the six seconds at which the finger
   f("#traceHand", [[a - .32, TP([478, 424])], ...ts.map((t, i) => [t, TP(TRACE_PTS[i])]), [b + .3, TP(TRACE_PTS[5])], [b + .62, TP([488, 424])]]);
 }
 const LIFT = s => LR(s, 2, 105), CHEER = (s, k) => LR(s, k, 22), CLAP = (s, shut) => shut ? LR(s, -64, 219) : LR(s, -58, 199);
+// While the book is open she holds it up by its sides, like a child reading (HOLD and holding() in lib.js); the left hand lets go
+// to trace the letter and comes back.
 ["L", "R"].forEach(s => {
-  const f = [[0, REST]];
-  if (s === "L") f.push([.8, REST], [1.15, HIDE], [4.6, HIDE], [4.95, REST],
-    [5.6, REST], [6.2, LR(s, 0, 16)], [6.34, LR(s, 0, 2)], [6.48, LR(s, 0, 16)], [6.62, LR(s, 0, 2)], [7.2, REST]);
+  const H = HOLD(s), f = [[0, H]];
+  if (s === "L") { f.push([.8, H], [1.15, HIDE], [4.6, HIDE], [4.95, H]); holding(s, 0, .8, true); holding(s, 4.95, 11.3, true); }
+  else holding(s, 0, 11.3, true);
   // both hands go to the top corners of the book and come down with it as it shuts
-  f.push([11.3, REST], [11.62, LIFT(s)], [12.05, LR(s, 0, 30)], [12.4, REST], [14.2, REST],
+  f.push([11.3, H], [11.62, LIFT(s)], [12.05, LR(s, 0, 30)], [12.4, REST], [14.2, REST],
     [14.55, CHEER(s, 78), "cubic-bezier(.3,1.5,.5,1)"], [14.75, CHEER(s, 94)], [14.95, CHEER(s, 76)], [15.2, CHEER(s, 90)]);
   let shut = true; for (let t = 15.45; t < 17.4; t += .15) { f.push([t, CLAP(s, shut)]); shut = !shut; }
   armK(s, f, true);
@@ -131,7 +136,7 @@ KM("#bookOpen",   [[0, { opacity: 1, transform: "scaleY(1)" }], [11.6, { opacity
 KM("#bookClosed", [[12.0, { opacity: 0, transform: "scaleY(1.5)" }], [12.02, { opacity: 1, transform: "scaleY(1.5)" }], [12.25, { opacity: 1, transform: "scaleY(.9)" }], [12.4, { opacity: 1, transform: "scaleY(1)" }], [17.6, { opacity: 1, transform: "scaleY(1)" }], [18, { opacity: 0, transform: "scaleY(1)" }]]);
 
 /* ---- the phone wakes up ---- */
-(() => { const f = [[12.7, { transform: "rotate(0deg) translateY(0px)" }, "linear"]]; let d = 1; for (let t = 12.76; t < 13.45; t += .06) { f.push([t, { transform: `rotate(${d * 2.6}deg) translateY(-4px)` }, "linear"]); d = -d; } f.push([13.46, { transform: "rotate(0deg) translateY(0px)" }]); f.push([14.2, { transform: "rotate(0deg) translateY(5px)" }]); f.push([14.4, { transform: "rotate(0deg) translateY(0px)" }]); KM("#phone", f); })();
+(() => { const f = [[12.7, { transform: "rotate(0deg) translateY(0px)" }, "linear"]]; let d = 1; for (let t = 12.76; t < 13.45; t += .06) { f.push([t, { transform: `rotate(${d * 2.6}deg) translateY(-4px)` }, "linear"]); d = -d; } f.push([13.46, { transform: "rotate(0deg) translateY(0px)" }]); f.push([14.2, { transform: "rotate(0deg) translateY(5px)" }]); f.push([14.4, { transform: "rotate(0deg) translateY(0px)" }]); KM("#phone", f); KM("#peekFollow", f); })();   // the peeking Lily shakes and dips with the phone
 KM("#phoneScreen", [[0, { fill: "#27304F" }], [12.7, { fill: "#27304F" }], [13.0, { fill: "#FFF6CF" }], [17.6, { fill: "#FFF6CF" }], [18, { fill: "#27304F" }]]);
 // the phone shows the app's start screen from the first second (a little dim, as an idle screen); it brightens when the phone wakes
 KM("#phoneApp", [[0, { opacity: .85 }], [12.7, { opacity: .85 }], [13.35, { opacity: 1 }], [17.6, { opacity: 1 }]]);
@@ -139,18 +144,25 @@ KM("#phoneLight",  [[12.7, { opacity: 0 }], [13.2, { opacity: .9 }], [14.3, { op
 KM("#rings", [[12.8, { opacity: 0 }], [12.9, { opacity: 1 }], [15, { opacity: 1 }], [15.4, { opacity: 0 }]]);
 ["#ring1", "#ring2"].forEach((s2, i) => { const f = [[0, { transform: "scale(.5)", opacity: 0 }]]; for (let t = 12.8 + i * .45; t < 15.0; t += .9) { f.push([t, { transform: "scale(.5)", opacity: 1 }, "ease-out"]); f.push([t + .88, { transform: "scale(2.5)", opacity: 0 }, "steps(1)"]); } KM(s2, f); });
 
-/* ---- Lily: peek, hop out, land, talk ---- */
+/* ---- Lily: peek, spring out, land, talk ---- */
+// 1. "Someone small, with very big eyes, peeks in": a small Lily comes up from behind the phone until her eyes clear its top
+//    edge, looks left and right, comes up to a smile, ducks, then springs straight up. She is hidden wherever the phone body is.
+const PK = (y, r = 0, x = 0) => ({ transform: `translate(${x}px,${y}px) rotate(${r}deg)` });
+const T_OUT = 14.36;                                    // the moment she is wholly above the phone and the full-size Lily takes over
+KM("#lilyPeek", [
+  [0, PK(0)], [12.95, PK(0), "cubic-bezier(.3,1.4,.5,1)"], [13.5, PK(-72)], [13.7, PK(-74, -9, -3)], [13.9, PK(-74, 9, 3)], [14.05, PK(-86)],
+  [14.2, PK(-58), "ease-in"], [T_OUT, PK(-135, 0, 3)]]);
+KM("#lilyPeekWrap", [[0, { opacity: 0 }, "steps(1)"], [12.9, { opacity: 1 }, "steps(1)"], [T_OUT, { opacity: 0 }, "steps(1)"]]);
+// 2. The full-size Lily starts exactly where the small one left off (same place, same size), grows as she flies, and lands
+//    beside the phone. Nothing clips her: she is in front of the scene and stands clear of the phone.
+const LL = (x, y, r = 0, sx = 1, sy = 1) => ({ transform: `translate(${x}px,${y}px) rotate(${r}deg) scale(${sx},${sy})` });
 KM("#lily", [
-  [0, { transform: "translate(0px,160px) rotate(0deg) scale(1,1)" }], [12.95, { transform: "translate(0px,160px) rotate(0deg) scale(1,1)" }],
-  [13.5, { transform: "translate(0px,-48px) rotate(0deg) scale(1,1)" }, "ease-out"], [13.7, { transform: "translate(-11px,-46px) rotate(-6deg) scale(1,1)" }], [13.9, { transform: "translate(11px,-46px) rotate(6deg) scale(1,1)" }], [14.05, { transform: "translate(0px,-50px) rotate(0deg) scale(1,1)" }],
-  [14.2, { transform: "translate(0px,-22px) rotate(0deg) scale(1.06,.9)" }, "cubic-bezier(.2,.8,.3,1)"],
-  [14.6, { transform: "translate(96px,-216px) rotate(-12deg) scale(.92,1.16)" }, "cubic-bezier(.5,0,.8,.4)"],
-  [14.95, { transform: "translate(110px,22px) rotate(0deg) scale(1.2,.78)" }, "ease-out"], [15.15, { transform: "translate(110px,0px) rotate(0deg) scale(.95,1.08)" }], [15.35, { transform: "translate(110px,22px) rotate(0deg) scale(1,1)" }],
-  [15.7, { transform: "translate(110px,22px) rotate(-4deg) scale(1,1)" }], [16.05, { transform: "translate(110px,14px) rotate(4deg) scale(1,1)" }], [16.4, { transform: "translate(110px,22px) rotate(-4deg) scale(1,1)" }], [16.75, { transform: "translate(110px,14px) rotate(4deg) scale(1,1)" }], [17.1, { transform: "translate(110px,22px) rotate(-3deg) scale(1,1)" }],
-  [17.6, { transform: "translate(110px,22px) rotate(0deg) scale(1,1)" }, "steps(1)"], [17.8, { transform: "translate(0px,160px) rotate(0deg) scale(1,1)" }]]);
-KM("#lilyWrap", [[0, { opacity: 0 }, "steps(1)"], [12.9, { opacity: 1 }], [17.5, { opacity: 1 }], [17.78, { opacity: 0 }]]);
-// until she jumps, Lily can only be seen above the top edge of the phone; after that she is free to land beside it
-KM("#clipRight", [[0, { transform: "translateX(700px)" }, "steps(1)"], [14.3, { transform: "translateX(0px)" }, "steps(1)"], [17.9, { transform: "translateX(700px)" }, "steps(1)"]]);
+  [0, LL(0, -187, 0, .44, .44)], [T_OUT, LL(0, -187, 0, .44, .44), "ease-out"],
+  [14.6, LL(LX1 * .66, -226, -12, .74, .9), "cubic-bezier(.5,0,.8,.4)"],
+  [14.95, LL(LX1, 22, 0, 1.2, .78), "ease-out"], [15.15, LL(LX1, 0, 0, .95, 1.08)], [15.35, LL(LX1, 22)],
+  [15.7, LL(LX1, 22, -4)], [16.05, LL(LX1, 14, 4)], [16.4, LL(LX1, 22, -4)], [16.75, LL(LX1, 14, 4)], [17.1, LL(LX1, 22, -3)],
+  [17.6, LL(LX1, 22), "steps(1)"]]);
+KM("#lilyWrap", [[0, { opacity: 0 }, "steps(1)"], [T_OUT, { opacity: 1 }, "steps(1)"]]);
 // she lands in her cheering pose, then waves and talks
 KM("#lilyC", [[0, { opacity: 0 }, "steps(1)"], [14.9, { opacity: 1 }, "steps(1)"], [15.45, { opacity: 0 }, "steps(1)"]]);
 KM("#lilyA", [[0, { opacity: 1 }, "steps(1)"], [14.9, { opacity: 0 }, "steps(1)"], [15.45, { opacity: 1 }, "steps(1)"]]);

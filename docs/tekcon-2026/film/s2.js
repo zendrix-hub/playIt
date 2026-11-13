@@ -45,10 +45,10 @@ K("#tap", [[0, { opacity: 0 }, "steps(1)"]]);      // the tap ring stays hidden 
 const tLily = cue("b2_03", "Lily"), tPlay = cue("b2_03", "PlayIT"), tPhon = cue("b2_03", "phonics"),
   tB1 = cue("b2_03", "DepEd"), tB2 = cue("b2_03", "listens"), tB3 = cue("b2_03", "works");
 
-WORLD(`<g id="tagLily" opacity="0" style="transform-origin: 50% 100%">
+WORLD(`<g transform="translate(${LX1 - 110} 0)"><g id="tagLily" opacity="0" style="transform-origin: 50% 100%">
   <path d="M855 288 L869 312 L883 288Z" fill="${TEAL}" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
   <rect x="801" y="232" width="136" height="62" rx="31" fill="${TEAL}" stroke="#fff" stroke-width="7"/><rect x="857" y="284" width="24" height="14" fill="${TEAL}"/>
-  <text x="869" y="277" text-anchor="middle" ${FONT_T} font-size="40" fill="#fff">Lily</text></g>`);
+  <text x="869" y="277" text-anchor="middle" ${FONT_T} font-size="40" fill="#fff">Lily</text></g></g>`);
 UI(`<g id="logo" opacity="0" style="transform-origin: 50% 50%">
   <text x="640" y="180" text-anchor="middle" ${FONT_T} font-size="132" fill="#0B5F5B" stroke="#0B5F5B" stroke-width="20" stroke-linejoin="round" opacity=".3">PlayIT</text>
   <text x="640" y="170" text-anchor="middle" ${FONT_T} font-size="132" stroke="#fff" stroke-width="20" stroke-linejoin="round" paint-order="stroke"><tspan fill="#FFC53D">Play</tspan><tspan fill="${TEAL}">IT</tspan></text></g>`);
@@ -70,14 +70,14 @@ K("#browR", [[27.9, { transform: "rotate(-6deg) translateY(-9px)" }], [28.6, { t
 ["L", "R"].forEach(s => armK(s, [[27.95, CLAP(s, false)], [28.55, REST]]));      // the clapping of Beat 2 ends: hands back on the table
 legs(27.7, 69.6, 9, 4.4);
 pop("#tagLily", tLily - .25, tPlay - .3);
-lilyHop(tLily - .2, 110, 110, 40);
+lilyHop(tLily - .2, LX1, LX1, 40);
 K("#logo", [[tPlay - .2, { opacity: 0, transform: "translate(0px,0px) scale(.2) rotate(-8deg)" }], [tPlay + .12, { opacity: 1, transform: "translate(0px,0px) scale(1.16) rotate(3deg)" }, "ease-out"],
   [tPlay + .34, { opacity: 1, transform: "translate(0px,0px) scale(1) rotate(0deg)" }], [tB1 - .7, { opacity: 1, transform: "translate(0px,0px) scale(1) rotate(0deg)" }],
   [tB1 - .2, { opacity: 1, transform: "translate(0px,-68px) scale(.56) rotate(0deg)" }], [39.45, { opacity: 1, transform: "translate(0px,-68px) scale(.56) rotate(0deg)" }], [39.75, { opacity: 0, transform: "translate(0px,-68px) scale(.3) rotate(0deg)" }]]);
 K("#miaHead", [[27.6, HD(-5, -3)], [tPlay, HD(-5, -3)], [tPlay + .4, HD(-9, -6)], [tB1 - .3, HD(-8, -5)], [39.7, HD(-4, -2)]]);
 K("#pupils", [[27.6, PU(7, -3)], [tPlay, PU(7, -3)], [tPlay + .4, PU(4, -7)], [39.6, PU(4, -7)], [40.2, PU(7, 0)]]);
 S("sfx_opening_pluck.wav", tPlay - .1, .32);
-[[1, tB1], [2, tB2], [3, tB3]].forEach(([i, t]) => { pop("#bd" + i, t - .1, 39.4 + i * .06); lilyHop(t - .05, 110, 110, 34); miaBounce(t, 1, 7); S("sfx_opening_pluck.wav", t - .05, .22); });
+[[1, tB1], [2, tB2], [3, tB3]].forEach(([i, t]) => { pop("#bd" + i, t - .1, 39.4 + i * .06); lilyHop(t - .05, LX1, LX1, 34); miaBounce(t, 1, 7); S("sfx_opening_pluck.wav", t - .05, .22); });
 lilyPoses([[27.6, "waving"], [tB1 - .3, "pointing"], [39.7, "waving"], [40.4, "pointing"], [cue("b3_02", "First") - .2, "listening"], [cue("b3_02", "Then") - .1, "idle"],
   [cue("b3_02b", "checks") + .2, "celebrating"], [cue("b3_02b", "Nothing") + .6, "idle"], [cue("b3_03", "Miss") - .1, "encouraging"], [cue("b3_04", "Next") - .1, "pointing"],
   [cue("b3_04", "Then") - .1, "thinking"], [65.0, "celebrating"], [66.0, "waving"]]);
@@ -90,7 +90,7 @@ const tWatch = LINE.b3_01.start, tTaps = cue("b3_01", "taps"), tFirst = cue("b3_
   tMiss = cue("b3_03", "Miss"), tNever = cue("b3_03", "never"), tMouth = cue("b3_03", "mouth"), tWith = cue("b3_03", "says"),
   tNext = cue("b3_04", "Next"), tFinds = cue("b3_04", "finds"), tBlend0 = cue("b3_04", "Then"), tLetters = cue("b3_04", "letters"), tParents = cue("b3_05", "parents");
 
-lilyHop(39.85, 110, 210, 70);
+lilyHop(39.85, LX1, LX2, 70);
 // with the recording, the phone stays big through the Parent Zone; the results board covers the scene at 68.7
 const PH_OUT = window.REC ? 68.35 : 65.5;
 K("#phoneBig", [[40.2, { transform: "scale(1)" }, "cubic-bezier(.3,1.35,.5,1)"], [41.0, { transform: "scale(2.6)" }], [PH_OUT, { transform: "scale(2.6)" }], [PH_OUT + .7, { transform: "scale(1)" }]]);
@@ -110,7 +110,9 @@ UI(`<g id="noNet" opacity="0" style="transform-origin: 0% 0%"><rect x="60" y="13
 pop("#noNet", tWatch + .2, 65.5); S("sfx_node_unlock_chime.mp3", tWatch + .2, .2);
 
 // the four steps, named the way the app names them
-[["Hear It", STEP[0], tFirst - .15, tThen - .25], ["Say It", STEP[1], tThen - .15, tNext - .25], ["Find It", STEP[2], tNext - .15, tBlend0 - .25], ["Blend It", STEP[3], tBlend0 - .15, 65.5]].forEach(([name, c, a, b], i) => {
+// With the recording, the phone turns to Blend It at about 1:02 whatever the narrator's pace, so the label changes then at the latest.
+const tBlendUI = window.REC ? Math.min(tBlend0, 62.0) : tBlend0;
+[["Hear It", STEP[0], tFirst - .15, tThen - .25], ["Say It", STEP[1], tThen - .15, tNext - .25], ["Find It", STEP[2], tNext - .15, tBlendUI - .25], ["Blend It", STEP[3], tBlendUI - .15, 65.5]].forEach(([name, c, a, b], i) => {
   UI(`<g id="st${i}" opacity="0" style="transform-origin: 0% 50%"><rect x="66" y="56" width="${name.length > 7 ? 300 : 280}" height="78" rx="39" fill="#0B5F5B" opacity=".28"/>
     <rect x="60" y="48" width="${name.length > 7 ? 300 : 280}" height="78" rx="39" fill="${c}" stroke="#fff" stroke-width="7"/><circle cx="102" cy="87" r="27" fill="#fff"/>
     <text x="102" y="101" text-anchor="middle" ${FONT_T} font-size="38" fill="${c}">${i + 1}</text><text x="144" y="101" ${FONT_T} font-size="40" fill="#fff">${name}</text></g>`);
@@ -156,7 +158,7 @@ UI(`<g id="chk" opacity="0" style="transform-origin: 50% 50%"><circle cx="852" c
   <g id="lock" opacity="0" style="transform-origin: 100% 50%"><rect x="906" y="186" width="330" height="62" rx="31" fill="#fff" stroke="${TEAL}" stroke-width="6"/>
   <rect x="930" y="212" width="30" height="24" rx="6" fill="${TEAL}"/><path d="M936 212 v-7 a9 9 0 0 1 18 0 v7" stroke="${TEAL}" stroke-width="5" fill="none"/><text x="974" y="227" ${FONT_B} font-size="25" fill="#0B3F4A">Stays on the phone</text></g>`);
 pop("#chk", tChecks + .2, tMiss - .35); S("sfx_correct_chime.mp3", tChecks + .2, .28); miaCheer(tChecks + .3, tChecks + 1.3);
-lilyHop(tChecks + .25, 210, 210, 50);
+lilyHop(tChecks + .25, LX2, LX2, 50);
 pop("#lock", tNothing - .1, tMiss - .3);
 // Miss it? Lily never scolds: she shows the mouth shape and says it with her
 K("#phone", [[tMiss - .05, { transform: "rotate(0deg) translateY(0px)" }, "linear"], [tMiss + .05, { transform: "rotate(-2.2deg) translateY(0px)" }, "linear"], [tMiss + .15, { transform: "rotate(2.2deg) translateY(0px)" }, "linear"], [tMiss + .25, { transform: "rotate(-1.4deg) translateY(0px)" }, "linear"], [tMiss + .35, { transform: "rotate(0deg) translateY(0px)" }]]);
@@ -164,7 +166,7 @@ S("sfx_incorrect_pop.mp3", tMiss, .2);
 miaMouth("#mSad", tMiss + .1, tMouth - .2);
 K("#browL", [[tMiss, { transform: "rotate(0deg) translateY(-3px)" }], [tMiss + .3, { transform: "rotate(-14deg) translateY(-3px)" }], [tMouth - .3, { transform: "rotate(-14deg) translateY(-3px)" }], [tMouth, { transform: "rotate(0deg) translateY(-3px)" }]]);
 K("#browR", [[tMiss, { transform: "rotate(0deg) translateY(-3px)" }], [tMiss + .3, { transform: "rotate(14deg) translateY(-3px)" }], [tMouth - .3, { transform: "rotate(14deg) translateY(-3px)" }], [tMouth, { transform: "rotate(0deg) translateY(-3px)" }]]);
-WORLD(`<g fill="#F2545B"><path id="hrt0" opacity="0" style="transform-origin: 50% 50%" d="M936 262 c-10 -16 -32 -4 -22 14 l22 22 22 -22 c10 -18 -12 -30 -22 -14Z"/><path id="hrt1" opacity="0" style="transform-origin: 50% 50%" d="M1006 236 c-8 -12 -24 -3 -17 10 l17 17 17 -17 c7 -13 -9 -22 -17 -10Z"/></g>`);
+WORLD(`<g fill="#F2545B" transform="translate(${LX2 - 210} 0)"><path id="hrt0" opacity="0" style="transform-origin: 50% 50%" d="M936 262 c-10 -16 -32 -4 -22 14 l22 22 22 -22 c10 -18 -12 -30 -22 -14Z"/><path id="hrt1" opacity="0" style="transform-origin: 50% 50%" d="M1006 236 c-8 -12 -24 -3 -17 10 l17 17 17 -17 c7 -13 -9 -22 -17 -10Z"/></g>`);
 [0, 1].forEach(i => K("#hrt" + i, [[tNever + i * .22, { opacity: 0, transform: "translateY(20px) scale(.3)" }], [tNever + i * .22 + .25, { opacity: 1, transform: "translateY(0px) scale(1.2)" }, "ease-out"], [tNever + i * .22 + 1.0, { opacity: 1, transform: "translateY(-26px) scale(1)" }], [tNever + i * .22 + 1.4, { opacity: 0, transform: "translateY(-44px) scale(.8)" }]]));
 UI(`<g id="mouthCard" opacity="0" style="transform-origin: 50% 100%"><rect x="906" y="52" width="290" height="246" rx="30" fill="#0B5F5B" opacity=".28"/><rect x="900" y="44" width="290" height="246" rx="30" fill="#fff" stroke="${STEP[1]}" stroke-width="8"/>
   <image href="img/mouth_lips_together.png" x="967" y="52" width="156" height="156"/><text x="1045" y="246" text-anchor="middle" ${FONT_B} font-size="29" fill="#0B3F4A">Lips together</text>
@@ -189,7 +191,7 @@ if (!REC) [[738, 459], [756, 459], [773.6, 459]].forEach(([x, y], i) => {
   K("#tile" + i, [[t - .02, { transform: `translate(0px,40px) scale(.2)` }], [t + .22, { transform: `translate(0px,0px) scale(1.15)` }, "ease-out"], [t + .38, { transform: `translate(0px,0px) scale(1)` }],
     [tLetters + 1.25, { transform: `translate(0px,0px) scale(1)` }], [tLetters + 1.55, { transform: `translate(${(1 - i) * 18}px,0px) scale(1.06)` }, "cubic-bezier(.3,1.6,.5,1)"], [tLetters + 1.85, { transform: `translate(${(1 - i) * 18}px,-10px) scale(1.06)` }], [tLetters + 2.05, { transform: `translate(${(1 - i) * 18}px,0px) scale(1.06)` }]]);
 });
-S("sfx_level_complete_fanfare.mp3", 64.9, .18); miaCheer(65.0, 65.7); lilyHop(65.0, 210, 210, 60);
+S("sfx_level_complete_fanfare.mp3", 64.9, .18); miaCheer(65.0, 65.7); lilyHop(65.0, LX2, LX2, 60);
 // parents get a plain progress report
 UI(`<g id="report" opacity="0" style="transform-origin: 50% 0%"><rect x="566" y="52" width="290" height="250" rx="28" fill="#0B5F5B" opacity=".28"/><rect x="560" y="44" width="290" height="250" rx="28" fill="#fff" stroke="${TEAL}" stroke-width="8"/>
   <path d="M564 96 v-24 a24 24 0 0 1 24 -24 h234 a24 24 0 0 1 24 24 v24Z" fill="${TEAL}"/><text x="705" y="84" text-anchor="middle" ${FONT_B} font-size="26" fill="#fff">Progress report</text>

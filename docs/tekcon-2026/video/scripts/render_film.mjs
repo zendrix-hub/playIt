@@ -4,6 +4,7 @@
 //   node scripts/render_film.mjs draft 0 28            only seconds 0 to 28
 //   node scripts/render_film.mjs final                 1920x1080 MP4                -> out/<TeamCode>_2-Minute_Pitch.mp4
 // On a network that blocks Remotion's own browser download, set PITCH_BROWSER to the path of chrome.exe first.
+// Frame rate: 30 a second unless PITCH_FPS is set (for example PITCH_FPS=60 for smoother motion; the render takes twice as long).
 import { bundle } from "@remotion/bundler";
 import { renderMedia, renderStill, selectComposition } from "@remotion/renderer";
 import fs from "node:fs";
@@ -21,8 +22,10 @@ const browserExecutable = process.env.PITCH_BROWSER || undefined;
 const chromeMode = browserExecutable && !/headless[-_]shell/i.test(browserExecutable) ? "chrome-for-testing" : undefined;
 console.log("Bundling...");
 const serveUrl = await bundle({ entryPoint: path.join(root, "src", "film", "index.jsx"), publicDir: pub });
-const composition = await selectComposition({ serveUrl, id: "Film", browserExecutable, chromeMode });
-const fps = composition.fps, common = { composition, serveUrl, browserExecutable, chromeMode, timeoutInMilliseconds: 180000 };
+const inputProps = { fps: Number(process.env.PITCH_FPS) || 30 };
+const composition = await selectComposition({ serveUrl, id: "Film", inputProps, browserExecutable, chromeMode });
+const fps = composition.fps, common = { composition, serveUrl, inputProps, browserExecutable, chromeMode, timeoutInMilliseconds: 180000 };
+console.log(`Frame rate: ${fps} a second, ${composition.durationInFrames} frames in all.`);
 
 if (mode === "still") {
   for (const s of rest.length ? rest.map(Number) : [10]) {
