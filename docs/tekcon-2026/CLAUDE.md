@@ -1,6 +1,17 @@
-# PlayIT TekCon 2026 kit (docs/tekcon-2026)
+# PlayIT Capstone 2 & TekCon 2026 Kit (Branch: erik/research-paper-final)
 
-Poster, two-minute pitch film and product logo for the PlayIT capstone (team G56). **Read `CLAUDE_HANDOFF.md` before doing anything here**: it holds the current state, the team lead's decisions, how each piece is built and what has already gone wrong. `film/README.md` covers the film in detail; `AGENTS.md` covers numbers and poster wording.
+Welcome to the PlayIT Capstone 2, SoftEng 2, and TekCon 2026 repository (Team G56).
+
+**IMPORTANT: Read the handoff documents before doing anything here**:
+1. **`CLAUDE_RESEARCH_PAPER_HANDOFF.md`**: Official guide for Weeks 13 and 14 Capstone Research Paper (ACM format) and final deliverable foldering in Google Drive (`G56/`).
+2. **`TEKCON_SUBMISSION_GUIDE.md`**: Official department guidelines for the Research Poster, 2-Minute Video Pitch, and Product Logos.
+3. **`CLAUDE_HANDOFF.md`**: Complete pitch video, animation, and mascot development background.
+
+Rules that always apply:
+- **Never Modify Existing Source Code/Assets**: Only update and generate the documentation, paper drafts, and submission files.
+- **Google Drive Operations**: All file operations must be performed **solely inside the team's `G56` folder** (`1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc`). Never modify the external links (`part9_Validation` or `PlayIT_MIDTERM DELIVERABLE`).
+- **Survey Dataset**: Use the frozen $N=30$ survey numbers (`round2_data.json`: 16 learners observed, 9 parents, 5 teachers). Never invent figures and never claim learning gains.
+- **Git Branch**: Keep all work committed on `erik/research-paper-final`. Collaborator: Erik Samuel Bien (`thatguyKire`).
 
 The aim of work here is to make the pitch better, not only to finish it. Look at the film and poster yourself first and form your own view; section 8 of the hand-off lists the known weak spots, what is fixed, what is open to change, and how to tell whether a change is an improvement.
 

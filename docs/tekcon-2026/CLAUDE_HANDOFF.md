@@ -1,52 +1,101 @@
 # PlayIT TekCon 2026 kit: hand-off
 
-Rewritten 13 Nov 2026. For a teammate (and their Claude Code session) who pulls this branch to **make the pitch better**, not only to finish or copy it. It says what was made, what the team lead (Zendrix) decided and why, how each piece is built, what went wrong on the way, and, in section 8, where the film and poster are still weak and how to tell whether a change is an improvement.
+Rewritten 14 Nov 2026. For a teammate (Erik Samuel Bien, `thatguyKire`) and their Claude Code session who pulls this branch to **make the pitch better and complete the final deliverable folders**. It says what was made, what the team lead (Zendrix) decided and why, how each piece is built, what went wrong on the way, and, in sections 2.1 and 8, the exact remaining tasks for Claude to generate new files from the gathered survey data and improve the pitch.
 
-**To the Claude session reading this:** do not treat this file as a list of steps to carry out. Start by looking at the film yourself (stills across the two minutes, the script in `film/lines.json`, the poster preview) and form your own view of what works and what does not. Then compare it with section 8. Disagree with this file where you have a reason, and show the reason as a mock-up or stills.
+**To the Claude session reading this:**
+1. Start by reading `TEKCON_SUBMISSION_GUIDE.md` for the official department rubrics, file naming standards, and automated checker requirements.
+2. Read Section 2.1 below: your core assignment is to **generate and update new documentation and evaluation files for the remaining subfolders in Google Drive (`G56/`) using the current survey gathered**.
+3. Inspect the film (`film/film.html`, `film/lines.json`, poster preview in `02_Research_Poster/poster_preview.png`) and compare with section 8.
 
-To start a session: open the repo in Claude Code and say **"Read docs/tekcon-2026/CLAUDE_HANDOFF.md, then …"** followed by what you want. `film/README.md` has the detail for the film; `AGENTS.md` has the rules for numbers and poster wording. The older step-by-step plans that used to be in this file are in git history (before 13 Nov).
-
-Branch: `docs/tekcon-2026-pitch-kit`. The repo is public.
+Branch: `erik/film-fixes` (synced with `docs/tekcon-2026-pitch-kit`). The repo is public.
 
 ---
 
 ## 1. What has to be handed in
 
-Due **14 November 2026**. One printed poster on cartolina, plus this Google Drive layout (the instructor's, 11 Nov):
+Due **14 November 2026**. One printed poster on cartolina, plus the final standardized 7-category Google Drive repository under team folder `G56/` (announced 14 Nov, replacing earlier 3-folder layouts):
 
-```
+```text
 G56/
-└── 06_TekCon_2026_Presentation/
-    ├── 01_Research_Poster/        Research_Poster.pdf, Research_Poster_Source.pptx
+├── 01_MVP_Validation/
+├── 02_Software_and_Deployment/
+├── 03_Updated_Technical_Documentation/
+├── 04_Testing_and_Quality_Assurance/
+├── 05_Final_User_Validation_and_Evaluation/
+├── 06_Research_Paper/
+└── 07_TechCon_2026/
+    ├── 01_Research_Poster/        G56_Research_Poster.pdf, G56_Research_Poster_Source.pptx
     ├── 02_Video_Pitch/            G56_2-Minute_Pitch.mp4
-    └── 03_Software_Product_Logo/  Product_Logo_2000x2000.png, Product_Logo_512x512.png
+    └── 03_Software_Product_Logo/  G56_Product_Logo_2000x2000.png, G56_Product_Logo_512x512.png
 ```
 
-- **Poster:** 22.5 x 28.5 in, portrait, with a QR code labelled "Scan to Watch Our 2-Minute Project Pitch".
+- **Poster:** 22.5 x 28.5 in, portrait, with a QR code labelled "Scan to Watch Our 2-Minute Project Pitch" linking directly to `G56_2-Minute_Pitch.mp4` on Google Drive.
 - **Video:** MP4, 2:00 or less, in five parts: problem (to 0:20), solution (to 0:40), demonstration of the real app (to 1:10), results (to 1:40), impact and close (to 2:00).
-- **Logo:** PNG at 2000 x 2000 and 512 x 512.
-- Team code **G56** ("Group 56") is confirmed. Team: Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis. Adviser: Mr. Joemarie C. Amparo.
-- The instructor's original brief and rubric are **not** in this folder. What is here is the team's summary of it (the ten rules in section 6). If you have the rubric, check the film against it.
+- **Logo:** PNG at 2000 x 2000 and 512 x 512, transparent background, RGB.
+- **Team code:** **G56** ("Group 56"). Team: Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis. Adviser: Mr. Joemarie C. Amparo.
+- Full folder tree and rubric specifications are detailed in `TEKCON_SUBMISSION_GUIDE.md`.
 
-## 2. Where things stand (13 Nov, afternoon)
+---
+
+## 2. Where things stand (14 Nov, current state)
 
 **Done**
+- **Drive Structure Created:** All 7 standardized categories and their subfolders have been created under `G56` (Google Drive ID: `1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc`).
+- **Category 07 Populated & Renamed:**
+  - `01_Research_Poster/`: `G56_Research_Poster.pdf`, `G56_Research_Poster_Source.pptx`.
+  - `02_Video_Pitch/`: `G56_2-Minute_Pitch.mp4` (ID preserved: `1eh_bAiRz3SDQyLK6NRydxCmiMQoWYgYT` - QR code on poster verified active).
+  - `03_Software_Product_Logo/`: `G56_Product_Logo_2000x2000.png` ($2000\times2000$), `G56_Product_Logo_512x512.png` ($512\times512$).
+- **Categories 01, 02, 03, 04 Populated:** All midterm deliverables, updated technical documents (SRS v3.0, SDD v2.0, SPMP v2.0, STD v1.0, RTM), testing reports, APKs, and `part9_Validation` assets (forms, master responses, photo evidence) are populated.
+- **Survey Dataset Frozen:** `round2_data.json` ($N=30$: 16 Grade 1 learners, 9 parents/evaluators, 5 teachers) with `"status": "actual"`.
+- **Collaborator Access:** Erik Samuel Bien (`thatguyKire`) has full direct collaborator access on GitHub on branch `erik/film-fixes`.
 
-- Survey numbers frozen and real (`round2_data.json`, `status: "actual"`).
-- Poster built from the real numbers (`02_Research_Poster/Research_Poster_Source.pptx`). It is missing only its QR code.
-- Film complete in `film/`: picture, cloned narration, Lily's real voice, the real screen recording in the phone, music, captions. Exactly 120.0 s.
-- Logo: the app's launcher icon rebuilt in HD (`03_Software_Product_Logo/`).
-- Drive folders created by the team lead. Their links are with him; they are left out of this file because the repo is public.
+---
 
-**Left, in this order**
+## 2.1 Mission for Claude: Updating Remaining Folders with Current Survey Data
 
-1. The team lead watches and listens to `film/film.html` and gives notes.
-2. ~~Final render~~ **Done 13 Nov afternoon:** `01_Video_Pitch/G56_2-Minute_Pitch.mp4` (1920x1080, 30 fps, 120.0 s, H.264 + AAC, -20.8 LUFS, true peak -3.3 dB), approved by the team lead. `film/film_draft.mp4` is the same render at 960x540. Render again only if the film changes.
-3. Upload the MP4 to `02_Video_Pitch` on Drive; make the QR from its link; save it as `assets/qr_pitch.png`; rebuild the poster; scan the QR from a second phone.
-4. Export `Research_Poster.pdf`, upload the poster files, and replace the two logo files on Drive if they were uploaded before the evening of 12 Nov (those were the old face-only logo).
-5. Set the Drive folder to "Anyone with the link: Viewer". Print.
+Claude is tasked with generating and updating the new files needed to complete the remaining subfolders in Google Drive (`G56/`), drawing directly from the **current survey gathered** ($N=30$) in `round2_data.json` and the master responses (`part9_Validation/responses`):
 
-Nobody on the build side can hear audio. Everything about how the voice and music *sound* is unverified until a person listens.
+### 1. In `05_Final_User_Validation_and_Evaluation/`
+Generate detailed evaluation reports and evidence documents for the empty/partial subfolders:
+
+- **`03_Testing_and_Evaluation_Evidence/`**:
+  - `01_Task_Completion_Rates_and_Time_on_Task/`: Generate a report detailing learner task completion rates (e.g. 9 of 12 passing Say It on the first try, Hear It and Blend It progression, time-on-task observations).
+  - `02_Questionnaire_Scores/`: Generate an item-by-item statistical report of the Teacher Pedagogical Checklist (mean 4.72/5.0 across items) and Parent Usability ratings (75.5/100).
+  - `03_User_Satisfaction_and_Qualitative_Feedback/`: Create an analysis summarizing the 3-point smileyometer results (16/16 happy/okay, 15/16 liked characters, 16/16 play again) along with qualitative quotes from parents and teachers.
+  - `04_Success_Criteria_Achievement_Evidence/`: Compile a validation matrix matching observed results against the pre-approved SMART criteria.
+
+- **`04_Results_and_Analysis/`**:
+  - `01_Respondent_Profile_and_Participant_Count/`: Demographic and participant breakdown report ($N=30$: 16 Grade 1 learners observed, 9 parents, 5 teachers; clearly stating zero technical evaluators).
+  - `02_Validation_Procedure_and_Data_Collection_Period/`: Chronological report of the testing protocols, school location, parent consent, and ethics compliance.
+  - `03_Evaluation_Framework_and_Instruments_Used/`: Technical report detailing the ISO/IEC 25010 software quality model and Marungko pedagogical framework integration.
+  - `05_Results_According_to_Research_Questions_and_Objectives/`: Comprehensive analysis answering each capstone research question with empirical data.
+  - `06_Identified_Issues_and_Functional_Limitations/`: Documented issues identified during testing (offline voice recognition threshold, speech acoustic variance in young learners, device screen variations).
+  - `07_Achievement_of_System_Objectives/`: Final evaluation synthesis demonstrating how PlayIT fulfilled its core system objectives.
+
+- **`05_Recommendations_and_Improvements/`**:
+  - `01_User_and_Stakeholder_Concerns/`: Detailed compilation of teacher feedback on classroom integration and parent feedback on independent home use.
+  - `02_Prioritized_Recommended_Improvements/`: Prioritized feature backlog (expanding Marungko letter progression beyond M, adding teacher dashboards).
+  - `03_Actions_Taken_or_Planned/`: Summary of refactoring and UI polish implemented between MVP validation and the final release.
+  - `04_Required_Software_and_Documentation_Updates/`: Change log connecting evaluation feedback to updates in the SRS and SDD.
+  - `05_Remaining_Limitations_and_Future_Development/`: Long-term recommendations for formal reading gain studies over an academic term.
+
+### 2. In `06_Research_Paper/`
+- Prepare and organize:
+  - `01_Research_Paper_Draft/`: The working draft of the research paper integrating the final $N=30$ validation results.
+  - `02_Final_Editable_ACM_Manuscript/`: The editable ACM manuscript (`.docx` or LaTeX zip archive).
+  - `03_Final_PDF_Copy/`: The final publication-ready PDF copy (`G56_Research_Paper_FINAL.pdf`).
+*(Follow `RESEARCH_PAPER_SUBMISSION_CHECKLIST.md` located inside Category 06).*
+
+### 3. In `07_TechCon_2026/` (Optional Pitch Re-render)
+- If Erik or Claude records live human voice or replaces video clips (per Section 8), re-render `01_Video_Pitch/G56_2-Minute_Pitch.mp4` via `render_film.mjs final` and update the file in `02_Video_Pitch/` on Drive.
+
+---
+
+### Strict Guidelines Claude Must Uphold:
+1. **Never Invent Figures:** All figures must match `round2_data.json` exactly.
+2. **Participant Integrity:** Always distinguish learners (16 observed) from evaluators (9 parents, 5 teachers). Never say "30 users" or call children "respondents".
+3. **Honest Outcomes:** Measure user reactions, engagement, and usability—never claim that children "learned to read better" or had increased reading scores.
+4. **Verification:** After modifying any poster or pitch files, run `cd tools && npm run build` and ensure `0 failed`. Report all warnings.
 
 ## 3. What the team lead decided, and why
 
