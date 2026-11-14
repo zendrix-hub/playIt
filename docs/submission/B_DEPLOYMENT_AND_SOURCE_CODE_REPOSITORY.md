@@ -14,8 +14,8 @@
 
 The complete source code, asset pipelines, testing suites, and documentation are hosted on GitHub:
 
-* **Repository URL**: [https://github.com/thatguyKire/playIt](https://github.com/thatguyKire/playIt)
-* **Access Visibility**: Public Academic Repository
+* **Repository URL**: [https://github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
+* **Access Visibility**: Public Academic Repository (Collaborator: Erik Samuel Bien, `thatguyKire`)
 * **Active Working Branches**:
   * `erik/research-paper-final` &mdash; **Official Final Submission Branch** (contains full ACM research paper handoff, updated $N=30$ validation synthesis, and verified test suites).
   * `main` &mdash; Production release branch.
@@ -23,7 +23,7 @@ The complete source code, asset pipelines, testing suites, and documentation are
 
 ### Clone and Checkout Commands
 ```bash
-git clone https://github.com/thatguyKire/playIt.git
+git clone https://github.com/zendrix-hub/playIt.git
 cd playIt
 git checkout erik/research-paper-final
 ```
