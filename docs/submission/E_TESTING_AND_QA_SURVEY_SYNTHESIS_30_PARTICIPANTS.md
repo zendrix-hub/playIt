@@ -48,10 +48,10 @@ Learners engaged with the four interactive steps (*Sound It, Find It, Blend It, 
 
 | Evaluation Metric | Observed Result | Percentage | Evaluation Interpretation |
 |---|:---:|:---:|---|
-| **Overall Experience (Happy/Okay/Sad)** | **16 of 16** (14 Happy, 2 Okay, 0 Sad) | **100.0%** Positive / Acceptable | Zero negative sentiment; high visual appeal and playfulness. |
-| **Lily Mascot Acceptance** | **15 of 16** Liked Lily | **93.8%** Favorable | Lily succeeded as an encouraging, non-threatening digital companion. |
-| **Desire to Replay (Play Again)** | **16 of 16** Want to play again | **100.0%** Replay Intent | Strong retention and gamification resonance in early learners. |
-| **Perceived Ease of Play** | **14 of 16** Reported Easy | **87.5%** High Usability | Intuitive UI layout requiring minimal adult scaffolding. |
+| **Overall Fun & Experience (Happy/Okay/Sad)** | **16 of 16** (15 Happy, 1 Okay, 0 Sad) | **100.0%** Positive / Acceptable | Zero negative sentiment; high visual appeal and playfulness. |
+| **Lily Mascot Acceptance** | **15 of 16** Liked Lily (15 Happy, 1 Okay) | **93.8%** Top Rating | Lily succeeded as an encouraging, non-threatening digital companion. |
+| **Desire to Replay (Play Again)** | **16 of 16** (14 Happy, 2 Okay, 0 Sad) | **100.0%** Replay Intent | Strong retention and gamification resonance in early learners. |
+| **Perceived Ease of Play** | **15 of 16** (9 Happy, 6 Okay, 1 Neutral) | **93.8%** Manageable | Intuitive UI layout requiring minimal adult scaffolding. |
 | **Speech Recognition Say It Completion** | **9 of 12** passed on 1st attempt | **75.0%** First-Pass Rate | Validates child-acoustic tolerance and pronunciation retry loop. |
 
 > *Note: Children were evaluated as learners observed during play, not as questionnaire respondents.*
