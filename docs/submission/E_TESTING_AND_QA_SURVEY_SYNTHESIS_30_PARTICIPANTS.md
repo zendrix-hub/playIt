@@ -115,7 +115,7 @@ Final rubric, mean per item (n = 5):
 | DEP-04 Independent learner usability | 4.8 |
 | DEP-05 Gamification balance (hearts and stars) | 4.8 |
 
-**The one quotation on record:** "The app is very useful and engaging for Grade 1 learners." (DepEd Grade 1 teacher, Round 1, T-1). No other parent or teacher quotation is in the repository; add one only from the response sheets, word for word.
+**Quotations on record.** The four Round 1 teachers' written comments (T-1 to T-4) are given word for word in `docs/validation-package/04_MVP_VALIDATION_HIGHLIGHTS.md`, section 5. The one used on the poster is T-1's: "The app is very useful and engaging for Grade 1 learners." T-1 and T-2 also wrote that some letter sounds sounded like the letter name ("ma" for /m/). No parent quotation is on record; add one only from the response sheets, word for word.
 
 ---
 

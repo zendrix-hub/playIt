@@ -81,7 +81,7 @@ The following 5 comprehensive deliverables must be prepared and organized inside
 * **Standardized Questionnaire Results**: Item-by-item breakdown of parent SUS scores (75.5/100) and accessibility checks (text size, audio narration, tap controls).
 * **Perceived Usefulness & Ease of Use**: Teacher evaluation of DepEd Order 8 progress tracking (4.8/5.0) and A4 PDF Class Record generation (4.6/5.0).
 * **User Satisfaction & Qualitative Feedback**: Smileyometer distribution charts and direct stakeholder quotes:
-  * *"The app is very useful and engaging for Grade 1 learners... interactive and child-friendly."* &mdash; DepEd Teacher (T-1).
+  * *"The app is very useful and engaging for Grade 1 learners... interactive and child-friendly."* &mdash; DepEd Teacher (T-1). The four Round 1 teacher comments are in `docs/validation-package/04_MVP_VALIDATION_HIGHLIGHTS.md`, section 5; quote them word for word, including T-1's and T-2's criticism of the letter sounds. No parent quotation is on record.
 * **Photographic Testing Evidence**: Links to the photo documentation in `05_Validation_Evidence/`. Describe only the consents and permissions the folder actually holds.
 
 ### 3.4 4. Final Validation Results and Analysis
