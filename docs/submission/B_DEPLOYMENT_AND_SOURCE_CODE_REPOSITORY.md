@@ -35,9 +35,11 @@ PlayIT is installed from an APK file. It needs no server.
 |---|---|---|---|
 | `playit-debug-H-0320385.apk` | `0320385` (card 31) | 108,317,310 bytes (about 108.3 MB) | **APK H, the midterm build.** The build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256 `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`; `aapt` inspection: `docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`. |
 | `playit-debug-design-9ce23e2.apk` | `9ce23e2` (29 Oct 2026) | Not recorded | A later build with the visual refresh (`docs/design/visual-refresh.md`). Its commit message records 482 unit tests, 0 failures, 6 skipped. The file's size and SHA-256 are not recorded; add them from the file itself before citing them. |
-| `playit-debug-adviser-67fe890.apk` | `67fe890` (8 Nov 2026) | 120,338,305 bytes (about 120.3 MB) | **The adviser-feedback build.** Its code is the `app/` folder of this repository: 697 tests, 691 passed, 6 skipped by design, 0 failed (Section 4.2). SHA-256 `5274a878a8396e68ff7dbafcebf4d55591f95b60ddbe1c19b04c55bdfdffbf5b`. |
+| `playit-debug-adviser-67fe890.apk` | `67fe890` (8 Nov 2026) | 120,338,305 bytes (about 120.3 MB) | **The adviser-feedback build: the latest build and the one the team uses.** Its code is the `app/` folder of this repository: 697 tests, 691 passed, 6 skipped by design, 0 failed (Section 4.2). SHA-256 `5274a878a8396e68ff7dbafcebf4d55591f95b60ddbe1c19b04c55bdfdffbf5b`. |
 
-The team lead keeps APK H and the design build in the team's Google Drive folder. The team lead confirms which build is the submitted one.
+The team lead keeps APK H and the design build in the team's Google Drive folder.
+
+**Test build, not for learners.** `playit-TEST-all-unlocked-67fe890.apk` (119,202,001 bytes) is the same code built with the `unlocked` build type: every letter and word game is open, so the team can reach any screen when looking for bugs. It installs as a separate app, "playIT test" (`com.playit.app.unlocked`), so its play never mixes with a child's record. It is not the build that is handed in. Build it with `./gradlew assembleUnlocked`.
 
 ---
 
