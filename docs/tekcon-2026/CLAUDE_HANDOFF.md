@@ -3,7 +3,7 @@
 Rewritten 14 Nov 2026. For a teammate (Erik Samuel Bien, `thatguyKire`) and their Claude Code session who pulls this branch to **make the pitch better and complete the final deliverable folders**. It says what was made, what the team lead (Zendrix) decided and why, how each piece is built, what went wrong on the way, and, in sections 2.1 and 8, the exact remaining tasks for Claude to generate new files from the gathered survey data and improve the pitch.
 
 **To the Claude session reading this:**
-1. Start by reading `TEKCON_SUBMISSION_GUIDE.md` for the official department rubrics, file naming standards, and automated checker requirements.
+1. `TEKCON_SUBMISSION_GUIDE.md` (department rubrics and file naming) is **not in the repository yet**; ask the team lead for it before relying on any file-naming rule below.
 2. Read Section 2.1 below: your core assignment is to **generate and update new documentation and evaluation files for the remaining subfolders in Google Drive (`G56/`) using the current survey gathered**.
 3. Inspect the film (`film/film.html`, `film/lines.json`, poster preview in `02_Research_Poster/poster_preview.png`) and compare with section 8.
 
@@ -33,7 +33,7 @@ G56/
 - **Video:** MP4, 2:00 or less, in five parts: problem (to 0:20), solution (to 0:40), demonstration of the real app (to 1:10), results (to 1:40), impact and close (to 2:00).
 - **Logo:** PNG at 2000 x 2000 and 512 x 512, transparent background, RGB.
 - **Team code:** **G56** ("Group 56"). Team: Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis. Adviser: Mr. Joemarie C. Amparo.
-- Full folder tree and rubric specifications are detailed in `TEKCON_SUBMISSION_GUIDE.md`.
+- The full folder tree and rubric are meant to be in `TEKCON_SUBMISSION_GUIDE.md`, which is not in the repository yet.
 
 ---
 
@@ -46,7 +46,7 @@ G56/
   - `02_Video_Pitch/`: `G56_2-Minute_Pitch.mp4` (ID preserved: `1eh_bAiRz3SDQyLK6NRydxCmiMQoWYgYT` - QR code on poster verified active).
   - `03_Software_Product_Logo/`: `G56_Product_Logo_2000x2000.png` ($2000\times2000$), `G56_Product_Logo_512x512.png` ($512\times512$).
 - **Categories 01, 02, 03, 04 Populated:** All midterm deliverables, updated technical documents (SRS v3.0, SDD v2.0, SPMP v2.0, STD v1.0, RTM), testing reports, APKs, and `part9_Validation` assets (forms, master responses, photo evidence) are populated.
-- **Survey Dataset Frozen:** `round2_data.json` ($N=30$: 16 Grade 1 learners, 9 parents/evaluators, 5 teachers) with `"status": "actual"`.
+- **Survey Dataset Frozen:** `round2_data.json` ($N=30$: 16 Grade 1 learners, 5 parents, 9 teachers) with `"status": "actual"`.
 - **Collaborator Access:** Erik Samuel Bien (`thatguyKire`) has full direct collaborator access on GitHub on branch `erik/film-fixes`.
 
 ---
@@ -59,14 +59,14 @@ Claude is tasked with generating and updating the new files needed to complete t
 Generate detailed evaluation reports and evidence documents for the empty/partial subfolders:
 
 - **`03_Testing_and_Evaluation_Evidence/`**:
-  - `01_Task_Completion_Rates_and_Time_on_Task/`: Generate a report detailing learner task completion rates (e.g. 9 of 12 passing Say It on the first try, Hear It and Blend It progression, time-on-task observations).
-  - `02_Questionnaire_Scores/`: Generate an item-by-item statistical report of the Teacher Pedagogical Checklist (mean 4.72/5.0 across items) and Parent Usability ratings (75.5/100).
-  - `03_User_Satisfaction_and_Qualitative_Feedback/`: Create an analysis summarizing the 3-point smileyometer results (16/16 happy/okay, 15/16 liked characters, 16/16 play again) along with qualitative quotes from parents and teachers.
+  - `01_Task_Completion_Rates_and_Time_on_Task/`: **No data.** Task completion and time on task were not recorded (the fields are `null` in `round2_data.json`). Write a short note saying so; do not generate figures. ("9 of 12" in `AGENTS.md` is only a formatting example.)
+  - `02_Questionnaire_Scores/`: Item-by-item report of the final 16-item teacher rubric (mean 4.72 out of 5, from 5 of the 9 teachers) and the parent results (SUS 75.5 out of 100, Grade 1 fit 4.6, recommend 4.4, n = 5). The figures are laid out in `docs/submission/E_TESTING_AND_QA_SURVEY_SYNTHESIS_30_PARTICIPANTS.md`.
+  - `03_User_Satisfaction_and_Qualitative_Feedback/`: Summarize the smiley-face results (15 of 16 happy overall, 1 okay; 15 of 16 liked the characters; 14 of 16 would play again, 2 okay; 9 of 16 found it easy, 6 okay, 1 neutral). The only quotation on record is the Round 1 teacher's "very useful and engaging for Grade 1 learners"; take any other word for word from the response sheets.
   - `04_Success_Criteria_Achievement_Evidence/`: Compile a validation matrix matching observed results against the pre-approved SMART criteria.
 
 - **`04_Results_and_Analysis/`**:
-  - `01_Respondent_Profile_and_Participant_Count/`: Demographic and participant breakdown report ($N=30$: 16 Grade 1 learners observed, 9 parents, 5 teachers; clearly stating zero technical evaluators).
-  - `02_Validation_Procedure_and_Data_Collection_Period/`: Chronological report of the testing protocols, school location, parent consent, and ethics compliance.
+  - `01_Respondent_Profile_and_Participant_Count/`: Demographic and participant breakdown report ($N=30$: 16 Grade 1 learners observed, 5 parents, 9 teachers; clearly stating zero technical evaluators).
+  - `02_Validation_Procedure_and_Data_Collection_Period/`: Chronological report of the testing protocol and dates. State only the consents and permissions the team actually obtained.
   - `03_Evaluation_Framework_and_Instruments_Used/`: Technical report detailing the ISO/IEC 25010 software quality model and Marungko pedagogical framework integration.
   - `05_Results_According_to_Research_Questions_and_Objectives/`: Comprehensive analysis answering each capstone research question with empirical data.
   - `06_Identified_Issues_and_Functional_Limitations/`: Documented issues identified during testing (offline voice recognition threshold, speech acoustic variance in young learners, device screen variations).
@@ -74,7 +74,7 @@ Generate detailed evaluation reports and evidence documents for the empty/partia
 
 - **`05_Recommendations_and_Improvements/`**:
   - `01_User_and_Stakeholder_Concerns/`: Detailed compilation of teacher feedback on classroom integration and parent feedback on independent home use.
-  - `02_Prioritized_Recommended_Improvements/`: Prioritized feature backlog (expanding Marungko letter progression beyond M, adding teacher dashboards).
+  - `02_Prioritized_Recommended_Improvements/`: Prioritized backlog from the README's Known Limitations and the STD (DEF-01, DEF-02, telemetry and CSV export, spaced recall, the teacher audit of the sounds). The app already covers all 26 letters.
   - `03_Actions_Taken_or_Planned/`: Summary of refactoring and UI polish implemented between MVP validation and the final release.
   - `04_Required_Software_and_Documentation_Updates/`: Change log connecting evaluation feedback to updates in the SRS and SDD.
   - `05_Remaining_Limitations_and_Future_Development/`: Long-term recommendations for formal reading gain studies over an academic term.
@@ -92,8 +92,8 @@ Generate detailed evaluation reports and evidence documents for the empty/partia
 ---
 
 ### Strict Guidelines Claude Must Uphold:
-1. **Never Invent Figures:** All figures must match `round2_data.json` exactly.
-2. **Participant Integrity:** Always distinguish learners (16 observed) from evaluators (9 parents, 5 teachers). Never say "30 users" or call children "respondents".
+1. **Never Invent Figures:** All figures must match `round2_data.json` exactly. A field that is `null` there was not measured: say so, do not estimate. 34 form responses, counted once per person, are 30 participants.
+2. **Participant Integrity:** Always distinguish learners (16 observed) from evaluators (5 parents, 9 teachers). Never say "30 users" or call children "respondents".
 3. **Honest Outcomes:** Measure user reactions, engagement, and usability—never claim that children "learned to read better" or had increased reading scores.
 4. **Verification:** After modifying any poster or pitch files, run `cd tools && npm run build` and ensure `0 failed`. Report all warnings.
 
@@ -121,12 +121,12 @@ These are the current answers, each reached by looking at mock-ups and drafts. T
 - "691 tests pass" is cut from the film as developer jargon. The poster keeps it.
 
 **Mia**
-- Short puff sleeves and skin arms that bend at the elbow. Hands have four fingers and a thumb. At rest they lie on the table beside the book and must not sit on the book.
+- Short puff sleeves and skin arms that bend at the elbow. Hands have four fingers and a thumb. At rest they lie on the table beside the book. While the book is open she holds it up by its sides, like a child reading (changed 13 Nov, merged on the 14th).
 
 **Voices and music**
 - Narrator: the team lead's own voice, cloned. Clone only the voice of someone who agreed.
 - Lily speaks only with her real recordings from the app. A pitched-up clone was rejected.
-- Mia's "Mouse!" is the lead's cloned voice, timed so the app's green check appears half a second after it. Her "Mmm." has no sound, by design.
+- Mia's "Mouse!" is a calm designed child voice (not a clone of anyone; changed 13 Nov), timed so the app's green check appears half a second after it. Her "Mmm." has no sound, by design.
 - Music: an instrumental the lead generated with Gemini (`assets/music/bed_gemini.mp3`), kept low under the voice.
 
 **Numbers**
@@ -135,7 +135,7 @@ These are the current answers, each reached by looking at mock-ups and drafts. T
 - Every figure shows its group size. The teaching score 4.7 comes from 5 of the 9 teachers, and the film and poster both say so.
 
 **Poster and logo**
-- No product logo on the poster (Lily is already there). File names exactly as in section 1.
+- The poster carries the product logo beside the title, and it must be the same picture as the submitted logo: the app's launcher icon, not Lily's head alone (the lead's decision of 14 Nov; before that the poster had no logo). File names exactly as in section 1.
 - The logo must match the app's actual launcher icon, clear and HD.
 
 **How he works**

@@ -1,110 +1,142 @@
-# E. Testing and Quality Assurance — Survey Responses and Synthesis (30 Participants)
+# E. Testing and Quality Assurance: Survey Responses and Synthesis (30 Participants)
 
-**Project:** PlayIT — Offline Synthetic Phonics Mobile Application  
-**Course:** IT411 — Capstone & Research 2 / Software Engineering 2  
+**Project:** PlayIT, an offline phonics app for Grade 1 learners  
+**Course:** IT411 Capstone & Research 2 / Software Engineering 2  
 **Team Code:** G56 (Group 56)  
-**Lead Researcher:** Zendrix Riva (`rivazendrix@gmail.com`)  
+**Lead Researcher:** Zendrix Riva  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Release Branch:** `erik/research-paper-final`  
-**Dataset Status:** **FROZEN / ACTUAL ($N=30$)** &mdash; *Supersedes the preliminary Round 1 midterm report (25 participants).*
+**Branch:** `erik/research-paper-final`  
+**Dataset status:** frozen, actual (N = 30). Source: `docs/tekcon-2026/round2_data.json`, compiled 12 November 2026 from the team's Google Sheet workbook.
+
+Every figure in this document is copied from `round2_data.json` or from the test evidence in `docs/std/`. Where something was not measured, the document says so. It does not estimate.
 
 ---
 
-## 1. Executive Summary & Participant Reconciliation
+## 1. Participants
 
-During preliminary midterm evaluation, early validation data covered **25 participants** (Round 1 exploratory phase). In accordance with the adviser's directive and the Capstone 2 evaluation protocol, the final validation was expanded, completed, and frozen across **30 total participants ($N=30$)**.
+Rounds 1 and 2 combined, with repeat respondents counted once, give **30 participants**. Round 1 alone had 25.
 
-This document presents the complete technical testing outcomes, automated QA verification, and the empirical survey synthesis of the 30 participants.
-
-### Participant Role Breakdown
-* **Learners ($n=16$)**: Primary target users (Grade 1 pupils, ages 6–7, IDs `C-1` to `C-16`). Too young to complete complex written questionnaires; evaluated via **direct task observation** and a **3-point smileyometer visual survey**.
-* **Parents / Supervising Adults ($n=5$)**: Primary home evaluators who hand over devices and oversee domestic use; evaluated application usability (SUS score 75.5/100), home safety, and offline independence.
-* **Teachers ($n=9$)**: 9 unique professional early childhood educators and reading specialists across evaluation rounds (including the 5 educators who completed the comprehensive 16-item DepEd Marungko Likert evaluation in Round 2, achieving an overall mean of 4.72 / 5.0).
-* **Technical Evaluators ($n=0$)**: Zero technical evaluators (`technical = 0`); all evaluations focused on educational impact, user experience, and stakeholder acceptance.
-
----
-
-## 2. Automated Quality Assurance & Verification Summary
-
-Prior to final user validation, PlayIT underwent exhaustive automated testing:
-
-| Verification Layer | Test Suite / Tool | Test Cases Run | Failures / Errors | Status | Evidence Location |
-|---|---|:---:|:---:|:---:|---|
-| **Unit Testing** | JUnit 4 / MockK | **691** | **0** | **PASS** | `app/build/reports/tests/` |
-| **Roborazzi Visual Regression** | Screenshot Testing | **84** (21 checks &times; 4 device sizes) | **0** | **PASS** | `docs/std/evidence/` |
-| **Ergonomic Touch Bounds** | Accessibility Checker | All Interactive UI | **0** | **PASS** | Hit targets &ge; 64 dp |
-| **Zero-Emoji Compliance** | `ZeroEmojiPolicyTest` | All UI Strings | **0** | **PASS** | Clean vector rendering |
-| **Audio Loudness Standards** | `VolumeDetect` | All Shipped Audio | **0** | **PASS** | ITU-R BS.1770 compliant |
-
-*Regression suite verified zero defects across all closed incident reports (INC-01 through INC-07).*
-
----
-
-## 3. Empirical Survey Results: 30-Participant Synthesis
-
-### 3.1 Grade 1 Learner Observations & Visual Smileyometer ($n=16$)
-
-Learners engaged with the four interactive steps (*Sound It, Find It, Blend It, Say It*) and completed the pictorial Smileyometer evaluation:
-
-| Evaluation Metric | Observed Result | Percentage | Evaluation Interpretation |
-|---|:---:|:---:|---|
-| **Overall Experience (Happy/Okay/Sad)** | **16 of 16** (14 Happy, 2 Okay, 0 Sad) | **100.0%** Positive / Acceptable | Zero negative sentiment; high visual appeal and playfulness. |
-| **Lily Mascot Acceptance** | **15 of 16** Liked Lily | **93.8%** Favorable | Lily succeeded as an encouraging, non-threatening digital companion. |
-| **Desire to Replay (Play Again)** | **16 of 16** Want to play again | **100.0%** Replay Intent | Strong retention and gamification resonance in early learners. |
-| **Perceived Ease of Play** | **14 of 16** Reported Easy | **87.5%** High Usability | Intuitive UI layout requiring minimal adult scaffolding. |
-| **Speech Recognition Say It Completion** | **9 of 12** passed on 1st attempt | **75.0%** First-Pass Rate | Validates child-acoustic tolerance and pronunciation retry loop. |
-
-> *Note: Children were evaluated as learners observed during play, not as questionnaire respondents.*
-
----
-
-### 3.2 Parent Usability & Home Utility Evaluation ($n=5$)
-
-Parents evaluated PlayIT using the standard System Usability Scale (SUS) equivalent framework:
-
-| Usability Evaluation Category | Mean Rating (Scale 1–5) | Standard Equivalent |
-|---|:---:|:---:|
-| **Overall System Usability** | **3.78 / 5.0** | **75.5 / 100** (Grade B+ / Above Average) |
-| **Ease of Learning / Child Autonomy** | **4.22 / 5.0** | High child independence without constant supervision |
-| **Safety & Offline Privacy (Zero Data Cost)** | **4.89 / 5.0** | Highest rated factor; zero ads and zero data usage |
-| **Curriculum Relevance at Home** | **4.33 / 5.0** | Strongly reinforces classroom phonics lessons |
-
-**Parent Qualitative Feedback Highlights:**
-* *"Peace of mind knowing no internet is needed and there are no surprise ads or in-app purchases."*
-* *"My child immediately connected with Lily and enjoyed speaking into the microphone."*
-
----
-
-### 3.3 Teacher Pedagogical Checklist & Curriculum Alignment ($n=9$ Total, $n=5$ Round 2 Final Likert Rubric)
-
-Grade 1 teachers evaluated PlayIT against pedagogical standards and DepEd's Marungko curriculum:
-
-| Pedagogical Checklist Item | Mean Score (1–5 Scale) | Qualitative Assessment |
+| Group | n | How they took part |
 |---|:---:|---|
-| **DepEd Marungko Sequence Alignment** | **4.80 / 5.0** | Excellent; sound introduction matches classroom sequencing |
-| **Accuracy of Phoneme Pronunciation** | **4.60 / 5.0** | Vector audio provides authentic Filipino phonics modeling |
-| **Clarity of 4-Step Instructional Design** | **4.80 / 5.0** | Logical progression from listening to blending to speech |
-| **Engagement & Pedagogical Value** | **4.80 / 5.0** | Enhances pupil attentiveness and reduces phonics anxiety |
-| **Classroom Integration Feasibility** | **4.60 / 5.0** | Highly suitable for learning activity centers and remedial work |
-| **OVERALL COMPOSITE MEAN** | **4.72 / 5.0** | **Outstanding Pedagogical Endorsement** |
+| Grade 1 learners | 16 | Observed while playing, then asked four smiley-face questions (Round 1, 16 to 21 September 2026) |
+| Parents or supervising adults | 5 | System Usability Scale (SUS) and accessibility questionnaire (Round 1, 20 to 23 September 2026) |
+| Teachers and reading specialists | 9 | Three forms across both rounds (see 3.3) |
+| Technical evaluators | 0 | None |
 
-**Teacher Qualitative Synthesis:**
-* *"The multi-sensory approach (hearing the sound, matching the letter, and speaking into the mic) is exactly what early readers need before reading full words."*
-* *"The mouth articulation guide is an invaluable asset for children struggling with letter formation."*
+**Why 30 and not 34.** The forms hold 34 responses: 16 learners, 5 parents, and 13 teacher responses (4 + 4 + 5 across the three teacher forms). Some teachers answered more than one form. Counted once each, there are up to 9 teachers, so the number of participants is 16 + 5 + 9 = 30. Report 30 participants, never 34.
+
+The learners are the app's users. Parents and teachers are evaluators: the bridge to the child. Do not write "30 users", and do not call the children "respondents".
 
 ---
 
-## 4. Key Improvements Implemented Post-Midterm
+## 2. Automated Quality Assurance
 
-Responding to stakeholder feedback between the 25-participant midterm and the 30-participant final release:
-1. **Say It Microphone Cue**: Added a responsive mouth-shape prompt on missed attempts, lifting first-try pass rates from 58% to 75%.
-2. **Audio Balancing**: Standardized all character voices and sound effects to -20.8 LUFS to avoid sudden volume spikes for sensitive ears.
-3. **Touch Ergonomics**: Enlarged all clickable hitboxes to &ge; 64 dp, ensuring children with emerging fine motor control do not experience accidental misclicks.
+| Check | Tool | Result | Evidence |
+|---|---|---|---|
+| Unit and component tests | JUnit 4, Robolectric, MockK | **697 run: 691 passed, 6 skipped by design, 0 failed** | `./gradlew testDebugUnitTest`; re-run on a second PC on 14 November 2026 with the same result |
+| Layout matrix | Robolectric and Roborazzi on 4 screen profiles | 23 checks x 4 profiles = 92 runs: 86 passed, 6 skipped by design | `LayoutMatrix*Test` in the same run |
+| Touch-target floor | `DimensTest`, `TopStatsBarLayoutTest` and others | Every child-facing control is at least 64 dp | STD TC-ACC-02; incident INC-06 closed |
+| Zero-emoji policy | `ZeroEmojiPolicyTest` | Pass | STD TC-POL-01 |
+| Audio and picture release gate | `AudioResolverTest`, `PictureAssetsTest` | The app's files match the reviewed release manifests | `docs/audio-release/`, `docs/image-release/` |
+
+The six skipped tests are the font-scale 1.3 checks on the 360 x 640 profile, which is below the supported floor.
+
+The Software Test Document (STD v1.0, `docs/submission/playIT_STD_v1.0.pdf`) records the midterm build, APK H: 433 tests, 427 passed, 6 skipped, 0 failed; 7 incidents found and closed (INC-01 to INC-07); 2 open defects (DEF-01, DEF-02). The suite has grown to 697 tests since then.
+
+**Not measured by the automated tests:** latency on the device (TC-PERF), teacher agreement with the speech judge (TC-ASR-01 to 06), and independent completion by a child (TC-IND-03). The STD lists these as field measures.
 
 ---
 
-## 5. Research Integrity & Grounded Claims Declaration
+## 3. Survey Results
 
-In compliance with the highest standards of academic integrity:
-* All reported numbers reflect the actual, un-inflated $N=30$ dataset recorded in `round2_data.json` and the signed master response sheets.
-* This evaluation measures **user reactions, engagement, usability, and stakeholder acceptance**. No claims are made that PlayIT "improved standardized reading test scores" or "taught children to read faster," as such claims require longitudinal term-long studies.
+### 3.1 Grade 1 learners (n = 16, smiley-face questions)
+
+| Question | Happy | Okay | Neutral or sad |
+|---|:---:|:---:|:---:|
+| How did you feel after playing? | **15 of 16** | 1 | 0 |
+| Did you like the characters? | **15 of 16** | 1 | 0 |
+| Would you play it again? | **14 of 16** | 2 | 0 |
+| Was it easy to play? | **9 of 16** | 6 | 1 |
+
+Counts are given with the group size and are not turned into percentages, because the group is small.
+
+**Not recorded.** The workbook holds no per-step observations: no first-try pass count for Say It, no hearts lost in Find It, no Blend It retries, and no time on task. Those fields are empty (`null`) in `round2_data.json`. No figure for them may appear in the paper.
+
+### 3.2 Parents and supervising adults (n = 5)
+
+| Measure | Result |
+|---|:---:|
+| System Usability Scale | **75.5 out of 100** (n = 5) |
+| Fits a Grade 1 learner (1 to 5) | **4.6** |
+| Would recommend (1 to 5) | **4.4** |
+
+Accessibility checklist, number answering yes out of 5:
+
+| Item | Yes |
+|---|:---:|
+| Large text | 5 |
+| Audio narration | 5 |
+| Simple touch controls | 5 |
+| Colour contrast | 5 |
+| Language suited to Grade 1 | 5 |
+| Usable with limited motor control | 4 |
+| Options for hearing difficulty | 3 |
+
+**Not collected.** The Round 2 questions on usefulness, ease of use, dashboard clarity, the arithmetic gate, offline benefit, safety and intention to keep using the app were not in the workbook. There are no means for them.
+
+### 3.3 Teachers and reading specialists (up to 9 across three forms)
+
+| Form | When | Teachers | Result |
+|---|---|:---:|---|
+| Yes/No checklist, 12 items | Round 1, September | 4 | 11 of 12 items answered yes by all four |
+| Draft rubric, 18 items | Round 2, November | 4 | Overall mean 3.81; 4.74 with straight-1 responses excluded |
+| **Final rubric, 16 items** | Round 2, November | **5** | **Overall mean 4.72 out of 5**; all five rated 4 or higher on 15 of 16 items |
+
+The 4.7 shown on the poster and in the pitch film is the final rubric's mean, from **5 of the 9 teachers**. Always state that group size.
+
+Final rubric, mean per item (n = 5):
+
+| Item | Mean |
+|---|:---:|
+| CUR-01 Marungko letter sequence (m, s, a, i ...) | 4.8 |
+| CUR-02 Excluding NG and N-tilde for 26 English letters | 4.8 |
+| CUR-03 Chapter pacing (3 to 4 letters per chapter) | 4.8 |
+| CUR-04 Culturally familiar Filipino vocabulary | 4.8 |
+| MOD-01 Hear It pure phoneme pronunciation | 4.6 |
+| MOD-02 Articulation modeling (mouth shapes) | 4.8 |
+| MOD-03 Say It anchor word practice | 4.8 |
+| MOD-04 Speech recognition fairness | 4.8 |
+| MOD-05 Find It progressive label scaffolding | 4.6 |
+| MOD-06 Diagnostic Sound Check before Blend It | 4.8 |
+| MOD-07 Blend It 3-letter CVC synthesis | 4.8 |
+| DEP-01 DepEd Order 8 progress levels | 4.8 |
+| DEP-02 DepEd transmuted grades (60% = 75) | 4.2 |
+| DEP-03 Teacher A4 PDF Class Record | 4.6 |
+| DEP-04 Independent learner usability | 4.8 |
+| DEP-05 Gamification balance (hearts and stars) | 4.8 |
+
+**The one quotation on record:** "The app is very useful and engaging for Grade 1 learners." (DepEd Grade 1 teacher, Round 1, T-1). No other parent or teacher quotation is in the repository; add one only from the response sheets, word for word.
+
+---
+
+## 4. Changes Recorded Between the MVP and the Tested Build
+
+From the STD's incident log (section 7.1). Each was found in testing, fixed and re-tested:
+
+1. **INC-01:** three Blend It words were silent; the clips were released into the app.
+2. **INC-02:** several letters showed the wrong mouth shape; the letter-to-mouth pairs were remapped.
+3. **INC-03:** a title and the Say It attempt dots did not fit on small phones; fixed and checked on four screen sizes.
+4. **INC-04:** the previous letter's picture stayed on screen; the picture loader now restarts.
+5. **INC-05:** stars and hearts did not follow the child's results; corrected.
+6. **INC-06:** some controls were smaller than 64 dp; every child-facing control is now at least 64 dp.
+7. **INC-07:** Blend It could deal the tiles already in the answer's order; it no longer does.
+
+Open at the time of the STD: Find It draws its wrong pictures from every letter, not only letters already learned (DEF-01); stars follow hearts lost only, without the SRS's accuracy term (DEF-02).
+
+---
+
+## 5. What These Results Do and Do Not Show
+
+- They show how learners, parents and teachers **reacted** to the app: enjoyment, wish to play again, usability, and teachers' rating of its teaching design.
+- They do **not** show that children learned to read better. No reading test was given, and nothing here measures learning over time.
+- Per-step performance (Say It, Find It, Blend It), time on task, and the Round 2 parent ratings were not recorded and must not be reported.

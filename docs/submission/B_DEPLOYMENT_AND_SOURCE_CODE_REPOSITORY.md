@@ -1,27 +1,23 @@
 # B. Deployment and Source-Code Repository Guide
 
-**Project:** PlayIT — Offline Synthetic Phonics Mobile Application  
-**Course:** IT411 — Capstone & Research 2 / Software Engineering 2  
+**Project:** PlayIT, an offline phonics app for Grade 1 learners  
+**Course:** IT411 Capstone & Research 2 / Software Engineering 2  
 **Team Code:** G56 (Group 56)  
-**Team Lead:** Zendrix Riva (`rivazendrix@gmail.com`)  
-**Collaborator:** Erik Samuel Bien (`thatguyKire`)  
+**Team Lead:** Zendrix Riva  
+**Collaborator:** Erik Samuel Bien (GitHub `thatguyKire`)  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Release Branch:** `erik/research-paper-final`
+**Branch:** `erik/research-paper-final`
 
 ---
 
-## 1. Public Source-Code Repository
+## 1. Source-Code Repository
 
-The complete source code, asset pipelines, testing suites, and documentation are hosted on GitHub:
+- **Repository:** https://github.com/zendrix-hub/playIt (public)
+- **Branches:**
+  - `erik/research-paper-final`: research paper hand-off and the final submission documents.
+  - `main`: the app's code and its documents.
+  - `docs/tekcon-2026-pitch-kit` and `erik/film-fixes`: the TekCon poster, pitch film and logo.
 
-* **Repository URL**: [https://github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
-* **Access Visibility**: Public Academic Repository (Collaborator: Erik Samuel Bien, `thatguyKire`)
-* **Active Working Branches**:
-  * `erik/research-paper-final` &mdash; **Official Final Submission Branch** (contains full ACM research paper handoff, updated $N=30$ validation synthesis, and verified test suites).
-  * `main` &mdash; Production release branch.
-  * `erik/film-fixes` &mdash; Final presentation video and poster kit build.
-
-### Clone and Checkout Commands
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git
 cd playIt
@@ -30,60 +26,55 @@ git checkout erik/research-paper-final
 
 ---
 
-## 2. Deployed System Artifacts (Android Packages)
+## 2. Deployed Builds (Android packages)
 
-The application is deployed as standalone Android Package Kits (APKs), requiring no backend cloud infrastructure or server provisioning:
+PlayIT is installed from an APK file. It needs no server.
 
-| Artifact Name | Version / Commit | File Size | Description & Verification |
+| File | Commit | Size | What it is |
 |---|---|---|---|
-| **`playit-debug-design-9ce23e2.apk`** | Card 34 / `9ce23e2` | ~119.1 MB | **Final Release Build**: Full visual depth refresh, updated Lily mascot animations, finalized Marungko sound assets, and refined touch targets. |
-| **`playit-debug-H-0320385.apk`** | Card 31 / `0320385` | ~108.3 MB | **Core Acceptance Build**: Baseline build evaluated during the extensive automated STD testing run (433+ test cases). |
+| `playit-debug-H-0320385.apk` | `0320385` (card 31) | 108,317,310 bytes (about 108.3 MB) | **APK H, the midterm build.** The build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256 and `aapt` inspection: `docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`. |
+| `playit-debug-design-9ce23e2.apk` | `9ce23e2` | Not recorded in the repository | A later build with the visual refresh (`docs/design/visual-refresh.md`). Its size and test record are not in the repository; add them from the file itself before citing them. |
 
-*Both APK files are archived in Google Drive under `G56/01_Software_and_Deployment/04_Deployment_Evidence/`.*
-
----
-
-## 3. Installation, Environment & Hardware Requirements
-
-### 3.1 Target Device Specifications
-* **Minimum Android OS**: Android 8.0 (API Level 26 - Oreo)
-* **Target Android OS**: Android 14.0 (API Level 34)
-* **Tested Hardware Form Factors**:
-  * Samsung Galaxy A21s (Primary physical test device; 720 &times; 1600 px)
-  * Standard 360 &times; 640 dp entry-level phone profile
-  * Standard 411 &times; 891 dp modern phone profile
-  * 800 &times; 1280 dp tablet profile
-
-### 3.2 Installation via Sideloading (Step-by-Step)
-1. Download `playit-debug-design-9ce23e2.apk` to the Android device.
-2. Open the file via the device File Manager.
-3. If prompted, enable "Install unknown apps" for the browser/file manager in Device Settings.
-4. Tap **Install** and launch **PlayIT** from the app drawer.
-
-### 3.3 Security, Permissions & Offline Verification
-* **Zero Network Permission**: The `AndroidManifest.xml` purposefully omits the `android.permission.INTERNET` manifest tag. The application cannot transmit telemetry, user voice recordings, or personal data off the device.
-* **Audio Hardware Access**: Requires only `android.permission.RECORD_AUDIO` to enable local, on-device phoneme pronunciation checks in Step 4 (*Say It*). No audio bytes are ever cached permanently or transmitted externally.
+The team lead keeps both files in the team's Google Drive folder.
 
 ---
 
-## 4. Local Build and Verification Instructions
+## 3. Installing and Running
 
-To build the project from source code:
+### 3.1 Device
+- **Minimum:** Android 8.0 (API 26). **Target:** Android 14 (API 34).
+- **Manual tests:** Samsung Galaxy A21s, the team's test phone (STD 5.5).
+- **Automated layout checks:** four screen profiles: 360 x 640 dp (compact), 360 x 740 dp (A21s), 411 x 891 dp (phone), 800 x 1280 dp (tablet).
 
-### 4.1 Prerequisites
-* Java Development Kit (JDK) 17 or higher
-* Android SDK (API 34, Build Tools 34.0.0)
-* Android Studio Iguana / Jellyfish (recommended)
+### 3.2 Installing the APK
+1. Copy the APK to the phone and open it from the file manager.
+2. If asked, allow "Install unknown apps" for the file manager.
+3. Tap **Install**, then open **PlayIT**.
 
-### 4.2 Build Commands (Gradle Wrapper)
+No account and no internet connection are needed. On "Who is playing?", tap **Add Profile**, pick an animal friend and tap **Let's Play**.
+
+### 3.3 Permissions (from `AndroidManifest.xml` and the APK inspection)
+- **No `INTERNET` permission.** The app cannot send anything off the device.
+- `RECORD_AUDIO`: for Say It. The speech recognizer runs on the phone.
+- `READ_EXTERNAL_STORAGE` (Android 12L and lower only) and `WRITE_EXTERNAL_STORAGE` (Android 9 and lower only): declared for older Android versions.
+
+---
+
+## 4. Building From Source
+
+### 4.1 Requirements
+- JDK 17
+- Android SDK with API 34 and Build Tools 34.0.0
+- Gradle 8.9 comes with the wrapper; Android Gradle Plugin 8.4.0, Kotlin 1.9.23
+
+Point Gradle at the SDK with `ANDROID_HOME`, or a `local.properties` file holding `sdk.dir=...` (use forward slashes on Windows).
+
+### 4.2 Commands
 ```bash
-# Assemble Debug APK
-./gradlew assembleDebug
-
-# Execute Automated Unit & Integration Tests
-./gradlew testDebugUnitTest
-
-# Run Roborazzi Screenshot Verification
-./gradlew verifyRoborazziDebug
+./gradlew assembleDebug        # app/build/outputs/apk/debug/app-debug.apk
+./gradlew testDebugUnitTest    # 697 tests: 691 passed, 6 skipped by design, 0 failed
 ```
-*Expected Build Output: `BUILD SUCCESSFUL` with all unit tests passing.*
+
+Checked on 14 November 2026 on a second Windows PC (OpenJDK 17.0.16): `BUILD SUCCESSFUL`, 697 tests, 691 passed, 6 skipped, 0 failed. The six skipped tests are the font-scale 1.3 checks on the 360 x 640 profile. Results are written to `app/build/test-results/testDebugUnitTest/`.
+
+A build from this repository is not APK H: 387 files under `app/` changed after that build.

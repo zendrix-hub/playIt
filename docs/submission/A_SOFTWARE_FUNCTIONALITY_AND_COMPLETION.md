@@ -1,91 +1,115 @@
 # A. Software Functionality and Completion Report
 
-**Project:** PlayIT — Offline Synthetic Phonics Mobile Application for Grade 1 Filipino Learners  
-**Course:** IT411 — Capstone & Research 2 / Software Engineering 2  
+**Project:** PlayIT, an offline phonics app for Grade 1 learners  
+**Course:** IT411 Capstone & Research 2 / Software Engineering 2  
 **Team Code:** G56 (Group 56)  
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Repository Branch:** `erik/research-paper-final`  
-**Evaluation Scope:** 30 Total Participants ($N=30$: 16 Learners, 5 Parents, 9 Teachers)
+**Branch:** `erik/research-paper-final`  
+**Evaluation scope:** 30 participants (16 Grade 1 learners, 5 parents or supervising adults, 9 teachers)
+
+This report is written from the repository: `README.md`, the code under `app/`, and the Software Test Document (STD v1.0) in `docs/submission/` and `docs/std/`. Where the STD's result describes the midterm build (APK H) and not today's code, it says so.
 
 ---
 
-## 1. System Overview & Core Purpose
+## 1. What PlayIT Is
 
-PlayIT is a standalone, offline Android mobile application engineered to support early literacy development among Grade 1 Filipino learners. The application is specifically designed to bridge the home-school literacy divide by providing interactive, gamified synthetic phonics instruction adhering strictly to the **Department of Education's (DepEd) Marungko approach**.
+PlayIT is an Android app that teaches Grade 1 Filipino learners (ages 5 to 7) the sounds of the 26 English letters, in the order of the Marungko approach: hear the sound, say it, find it among pictures, then blend letters into words.
 
-The application operates with **zero internet connectivity**, ensuring accessibility for learners in resource-constrained environments while eliminating data costs and safeguarding pupil privacy.
+The speech recognizer (Vosk) runs on the phone, and the app has no internet permission. Nothing a child says or does leaves the device, and the app needs no connection or data.
 
 ---
 
-## 2. Module-by-Module Functionality & Architectural Implementation
-
-The pedagogical engine of PlayIT is structured into **four sequential learning steps**, anchored by an interactive mascot co-player:
+## 2. How a Letter Is Taught
 
 ```mermaid
 flowchart LR
-    Step1["Step 1: Sound It\n(Phoneme Isolation)"] --> Step2["Step 2: Find It\n(Grapheme Identification)"]
-    Step2 --> Step3["Step 3: Blend It\n(CVC Blending)"]
-    Step3 --> Step4["Step 4: Say It\n(Speech Recognition)"]
+    S1["1. Hear It"] --> S2["2. Say It"]
+    S2 --> S3["3. Find It"]
+    S3 --> S4["Letter complete"]
+    S4 -. "when a chapter's letters are done" .-> S5["4. Blend It"]
 ```
 
-### 2.1 Step 1: Sound It (Hear It)
-* **Functionality**: Introduces the target phoneme in isolation (starting with phoneme /m/ per the Marungko sequence).
-* **Technical Details**:
-  * Clean, authentic audio playback without background distortion.
-  * Synchronized articulation visual support (`ArticulationCue`) displaying real mouth-shape positioning to guide phonemic production.
-  * Uncluttered single-focus interface preventing cognitive overload in 6- to 7-year-old learners.
+### 2.1 Hear It
+Lily, the tarsier guide, models the sound: "Listen!", the sound three times, the key word, then the sound again. The child can replay it.
 
-### 2.2 Step 2: Find It (Grapheme Recognition)
-* **Functionality**: Reinforces visual-auditory association by requiring learners to identify the letter corresponding to the target sound among distractors.
-* **Technical Details**:
-  * Interactive drag/tap mechanics with large 64 dp touch targets tailored for developing motor skills.
-  * Instant visual and auditory feedback loops; incorrect taps trigger gentle hints rather than punitive failure states.
-  * Distractor algorithm dynamically constrained to learned letter sets.
+### 2.2 Say It
+The child says the key word (for m, "mouse"). Vosk judges it on the phone against a grammar that holds the word and its likely mistakes (the letter's name, an added vowel). A miss gets a spoken correction for that mistake; the second miss shows the mouth shape beside the microphone; the third says it together with the child and moves on. Say It never takes a heart.
 
-### 2.3 Step 3: Blend It (Blending & Word Formation)
-* **Functionality**: Bridges individual letter-sounds into consonant-vowel-consonant (CVC) words (e.g., /m/ - /a/ - /s/ &rarr; *MAS* / *MATA*).
-* **Technical Details**:
-  * Interactive letter sliding animations with continuous phonetic audio rendering.
-  * High-contrast visual representation connecting blended sounds to familiar everyday objects.
+### 2.3 Find It
+Five pictures; the child taps the three whose names start with the sound. A wrong tap costs one of five hearts. At zero hearts the child starts again with three.
 
-### 2.4 Step 4: Say It (Speech Production & Pronunciation Practice)
-* **Functionality**: Prompts learners to articulate the target phoneme into the device microphone, providing immediate pronunciation feedback.
-* **Technical Details**:
-  * On-device speech recognition engine tuned with custom acoustic tolerance for young children's vocal pitch and hesitation patterns.
-  * Progressive retry mechanism: on an initial miss, Lily provides an enlarged articulation cue beside the microphone before re-prompting.
+### 2.4 Letter complete
+Three stars with no hearts lost, two with one or two lost, one with three or more.
 
-### 2.5 Mascot Co-player System (Lily the Tarsier)
-* **Functionality**: Acts as a playful, empathetic digital peer rather than a formal instructional evaluator.
-* **Technical Details**:
-  * Visual assets designed in flat 2D vector styling with expressive emotional states (idle, encouraging, celebrating).
-  * Authentic voice recordings integrated directly into gameplay transitions.
+### 2.5 Blend It
+When every letter of a chapter is done, that chapter's Blend It opens. The child builds its words (for Chapter 1: SAM, SIS, AM) from letter tiles, which are sounded out one by one and never dealt in the answer's order.
+
+### 2.6 Lily, the mascot
+Lily the tarsier guides every step with recorded voice lines and drawn poses (idle, waving, pointing, listening, encouraging, thinking, celebrating).
+
+### 2.7 Parent Zone
+Behind an arithmetic question: each letter's progress, a PDF report, and renaming or deleting profiles. The child never types; a new learner picks an animal avatar.
+
+**Curriculum:** 26 letters in 7 chapters (m, s, a, i first). N with tilde and NG are not taught (SRS v3.0, section 1.2).
 
 ---
 
-## 3. Feature Completion Matrix (SRS Traceability)
+## 3. Architecture
 
-All functional requirements specified in SRS v3.0 have been implemented and verified:
+Clean Architecture with MVVM, Hilt for dependency injection, and a Room (SQLite) database on the device (`PlayItDatabase`).
 
-| Requirement ID | Feature Description | Module / Component | Implementation Status | Verification Evidence |
-|---|---|---|---|---|
-| **FR-01** | Offline Audio Phonics Modeling | Sound It (`AudioEngine`) | **Complete** | Unit tests & clean playback |
-| **FR-02** | Mouth Shape Articulation Cue | Visual Engine (`ArticulationCue`) | **Complete** | Roborazzi visual checks |
-| **FR-03** | Multi-Sensory Grapheme Matching | Find It (`CardMatching`) | **Complete** | 83/83 functional test cases |
-| **FR-04** | Continuous CVC Sound Blending | Blend It (`BlendingEngine`) | **Complete** | Automated animation tests |
-| **FR-05** | On-Device Speech Pronunciation | Say It (`SpeechRecognizer`) | **Complete** | 75% first-pass learner rate |
-| **FR-06** | Mascot Emotive State Machine | Lily Mascot (`MascotView`) | **Complete** | Win-state celebrate loops |
-| **FR-07** | Local Progress Persistence | Storage (`SharedPreferences`) | **Complete** | SQLite/Prefs state tests |
-| **FR-08** | Zero-Permission Privacy | System (`AndroidManifest`) | **Complete** | Zero internet permission |
-| **FR-09** | Touch Target Ergonomics | UI Theme (`ButtonSpec`) | **Complete** | &ge; 64 dp hit bounds verified |
-| **FR-10** | Audio Loudness Normalization | Audio Release (`VolumeDetect`) | **Complete** | ITU-R BS.1770-4 compliant |
+- `domain/`: pure Kotlin rules, for example `SpeechValidator`, `HeartManager`, `StarCalculator`, `TutorPolicy`, `UnlockManager`.
+- `data/`: Room DAOs and repositories, audio playback, the Vosk recognizer, the PDF report.
+- `presentation/`: Jetpack Compose screens and their ViewModels.
+- `app/src/main/assets/`: the Vosk model, the sounds and the pictures.
+
+Kotlin 1.9.23, Android Gradle Plugin 8.4.0, minimum Android 8.0 (API 26), target API 34.
 
 ---
 
-## 4. Summary of Refactoring from MVP to Final Release
+## 4. Requirement Completion (SRS v3.0 rev. 3.8, as tested in STD v1.0)
 
-Based on initial teacher and parent reviews, the following architectural refactoring was executed:
-1. **Pacing & Cognitive Load**: Eliminated multi-letter clutter; each step now isolates a single skill.
-2. **Speech Recognition Leniency**: Adjusted acoustic confidence thresholds to accommodate children's natural vocal hesitation and ambient classroom noise.
-3. **Mascot Personality**: Softened audio prompts and enhanced celebratory animations (star bursts and dance loops).
-4. **Zero-Emoji Policy Compliance**: Replaced all Unicode emojis with native custom vector illustrations to maintain visual consistency across diverse Android OS versions.
+The results below are the STD's, recorded on the midterm build APK H (commit `0320385`, October 2026). They are not all "complete": two test cases failed and several requirements were planned but not built or needed field measurement.
+
+| Requirement | Feature | Result on APK H |
+|---|---|---|
+| FR-01 Carrier narration | Hear It | Pass |
+| FR-02 Pure phoneme model and sequence | Hear It | Pass; device timing and teacher audit not run |
+| FR-03 Tutoring loop, mic states, prompt ladder | Say It | Pass; device timing not run |
+| FR-NEW-REC Spaced recall | Say It | Not built (planned) |
+| FR-04 Find It grid | Find It | Pass, except TC-FND-03: **fail (DEF-01)** |
+| FR-05 Hearts in Find It | Find It | Pass |
+| FR-07 Heart recovery | Find It | Pass |
+| FR-13 Decodable Blend It words | Blend It | Pass |
+| FR-06 Star rules | Progression | Pass, except TC-PRG-02: **fail (DEF-02)** |
+| FR-08 Linear unlock | Progression | Pass |
+| FR-09 Daily streak | Progression | Pass |
+| FR-14 Multi-profile | Profiles | Pass; TC-DB-03 partial |
+| FR-10 Parent dashboard and gate | Parent Zone | Pass |
+| FR-12 PDF report | Parent Zone | Pass |
+| FR-NEW-TEL Telemetry and CSV export | Parent Zone | Not built (planned) |
+| NFR-AUD-01 Audio release gate | Audio | Pass; teacher audit of the sounds pending |
+| NFR-ASR-01 Judge accuracy and error types | Say It | Pass on the unit level; agreement with teachers not measured |
+| NFR-PERF-01 Latency | All | Not measured |
+| NFR-IND-01 Independent use, idle re-prompt | Lessons | Pass; field measure not run |
+| NFR-ACC-01 Mouth-shape cues | Say It | Pass |
+| NFR-ACC-02 64 dp targets, layout | All screens | Pass |
+| NFR-SES-01 Session pacing | All | Not built (planned) |
+| NFR-REL-01 Offline persistence | Data | Not run on the device |
+| NFR-SEC-01 Local data only | Build | Pass |
+| Team policies (zero emoji, no haptics) | All screens | Pass |
+
+**Open defects (STD 7.2, also in the README's Known Limitations):**
+- **DEF-01:** Find It draws its wrong pictures from every letter, not only from letters already learned.
+- **DEF-02:** stars follow hearts lost only; the SRS's accuracy term is not applied.
+
+**Today's code:** `./gradlew testDebugUnitTest` runs 697 tests: 691 passed, 6 skipped by design, 0 failed (re-run on 14 November 2026). 387 files under `app/` changed after APK H, so a build from this repository is not APK H. Before the paper says a requirement's status changed since the STD, check it against the code.
+
+---
+
+## 5. Changes Since the MVP (from the STD's incident log)
+
+Seven problems were found in testing, fixed and re-tested (INC-01 to INC-07): silent Blend It words, wrong mouth shapes on some letters, a clipped title and overlapping attempt dots on small phones, a stale picture after "next letter", stars and hearts that did not follow results, controls smaller than 64 dp, and a Blend It deal that could already match the answer.
+
+The team's zero-emoji policy (drawn pictures only, no Unicode emoji) is checked by `ZeroEmojiPolicyTest`.
