@@ -15,8 +15,9 @@
 - **Repository:** https://github.com/zendrix-hub/playIt (public)
 - **Branches:**
   - `erik/research-paper-final`: research paper hand-off and the final submission documents.
-  - `main`: the app's code and its documents.
+  - `main`: the app's code and its documents. Its `app/` folder is the same as on `erik/research-paper-final`.
   - `docs/tekcon-2026-pitch-kit` and `erik/film-fixes`: the TekCon poster, pitch film and logo.
+- **Development repository:** the app was built in a second repository, `zendrix-hub/playIT-v2` (branch `enhance/adviser-feedback`). The `app/` folder here is the code of its commit `67fe890`; only one comment line in `app/build.gradle.kts` differs.
 
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git
@@ -32,10 +33,11 @@ PlayIT is installed from an APK file. It needs no server.
 
 | File | Commit | Size | What it is |
 |---|---|---|---|
-| `playit-debug-H-0320385.apk` | `0320385` (card 31) | 108,317,310 bytes (about 108.3 MB) | **APK H, the midterm build.** The build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256 and `aapt` inspection: `docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`. |
-| `playit-debug-design-9ce23e2.apk` | `9ce23e2` | Not recorded in the repository | A later build with the visual refresh (`docs/design/visual-refresh.md`). Its size and test record are not in the repository; add them from the file itself before citing them. |
+| `playit-debug-H-0320385.apk` | `0320385` (card 31) | 108,317,310 bytes (about 108.3 MB) | **APK H, the midterm build.** The build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256 `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`; `aapt` inspection: `docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`. |
+| `playit-debug-design-9ce23e2.apk` | `9ce23e2` (29 Oct 2026) | Not recorded | A later build with the visual refresh (`docs/design/visual-refresh.md`). Its commit message records 482 unit tests, 0 failures, 6 skipped. The file's size and SHA-256 are not recorded; add them from the file itself before citing them. |
+| `playit-debug-adviser-67fe890.apk` | `67fe890` (8 Nov 2026) | 120,338,305 bytes (about 120.3 MB) | **The adviser-feedback build.** Its code is the `app/` folder of this repository: 697 tests, 691 passed, 6 skipped by design, 0 failed (Section 4.2). SHA-256 `5274a878a8396e68ff7dbafcebf4d55591f95b60ddbe1c19b04c55bdfdffbf5b`. |
 
-The team lead keeps both files in the team's Google Drive folder.
+The team lead keeps APK H and the design build in the team's Google Drive folder. The team lead confirms which build is the submitted one.
 
 ---
 
@@ -49,9 +51,11 @@ The team lead keeps both files in the team's Google Drive folder.
 ### 3.2 Installing the APK
 1. Copy the APK to the phone and open it from the file manager.
 2. If asked, allow "Install unknown apps" for the file manager.
-3. Tap **Install**, then open **PlayIT**.
+3. Tap **Install**, then open **playIT** (the name shown under the app icon).
 
-No account and no internet connection are needed. On "Who is playing?", tap **Add Profile**, pick an animal friend and tap **Let's Play**.
+No account and no internet connection are needed. To make a profile:
+- **Adviser-feedback build (the code in this repository):** on "Who is playing?", tap **New player**, pick an animal friend, type the child's name and tap **Let's Play**.
+- **APK H and the design build:** on "Who is playing?", tap **Add Profile**, pick an animal friend and tap **Let's Play**.
 
 ### 3.3 Permissions (from `AndroidManifest.xml` and the APK inspection)
 - **No `INTERNET` permission.** The app cannot send anything off the device.
@@ -77,4 +81,4 @@ Point Gradle at the SDK with `ANDROID_HOME`, or a `local.properties` file holdin
 
 Checked on 14 November 2026 on a second Windows PC (OpenJDK 17.0.16): `BUILD SUCCESSFUL`, 697 tests, 691 passed, 6 skipped, 0 failed. The six skipped tests are the font-scale 1.3 checks on the 360 x 640 profile. Results are written to `app/build/test-results/testDebugUnitTest/`.
 
-A build from this repository is not APK H: 387 files under `app/` changed after that build.
+A build from this repository is the adviser-feedback build (`67fe890`), not APK H: 387 files under `app/` changed after APK H.
