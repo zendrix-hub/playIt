@@ -6,7 +6,7 @@
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
 **Repository Branch:** `erik/research-paper-final`  
-**Evaluation Scope:** 30 Total Participants ($N=30$: 16 Learners, 9 Parents, 5 Teachers)
+**Evaluation Scope:** 30 Total Participants ($N=30$: 16 Learners, 5 Parents, 9 Teachers)
 
 ---
 

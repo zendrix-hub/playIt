@@ -17,9 +17,9 @@ During preliminary midterm evaluation, early validation data covered **25 partic
 This document presents the complete technical testing outcomes, automated QA verification, and the empirical survey synthesis of the 30 participants.
 
 ### Participant Role Breakdown
-* **Learners ($n=16$)**: Primary target users (Grade 1 pupils, ages 6–7). Too young to complete complex written questionnaires; evaluated via **direct task observation** and a **3-point smileyometer visual survey**.
-* **Parents / Supervising Adults ($n=9$)**: Primary home evaluators who hand over devices and oversee domestic use; evaluated application usability, home safety, and offline independence.
-* **Teachers ($n=5$)**: Professional early childhood and Grade 1 educators; evaluated instructional validity, DepEd Marungko order alignment, and pedagogical suitability.
+* **Learners ($n=16$)**: Primary target users (Grade 1 pupils, ages 6–7, IDs `C-1` to `C-16`). Too young to complete complex written questionnaires; evaluated via **direct task observation** and a **3-point smileyometer visual survey**.
+* **Parents / Supervising Adults ($n=5$)**: Primary home evaluators who hand over devices and oversee domestic use; evaluated application usability (SUS score 75.5/100), home safety, and offline independence.
+* **Teachers ($n=9$)**: 9 unique professional early childhood educators and reading specialists across evaluation rounds (including the 5 educators who completed the comprehensive 16-item DepEd Marungko Likert evaluation in Round 2, achieving an overall mean of 4.72 / 5.0).
 * **Technical Evaluators ($n=0$)**: Zero technical evaluators (`technical = 0`); all evaluations focused on educational impact, user experience, and stakeholder acceptance.
 
 ---
@@ -58,7 +58,7 @@ Learners engaged with the four interactive steps (*Sound It, Find It, Blend It, 
 
 ---
 
-### 3.2 Parent Usability & Home Utility Evaluation ($n=9$)
+### 3.2 Parent Usability & Home Utility Evaluation ($n=5$)
 
 Parents evaluated PlayIT using the standard System Usability Scale (SUS) equivalent framework:
 
@@ -75,7 +75,7 @@ Parents evaluated PlayIT using the standard System Usability Scale (SUS) equival
 
 ---
 
-### 3.3 Teacher Pedagogical Checklist & Curriculum Alignment ($n=5$)
+### 3.3 Teacher Pedagogical Checklist & Curriculum Alignment ($n=9$ Total, $n=5$ Round 2 Final Likert Rubric)
 
 Grade 1 teachers evaluated PlayIT against pedagogical standards and DepEd's Marungko curriculum:
 

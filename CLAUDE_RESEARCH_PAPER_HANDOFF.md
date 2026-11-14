@@ -30,8 +30,8 @@ All numbers reported in the research paper and final validation folders must dra
 * **Total Participants**: Exactly **30 participants** ($N=30$, status: `"actual"`).
 * **Participant Breakdown**:
   * **16 Grade 1 Learners** (observed during interactive gameplay; 3-point smileyometer responses: 16/16 happy/okay, 15/16 liked characters, 16/16 want to play again; 9 of 12 learners passed the speech-recognition Say It challenge on the first attempt).
-  * **9 Parents / Supervising Adults** (evaluated home usability, safety, and offline usefulness; overall usability score of 75.5/100).
-  * **5 Teachers** (evaluated pedagogical soundness, DepEd Marungko order alignment, and classroom utility; overall mean rating of 4.72 / 5.0 across all evaluated items).
+  * **5 Parents / Supervising Adults** (evaluated home usability, safety, and offline usefulness; overall SUS usability score of 75.5/100).
+  * **9 Teachers** (evaluated pedagogical soundness, DepEd Marungko order alignment, and classroom utility across rounds, with the 5 Round 2 educators evaluating the final 16-item rubric achieving an overall mean rating of 4.72 / 5.0).
   * **0 Technical Evaluators** (`technical = 0`).
 
 > [!IMPORTANT]
@@ -68,7 +68,7 @@ Each team must submit a complete manuscript draft in **Week 13** and the finaliz
 ### 3.4 3. Methodology
 * **Development Approach**: Agile/Iterative prototyping with progressive user-informed refactoring.
 * **Evaluation Framework**: Integration of ISO/IEC 25010 software quality characteristics (Usability, Functional Suitability, Performance Efficiency) and early pedagogical rubrics.
-* **Participants & Setting**: Detailed profile of the 30 participants (16 Grade 1 pupils, 9 parents, 5 teachers) conducted under ethical clearance and school permission.
+* **Participants & Setting**: Detailed profile of the 30 participants (16 Grade 1 pupils, 5 parents, 9 teachers) conducted under ethical clearance and school permission.
 * **Instruments**: Direct task observation protocol, 3-point smileyometer, Parent Usability Survey, and DepEd Teacher Pedagogical Evaluation checklist.
 * **Data Analysis Procedures**: Descriptive statistics, task completion frequency analysis, and qualitative feedback categorization.
 

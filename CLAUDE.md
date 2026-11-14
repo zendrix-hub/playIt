@@ -10,7 +10,7 @@ Welcome to the PlayIT Capstone 2, SoftEng 2, and TekCon 2026 repository (Team G5
 Rules that always apply:
 - **Never Modify Existing Source Code/Assets**: Only update and generate the documentation, paper drafts, and submission files.
 - **Google Drive Operations**: All file operations must be performed **solely inside the team's `G56` folder** (`1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc`). Never modify the external links (`part9_Validation` or `PlayIT_MIDTERM DELIVERABLE`).
-- **Survey Dataset**: Use the frozen $N=30$ survey numbers (`round2_data.json`: 16 learners observed, 9 parents, 5 teachers). Never invent figures and never claim learning gains.
+- **Survey Dataset**: Use the frozen $N=30$ survey numbers (`round2_data.json`: 16 learners observed, 5 parents, 9 teachers). Never invent figures and never claim learning gains.
 - **Git Branch**: Keep all work committed on `erik/research-paper-final`. Collaborator: Erik Samuel Bien (`thatguyKire`).
 
 The aim of work here is to make the pitch better, not only to finish it. Look at the film and poster yourself first and form your own view; section 8 of the hand-off lists the known weak spots, what is fixed, what is open to change, and how to tell whether a change is an improvement.
