@@ -6,7 +6,7 @@
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
 **Primary Branch:** `main` ([github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt))  
-**Primary Current Build:** `playit-debug-adviser-67fe890.apk`  
+**Primary Current Build:** `playit.apk` (Commit `67fe890`)  
 **Google Drive Folder:** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)  
 
 ---
@@ -15,20 +15,20 @@
 
 ![PlayIT APK Build Progression & Test Coverage](../diagrams/build_progression_flow.png)
 
-The table below contrasts the submitted builds across development phases. The active submission package for final evaluation and adviser consultation is **`playit-debug-adviser-67fe890.apk`**.
+The table below contrasts the current release build against the midterm baseline build. The active submission package for final evaluation and adviser consultation is **`playit.apk`** (Commit `67fe890`), which integrates the full child-friendly visual refresh, mouth-movement video cues, animal avatar onboarding, and post-Round 1 pedagogical refinements.
 
-| Attribute | Current Release Build (`playit-debug-adviser-67fe890.apk`) | Design Refresh Build (`playit-debug-design-9ce23e2.apk`) | Midterm Baseline Build (`playit-debug-H-0320385.apk`) |
-| :--- | :--- | :--- | :--- |
-| **Commit Hash** | `67fe890` (Adviser feedback) | `9ce23e2` (Visual refresh) | `0320385` (Midterm baseline) |
-| **Date** | 08 November 2026 | 29 October 2026 | 18 October 2026 |
-| **File Size (Bytes)** | **119,339,266 bytes** (~113.8 MiB) | 119,111,696 bytes (~113.6 MiB) | 108,317,310 bytes (~103.3 MiB) |
-| **SHA-256 Checksum** | `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F` | Recorded in Drive | `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4` |
-| **Unit Test Suite** | **697 tests: 691 passed, 6 skipped, 0 failed** | 482 tests: 476 passed, 6 skipped, 0 failed | 433 tests: 427 passed, 6 skipped, 0 failed |
-| **Package ID** | `com.playit.app` | `com.playit.app` | `com.playit.app` |
-| **Version Code / Name** | `1` / `1.0.0` | `1` / `1.0.0` | `1` / `1.0.0` |
-| **Min / Target SDK** | API 26 (Android 8.0) / API 34 (Android 14) | API 26 / API 34 | API 26 / API 34 |
-| **INTERNET Permission** | **NONE (0% Network, 100% Offline)** | **NONE (100% Offline)** | **NONE (100% Offline)** |
-| **Google Drive Download** | [Download Adviser APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | [Download Design APK](https://drive.google.com/file/d/1alFzoNOlFLUVZCS6u-7Cxa0B3txgqzdJ/view?usp=sharing) | [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) |
+| Attribute | Current Release Build (`playit.apk`) | Midterm Baseline Build (`playit-debug-H-0320385.apk`) |
+| :--- | :--- | :--- |
+| **Commit Hash** | `67fe890` (Current release, incl. visual refresh) | `0320385` (Midterm baseline) |
+| **Date** | 08 November 2026 | 18 October 2026 |
+| **File Size (Bytes)** | **119,339,266 bytes** (~113.8 MiB) | 108,317,310 bytes (~103.3 MiB) |
+| **SHA-256 Checksum** | `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F` | `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4` |
+| **Unit Test Suite** | **697 tests: 691 passed, 6 skipped, 0 failed** | 433 tests: 427 passed, 6 skipped, 0 failed |
+| **Package ID** | `com.playit.app` | `com.playit.app` |
+| **Version Code / Name** | `1` / `1.0.0` | `1` / `1.0.0` |
+| **Min / Target SDK** | API 26 (Android 8.0) / API 34 (Android 14) | API 26 / API 34 |
+| **INTERNET Permission** | **NONE (0% Network, 100% Offline)** | **NONE (100% Offline)** |
+| **Google Drive Download** | [Download Current Release APK (`playit.apk`)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) |
 
 > **Midterm Portal Comparison Mirror:** For comparative verification against the earlier milestone submission, `playit-debug-H-0320385.apk` is also accessible via [Midterm Portal APK Link](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing).
 
@@ -55,12 +55,12 @@ PlayIT is engineered as an entirely self-contained educational tool for young Fi
 
 ## 3. Official `aapt` Inspection Dump (Current Release Build)
 
-The following inspection dump was executed using Android SDK Build Tools 34.0.0 against `playit-debug-adviser-67fe890.apk`:
+The following inspection dump was executed using Android SDK Build Tools 34.0.0 against `playit.apk` (Commit `67fe890`):
 
 ```text
 ================================================================================
 AAPT PERMISSIONS INSPECTION
-File: playit-debug-adviser-67fe890.apk
+File: playit.apk (Commit 67fe890)
 Package: com.playit.app
 ================================================================================
 package: com.playit.app
@@ -88,7 +88,7 @@ application-icon-640:'res/mipmap-xxxhdpi/ic_launcher.png'
 ================================================================================
 HASH INTEGRITY VERIFICATION
 ================================================================================
-File: playit-debug-adviser-67fe890.apk
+File: playit.apk (Commit 67fe890)
 Bytes: 119,339,266
 SHA-256: A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F
 Status: VERIFIED MATCH with Git Repository app/ HEAD (commit 67fe890)

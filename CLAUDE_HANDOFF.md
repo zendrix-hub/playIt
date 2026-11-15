@@ -46,7 +46,7 @@ G56/
   - `02_Video_Pitch/`: `G56_2-Minute_Pitch.mp4` (ID preserved: `1eh_bAiRz3SDQyLK6NRydxCmiMQoWYgYT` - QR code on poster verified active).
   - `03_Software_Product_Logo/`: `G56_Product_Logo_2000x2000.png` ($2000\times2000$), `G56_Product_Logo_512x512.png` ($512\times512$).
 - **Categories 01, 02, 03, 04 Populated:** All midterm deliverables, updated technical documents (SRS v3.0, SDD v2.0, SPMP v2.0, STD v1.0, RTM), testing reports, APKs, and `part9_Validation` assets (forms, master responses, photo evidence) are populated.
-- **Survey Dataset Frozen:** `round2_data.json` ($N=30$: 16 Grade 1 learners, 5 parents, 9 teachers) with `"status": "actual"`.
+- **Finalized Survey Dataset:** `round2_data.json` (N = 30: 16 Grade 1 learners, 5 parents, 9 unique teachers) with `"status": "actual"`.
 - **Collaborator Access:** Erik Samuel Bien (`thatguyKire`) has full direct collaborator access on GitHub on branch `erik/film-fixes`.
 
 ---
@@ -130,9 +130,9 @@ These are the current answers, each reached by looking at mock-ups and drafts. T
 - Music: an instrumental the lead generated with Gemini (`assets/music/bed_gemini.mp3`), kept low under the voice.
 
 **Numbers**
-- 30 participants across Rounds 1 and 2: 16 Grade 1 learners, 5 parents or supervising adults, 9 teachers. Frozen on 12 Nov. Answers collected later go to the research paper only.
+- 30 participants across Rounds 1 and 2: 16 Grade 1 learners, 5 parents or supervising adults, 9 unique teachers (across 13 teacher evaluation forms). Finalized dataset verified on `main`.
 - Children are the users and come first. Parents and teachers are "the bridge to the child". Never "30 users".
-- Every figure shows its group size. The teaching score 4.7 comes from 5 of the 9 teachers, and the film and poster both say so.
+- Every figure shows its group size. The final rubric score 4.72 / 5.00 comes from 5 of the 9 teachers, and the film and poster both say so.
 
 **Poster and logo**
 - The poster carries the product logo beside the title, and it must be the same picture as the submitted logo: the app's launcher icon, not Lily's head alone (the lead's decision of 14 Nov; before that the poster had no logo). File names exactly as in section 1.
@@ -145,7 +145,7 @@ These are the current answers, each reached by looking at mock-ups and drafts. T
 ## 4. How the kit is built
 
 ```
-round2_data.json          every survey number (frozen)
+round2_data.json          verified survey dataset (30 participants)
 content.json              every word on the poster, and which figures it shows
 templates/                wording of the narration script and storyboard
 tools/                    npm run build -> poster pptx, script, storyboard, then check.js
@@ -215,7 +215,7 @@ Then confirm 120.0 s or less, sound present, and look at a frame every few secon
 - `python tools/logo/make_logo.py 2000 out.png` (voice Python) rebuilds it at any size.
 
 **Survey numbers**
-- Frozen. Change `round2_data.json` only if the team lead says so. Then the Beat 4 lines in `film/lines.json` and their voice files must change with it, and the poster must be rebuilt.
+- Finalized dataset. Change `round2_data.json` only if the team lead says so. Then the Beat 4 lines in `film/lines.json` and their voice files must change with it, and the poster must be rebuilt.
 
 ## 6. Rules
 
@@ -321,5 +321,6 @@ Only relevant if you work on that machine (Windows with WSL, old i7, no graphics
 ## 10. Short history
 
 - **10–11 Nov:** kit and poster built; a slideshow video drafted with Antigravity, then with Claude Code; rejected as too static. The film in `film/` replaced it the same day, approved step by step from `mockups/`.
-- **12 Nov:** real survey numbers frozen; Beat 4 re-voiced; Erik's recording wired into the phone; "Dj" relabelled "Mia"; arms redrawn; logo rebuilt as the app icon; Gemini music added. A cloud session rendered 1080p from that day's state.
+- **12 Nov:** real survey numbers finalized; Beat 4 re-voiced; Erik's recording wired into the phone; "Dj" relabelled "Mia"; arms redrawn; logo rebuilt as the app icon; Gemini music added. A cloud session rendered 1080p from that day's state.
 - **13 Nov:** two lines re-cloned (`b2_03`, `b3_03`); group sizes on the rating cards; phone shows the start screen; one line moved under the logo; screens fitted to the phone; hands redrawn. Final render, QR, PDF and upload still to do.
+- **15 Nov:** Consultation Pack (`A`, `B`, `E`, `DEPLOYMENT_AND_PERMISSIONS_INSPECTION`), all 18 Week 11–12 validation PDFs, and the Week 13–14 ACM Research Paper finalized on `main` and synced to Google Drive (`G56/`); active submission APK standardized as `playit.apk` (Commit `67fe890`, with `playit-debug-H-0320385.apk` preserved for midterm comparison). Ready for final defense-readiness validation audit.

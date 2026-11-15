@@ -49,7 +49,7 @@ Behind an arithmetic question: each letter's progress, a PDF report, and renamin
 
 ### 2.8 Verified Application User Interface Gallery
 
-Captured directly from the active submission build (`playit-debug-adviser-67fe890.apk`):
+Captured directly from the active submission build (`playit.apk`, commit `67fe890`):
 
 | Welcome & Mascot Guide | Child Profile Selection | Chapter Progression Map | Step 1: Hear It Module |
 | :---: | :---: | :---: | :---: |
@@ -135,7 +135,6 @@ Advisers and evaluators can inspect the repository source code, requirements doc
 - **Requirements Traceability Matrix (RTM PDF):** [Traceability Matrix on Google Drive](https://drive.google.com/drive/folders/1hK-g8JYK4WKOf1g0xIqnr0GcyxPnQtFP)
 - **Feature Completion Matrix:** [Feature Completion Report on Google Drive](https://drive.google.com/drive/folders/1v_fHJXO2AwIbd_nplxpp8cl9JeRKoFOk)
 - **Deployment Evidence Folder:** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
-- **Current Release APK (`playit-debug-adviser-67fe890.apk`):** [Download Adviser APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
-- **Visual Refresh APK (`playit-debug-design-9ce23e2.apk`):** [Download Design APK](https://drive.google.com/file/d/1alFzoNOlFLUVZCS6u-7Cxa0B3txgqzdJ/view?usp=sharing)
+- **Current Release APK (`playit.apk`, commit `67fe890` — includes visual refresh):** [Download Current Release APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
 - **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK (G56 Drive)](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
 

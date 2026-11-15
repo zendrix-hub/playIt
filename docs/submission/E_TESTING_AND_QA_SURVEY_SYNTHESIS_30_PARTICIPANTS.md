@@ -38,7 +38,7 @@ Advisers and evaluators can verify the primary source records, questionnaires, a
 - **School Permission & Transmittal Letters:** [School Administrative Permission Evidence](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
 - **Software Test Document (STD v1.0 PDF):** [STD Specification on Google Drive](https://drive.google.com/drive/folders/1DGdZC-ngnm5ZU-ZlrPGf_XmTUbWfG50K)
 - **Source Code Repository (`main`):** [github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
-- **Current Release APK (`playit-debug-adviser-67fe890.apk`):** [Download Adviser APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
+- **Current Release APK (`playit.apk`, commit `67fe890`):** [Download Current Release APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
 - **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
 
 ---

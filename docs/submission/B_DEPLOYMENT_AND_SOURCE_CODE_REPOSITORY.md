@@ -29,8 +29,7 @@ PlayIT is installed directly from an APK file. It requires no remote server or c
 
 | File | Commit | Size | What it is |
 |---|---|---|---|
-| [`playit-debug-adviser-67fe890.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **Current Adviser-Feedback Release (Active Submission).** Built from `app/` on `main`: 697 automated tests (691 passed, 6 skipped by design, 0 failed). SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
-| [`playit-debug-design-9ce23e2.apk`](https://drive.google.com/file/d/1alFzoNOlFLUVZCS6u-7Cxa0B3txgqzdJ/view?usp=sharing) | `9ce23e2` (29 Oct 2026) | 119,111,696 bytes (~113.6 MiB) | **Visual Refresh Milestone Build.** Intermediate release incorporating updated Compose visual polish and articulation cue refinements (`docs/design/visual-refresh.md`). [Download Design APK](https://drive.google.com/file/d/1alFzoNOlFLUVZCS6u-7Cxa0B3txgqzdJ/view?usp=sharing) |
+| [`playit.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **Current Release Build (Active Submission).** Built from `app/` on `main`: integrates the full child-friendly visual refresh, mouth-movement video cues, animal avatar onboarding, refined phoneme rules, and 697 automated tests (691 passed, 6 skipped by design, 0 failed). SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
 | [`playit-debug-H-0320385.apk`](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | `0320385` (18 Oct 2026) | 108,317,310 bytes (~103.3 MiB) | **Midterm Baseline Build (APK H).** The baseline package evaluated in STD v1.0 (433 tests: 427 passed, 6 skipped, 0 failed). SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`. [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) \| [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing) |
 
 All deployment builds, checksum dumps, and verification artifacts can be inspected directly on Google Drive:
@@ -57,8 +56,8 @@ All deployment builds, checksum dumps, and verification artifacts can be inspect
 3. Tap **Install**, then open **playIT** (the name shown under the app icon).
 
 No account and no internet connection are needed. To make a profile:
-- **Adviser-feedback build (the code in this repository):** on "Who is playing?", tap **New player**, pick an animal friend, type the child's name and tap **Let's Play**.
-- **APK H and the design build:** on "Who is playing?", tap **Add Profile**, pick an animal friend and tap **Let's Play**.
+- **Current release build (`playit.apk`, commit `67fe890`):** on "Who is playing?", tap **New player**, pick an animal friend, type the child's name and tap **Let's Play**.
+- **Midterm baseline build (`playit-debug-H-0320385.apk`):** on "Who is playing?", tap **Add Profile**, pick an animal friend and tap **Let's Play**.
 
 ### 3.3 Permissions (from `AndroidManifest.xml` and the APK inspection)
 - **No `INTERNET` permission.** The app cannot send anything off the device.
