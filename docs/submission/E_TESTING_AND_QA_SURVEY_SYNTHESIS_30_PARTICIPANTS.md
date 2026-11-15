@@ -15,16 +15,16 @@ Every figure in this report reflects verified project survey records and test ev
 
 ![Two-Round Triadic Validation & Iterative Refactoring Framework](../diagrams/triadic_validation_framework.png)
 
-Across Rounds 1 and 2 combined, deduplicated participation comprises **30 distinct individuals** (25 unique participants evaluated the Round 1 MVP, and 5 additional teachers completed the final pedagogical rubric in Round 2).
+Across Rounds 1 and 2 combined, deduplicated participation comprises **30 distinct individuals** (25 took part in Round 1, and Round 2 added 5 teachers who had not taken part before).
 
 | Group | n | Role and Evaluation Method |
 |---|:---:|---|
 | Grade 1 learners | 16 | Intended end-users observed while playing, followed by a four-item smiley-face questionnaire (Round 1, 16 to 21 September 2026) |
 | Parents or supervising adults | 5 | Home-use evaluators completing the System Usability Scale (SUS) and accessibility questionnaire (Round 1, 20 to 23 September 2026) |
 | Teachers and reading specialists | 9 | Domain evaluators across three curriculum and pedagogical review instruments (Rounds 1 and 2) |
-| Technical evaluators | 0 | Excluded from stakeholder count; validation focused strictly on educational users and facilitators |
+| Technical evaluators | 0 | Planned, not recruited |
 
-Across all evaluation forms, 34 total form submissions were collected (16 learner observations, 5 parent questionnaires, and 13 teacher forms across the three pedagogical instruments). Because four teachers participated across more than one evaluation wave, deduplicating repeat evaluators yields **9 unique teachers** and a verified total headcount of **30 participants (16 learners + 5 parents + 9 teachers)**. Within this triadic design, Grade 1 learners serve as the observed child end-users, while parents and teachers serve as adult evaluators assessing home usability and classroom alignment.
+Across all evaluation forms, 34 total form submissions were collected (16 learner observations, 5 parent questionnaires, and 13 teacher forms across the three pedagogical instruments). Some teachers completed more than one of the three teacher forms. Counted once each, the teachers number up to **9**, which gives a total of **30 participants (16 learners + 5 parents + 9 teachers)**. Within this triadic design, Grade 1 learners serve as the observed child end-users, while parents and teachers serve as adult evaluators assessing home usability and classroom alignment.
 
 ---
 
@@ -32,14 +32,13 @@ Across all evaluation forms, 34 total form submissions were collected (16 learne
 
 Advisers and evaluators can verify the primary source records, questionnaires, and validation evidence directly via the following links:
 
-- **Raw Master Responses Sheet:** [Google Drive Master Responses Folder](https://drive.google.com/drive/folders/12-1NSwvHD1jgXwQDRVJIxQZ_cp7JX-9z)
-- **Cleaned Master Responses (CSV/Sheet):** [Cleaned Master Validation Responses](https://drive.google.com/drive/folders/1Usn6DjzmgXXifO-n894-6O3Lajf0Dtls)
-- **DepEd Teacher Evaluation Evidence & Rubrics:** [Teacher Evaluation Forms & Rubrics](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
-- **School Permission & Transmittal Letters:** [School Administrative Permission Evidence](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
+- **Validation Responses (master and cleaned response sheets, codebook):** [03_Validation_Responses](https://drive.google.com/drive/folders/1Usn6DjzmgXXifO-n894-6O3Lajf0Dtls)
+- **Results and Analysis:** [04_Results_and_Analysis](https://drive.google.com/drive/folders/12-1NSwvHD1jgXwQDRVJIxQZ_cp7JX-9z)
+- **DepEd Teacher Evaluation Evidence & Rubrics:** [05_Validation_Evidence](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
 - **Software Test Document (STD v1.0 PDF):** [STD Specification on Google Drive](https://drive.google.com/drive/folders/1DGdZC-ngnm5ZU-ZlrPGf_XmTUbWfG50K)
 - **Source Code Repository (`main`):** [github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
 - **Current Release APK (`playit.apk`, commit `67fe890`):** [Download Current Release APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
-- **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
+- **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing)
 
 ---
 
@@ -66,7 +65,7 @@ The Software Test Document (`STD v1.0`, `docs/submission/playIT_STD_v1.0.pdf`) d
 
 | Question | Happy | Okay | Neutral or Sad |
 |---|:---:|:---:|:---:|
-| How did you feel after playing? | **15 of 16** | 1 | 0 |
+| How fun was the game? | **15 of 16** | 1 | 0 |
 | Did you like the characters? | **15 of 16** | 1 | 0 |
 | Would you play it again? | **14 of 16** | 2 | 0 |
 | Was it easy to play? | **9 of 16** | 6 | 1 |
@@ -93,7 +92,7 @@ Accessibility verification checklist (affirmative responses out of `n = 5` evalu
 | Usable with limited motor control | 4 |
 | Options for hearing difficulty | 3 |
 
-Round 2 adult evaluation focused exclusively on teacher pedagogical review rather than repeating parent usability questionnaires; accordingly, parent findings reflect the Round 1 usability and accessibility assessment (`n = 5`).
+The Round 2 caregiver questions (perceived usefulness, ease of use, clarity of the parent dashboard, the arithmetic gate, the offline benefit, safety, and intention to keep using the app) were planned but not collected, so no means are reported for them. The parent findings above are from Round 1 (`n = 5`).
 
 ### 4.3 Teachers and Reading Specialists (n = 9 across three instruments)
 
@@ -136,7 +135,7 @@ Final rubric item means (`n = 5`):
 >
 > **T-4 (basic education educator):** *"The app is appropriate for grade 1 learners and is easy to navigate."*
 
-These qualitative observations directly guided the pure phoneme audio re-recording, visual mouth-shape cue integration, and live microphone indicator added prior to the Round 2 teacher rubric (`MOD-01 = 4.6`, `MOD-02 = 4.8`, `MOD-04 = 4.8`).
+These comments set the main refactoring targets: pure letter sounds, a visible listening state on the microphone, and mouth-shape cues. The current build shows a listening state on the Say It microphone and the mouth shape on the second miss. The letter sounds have been re-recorded only in part: the letter a and the letters of Chapters 2 to 7 still play the first build's sounds, and the teachers' audit of the sounds has not yet been held. In Round 2, teachers rated pure phoneme pronunciation 4.6 (`MOD-01`), articulation modelling 4.8 (`MOD-02`) and speech recognition fairness 4.8 (`MOD-04`).
 
 ---
 
@@ -144,7 +143,7 @@ These qualitative observations directly guided the pure phoneme audio re-recordi
 
 From the STD incident log (`section 7.1`), each issue was verified, resolved, and re-tested:
 
-1. **INC-01:** Three Blend It words were silent; missing phoneme clips were released into the app.
+1. **INC-01:** Three Blend It words (AM, TUB, YAM) were silent; the missing word clips were released into the app.
 2. **INC-02:** Several letters showed inaccurate mouth shapes; letter-to-mouth mappings were corrected.
 3. **INC-03:** A title and the Say It attempt dots clipped on small phones; responsive layouts were fixed and verified across four screen profiles.
 4. **INC-04:** The previous letter's picture remained on screen; the picture loader now resets between transitions.
@@ -152,4 +151,12 @@ From the STD incident log (`section 7.1`), each issue was verified, resolved, an
 6. **INC-06:** Certain interactive controls measured under 64 dp; all child-facing touch targets now enforce a 64 dp minimum.
 7. **INC-07:** Blend It could initially deal tiles already in target answer order; shuffling constraints now prevent pre-solved initial deals.
 
-Known remaining limitations documented in STD Section 7.2: `DEF-01` (Find It distractor pool draws from the full 26-letter image set rather than previously unlocked letters only) and `DEF-02` (star calculation tracks hearts remaining rather than composite speech-accuracy weights).
+Known remaining limitations documented in STD Section 7.2: `DEF-01` (Find It distractor pool draws from the full 26-letter image set rather than previously unlocked letters only) and `DEF-02` (stars follow hearts lost only; the SRS's accuracy term is not applied).
+
+---
+
+## 6. Scope of the Findings
+
+- The results describe how learners, parents and teachers reacted to the application and how teachers rated its teaching design. They do not show that children learned to read better: no reading test was given before or after use, and nothing here measures learning over time.
+- Per-step performance in Say It, Find It and Blend It, time on task, speech-recognition latency, and the speech judge's agreement with teachers were not recorded in the field. They are reported as not measured, not estimated.
+- The samples are small convenience samples, so results are given as counts with their group sizes. Young children tend to choose the happiest face, and one facilitator, who was also a teacher-evaluator, recorded 13 of the 16 children's ratings.

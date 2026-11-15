@@ -13,6 +13,7 @@
 The official source code repository is hosted publicly on GitHub:
 - **Repository URL:** [https://github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
 - **Primary Branch:** `main` (consolidates the full Android application under `app/`, automated tests, and TekCon 2026 research deliverables after merging completed feature and manuscript branches).
+- **Development Repository:** [github.com/zendrix-hub/playIT-v2](https://github.com/zendrix-hub/playIT-v2) (public). The build commits cited below, [`67fe890`](https://github.com/zendrix-hub/playIT-v2/commit/67fe890) and [`0320385`](https://github.com/zendrix-hub/playIT-v2/commit/0320385), are in this repository; the `app/` folder on `main` holds the code of `67fe890`.
 
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git
@@ -29,13 +30,12 @@ PlayIT is installed directly from an APK file. It requires no remote server or c
 
 | File | Commit | Size | What it is |
 |---|---|---|---|
-| [`playit.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **Current Release Build (Active Submission).** Built from `app/` on `main`: integrates the full child-friendly visual refresh, mouth-movement video cues, animal avatar onboarding, refined phoneme rules, and 697 automated tests (691 passed, 6 skipped by design, 0 failed). SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
-| [`playit-debug-H-0320385.apk`](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | `0320385` (18 Oct 2026) | 108,317,310 bytes (~103.3 MiB) | **Midterm Baseline Build (APK H).** The baseline package evaluated in STD v1.0 (433 tests: 427 passed, 6 skipped, 0 failed). SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`. [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) \| [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing) |
+| [`playit.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **Current Release Build (Active Submission).** Built from `app/` on `main`: integrates the full child-friendly visual refresh, animated mouth-shape cues, animal avatar onboarding, refined phoneme rules, and 697 automated tests (691 passed, 6 skipped by design, 0 failed). SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
+| [`playit-debug-H-0320385.apk`](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | `0320385` (18 Oct 2026) | 108,317,310 bytes (~103.3 MiB) | **Midterm Baseline Build (APK H).** The baseline package evaluated in STD v1.0 (433 tests: 427 passed, 6 skipped, 0 failed). SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`. [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) |
 
 All deployment builds, checksum dumps, and verification artifacts can be inspected directly on Google Drive:
 - **Deployment Evidence Folder (All APKs & Hashes):** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
 - **Permissions & Security Audit PDF:** [DEPLOYMENT_AND_PERMISSIONS_INSPECTION.pdf](https://drive.google.com/file/d/1QW9g32vd7QYzZE6wSlKAvwgVVX-lzu2C/view?usp=sharing) (verifies zero `INTERNET` permission)
-- **Midterm Submission Folder (Baseline Comparison):** [Midterm Portal Evidence Folder](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
 - **Feature Completion Matrix:** [02_Software_and_Deployment/06_Feature_Completion_Matrix/](https://drive.google.com/drive/folders/1v_fHJXO2AwIbd_nplxpp8cl9JeRKoFOk)
 
 

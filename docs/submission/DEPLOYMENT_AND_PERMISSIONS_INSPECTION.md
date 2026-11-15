@@ -15,7 +15,9 @@
 
 ![PlayIT APK Build Progression & Test Coverage](../diagrams/build_progression_flow.png)
 
-The table below contrasts the current release build against the midterm baseline build. The active submission package for final evaluation and adviser consultation is **`playit.apk`** (Commit `67fe890`), which integrates the full child-friendly visual refresh, mouth-movement video cues, animal avatar onboarding, and post-Round 1 pedagogical refinements.
+The table below contrasts the current release build against the midterm baseline build. The active submission package for final evaluation and adviser consultation is **`playit.apk`** (Commit `67fe890`), which integrates the full child-friendly visual refresh, animated mouth-shape cues, animal avatar onboarding, and post-Round 1 pedagogical refinements.
+
+The commit hashes of both builds refer to the team's public development repository, [github.com/zendrix-hub/playIT-v2](https://github.com/zendrix-hub/playIT-v2) ([`67fe890`](https://github.com/zendrix-hub/playIT-v2/commit/67fe890), [`0320385`](https://github.com/zendrix-hub/playIT-v2/commit/0320385)). The `app/` folder on `main` of `playIt` holds the code of `67fe890`.
 
 | Attribute | Current Release Build (`playit.apk`) | Midterm Baseline Build (`playit-debug-H-0320385.apk`) |
 | :--- | :--- | :--- |
@@ -27,10 +29,8 @@ The table below contrasts the current release build against the midterm baseline
 | **Package ID** | `com.playit.app` | `com.playit.app` |
 | **Version Code / Name** | `1` / `1.0.0` | `1` / `1.0.0` |
 | **Min / Target SDK** | API 26 (Android 8.0) / API 34 (Android 14) | API 26 / API 34 |
-| **INTERNET Permission** | **NONE (0% Network, 100% Offline)** | **NONE (100% Offline)** |
+| **INTERNET Permission** | **None** | **None** |
 | **Google Drive Download** | [Download Current Release APK (`playit.apk`)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) |
-
-> **Midterm Portal Comparison Mirror:** For comparative verification against the earlier milestone submission, `playit-debug-H-0320385.apk` is also accessible via [Midterm Portal APK Link](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing).
 
 ---
 
@@ -44,8 +44,8 @@ PlayIT is engineered as an entirely self-contained educational tool for young Fi
    - Requires only `android.permission.RECORD_AUDIO`. Zero audio telemetry is transmitted off the phone.
 
 2. **Haptic & Sensory Policy:**
-   - No vibration or jarring haptics are requested (`android.permission.VIBRATE` is absent).
-   - Validated by automated architecture policies (`PerformancePolicyTest`, TC-POL-02).
+   - No vibration or jarring haptics are requested: `android.permission.VIBRATE` is absent from the APK (Section 3).
+   - The automated test `PerformancePolicyTest` (TC-POL-02) checks that the code makes no haptic-feedback calls.
 
 3. **Storage & Privacy Isolation:**
    - Storage permissions (`READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`) are strictly scoped with `maxSdkVersion='32'` and `maxSdkVersion='28'` respectively to comply with modern scoped storage on Android 10+.
@@ -53,16 +53,12 @@ PlayIT is engineered as an entirely self-contained educational tool for young Fi
 
 ---
 
-## 3. Official `aapt` Inspection Dump (Current Release Build)
+## 3. `aapt` Inspection Output (Current Release Build)
 
-The following inspection dump was executed using Android SDK Build Tools 34.0.0 against `playit.apk` (Commit `67fe890`):
+Run on 15 November 2026 with Android SDK Build Tools 34.0.0 against the copy of `playit.apk` downloaded from the Google Drive link above:
 
 ```text
-================================================================================
-AAPT PERMISSIONS INSPECTION
-File: playit.apk (Commit 67fe890)
-Package: com.playit.app
-================================================================================
+$ aapt dump permissions playit.apk
 package: com.playit.app
 uses-permission: name='android.permission.RECORD_AUDIO'
 uses-permission: name='android.permission.READ_EXTERNAL_STORAGE' maxSdkVersion='32'
@@ -70,26 +66,21 @@ uses-permission: name='android.permission.WRITE_EXTERNAL_STORAGE' maxSdkVersion=
 permission: com.playit.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 uses-permission: name='com.playit.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
 
-INTERNET permission present? NO (Confirmed 100% Offline)
-
-================================================================================
-AAPT BADGING & SDK TARGETS
-================================================================================
+$ aapt dump badging playit.apk   (package, SDK, label and icon lines)
 package: name='com.playit.app' versionCode='1' versionName='1.0.0' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
 sdkVersion:'26'
 targetSdkVersion:'34'
 application-label:'playIT'
-application-icon-160:'res/mipmap-mdpi/ic_launcher.png'
-application-icon-240:'res/mipmap-hdpi/ic_launcher.png'
-application-icon-320:'res/mipmap-xhdpi/ic_launcher.png'
-application-icon-480:'res/mipmap-xxhdpi/ic_launcher.png'
-application-icon-640:'res/mipmap-xxxhdpi/ic_launcher.png'
+application-icon-120:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-160:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-240:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-320:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-480:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-640:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-65534:'res/mipmap-anydpi-v26/ic_launcher.xml'
 
-================================================================================
-HASH INTEGRITY VERIFICATION
-================================================================================
-File: playit.apk (Commit 67fe890)
-Bytes: 119,339,266
-SHA-256: A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F
-Status: VERIFIED MATCH with Git Repository app/ HEAD (commit 67fe890)
+$ sha256sum playit.apk
+a6d4560f0f593f0162d8b3a6a2a21ea173701966e54835cb27b64753579b184f  playit.apk
 ```
+
+The file is 119,339,266 bytes. No `android.permission.INTERNET` or `android.permission.VIBRATE` line appears in the output. The `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` entry is added automatically by the AndroidX Core library: it is a signature-level permission private to the app and grants no network access.

@@ -30,13 +30,13 @@ Auditors must verify that all documents align strictly with these primary record
   - **Size & Hash:** `119,339,266` bytes (~113.8 MiB) | SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`
   - **Package & SDK:** `com.playit.app`, Min SDK 26 (Android 8.0), Target SDK 34 (Android 14)
   - **Privacy / Offline Status:** Verified **0 `INTERNET` permissions** via `aapt` dump (`RECORD_AUDIO` only for on-device Vosk ASR; scoped storage permissions capped for legacy Android).
-  - **Scope:** Full 7-chapter, 26-letter DepEd Marungko system (*Hear It*, *Say It*, *Find It*, *Blend It*), Tarsier guide Lily, animal avatar + name onboarding, mouth-movement video cues, and post-Round 1 refinements (already incorporates the 29 Oct visual refresh).
+  - **Scope:** Full 7-chapter, 26-letter DepEd Marungko system (*Hear It*, *Say It*, *Find It*, *Blend It*), Tarsier guide Lily, animal avatar + name onboarding, animated mouth-shape cues, and post-Round 1 refinements (already incorporates the 29 Oct visual refresh).
   - **Automated Verification:** **697 unit/component tests run (691 passed, 6 skipped by design, 0 failed)**; Layout Matrix 23 checks x 4 screen profiles = 92 runs (86 passed, 6 skipped by design on `360 x 640 dp` font-scale 1.3); >= 64 dp child touch target floor verified.
-- **Midterm Baseline APK (Comparison Only):** [`playit-debug-H-0320385.apk`](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) (Drive ID: `1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog` | [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing))
+- **Midterm Baseline APK (Comparison Only):** [`playit-debug-H-0320385.apk`](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) (Drive ID: `1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog`)
   - **Commit:** `0320385` (18 October 2026), `108,317,310` bytes (~103.3 MiB), SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`, 433 tests (427 passed, 6 skipped, 0 failed), documented in `STD v1.0`.
 
 ### 2.2 Deduplicated Participant Cohort & Validation Results (`N = 30`)
-Across all instruments, 34 raw form submissions were collected (16 learner observations, 5 parent questionnaires, and 13 teacher forms across the three pedagogical instruments). Deduplicating four teachers who participated in more than one evaluation wave yields **9 unique teachers** and a verified cohort of **30 participants (`16 learners + 5 parents + 9 teachers`)**:
+Across all instruments, 34 raw form submissions were collected (16 learner observations, 5 parent questionnaires, and 13 teacher forms across the three pedagogical instruments). Counting each teacher once across the three teacher forms gives up to **9 teachers** and a verified cohort of **30 participants (`16 learners + 5 parents + 9 teachers`)**:
 - **Grade 1 Learners (`n = 16`, observed child end-users):**
   - Enjoyment (happiest face after playing): **15 of 16**
   - Character affinity (liked Lily and animal friends): **15 of 16**
@@ -46,10 +46,10 @@ Across all instruments, 34 raw form submissions were collected (16 learner obser
   - Mean System Usability Scale (SUS): **75.5 / 100** (Good / Grade B usability)
   - Grade 1 appropriateness mean: **4.60 / 5.00**
   - Recommendation intent mean: **4.40 / 5.00**
-  - Child-accessible & offline privacy checklist (`n = 5`): **100% Yes** across large/readable design, simple screens, safe child-friendly tone, and clear sounds
+  - Accessibility checklist (`n = 5`): yes from all 5 on large text, audio narration, simple touch controls, colour contrast and Grade 1 language; 4 of 5 on use with limited motor control; 3 of 5 on options for hearing difficulty
 - **Teachers & Specialists (`n = 9` unique teachers across R1 + R2):**
-  - Round 1 checklist (`n = 4`): **100% alignment** on DepEd Marungko sequence and child usability alongside qualitative fixes applied before Round 2
-  - Round 2 final 16-item rubric (`n = 5` unique teachers): **4.72 / 5.00** overall mean reported in `G56_Research_Paper_Draft.md` (`4.725 / 5.00` unrounded across domains; `MOD-01` Phoneme Audio Clarity `4.60 / 5`, `MOD-02` Say It Fairness `4.80 / 5`, lowest item `4.20 / 5` on DepEd DO 8 transmuted grade conversion)
+  - Round 1 checklist (`n = 4`): **11 of 12 items** answered yes by all four teachers
+  - Round 2 final 16-item rubric (`n = 5` unique teachers): **4.72 / 5.00** overall mean reported in `G56_Research_Paper_Draft.md` (`4.725 / 5.00` unrounded across domains; `MOD-01` Phoneme Audio Clarity `4.60 / 5`, `MOD-02` Articulation modelling `4.80 / 5`, `MOD-04` Speech recognition fairness `4.80 / 5`, lowest item `4.20 / 5` on DepEd DO 8 transmuted grade conversion)
 - **Critical Claim Boundaries:**
   - Findings measure **stakeholder reception, usability, and expert pedagogical design soundness**. Do **not** claim longitudinal reading-achievement gains because no pre/post reading comprehension test was conducted.
   - Child task completion rates, timed speech-judge latency/WER, and latency telemetry were not instrumentally logged in this capstone cycle and are framed transparently as planned future work / methodology boundaries.
@@ -116,6 +116,6 @@ Formatted in formal **ACM Conference Proceedings** structure (`G56_Research_Pape
 When reviewing this repository and Google Drive package for the user, inspect and report on:
 1. **Cross-Document Numerical Consistency:** Confirm all participant counts (`N = 30`: `16 learners`, `5 parents`, `9 unique teachers` from `34` submissions), Learner Smileyometer figures (`15/16`, `15/16`, `14/16`, `9/16`), Parent SUS (`75.5/100`), Teacher R2 rubric (`4.725/5.00` or `4.72`), and unit test counts (`697` total / `691` passed / `6` skipped / `0` failed) match across `A`, `B`, `E`, the 18 Validation PDFs, `G56_Research_Paper_Draft.md`, and `docs/tekcon-2026/round2_data.json`.
 2. **Formal Tone & Clean Submission Check:** Confirm no informal internal AI instructions, no `"frozen"` jargon, no extraneous course suffix (`"/ Software Engineering 2"`), no leftover references to the removed intermediate visual-refresh APK (`playit-debug-design-9ce23e2.apk`), and no references to `playit-debug-adviser-67fe890.apk` in active submission documents.
-3. **Link & Drive Integrity:** Spot-check that all clickable GitHub links point to `main` (`github.com/zendrix-hub/playIt`) and all APK links point cleanly to `playit.apk` (`1pIr2360noHf64TOT-sAwk_uNlk2gSeQa`) and `playit-debug-H-0320385.apk` (`1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog` / `1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI`).
+3. **Link & Drive Integrity:** Spot-check that all clickable GitHub links point to `main` (`github.com/zendrix-hub/playIt`) and all APK links point cleanly to `playit.apk` (`1pIr2360noHf64TOT-sAwk_uNlk2gSeQa`) and `playit-debug-H-0320385.apk` (`1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog`).
 4. **Research Defensibility & Methodology Transparency:** Verify that no document claims longitudinal reading gains, that limitations (convenience sampling, lack of pre/post reading test, facilitator presence in child Smileyometer, unmeasured ASR timing/WER) are clearly articulated in both the Research Paper and Validation Reports, and that any remaining defense Q&A risks are highlighted with concise, truthful talking points.
 5. **ACM Manuscript & Poster Checker Verification:** Confirm `G56_Research_Paper_Draft.pdf` formatting, figure crispness, citation numbering (`[1]`..`[n]`), and run `cd docs/tekcon-2026/tools && npm run build` to verify zero checker errors.

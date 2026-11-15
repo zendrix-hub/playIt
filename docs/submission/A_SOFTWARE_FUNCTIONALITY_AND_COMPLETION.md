@@ -120,7 +120,7 @@ The results below are the STD's, recorded on the midterm build APK H (commit `03
 
 Seven problems were found in testing, fixed and re-tested (INC-01 to INC-07): silent Blend It words, wrong mouth shapes on some letters, a clipped title and overlapping attempt dots on small phones, a stale picture after "next letter", stars and hearts that did not follow results, controls smaller than 64 dp, and a Blend It deal that could already match the answer.
 
-All child-facing visual elements consist of custom-drawn vector and bitmap illustrations verified against the approved graphic asset release manifest.
+Child-facing pictures are drawn illustrations, with no emoji. The 162 pictures released since the review gate was introduced are checked against their release manifests by `PictureAssetsTest`; pictures kept from the first build predate the manifests.
 
 ---
 
@@ -136,5 +136,6 @@ Advisers and evaluators can inspect the repository source code, requirements doc
 - **Feature Completion Matrix:** [Feature Completion Report on Google Drive](https://drive.google.com/drive/folders/1v_fHJXO2AwIbd_nplxpp8cl9JeRKoFOk)
 - **Deployment Evidence Folder:** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
 - **Current Release APK (`playit.apk`, commit `67fe890` — includes visual refresh):** [Download Current Release APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
-- **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK (G56 Drive)](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
+- **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK (G56 Drive)](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing)
+- **Development Repository (build commits `67fe890` and `0320385`):** [github.com/zendrix-hub/playIT-v2](https://github.com/zendrix-hub/playIT-v2)
 

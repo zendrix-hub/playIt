@@ -149,7 +149,7 @@ Figure 1 shows the four screens.
 
 ### 4.3 Design for a six-year-old
 
-The child never types and never needs to read an instruction. A new learner picks an animal avatar. Every child-facing control is at least 64 dp, the interaction is tap only, and each screen holds one task. Feedback is immediate and never punitive, and Lily's lines are recorded encouragement. All interface graphics consist of custom-drawn, reviewed illustrations.
+The child never needs to read an instruction. A new learner picks an animal avatar and types their name once, when the profile is made; after that the child only taps and, in Say It, speaks. Every child-facing control is at least 64 dp, and each screen holds one task. Feedback is immediate and never punitive, and Lily's lines are recorded encouragement. All interface graphics consist of custom-drawn, reviewed illustrations.
 
 ### 4.4 Parent Zone
 
@@ -157,7 +157,7 @@ Behind an arithmetic question that a young child is unlikely to answer, a parent
 
 ### 4.5 Architecture
 
-PlayIT is a native Android application written in Kotlin with Jetpack Compose. It follows Clean Architecture with the Model-View-ViewModel pattern and Hilt for dependency injection:
+PlayIT is a native Android application written in Kotlin with Jetpack Compose. It follows Clean Architecture with the Model-View-ViewModel pattern and Hilt for dependency injection (Figure 2):
 
 - a **domain** layer of pure Kotlin rules with no Android imports, for example the speech judge, the heart and star rules, the tutoring policy and the unlock rule;
 - a **data** layer with a Room (SQLite) database, audio playback, the speech recognizer and the PDF report;
@@ -171,7 +171,7 @@ Speech recognition uses Vosk [18], which runs entirely on the device from a mode
 
 ### 4.6 Content pipeline
 
-The application ships 162 pictures and 116 audio clips. Each passed a review and is recorded in a release manifest with its SHA-256 hash, how it was made and who approved it. Two automated tests compare the files in the application with those manifests, so an unreviewed sound or picture cannot enter a build unnoticed.
+The 162 pictures and 116 audio clips made since the release gate was introduced each passed a review and are recorded in a release manifest with their SHA-256 hash, how they were made and who approved them. Two automated tests check that every released file in the application matches its manifest entry byte for byte. Pictures and sounds kept from the first build predate the gate; among them are the letter sounds still to be re-recorded (Section 6.3).
 
 ## 5 RESULTS
 
@@ -223,7 +223,7 @@ The findings were turned into requirement and design changes, verified by automa
 
 ### 5.6 Teachers, Round 2
 
-Four teachers answered the 18-item draft rubric; its overall mean was 3.81, or 4.74 with straight-1 responses excluded. The form was then audited and revised. Five teachers answered the final 16-item rubric on the refactored build. The overall mean was 4.72 out of 5, and all five teachers gave 4 or higher on 15 of the 16 items (Table 4).
+Four teachers answered the 18-item draft rubric; its overall mean was 3.81, or 4.74 with straight-1 responses excluded. The form was then audited and revised. Five teachers answered the final 16-item rubric on the refactored build. The overall mean was 4.72 out of 5, and all five teachers gave 4 or higher on 15 of the 16 items (Table 4). Figure 3 sets these means beside the learners' and caregivers' results.
 
 **Table 4. Final teacher rubric, mean per item (n = 5; scale 1 to 5).**
 
