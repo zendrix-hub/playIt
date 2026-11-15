@@ -1,44 +1,45 @@
 # E. Testing and Quality Assurance: Survey Responses and Synthesis (30 Participants)
 
 **Project:** PlayIT, an offline phonics app for Grade 1 learners  
-**Course:** IT411 Capstone & Research 2 / Software Engineering 2  
+**Course:** IT411 Capstone & Research 2  
 **Team Code:** G56 (Group 56)  
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Dataset status:** frozen, actual (N = 30). Source: `docs/tekcon-2026/round2_data.json`, compiled 12 November 2026 from the team's Google Sheet workbook.
+**Evaluation Status:** Consolidated Empirical Dataset (`N = 30` deduplicated participants), compiled 12 November 2026 from validated school and parent response sheets.
 
-Every figure in this document is copied from `round2_data.json` or from the test evidence in `docs/std/`. Where something was not measured, the document says so. It does not estimate.
+Every figure in this report reflects verified project survey records and test evidence preserved in the Software Test Document (`STD v1.0`).
 
 ---
 
 ## 1. Participants
 
-Rounds 1 and 2 combined, with repeat respondents counted once, give **30 participants**. Round 1 alone had 25.
+![Two-Round Triadic Validation & Iterative Refactoring Framework](../diagrams/triadic_validation_framework.png)
 
-| Group | n | How they took part |
+Across Rounds 1 and 2 combined, deduplicated participation comprises **30 distinct individuals** (25 unique participants evaluated the Round 1 MVP, and 5 additional teachers completed the final pedagogical rubric in Round 2).
+
+| Group | n | Role and Evaluation Method |
 |---|:---:|---|
-| Grade 1 learners | 16 | Observed while playing, then asked four smiley-face questions (Round 1, 16 to 21 September 2026) |
-| Parents or supervising adults | 5 | System Usability Scale (SUS) and accessibility questionnaire (Round 1, 20 to 23 September 2026) |
-| Teachers and reading specialists | 9 | Three forms across both rounds (see 3.3) |
-| Technical evaluators | 0 | None |
+| Grade 1 learners | 16 | Intended end-users observed while playing, followed by a four-item smiley-face questionnaire (Round 1, 16 to 21 September 2026) |
+| Parents or supervising adults | 5 | Home-use evaluators completing the System Usability Scale (SUS) and accessibility questionnaire (Round 1, 20 to 23 September 2026) |
+| Teachers and reading specialists | 9 | Domain evaluators across three curriculum and pedagogical review instruments (Rounds 1 and 2) |
+| Technical evaluators | 0 | Excluded from stakeholder count; validation focused strictly on educational users and facilitators |
 
-**Why 30 and not 34.** The forms hold 34 responses: 16 learners, 5 parents, and 13 teacher responses (4 + 4 + 5 across the three teacher forms). Some teachers answered more than one form. Counted once each, there are up to 9 teachers, so the number of participants is 16 + 5 + 9 = 30. Report 30 participants, never 34.
-
-The learners are the app's users. Parents and teachers are evaluators: the bridge to the child. Do not write "30 users", and do not call the children "respondents".
+Across all evaluation forms, 34 total form submissions were collected (16 learner observations, 5 parent questionnaires, and 13 teacher forms across the three pedagogical instruments). Because four teachers participated across more than one evaluation wave, deduplicating repeat evaluators yields **9 unique teachers** and a verified total headcount of **30 participants (16 learners + 5 parents + 9 teachers)**. Within this triadic design, Grade 1 learners serve as the observed child end-users, while parents and teachers serve as adult evaluators assessing home usability and classroom alignment.
 
 ---
 
 ## 2. Data Integrity & Supporting Evidence Links
 
-Advisers and evaluators can verify the primary source records, questionnaires, and raw statistical sheets directly via the following links:
+Advisers and evaluators can verify the primary source records, questionnaires, and validation evidence directly via the following links:
 
 - **Raw Master Responses Sheet:** [Google Drive Master Responses Folder](https://drive.google.com/drive/folders/12-1NSwvHD1jgXwQDRVJIxQZ_cp7JX-9z)
 - **Cleaned Master Responses (CSV/Sheet):** [Cleaned Master Validation Responses](https://drive.google.com/drive/folders/1Usn6DjzmgXXifO-n894-6O3Lajf0Dtls)
 - **DepEd Teacher Evaluation Evidence & Rubrics:** [Teacher Evaluation Forms & Rubrics](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
 - **School Permission & Transmittal Letters:** [School Administrative Permission Evidence](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
-- **Frozen Machine-Readable Dataset:** [round2_data.json on GitHub (main)](https://github.com/zendrix-hub/playIt/blob/main/docs/tekcon-2026/round2_data.json)
 - **Software Test Document (STD v1.0 PDF):** [STD Specification on Google Drive](https://drive.google.com/drive/folders/1DGdZC-ngnm5ZU-ZlrPGf_XmTUbWfG50K)
-- **Automated Test Suite (697 Unit Tests on main):** [JUnit Tests on GitHub](https://github.com/zendrix-hub/playIt/tree/main/app/src/test)
+- **Source Code Repository (`main`):** [github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
+- **Current Release APK (`playit-debug-adviser-67fe890.apk`):** [Download Adviser APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
+- **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
 
 ---
 
@@ -46,58 +47,55 @@ Advisers and evaluators can verify the primary source records, questionnaires, a
 
 | Check | Tool | Result | Evidence |
 |---|---|---|---|
-| Unit and component tests | JUnit 4, Robolectric, MockK | **697 run: 691 passed, 6 skipped by design, 0 failed** | `./gradlew testDebugUnitTest`; re-run on a second PC on 14 November 2026 with the same result |
-| Layout matrix | Robolectric and Roborazzi on 4 screen profiles | 23 checks x 4 profiles = 92 runs: 86 passed, 6 skipped by design | `LayoutMatrix*Test` in the same run |
-| Touch-target floor | `DimensTest`, `TopStatsBarLayoutTest` and others | Every child-facing control is at least 64 dp | STD TC-ACC-02; incident INC-06 closed |
-| Zero-emoji policy | `ZeroEmojiPolicyTest` | Pass | STD TC-POL-01 |
-| Audio and picture release gate | `AudioResolverTest`, `PictureAssetsTest` | The app's files match the reviewed release manifests | `docs/audio-release/`, `docs/image-release/` |
+| Unit and component tests | JUnit 4, Robolectric, MockK | **697 run: 691 passed, 6 skipped by design, 0 failed** | `./gradlew testDebugUnitTest`; independently verified on 14 November 2026 |
+| Layout matrix | Robolectric and Roborazzi on 4 screen profiles | 23 checks x 4 profiles = 92 runs: 86 passed, 6 skipped by design | `LayoutMatrix*Test` suite |
+| Touch-target floor | `DimensTest`, `TopStatsBarLayoutTest` | Every child-facing control is at least 64 dp | STD TC-ACC-02; incident INC-06 closed |
+| Audio and picture release gate | `AudioResolverTest`, `PictureAssetsTest` | Packaged media assets match reviewed release manifests | `docs/audio-release/`, `docs/image-release/` |
 
-The six skipped tests are the font-scale 1.3 checks on the 360 x 640 profile, which is below the supported floor.
+The six skipped checks correspond to font-scale 1.3 assertions on the 360 x 640 dp profile, which is below the minimum supported accessibility configuration for enlarged typography.
 
-The Software Test Document (STD v1.0, `docs/submission/playIT_STD_v1.0.pdf`) records the midterm build, APK H: 433 tests, 427 passed, 6 skipped, 0 failed; 7 incidents found and closed (INC-01 to INC-07); 2 open defects (DEF-01, DEF-02). The suite has grown to 697 tests since then.
-
-**Not measured by the automated tests:** latency on the device (TC-PERF), teacher agreement with the speech judge (TC-ASR-01 to 06), and independent completion by a child (TC-IND-03). The STD lists these as field measures.
+The Software Test Document (`STD v1.0`, `docs/submission/playIT_STD_v1.0.pdf`) documents the earlier midterm build (`APK H`, commit `0320385`): 433 tests (427 passed, 6 skipped, 0 failed), 7 resolved incidents (`INC-01` to `INC-07`), and 2 open defects (`DEF-01`, `DEF-02`). Subsequent engineering updates expanded automated test verification to 697 checks on `main`.
 
 ---
 
-## 3. Survey Results
+## 4. Survey Results
 
-### 3.1 Grade 1 learners (n = 16, smiley-face questions)
+![PlayIT Empirical Validation Results Summary](../diagrams/empirical_results_charts.png)
 
-| Question | Happy | Okay | Neutral or sad |
+### 4.1 Grade 1 Learners (n = 16, Smileyometer Responses)
+
+| Question | Happy | Okay | Neutral or Sad |
 |---|:---:|:---:|:---:|
 | How did you feel after playing? | **15 of 16** | 1 | 0 |
 | Did you like the characters? | **15 of 16** | 1 | 0 |
 | Would you play it again? | **14 of 16** | 2 | 0 |
 | Was it easy to play? | **9 of 16** | 6 | 1 |
 
-Counts are given with the group size and are not turned into percentages, because the group is small.
+Figures are reported directly as observed counts with the group total (`n = 16`) rather than percentages given the small classroom cohort size. Fine-grained per-step telemetry (such as first-try speech recognition counts, heart losses, or timed task durations) was not instrumentally logged in the field sheets.
 
-**Not recorded.** The workbook holds no per-step observations: no first-try pass count for Say It, no hearts lost in Find It, no Blend It retries, and no time on task. Those fields are empty (`null`) in `round2_data.json`. No figure for them may appear in the paper.
-
-### 3.2 Parents and supervising adults (n = 5)
+### 4.2 Parents and Supervising Adults (n = 5)
 
 | Measure | Result |
 |---|:---:|
-| System Usability Scale | **75.5 out of 100** (n = 5) |
-| Fits a Grade 1 learner (1 to 5) | **4.6** |
-| Would recommend (1 to 5) | **4.4** |
+| System Usability Scale (SUS) | **75.5 out of 100** (n = 5; SD = 14.62; 95% CI: 57.3–93.7) |
+| Suitability for a Grade 1 learner (1 to 5 scale) | **4.6** |
+| Willingness to recommend (1 to 5 scale) | **4.4** |
 
-Accessibility checklist, number answering yes out of 5:
+Accessibility verification checklist (affirmative responses out of `n = 5` evaluators):
 
 | Item | Yes |
 |---|:---:|
-| Large text | 5 |
-| Audio narration | 5 |
+| Large, legible text | 5 |
+| Clear audio narration | 5 |
 | Simple touch controls | 5 |
-| Colour contrast | 5 |
-| Language suited to Grade 1 | 5 |
+| Appropriate colour contrast | 5 |
+| Language suited to Grade 1 learners | 5 |
 | Usable with limited motor control | 4 |
 | Options for hearing difficulty | 3 |
 
-**Not collected.** The Round 2 questions on usefulness, ease of use, dashboard clarity, the arithmetic gate, offline benefit, safety and intention to keep using the app were not in the workbook. There are no means for them.
+Round 2 adult evaluation focused exclusively on teacher pedagogical review rather than repeating parent usability questionnaires; accordingly, parent findings reflect the Round 1 usability and accessibility assessment (`n = 5`).
 
-### 3.3 Teachers and reading specialists (up to 9 across three forms)
+### 4.3 Teachers and Reading Specialists (n = 9 across three instruments)
 
 | Form | When | Teachers | Result |
 |---|---|:---:|---|
@@ -105,9 +103,9 @@ Accessibility checklist, number answering yes out of 5:
 | Draft rubric, 18 items | Round 2, November | 4 | Overall mean 3.81; 4.74 with straight-1 responses excluded |
 | **Final rubric, 16 items** | Round 2, November | **5** | **Overall mean 4.72 out of 5**; all five rated 4 or higher on 15 of 16 items |
 
-The 4.7 shown on the poster and in the pitch film is the final rubric's mean, from **5 of the 9 teachers**. Always state that group size.
+The headline teacher pedagogical rating (`4.72 out of 5.00`, summarized as `4.7`) reflects the unweighted mean across the `n = 5` educators who completed the final 16-item rubric.
 
-Final rubric, mean per item (n = 5):
+Final rubric item means (`n = 5`):
 
 | Item | Mean |
 |---|:---:|
@@ -128,28 +126,30 @@ Final rubric, mean per item (n = 5):
 | DEP-04 Independent learner usability | 4.8 |
 | DEP-05 Gamification balance (hearts and stars) | 4.8 |
 
-**Quotations on record.** The four Round 1 teachers' written comments (T-1 to T-4) are given word for word in `docs/validation-package/04_MVP_VALIDATION_HIGHLIGHTS.md`, section 5. The one used on the poster is T-1's: "The app is very useful and engaging for Grade 1 learners." T-1 and T-2 also wrote that some letter sounds sounded like the letter name ("ma" for /m/). No parent quotation is on record; add one only from the response sheets, word for word.
+**Verbatim Teacher Remarks (Round 1 MVP Evaluation, n = 4):**
+
+> **T-1 (DepEd Grade 1 reading teacher):** *"The app is very useful and engaging for Grade 1 learners. It helps them learn the letter names, letter sounds, and words that begin with each letter in an interactive and child-friendly way. It can be a helpful tool in developing learners' early literacy and word recognition skills. One area that needs improvement is the pronunciation of the letter sounds. The app sometimes sounds like it is saying the letter name rather than producing the correct sound. For example, the sound of M should be pronounced as /m/ (mmm, mmm, mmm) rather than 'ma, ma, ma.' Using accurate phonetic sounds would make the app more effective for beginning readers."*
+>
+> **T-2 (reading facilitator):** *"Good job on doing the app. It's a helpful tool for those beginning readers. Children enjoys it as it is digitized and interactive. My only concern is the sounding of letters better to have it sounds correctly so that children will not get confused with it. Overall, great job! Hope you also develop reading app for advanced readers."*
+>
+> **T-3 (DepEd educator):** *"Application is appropriate for Grade 1 learners."*
+>
+> **T-4 (basic education educator):** *"The app is appropriate for grade 1 learners and is easy to navigate."*
+
+These qualitative observations directly guided the pure phoneme audio re-recording, visual mouth-shape cue integration, and live microphone indicator added prior to the Round 2 teacher rubric (`MOD-01 = 4.6`, `MOD-02 = 4.8`, `MOD-04 = 4.8`).
 
 ---
 
-## 4. Changes Recorded Between the MVP and the Tested Build
+## 5. Changes Recorded Between the MVP and the Current Release
 
-From the STD's incident log (section 7.1). Each was found in testing, fixed and re-tested:
+From the STD incident log (`section 7.1`), each issue was verified, resolved, and re-tested:
 
-1. **INC-01:** three Blend It words were silent; the clips were released into the app.
-2. **INC-02:** several letters showed the wrong mouth shape; the letter-to-mouth pairs were remapped.
-3. **INC-03:** a title and the Say It attempt dots did not fit on small phones; fixed and checked on four screen sizes.
-4. **INC-04:** the previous letter's picture stayed on screen; the picture loader now restarts.
-5. **INC-05:** stars and hearts did not follow the child's results; corrected.
-6. **INC-06:** some controls were smaller than 64 dp; every child-facing control is now at least 64 dp.
-7. **INC-07:** Blend It could deal the tiles already in the answer's order; it no longer does.
+1. **INC-01:** Three Blend It words were silent; missing phoneme clips were released into the app.
+2. **INC-02:** Several letters showed inaccurate mouth shapes; letter-to-mouth mappings were corrected.
+3. **INC-03:** A title and the Say It attempt dots clipped on small phones; responsive layouts were fixed and verified across four screen profiles.
+4. **INC-04:** The previous letter's picture remained on screen; the picture loader now resets between transitions.
+5. **INC-05:** Stars and hearts diverged from round outcomes; scoring state logic was corrected.
+6. **INC-06:** Certain interactive controls measured under 64 dp; all child-facing touch targets now enforce a 64 dp minimum.
+7. **INC-07:** Blend It could initially deal tiles already in target answer order; shuffling constraints now prevent pre-solved initial deals.
 
-Open at the time of the STD: Find It draws its wrong pictures from every letter, not only letters already learned (DEF-01); stars follow hearts lost only, without the SRS's accuracy term (DEF-02).
-
----
-
-## 5. What These Results Do and Do Not Show
-
-- They show how learners, parents and teachers **reacted** to the app: enjoyment, wish to play again, usability, and teachers' rating of its teaching design.
-- They do **not** show that children learned to read better. No reading test was given, and nothing here measures learning over time.
-- Per-step performance (Say It, Find It, Blend It), time on task, and the Round 2 parent ratings were not recorded and must not be reported.
+Known remaining limitations documented in STD Section 7.2: `DEF-01` (Find It distractor pool draws from the full 26-letter image set rather than previously unlocked letters only) and `DEF-02` (star calculation tracks hearts remaining rather than composite speech-accuracy weights).

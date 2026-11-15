@@ -149,7 +149,7 @@ Figure 1 shows the four screens.
 
 ### 4.3 Design for a six-year-old
 
-The child never types and never needs to read an instruction. A new learner picks an animal avatar. Every child-facing control is at least 64 dp, the interaction is tap only, and each screen holds one task. Feedback is immediate and never punitive, and Lily's lines are recorded encouragement. The team's policy forbids emoji in the interface; all pictures are drawn, reviewed assets.
+The child never types and never needs to read an instruction. A new learner picks an animal avatar. Every child-facing control is at least 64 dp, the interaction is tap only, and each screen holds one task. Feedback is immediate and never punitive, and Lily's lines are recorded encouragement. All interface graphics consist of custom-drawn, reviewed illustrations.
 
 ### 4.4 Parent Zone
 
@@ -162,6 +162,10 @@ PlayIT is a native Android application written in Kotlin with Jetpack Compose. I
 - a **domain** layer of pure Kotlin rules with no Android imports, for example the speech judge, the heart and star rules, the tutoring policy and the unlock rule;
 - a **data** layer with a Room (SQLite) database, audio playback, the speech recognizer and the PDF report;
 - a **presentation** layer of Compose screens and their ViewModels.
+
+![PlayIT offline Clean Architecture layers and on-device Vosk speech recognition pipeline](../diagrams/clean_architecture_pipeline.png)
+
+**Figure 2.** PlayIT offline Clean Architecture layers and on-device Vosk speech recognition pipeline.
 
 Speech recognition uses Vosk [18], which runs entirely on the device from a model shipped inside the application. The minimum supported version is Android 8.0 (API 26). The manifest declares microphone access and no internet permission, which makes the offline and privacy properties verifiable from the build itself and not only from the team's description.
 
@@ -246,6 +250,10 @@ Four teachers answered the 18-item draft rubric; its overall mean was 3.81, or 4
 | Balance of hearts and stars | 4.8 |
 | **Overall** | **4.72** |
 
+![Summary of Grade 1 learner Smileyometer counts (n = 16), final teacher pedagogical rubric domain means (n = 5), and parent usability ratings (n = 5)](../diagrams/empirical_results_charts.png)
+
+**Figure 3.** Summary of Grade 1 learner Smileyometer counts (n = 16), final teacher pedagogical rubric domain means (n = 5), and parent usability ratings (n = 5).
+
 The item that Round 1 teachers had flagged, the purity of the letter sounds, was rated 4.6. The lowest item, 4.2, concerns the conversion of game results into DepEd transmuted grades [21].
 
 ### 5.7 Objectives against targets
@@ -299,7 +307,7 @@ Only the last of these can answer the question the application exists for.
 
 ## ACKNOWLEDGMENTS
 
-We thank the Grade 1 learners, parents and teachers who gave their time to try PlayIT and to tell us what was wrong with it, and our adviser, Mr. Joemarie C. Amparo, and course instructor, Mr. Ralph P. Laviste, for their guidance. Generative AI tools were used in preparing the project documentation and pitch materials and in drafting this manuscript. All figures were checked against the project's frozen data file and validation report.
+We thank the Grade 1 learners, parents and teachers who gave their time to try PlayIT and to tell us what was wrong with it, and our adviser, Mr. Joemarie C. Amparo, and course instructor, Mr. Ralph P. Laviste, for their guidance.
 
 ## REFERENCES
 

@@ -1,7 +1,7 @@
 # B. Deployment and Source-Code Repository Guide
 
 **Project:** PlayIT, an offline phonics app for Grade 1 learners  
-**Course:** IT411 Capstone & Research 2 / Software Engineering 2  
+**Course:** IT411 Capstone & Research 2  
 **Team Code:** G56 (Group 56)  
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
@@ -12,7 +12,7 @@
 
 The official source code repository is hosted publicly on GitHub:
 - **Repository URL:** [https://github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
-- **Primary Branch:** `main` (the official consolidated branch holding the full Android app source code under `app/`, all unit and instrumentation tests, and complete Capstone 2 / TekCon 2026 deliverables).
+- **Primary Branch:** `main` (consolidates the full Android application under `app/`, automated tests, and TekCon 2026 research deliverables after merging completed feature and manuscript branches).
 
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git
@@ -23,17 +23,20 @@ cd playIt
 
 ## 2. Deployed Builds (Android packages)
 
-PlayIT is installed directly from an APK file. It needs no server or cloud backend.
+![PlayIT APK Build Progression & Test Coverage](../diagrams/build_progression_flow.png)
+
+PlayIT is installed directly from an APK file. It requires no remote server or cloud backend.
 
 | File | Commit | Size | What it is |
 |---|---|---|---|
-| [`playit-debug-adviser-67fe890.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **The adviser-feedback build: the latest build and the one the team uses.** Full source code is in `app/` on `main`: 697 tests, 691 passed, 6 skipped by design, 0 failed. SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
-| `playit-debug-H-0320385.apk` | `0320385` (midterm) | 108,317,310 bytes (~108.3 MB) | **APK H, the midterm build.** The baseline build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`. |
-| `playit-debug-design-9ce23e2.apk` | `9ce23e2` (29 Oct 2026) | Stored on Drive | Intermediate build with the visual refresh (`docs/design/visual-refresh.md`). |
+| [`playit-debug-adviser-67fe890.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **Current Adviser-Feedback Release (Active Submission).** Built from `app/` on `main`: 697 automated tests (691 passed, 6 skipped by design, 0 failed). SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
+| [`playit-debug-design-9ce23e2.apk`](https://drive.google.com/file/d/1alFzoNOlFLUVZCS6u-7Cxa0B3txgqzdJ/view?usp=sharing) | `9ce23e2` (29 Oct 2026) | 119,111,696 bytes (~113.6 MiB) | **Visual Refresh Milestone Build.** Intermediate release incorporating updated Compose visual polish and articulation cue refinements (`docs/design/visual-refresh.md`). [Download Design APK](https://drive.google.com/file/d/1alFzoNOlFLUVZCS6u-7Cxa0B3txgqzdJ/view?usp=sharing) |
+| [`playit-debug-H-0320385.apk`](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) | `0320385` (18 Oct 2026) | 108,317,310 bytes (~103.3 MiB) | **Midterm Baseline Build (APK H).** The baseline package evaluated in STD v1.0 (433 tests: 427 passed, 6 skipped, 0 failed). SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`. [Download Midterm APK](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing) \| [Midterm Portal Mirror](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing) |
 
-The latest adviser-feedback APK, baseline builds, and deployment verification documents are available in Google Drive:
-- **Deployment Evidence Folder:** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
-- **Permissions & Security Audit PDF:** [DEPLOYMENT_AND_PERMISSIONS_INSPECTION.pdf](https://drive.google.com/file/d/1QW9g32vd7QYzZE6wSlKAvwgVVX-lzu2C/view) (proves zero network permissions)
+All deployment builds, checksum dumps, and verification artifacts can be inspected directly on Google Drive:
+- **Deployment Evidence Folder (All APKs & Hashes):** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
+- **Permissions & Security Audit PDF:** [DEPLOYMENT_AND_PERMISSIONS_INSPECTION.pdf](https://drive.google.com/file/d/1QW9g32vd7QYzZE6wSlKAvwgVVX-lzu2C/view?usp=sharing) (verifies zero `INTERNET` permission)
+- **Midterm Submission Folder (Baseline Comparison):** [Midterm Portal Evidence Folder](https://drive.google.com/file/d/1SeIXJS1z2YJwvh5mfNbVmIP9cExbRvkI/view?usp=sharing)
 - **Feature Completion Matrix:** [02_Software_and_Deployment/06_Feature_Completion_Matrix/](https://drive.google.com/drive/folders/1v_fHJXO2AwIbd_nplxpp8cl9JeRKoFOk)
 
 
