@@ -5,7 +5,6 @@
 **Team Code:** G56 (Group 56)  
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Branch:** `main`  
 **Evaluation scope:** 30 participants (16 Grade 1 learners, 5 parents or supervising adults, 9 teachers)
 
 This report is written from the repository: `README.md`, the code under `app/`, and the Software Test Document (STD v1.0) in `docs/submission/` and `docs/std/`. Where the STD's result describes the midterm build (APK H) and not today's code, it says so.
@@ -113,3 +112,19 @@ The results below are the STD's, recorded on the midterm build APK H (commit `03
 Seven problems were found in testing, fixed and re-tested (INC-01 to INC-07): silent Blend It words, wrong mouth shapes on some letters, a clipped title and overlapping attempt dots on small phones, a stale picture after "next letter", stars and hearts that did not follow results, controls smaller than 64 dp, and a Blend It deal that could already match the answer.
 
 The team's zero-emoji policy (drawn pictures only, no Unicode emoji) is checked by `ZeroEmojiPolicyTest`.
+
+---
+
+## 6. System Integrity & Verification Links
+
+Advisers and evaluators can inspect every underlying artifact, source code file, and test report directly:
+
+- **Source Code Repository (`main`):** [github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
+- **Android App Source (`app/`):** [github.com/zendrix-hub/playIt/tree/main/app](https://github.com/zendrix-hub/playIt/tree/main/app)
+- **Clean Architecture Domain Logic:** [github.com/zendrix-hub/playIt/tree/main/app/src/main/java/com/playit/app/domain](https://github.com/zendrix-hub/playIt/tree/main/app/src/main/java/com/playit/app/domain)
+- **Automated Test Suite (697 Unit Tests):** [github.com/zendrix-hub/playIt/tree/main/app/src/test](https://github.com/zendrix-hub/playIt/tree/main/app/src/test)
+- **Software Requirements Specification (SRS v3.0 PDF):** [SRS v3.0 on Google Drive](https://drive.google.com/drive/folders/1XSl2QEfr06xKxATRUPDaHbxTdwjhy63e)
+- **Requirements Traceability Matrix (RTM PDF):** [Traceability Matrix on Google Drive](https://drive.google.com/drive/folders/1hK-g8JYK4WKOf1g0xIqnr0GcyxPnQtFP)
+- **Feature Completion Matrix:** [Feature Completion Report on Google Drive](https://drive.google.com/drive/folders/1v_fHJXO2AwIbd_nplxpp8cl9JeRKoFOk)
+- **Deployed Adviser APK:** [Download playit-debug-adviser-67fe890.apk](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
+

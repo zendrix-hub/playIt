@@ -3,9 +3,8 @@
 **Project:** PlayIT, an offline phonics app for Grade 1 learners  
 **Course:** IT411 Capstone & Research 2 / Software Engineering 2  
 **Team Code:** G56 (Group 56)  
-**Lead Researcher:** Zendrix Riva  
+**Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Branch:** `main`  
 **Dataset status:** frozen, actual (N = 30). Source: `docs/tekcon-2026/round2_data.json`, compiled 12 November 2026 from the team's Google Sheet workbook.
 
 Every figure in this document is copied from `round2_data.json` or from the test evidence in `docs/std/`. Where something was not measured, the document says so. It does not estimate.
@@ -29,7 +28,21 @@ The learners are the app's users. Parents and teachers are evaluators: the bridg
 
 ---
 
-## 2. Automated Quality Assurance
+## 2. Data Integrity & Supporting Evidence Links
+
+Advisers and evaluators can verify the primary source records, questionnaires, and raw statistical sheets directly via the following links:
+
+- **Raw Master Responses Sheet:** [Google Drive Master Responses Folder](https://drive.google.com/drive/folders/12-1NSwvHD1jgXwQDRVJIxQZ_cp7JX-9z)
+- **Cleaned Master Responses (CSV/Sheet):** [Cleaned Master Validation Responses](https://drive.google.com/drive/folders/1Usn6DjzmgXXifO-n894-6O3Lajf0Dtls)
+- **DepEd Teacher Evaluation Evidence & Rubrics:** [Teacher Evaluation Forms & Rubrics](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
+- **School Permission & Transmittal Letters:** [School Administrative Permission Evidence](https://drive.google.com/drive/folders/1hfqhYVbhnx7dTQPF_FqUjubkKCFb9xeL)
+- **Frozen Machine-Readable Dataset:** [round2_data.json on GitHub (main)](https://github.com/zendrix-hub/playIt/blob/main/docs/tekcon-2026/round2_data.json)
+- **Software Test Document (STD v1.0 PDF):** [STD Specification on Google Drive](https://drive.google.com/drive/folders/1DGdZC-ngnm5ZU-ZlrPGf_XmTUbWfG50K)
+- **Automated Test Suite (697 Unit Tests on main):** [JUnit Tests on GitHub](https://github.com/zendrix-hub/playIt/tree/main/app/src/test)
+
+---
+
+## 3. Automated Quality Assurance
 
 | Check | Tool | Result | Evidence |
 |---|---|---|---|

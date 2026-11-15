@@ -3,41 +3,39 @@
 **Project:** PlayIT, an offline phonics app for Grade 1 learners  
 **Course:** IT411 Capstone & Research 2 / Software Engineering 2  
 **Team Code:** G56 (Group 56)  
-**Team Lead:** Zendrix Riva  
-**Collaborator:** Erik Samuel Bien (GitHub `thatguyKire`)  
+**Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Branch:** `main`
 
 ---
 
 ## 1. Source-Code Repository
 
-- **Repository:** https://github.com/zendrix-hub/playIt (public)
-- **Branches:**
-  - `main`: consolidated production and submission branch containing complete Android app source code (`app/`), unit and instrumented tests, and all Capstone 2 / TekCon 2026 academic documentation and submission packages.
-  - `erik/research-paper-final`: feature branch for research paper drafting and validation syntheses (merged into `main`).
-  - `docs/tekcon-2026-pitch-kit` and `erik/film-fixes`: the TekCon poster, pitch film and logo.
-- **Development repository:** the app was built in a second repository, `zendrix-hub/playIT-v2` (branch `enhance/adviser-feedback`). The `app/` folder here is the code of its commit `67fe890`; only one comment line in `app/build.gradle.kts` differs.
+The official source code repository is hosted publicly on GitHub:
+- **Repository URL:** [https://github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
+- **Primary Branch:** `main` (the official consolidated branch holding the full Android app source code under `app/`, all unit and instrumentation tests, and complete Capstone 2 / TekCon 2026 deliverables).
 
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git
 cd playIt
-git checkout main
 ```
 
 ---
 
 ## 2. Deployed Builds (Android packages)
 
-PlayIT is installed from an APK file. It needs no server.
+PlayIT is installed directly from an APK file. It needs no server or cloud backend.
 
 | File | Commit | Size | What it is |
 |---|---|---|---|
-| `playit-debug-H-0320385.apk` | `0320385` (card 31) | 108,317,310 bytes (about 108.3 MB) | **APK H, the midterm build.** The build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256 `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`; `aapt` inspection: `docs/std/evidence/2026-10-18-submitted-apk/apk_inspection.txt`. |
-| `playit-debug-design-9ce23e2.apk` | `9ce23e2` (29 Oct 2026) | Not recorded | A later build with the visual refresh (`docs/design/visual-refresh.md`). Its commit message records 482 unit tests, 0 failures, 6 skipped. The file's size and SHA-256 are not recorded; add them from the file itself before citing them. |
-| `playit-debug-adviser-67fe890.apk` | `67fe890` (8 Nov 2026) | 119,339,266 bytes (about 119.3 MB) | **The adviser-feedback build: the latest build and the one the team uses.** Its code is the `app/` folder of this repository: 697 tests, 691 passed, 6 skipped by design, 0 failed (Section 4.2). SHA-256 `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. Google Drive File ID: `1pIr2360noHf64TOT-sAwk_uNlk2gSeQa`. |
+| [`playit-debug-adviser-67fe890.apk`](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) | `67fe890` (8 Nov 2026) | 119,339,266 bytes (~113.8 MiB) | **The adviser-feedback build: the latest build and the one the team uses.** Full source code is in `app/` on `main`: 697 tests, 691 passed, 6 skipped by design, 0 failed. SHA-256: `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`. [Download APK](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing) |
+| `playit-debug-H-0320385.apk` | `0320385` (midterm) | 108,317,310 bytes (~108.3 MB) | **APK H, the midterm build.** The baseline build tested in STD v1.0: 433 tests, 427 passed, 6 skipped by design, 0 failed. SHA-256: `b5a54c18d1405c3851b7fec5c110f03f1aeaaa899a343b12f1796e04398c42d4`. |
+| `playit-debug-design-9ce23e2.apk` | `9ce23e2` (29 Oct 2026) | Stored on Drive | Intermediate build with the visual refresh (`docs/design/visual-refresh.md`). |
 
-The team lead keeps the current adviser-feedback build (`playit-debug-adviser-67fe890.apk`), APK H, and the design build in the team's Google Drive folder (`02_Software_and_Deployment/04_Deployment_Evidence/`).
+The latest adviser-feedback APK, baseline builds, and deployment verification documents are available in Google Drive:
+- **Deployment Evidence Folder:** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
+- **Permissions & Security Audit PDF:** [DEPLOYMENT_AND_PERMISSIONS_INSPECTION.pdf](https://drive.google.com/file/d/1QW9g32vd7QYzZE6wSlKAvwgVVX-lzu2C/view) (proves zero network permissions)
+- **Feature Completion Matrix:** [02_Software_and_Deployment/06_Feature_Completion_Matrix/](https://drive.google.com/drive/folders/1v_fHJXO2AwIbd_nplxpp8cl9JeRKoFOk)
+
 
 **Test build, not for learners.** `playit-TEST-all-unlocked-67fe890.apk` (119,202,001 bytes) is the same code built with the `unlocked` build type: every letter and word game is open, so the team can reach any screen when looking for bugs. It installs as a separate app, "playIT test" (`com.playit.app.unlocked`), so its play never mixes with a child's record. It is not the build that is handed in. Build it with `./gradlew assembleUnlocked`.
 
