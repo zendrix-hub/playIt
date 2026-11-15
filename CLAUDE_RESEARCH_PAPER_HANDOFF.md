@@ -3,7 +3,7 @@
 > **Course**: IT411 — Capstone & Research 2 / Software Engineering 2  
 > **Team Code**: `G56` (Group 56)  
 > **Project Name**: PlayIT — an offline phonics app for Grade 1 Filipino learners (it teaches the sounds of the 26 English letters in Marungko order)  
-> **Repository Branch**: `erik/research-paper-final`  
+> **Repository Branch**: `main`  
 > **Google Drive Working Folder**: `G56` ([Drive ID: `1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc`](https://drive.google.com/drive/folders/1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc))  
 > **Collaborator**: Erik Samuel Bien (`thatguyKire`)  
 > **Lead Researcher**: Zendrix Riva  
@@ -217,4 +217,4 @@ G56/ (1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc)
 2. **Never Edit Frozen Data**: Do not change `round2_data.json` or invent new respondent counts.
 3. **Generate Complete Manuscripts**: When generating the Research Paper draft, write full, polished academic prose with proper ACM headings, in-text citations (`[1]`, `[2]`), and formal tables—do not leave placeholders or bullet-point outlines. Cite only sources whose details have been checked; do not invent references.
 4. **Google Drive Syncing**: Save or sync generated files to the `G56` folder on Google Drive.
-5. **Git Hygiene**: Commit all drafts and handoff updates to `erik/research-paper-final` with descriptive commit messages.
+5. **Git Hygiene**: Commit all drafts and handoff updates to `main` with descriptive commit messages.

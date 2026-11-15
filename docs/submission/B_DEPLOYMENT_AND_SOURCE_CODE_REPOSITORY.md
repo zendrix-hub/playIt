@@ -6,7 +6,7 @@
 **Team Lead:** Zendrix Riva  
 **Collaborator:** Erik Samuel Bien (GitHub `thatguyKire`)  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Branch:** `erik/research-paper-final`
+**Branch:** `main`
 
 ---
 
@@ -14,15 +14,15 @@
 
 - **Repository:** https://github.com/zendrix-hub/playIt (public)
 - **Branches:**
-  - `erik/research-paper-final`: research paper hand-off and the final submission documents.
-  - `main`: the app's code and its documents. Its `app/` folder is the same as on `erik/research-paper-final`.
+  - `main`: consolidated production and submission branch containing complete Android app source code (`app/`), unit and instrumented tests, and all Capstone 2 / TekCon 2026 academic documentation and submission packages.
+  - `erik/research-paper-final`: feature branch for research paper drafting and validation syntheses (merged into `main`).
   - `docs/tekcon-2026-pitch-kit` and `erik/film-fixes`: the TekCon poster, pitch film and logo.
 - **Development repository:** the app was built in a second repository, `zendrix-hub/playIT-v2` (branch `enhance/adviser-feedback`). The `app/` folder here is the code of its commit `67fe890`; only one comment line in `app/build.gradle.kts` differs.
 
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git
 cd playIt
-git checkout erik/research-paper-final
+git checkout main
 ```
 
 ---

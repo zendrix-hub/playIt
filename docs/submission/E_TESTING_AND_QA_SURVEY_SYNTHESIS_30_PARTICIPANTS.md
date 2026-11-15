@@ -5,7 +5,7 @@
 **Team Code:** G56 (Group 56)  
 **Lead Researcher:** Zendrix Riva  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Branch:** `erik/research-paper-final`  
+**Branch:** `main`  
 **Dataset status:** frozen, actual (N = 30). Source: `docs/tekcon-2026/round2_data.json`, compiled 12 November 2026 from the team's Google Sheet workbook.
 
 Every figure in this document is copied from `round2_data.json` or from the test evidence in `docs/std/`. Where something was not measured, the document says so. It does not estimate.

@@ -1,4 +1,4 @@
-# PlayIT Capstone 2 & TekCon 2026 Kit (Branch: erik/research-paper-final)
+# PlayIT Capstone 2 & TekCon 2026 Kit (Branch: main)
 
 Welcome to the PlayIT Capstone 2, SoftEng 2, and TekCon 2026 repository (Team G56).
 
@@ -11,7 +11,7 @@ Rules that always apply:
 - **Never Modify Existing Source Code/Assets**: Only update and generate the documentation, paper drafts, and submission files.
 - **Google Drive Operations**: All file operations must be performed **solely inside the team's `G56` folder** (`1RzafWRNSvACgXG0hSAZntJzwIxv2GpVc`). Never modify the external links (`part9_Validation` or `PlayIT_MIDTERM DELIVERABLE`).
 - **Survey Dataset**: Use the frozen $N=30$ survey numbers (`round2_data.json`: 16 learners observed, 5 parents, 9 teachers). Never invent figures and never claim learning gains. A field that is `null` in the data was not measured. The corrected figures are in `docs/submission/E_TESTING_AND_QA_SURVEY_SYNTHESIS_30_PARTICIPANTS.md`.
-- **Git Branch**: Keep all work committed on `erik/research-paper-final`. Collaborator: Erik Samuel Bien (`thatguyKire`).
+- **Git Branch**: Consolidated production branch: `main`. Collaborator: Erik Samuel Bien (`thatguyKire`).
 
 The aim of work here is to make the pitch better, not only to finish it. Look at the film and poster yourself first and form your own view; section 8 of the hand-off lists the known weak spots, what is fixed, what is open to change, and how to tell whether a change is an improvement.
 

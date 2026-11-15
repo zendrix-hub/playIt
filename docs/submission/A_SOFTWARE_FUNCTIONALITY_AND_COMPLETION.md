@@ -5,7 +5,7 @@
 **Team Code:** G56 (Group 56)  
 **Team Members:** Zendrix Riva (Lead), Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, John James Palis  
 **Adviser:** Mr. Joemarie C. Amparo  
-**Branch:** `erik/research-paper-final`  
+**Branch:** `main`  
 **Evaluation scope:** 30 participants (16 Grade 1 learners, 5 parents or supervising adults, 9 teachers)
 
 This report is written from the repository: `README.md`, the code under `app/`, and the Software Test Document (STD v1.0) in `docs/submission/` and `docs/std/`. Where the STD's result describes the midterm build (APK H) and not today's code, it says so.

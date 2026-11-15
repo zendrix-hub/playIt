@@ -18,3 +18,9 @@ captures/
 # Python
 __pycache__/
 *.pyc
+
+# Scratch files, test dumps, root video captures
+*.dump
+/*.mp4
+playIt/
+
