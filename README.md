@@ -13,9 +13,10 @@ IT411 Capstone & Research 2 (Section G7), Group 56, College of Computer Studies,
   <img src="https://img.shields.io/badge/Network-no_INTERNET_permission-blue" alt="Network: no INTERNET permission"/>
 </p>
 
-## The Midterm Build
+## Deployed Builds
 
-The build submitted for the IT411 midterm is debug **APK H**, built from commit `0320385` of the team's development branch and tested in the Software Test Document (STD v1.0, in `docs/submission/`). This repository holds that code with its tests. 387 files under app/ changed after APK H, including code, so a build from this repository is not APK H.
+- **Current Release Build (`playit.apk`, commit `67fe890`):** Built from `app/` on `main` (`119,339,266` bytes, SHA-256 `A6D4560F0F593F0162D8B3A6A2A21EA173701966E54835CB27B64753579B184F`, 697 unit tests: 691 passed, 6 skipped by design, 0 failed). Includes the child-friendly visual refresh, animated mouth-shape cues, animal avatar + name onboarding, and post-Round 1 refinements.
+- **Midterm Baseline Build (`playit-debug-H-0320385.apk`, commit `0320385`):** The baseline package evaluated in the Software Test Document (`STD v1.0`, `108,317,310` bytes, 433 tests: 427 passed, 6 skipped, 0 failed).
 
 ## Screens
 
@@ -24,7 +25,7 @@ Visual interface captures rendered directly from this repository's code on a sta
 <table>
   <tr>
     <td align="center" width="25%"><strong>Splash</strong><br/><img src="docs/screenshots/splash.png" alt="Splash" width="180"/><br/><em>Start sits below Lily, the tarsier guide</em></td>
-    <td align="center" width="25%"><strong>New learner</strong><br/><img src="docs/screenshots/nameprompt.png" alt="New learner" width="180"/><br/><em>Avatar-only onboarding: no typing</em></td>
+    <td align="center" width="25%"><strong>New learner</strong><br/><img src="docs/screenshots/nameprompt.png" alt="New learner" width="180"/><br/><em>Pick an animal friend and enter name</em></td>
     <td align="center" width="25%"><strong>Map</strong><br/><img src="docs/screenshots/map.png" alt="Map" width="180"/><br/><em>Chapter 1 trail; 16-character name in the header</em></td>
     <td align="center" width="25%"><strong>Hear It</strong><br/><img src="docs/screenshots/hearit.png" alt="Hear It" width="180"/><br/><em>Lily models the sound, then the key word</em></td>
   </tr>
@@ -82,7 +83,7 @@ The six skipped tests are the font-scale 1.3 checks on the 360x640 profile, whic
 ## Trying the App
 
 - No account and no internet connection are needed.
-- On "Who is playing?", tap **Add Profile**, pick an animal friend and tap **Let's Play**. The child never types; a parent can add a name in the Parent Zone.
+- On "Who is playing?", tap **New player**, pick an animal friend, type the child's name, and tap **Let's Play** (in the midterm APK H baseline, tap **Add Profile**, pick an animal friend, and tap **Let's Play**).
 - Tap the current letter on the map to start a lesson.
 - **Parent Zone:** the button at the top right of "Who is playing?". Answer the arithmetic question to see each letter's progress, export the PDF report, and rename or delete profiles.
 
