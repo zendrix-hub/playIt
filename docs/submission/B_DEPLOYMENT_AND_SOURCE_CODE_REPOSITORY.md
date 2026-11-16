@@ -13,7 +13,6 @@
 The official source code repository is hosted publicly on GitHub:
 - **Repository URL:** [https://github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)
 - **Primary Branch:** `main` (consolidates the full Android application under `app/`, automated tests, and TekCon 2026 research deliverables after merging completed feature and manuscript branches).
-- **Development Repository:** [github.com/zendrix-hub/playIT-v2](https://github.com/zendrix-hub/playIT-v2) (public). The build commits cited below, [`67fe890`](https://github.com/zendrix-hub/playIT-v2/commit/67fe890) and [`0320385`](https://github.com/zendrix-hub/playIT-v2/commit/0320385), are in this repository; the `app/` folder on `main` holds the code of `67fe890`.
 
 ```bash
 git clone https://github.com/zendrix-hub/playIt.git

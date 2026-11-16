@@ -137,5 +137,4 @@ Advisers and evaluators can inspect the repository source code, requirements doc
 - **Deployment Evidence Folder:** [02_Software_and_Deployment/04_Deployment_Evidence/](https://drive.google.com/drive/folders/1EsE5EoWxNN4gNl3EMTa_HPSo86touDZG)
 - **Current Release APK (`playit.apk`, commit `67fe890` — includes visual refresh):** [Download Current Release APK (playit.apk)](https://drive.google.com/file/d/1pIr2360noHf64TOT-sAwk_uNlk2gSeQa/view?usp=sharing)
 - **Midterm Baseline APK (`playit-debug-H-0320385.apk`):** [Download Midterm APK (G56 Drive)](https://drive.google.com/file/d/1F-_kQS-M1TgwVd1CUBwMCXXqqFf_fmog/view?usp=sharing)
-- **Development Repository (build commits `67fe890` and `0320385`):** [github.com/zendrix-hub/playIT-v2](https://github.com/zendrix-hub/playIT-v2)
 

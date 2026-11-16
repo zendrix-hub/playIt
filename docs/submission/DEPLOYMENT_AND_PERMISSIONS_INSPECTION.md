@@ -15,9 +15,7 @@
 
 ![PlayIT APK Build Progression & Test Coverage](../diagrams/build_progression_flow.png)
 
-The table below contrasts the current release build against the midterm baseline build. The active submission package for final evaluation and adviser consultation is **`playit.apk`** (Commit `67fe890`), which integrates the full child-friendly visual refresh, animated mouth-shape cues, animal avatar onboarding, and post-Round 1 pedagogical refinements.
-
-The commit hashes of both builds refer to the team's public development repository, [github.com/zendrix-hub/playIT-v2](https://github.com/zendrix-hub/playIT-v2) ([`67fe890`](https://github.com/zendrix-hub/playIT-v2/commit/67fe890), [`0320385`](https://github.com/zendrix-hub/playIT-v2/commit/0320385)). The `app/` folder on `main` of `playIt` holds the code of `67fe890`.
+The table below contrasts the current release build against the midterm baseline build. The active submission package for final evaluation and adviser consultation is **`playit.apk`** (Commit `67fe890`, built from `app/` on `main` at [github.com/zendrix-hub/playIt](https://github.com/zendrix-hub/playIt)), which integrates the full child-friendly visual refresh, animated mouth-shape cues, animal avatar onboarding, and post-Round 1 pedagogical refinements.
 
 | Attribute | Current Release Build (`playit.apk`) | Midterm Baseline Build (`playit-debug-H-0320385.apk`) |
 | :--- | :--- | :--- |
