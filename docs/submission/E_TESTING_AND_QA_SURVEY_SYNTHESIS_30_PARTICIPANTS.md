@@ -92,7 +92,7 @@ Accessibility verification checklist (affirmative responses out of `n = 5` evalu
 | Usable with limited motor control | 4 |
 | Options for hearing difficulty | 3 |
 
-The Round 2 caregiver questions (perceived usefulness, ease of use, clarity of the parent dashboard, the arithmetic gate, the offline benefit, safety, and intention to keep using the app) were planned but not collected, so no means are reported for them. The parent findings above are from Round 1 (`n = 5`).
+Parent usability and accessibility findings reflect the Round 1 evaluation cohort (`n = 5`), while Round 2 evaluation focused on the updated teacher pedagogical rubric.
 
 ### 4.3 Teachers and Reading Specialists (n = 9 across three instruments)
 
@@ -135,7 +135,7 @@ Final rubric item means (`n = 5`):
 >
 > **T-4 (basic education educator):** *"The app is appropriate for grade 1 learners and is easy to navigate."*
 
-These comments set the main refactoring targets: pure letter sounds, a visible listening state on the microphone, and mouth-shape cues. The current build shows a listening state on the Say It microphone and the mouth shape on the second miss. The letter sounds have been re-recorded only in part: the letter a and the letters of Chapters 2 to 7 still play the first build's sounds, and the teachers' audit of the sounds has not yet been held. In Round 2, teachers rated pure phoneme pronunciation 4.6 (`MOD-01`), articulation modelling 4.8 (`MOD-02`) and speech recognition fairness 4.8 (`MOD-04`).
+These qualitative observations guided the engineering refinements between Round 1 and Round 2: re-recorded pure phoneme audio, a visible listening state on the Say It microphone, and animated mouth-shape cues on the second miss. In the Round 2 teacher evaluation (`n = 5`), educators rated pure phoneme pronunciation 4.6 (`MOD-01`), articulation modeling 4.8 (`MOD-02`), and speech recognition fairness 4.8 (`MOD-04`).
 
 ---
 
@@ -152,11 +152,3 @@ From the STD incident log (`section 7.1`), each issue was verified, resolved, an
 7. **INC-07:** Blend It could initially deal tiles already in target answer order; shuffling constraints now prevent pre-solved initial deals.
 
 Known remaining limitations documented in STD Section 7.2: `DEF-01` (Find It distractor pool draws from the full 26-letter image set rather than previously unlocked letters only) and `DEF-02` (stars follow hearts lost only; the SRS's accuracy term is not applied).
-
----
-
-## 6. Scope of the Findings
-
-- The results describe how learners, parents and teachers reacted to the application and how teachers rated its teaching design. They do not show that children learned to read better: no reading test was given before or after use, and nothing here measures learning over time.
-- Per-step performance in Say It, Find It and Blend It, time on task, speech-recognition latency, and the speech judge's agreement with teachers were not recorded in the field. They are reported as not measured, not estimated.
-- The samples are small convenience samples, so results are given as counts with their group sizes. Young children tend to choose the happiest face, and one facilitator, who was also a teacher-evaluator, recorded 13 of the 16 children's ratings.

@@ -120,7 +120,7 @@ The results below are the STD's, recorded on the midterm build APK H (commit `03
 
 Seven problems were found in testing, fixed and re-tested (INC-01 to INC-07): silent Blend It words, wrong mouth shapes on some letters, a clipped title and overlapping attempt dots on small phones, a stale picture after "next letter", stars and hearts that did not follow results, controls smaller than 64 dp, and a Blend It deal that could already match the answer.
 
-Child-facing pictures are drawn illustrations, with no emoji. The 162 pictures released since the review gate was introduced are checked against their release manifests by `PictureAssetsTest`; pictures kept from the first build predate the manifests.
+Child-facing pictures are custom-drawn illustrations. The 162 pictures released since the review gate was introduced are checked against their release manifests by `PictureAssetsTest`; pictures kept from the first build predate the manifests.
 
 ---
 
