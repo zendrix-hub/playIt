@@ -1,0 +1,55 @@
+=== 1
+S01 · 0:00–0:20 · Meet Mia
+Meet Mia. She's six years old, in Grade 1 right here in the Visayas. Every night after dinner, she opens her reading book and gets stuck on a single letter sound. Her mother works ten-hour days and wants to help, [CLICK → S02]
+=== 2
+S02 · 0:20–0:30 · The wall at home · Morph #1
+but has neither the energy nor the phonics training to guide her. When Mia closes that book tonight, she falls another day behind. [CLICK → S03]
+=== 3
+S03 · 0:30–1:00 · 9 out of 10 · Morph #2
+Mia isn't alone. According to the World Bank, 9 out of 10 Filipino children at age ten still struggle to read a simple text. Why haven't global EdTech apps fixed this? Two walls: the Connectivity Wall—cloud apps die on patchy prepaid data—and the Affordability Wall—four to six hundred peso monthly paywalls built around foreign accents. [CLICK → S04]
+=== 4
+S04 · 1:00–1:25 · Meet PlayIT and Lily · Morph #3
+That's why we built PlayIT—an offline-first Android phonics companion guided by Lily the Tarsier. Built in Kotlin and Jetpack Compose with no internet permission at all, PlayIT turns an entry-level Android 8 phone that parents already own into a patient phonics tutor that follows DepEd's Marungko sequence—M, S, A, I first. [CLICK → S05]
+=== 5
+S05 · 1:25–1:35 · Step 1, Hear It · Morph #4
+Here's how Lily guides Mia in four steps. One—Hear It: Lily models the pure /m/ sound and the anchor word, Mouse. [CLICK → S06]
+=== 6
+S06 · 1:35–1:50 · Step 2, Say It · Morph #5
+Two—Say It: our built-in offline Vosk speech recognizer listens right on the phone and checks what she said, with zero cloud fees. Miss twice? Lily shows the mouth shape instead of scolding—and it never costs a heart. [CLICK → S07]
+=== 7
+S07 · 1:50–1:58 · Step 3, Find It · Morph #6
+Three—Find It: Mia taps the three familiar pictures that start with /m/—Mouse, Mom and Map. [CLICK → S08]
+=== 8
+S08 · 1:58–2:05 · Step 4, Blend It · Morph #7
+And four—Blend It: letter tiles snap together into real words like SAM, saved on the phone in a local database. [CLICK → S09]
+=== 9
+S09 · 2:05–2:10 · Parent Zone · Morph #8
+Plus a Parent Zone that tracks all 26 letters with a one-tap A4 PDF report—backed by 697 automated tests with zero failures. [CLICK → S10]
+=== 10
+S10 · 2:10–2:30 · The bridge to Mia · Morph #9
+In our field evaluation with 30 participants, 15 of 16 Grade 1 learners picked the happiest face and 14 would play again. Parents and teachers are the bridge to Mia: parents rated Grade 1 fit 4.6 out of 5 with a 75.5 usability score, and five teachers rated our teaching design 4.73 out of 5. [CLICK → S11]
+(If asked: 9 teachers took part across both rounds; the 4.73 is from the 5 who completed the final 16-item rubric. We measured reactions and expert ratings, not reading gains.)
+=== 11
+S11 · 2:30–2:55 · Market opportunity · Morph #10
+With 13.5 million early learners across the Philippines and Southeast Asia, that bridge opens a ₱16.2 billion total addressable market, and ₱2.88 billion across 2.4 million Filipino Grade 1 learners alone. Starting in Central Visayas gives us an immediate ₱18 to ₱36 million Cebu beachhead. [CLICK → S12]
+=== 12
+S12 · 2:55–3:30 · Revenue model · Morph #11
+We earn through four streams while keeping Chapter 1—M, S, A, I—free forever. Parents unlock all seven chapters for ₱149 a month or a ₱999 pass through GCash—less than three tutoring sessions. Private schools license at ₱450 per student a year, while LGU barangay kits at ₱75,000 and ₱150,000 corporate CSR school adoptions deliver high-margin bulk impact. [CLICK → S13]
+=== 13
+S13 · 3:30–4:00 · Why PlayIT wins · Morph #12
+Why do we win? Cloud apps charge around ₱500 a month and break without Wi-Fi. Offline flashcard apps can't hear whether a child said the word. Tutors cost ₱3,000 a month. Of seven reading apps we reviewed, none combined all three: working offline, the Marungko order, and checking the child's speech on the phone. PlayIT does—at zero cloud cost. [CLICK → S14]
+=== 14
+S14 · 4:00–4:10 · Go-to-market, phase 1 · Morph #13
+We go to market through the classroom door. Q1 2027: a five-school, 300-learner pilot right here in Cebu. [CLICK → S15]
+=== 15
+S15 · 4:10–4:20 · Phase 2 · Morph #14
+Q2: during Brigada Eskwela and PTA nights, teachers share PlayIT phone-to-phone—families install it at zero data cost. [CLICK → S16]
+=== 16
+S16 · 4:20–4:30 · Phases 3–4 · Morph #15
+From there, we scale to 20 Visayas schools and three CSR partners, then expand nationally with Bisaya and Tagalog modules. [CLICK → S17]
+=== 17
+S17 · 4:30–4:45 · Unit economics · Morph #16
+Because speech is checked on the phone, our projected unit economics reach an 88% gross margin, 4.8 times LTV to CAC at a ₱245 CAC, break-even in month nine, and ₱1.45 million projected Year 1 revenue. [CLICK → S18]
+=== 18
+S18 · 4:45–5:00 · Every child reading · Morph #17
+With PlayIT, the dim table where Mia got stuck becomes the place she finds her voice. A working Android app in hand, built in Cebu, tested with real learners, parents and teachers—join us, one sound at a time. Thank you!
