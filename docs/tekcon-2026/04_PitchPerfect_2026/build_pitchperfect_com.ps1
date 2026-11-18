@@ -124,11 +124,11 @@ function S01($s) {
   Bg $s 'dusk'; Pixar $s '01_Slide01_Pitch_Intro_NB.png'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
   $mia = Box $s $null 458 190 88 34 $K.Coral '' 2.5 0.48 0 $K.White 0
   Set-Text $mia @(P 'Mia' $LXE 14 $K.White -b) 2 3
-  $c = Box $s '!!Phone_Card' 146 468 668 62 $K.Ink '' 2 0.22 0 $K.Gold 16
+  $c = Box $s '!!Phone_Card' 176 468 608 62 $K.Ink '' 2 0.22 0 $K.Gold 16
   $c.Fill.Transparency = 0.12
   Set-Text $c @(
-    (P 'This is Mia. She is six, and tonight she is stuck on one small sound.' $SN 15.5 $K.White -b -sa 2),
-    (P 'Grade 1 in Bohol · tracing the letter M under her reading lamp' $LX 10.5 $K.Cream)) 2 3
+    (P 'Meet Mia. Age 6. Grade 1.' $SN 17 $K.White -b -sa 2),
+    (P 'Bohol · Tonight, stuck on one letter sound' $LX 11 $K.Cream)) 2 3
   $g = Box $s '!!Gold_Hero' 638 112 138 92 $K.Shell $K.TealLip 4 0.22 6 $K.Teal 0
   Set-Text $g @(P 'Mm ?' $SN 38 $K.Teal -b) 2 3; $g.TextFrame2.WordWrap = 0
   $g.TextFrame2.TextRange.Characters(2, 1).Font.Fill.ForeColor.RGB = (C $K.Amber)
@@ -144,11 +144,11 @@ function S02($s) {
   Set-Text $p2 @(P 'Nanay at work' $LXE 11 $K.Ink) 2 3; $p2.TextFrame2.WordWrap = 0
   $p3 = Box $s $null 648 228 126 26 $K.Coral '' 2 0.48 0 $K.White 2
   Set-Text $p3 @(P 'No signal' $LXE 11 $K.Ink) 2 3; $p3.TextFrame2.WordWrap = 0
-  $c = Box $s '!!Phone_Card' 136 466 688 64 $K.Ink '' 2 0.22 0 $K.Gold 16
+  $c = Box $s '!!Phone_Card' 166 468 628 62 $K.Ink '' 2 0.22 0 $K.Gold 16
   $c.Fill.Transparency = 0.12
   Set-Text $c @(
-    (P 'What happens when one letter sound has no one at home to answer it?' $SN 14.5 $K.Gold -b -sa 2),
-    (P 'Her teacher has a full classroom. Her nanay is still at work. And the signal is gone—so Mia closes the book.' $LX 10.5 $K.Cream)) 2 3
+    (P 'What happens when nobody at home can answer?' $SN 16 $K.Gold -b -sa 2),
+    (P 'So tonight, Mia closes the book.' $LX 11.5 $K.Cream)) 2 3
   $g = Box $s '!!Gold_Hero' 680 336 74 52 $K.Gold $K.GoldLip 2.5 0.22 5 $K.Brown 0
   Set-Text $g @(P 'Mm' $SN 24 $K.Ink -b) 2 3; $g.TextFrame2.WordWrap = 0; $g.Rotation = -6
   ParkTiles $s 600
@@ -161,11 +161,11 @@ function S03($s) {
   $g = Box $s '!!Gold_Hero' 32 26 440 100 $K.Gold $K.GoldLip 3 0.18 7
   Set-Text $g @(P '9 out of 10' $SN 52 $K.Ink -b) 2 3
   $c = Box $s '!!Phone_Card' 32 140 440 66 $K.Shell $K.ShellLip 2 0.2 5 $K.Brown 14
-  Set-Text $c @((P 'Filipino children at age 10 struggle to read a simple text.' $LXS 13.5 $K.Ink -sa 2), (P 'World Bank & UNESCO Learning Poverty Brief, June 2022 (90.9% rate)' $LX 9.5 $K.Muted))
+  Set-Text $c @((P 'Filipino 10-year-olds struggle with a simple text.' $LXS 13.5 $K.Ink -sa 2), (P 'World Bank & UNESCO Learning Poverty Brief, June 2022 (90.9%)' $LX 9.5 $K.Muted))
   $co = Box $s '!!Tile_Coral' 500 26 390 84 $K.Coral $K.CoralLip 2.5 0.18 6 $K.Brown 16
-  Set-Text $co @((P 'THE CONNECTIVITY WALL' $LXE 15 $K.Ink -sa 3), (P 'Cloud reading apps fail without steady Wi-Fi.' $LX 12.5 $K.Ink))
+  Set-Text $co @((P 'THE CONNECTIVITY WALL' $LXE 15 $K.Ink -sa 3), (P 'Cloud apps break without steady Wi-Fi.' $LX 12.5 $K.Ink))
   $am = Box $s '!!Tile_Amber' 500 122 390 84 $K.Amber $K.AmberLip 2.5 0.18 6 $K.Brown 16
-  Set-Text $am @((P 'THE AFFORDABILITY WALL' $LXE 15 $K.Ink -sa 3), (P ([char]0x20B1 + '400' + [char]0x2013 + [char]0x20B1 + '600 a month paywalls and foreign accents.') $LX 12.5 $K.Ink))
+  Set-Text $am @((P 'THE AFFORDABILITY WALL' $LXE 15 $K.Ink -sa 3), (P ([char]0x20B1 + '400' + [char]0x2013 + [char]0x20B1 + '600/mo paywalls · foreign accents.') $LX 12.5 $K.Ink))
   [void](Box $s '!!Tile_Blue' -200 600 76 60 $K.Blue $K.BlueLip 2 0.3 4)
   [void](Box $s '!!Tile_Green' 1000 600 76 60 $K.Green $K.GreenLip 2 0.3 4)
   ParkLily $s
@@ -177,9 +177,9 @@ function S04($s) {
   Logo $s 44 72 80; [void](Pic $s $null 'wordmark_v4_teal.png' 134 76 202 74.9)
   Phone $s 380.5 64 400 'screen_map.png'
   $specs = @(
-    @{ t = $TILES[0]; x = 40; y = 172; a = '100% Offline'; b = 'No INTERNET permission in the app' },
-    @{ t = $TILES[1]; x = 40; y = 274; a = 'Listens Out Loud'; b = 'Vosk speech check on the phone' },
-    @{ t = $TILES[2]; x = 620; y = 172; a = 'DepEd Marungko'; b = 'M, S, A, I first, the classroom order' },
+    @{ t = $TILES[0]; x = 40; y = 172; a = '100% Offline'; b = 'No INTERNET permission' },
+    @{ t = $TILES[1]; x = 40; y = 274; a = 'Listens Out Loud'; b = 'On-device Vosk AI' },
+    @{ t = $TILES[2]; x = 620; y = 172; a = 'DepEd Marungko'; b = 'M, S, A, I first · classroom order' },
     @{ t = $TILES[3]; x = 620; y = 274; a = 'Budget Android'; b = 'Android 8.0+ · Kotlin · Room' })
   foreach ($q in $specs) { $b = Box $s $q.t.n $q.x $q.y 300 84 $q.t.f $q.t.l 2.5 0.2 6 $K.Brown 16; Set-Text $b @((P $q.a $LXE 17 $K.Ink -sa 2), (P $q.b $LX 12 $K.Ink)) }
   Lily $s 'waving' 196 368 154
@@ -193,7 +193,7 @@ function Accordion($s, [int]$open, [hashtable]$body) {
     if ($i -eq $open) {
       $b = Box $s $t.n 380 $y 530 216 $t.f $t.l 3 0.1 7 $K.Brown 20
       $b.TextFrame2.MarginTop = 16; $b.TextFrame2.MarginRight = $(if ($body.r) { $body.r } else { 20 })
-      Set-Text $b @((P $body.title $SN 24 $K.Ink -b -sa 8), (P $body.text $LX 16 $K.Ink)) 1 1
+      Set-Text $b @((P $body.title $SN 24 $K.Ink -b -sa 10), (P $body.text $LX 17.5 $K.Ink)) 1 1
       $y += 228
     } else {
       $b = Box $s $t.n 380 $y 530 50 $t.f $t.l 2.5 0.3 5 $K.Brown 20
@@ -212,19 +212,19 @@ function StepSlide($s, [int]$open, [string]$screen, [string]$pose, [hashtable]$b
   Lily $s $pose 268 395 110
 }
 function S05($s) {
-  StepSlide $s 0 'screen_hearit.png' 'pointing' @{ title = '1. HEAR IT'; r = 118; text = 'Lily models the pure /m/ sound and the anchor word, Mouse. The child can replay it at their own pace.' }
+  StepSlide $s 0 'screen_hearit.png' 'pointing' @{ title = '1. HEAR IT'; r = 118; text = ("Pure /m/ sound · anchor word: Mouse." + [char]11 + "Replay at the child's own pace.") }
   [void](Pic $s $null 'letter_m.png' 806 178 92 92)
 }
 function S06($s) {
-  StepSlide $s 1 'screen_sayit_cue.png' 'listening' @{ title = '2. SAY IT · OFFLINE SPEECH CHECK'; r = 118; text = "Vosk checks the child's spoken word on the phone itself: no internet, no cloud fees. On a second miss Lily shows the mouth shape, and a miss never costs a heart." }
+  StepSlide $s 1 'screen_sayit_cue.png' 'listening' @{ title = '2. SAY IT · OFFLINE AI'; r = 118; text = ("Vosk listens on-device (" + [char]0x20B1 + "0 cloud fees)." + [char]11 + "Miss twice " + [char]0x2192 + " Lily shows mouth shape." + [char]11 + "Zero hearts lost.") }
   [void](Pic $s $null 'mouth_lips_together.png' 806 240 92 92)
 }
 function S07($s) {
-  StepSlide $s 2 'screen_findit.png' 'encouraging' @{ title = '3. FIND IT · SOUND TO PICTURE'; text = 'The child taps the 3 pictures that start with /m/: Mouse, Mom and Map. A wrong tap costs one of 5 hearts.' }
+  StepSlide $s 2 'screen_findit.png' 'encouraging' @{ title = '3. FIND IT · PICTURE MATCH'; text = ("Tap 3 pictures starting with /m/:" + [char]11 + "Mouse · Mom · Map (5 hearts).") }
   for ($i = 0; $i -lt 5; $i++) { [void](Pic $s $null 'reward_heart.png' (402 + 34 * $i) 364 30 30) }
 }
 function S08($s) {
-  StepSlide $s 3 'screen_blendit.png' 'celebrating' @{ title = '4. BLEND IT · BUILD REAL WORDS'; text = "When a chapter's letters are done, the child sounds out letter tiles and builds real words: SAM, SIS, AM. Progress and up to 3 stars per letter are saved on the phone." }
+  StepSlide $s 3 'screen_blendit.png' 'celebrating' @{ title = '4. BLEND IT · REAL WORDS'; text = ("Sound out tiles into real words:" + [char]11 + "SAM · SIS · AM (3 stars saved offline).") }
   for ($i = 0; $i -lt 3; $i++) { [void](Pic $s $null 'reward_star.png' (402 + 40 * $i) 422 36 36) }
 }
 function S09($s) {
@@ -235,10 +235,10 @@ function S09($s) {
   $g = Box $s '!!Gold_Hero' 380 262 530 212 $K.Gold $K.GoldLip 3 0.1 7 $K.Brown 22
   $g.TextFrame2.MarginTop = 16
   Set-Text $g @((P 'PARENT ZONE + BUILT TODAY' $SN 22 $K.Ink -b -sa 8),
-    (P '•  Progress for all 26 letters, in plain words' $LX 15 $K.Ink -sa 5),
-    (P '•  One-tap A4 PDF report, made offline' $LX 15 $K.Ink -sa 5),
-    (P '•  697 automated tests: 691 passed, 6 skipped, 0 failed' $LX 15 $K.Ink -sa 5),
-    (P '•  No INTERNET permission in the APK' $LX 15 $K.Ink)) 1 1
+    (P '•  26-letter mastery, in plain words' $LX 15.5 $K.Ink -sa 6),
+    (P '•  One-tap offline A4 PDF report' $LX 15.5 $K.Ink -sa 6),
+    (P '•  697 tests: 691 passed, 6 skipped, 0 failed' $LX 15.5 $K.Ink -sa 6),
+    (P '•  Zero INTERNET permission in the APK' $LX 15.5 $K.Ink)) 1 1
   Phone $s 61 78 420 'screen_parent.png'
   Lily $s 'celebrating' 268 395 110
 }
@@ -248,21 +248,21 @@ function S10($s) {
   $g = Box $s '!!Gold_Hero' 36 80 600 50 $K.Gold $K.GoldLip 3 0.3 6
   Set-Text $g @(P 'THE BRIDGE TO THE CHILD' $SN 21 $K.Ink -b) 2 3
   $cols = @(
-    @(@('PARENTS · B2C', $LXE, 11.5), @('4.6 / 5', $SN, 28), @('Grade 1 fit', $LX, 11.5), @('75.5', $SN, 24), @('SUS usability score', $LX, 11.5), @('n = 5 parents', $LXS, 10.5)),
-    @(@('TEACHERS · B2B', $LXE, 11.5), @('4.73 / 5', $SN, 28), @('teaching-design rubric (4.725)', $LX, 11), @('n = 5 on the final rubric', $LXS, 10.5), @('9 teachers took part in all', $LX, 10.5)),
-    @(@('LEARNERS · B2G & CSR', $LXE, 11.5), @('15 of 16', $SN, 28), @('chose the happiest face', $LX, 11.5), @('14 of 16', $SN, 24), @('would play again', $LX, 11.5), @('n = 16 Grade 1 learners', $LXS, 10.5)))
+    @(@('PARENTS · B2C', $LXE, 11.5), @('4.6 / 5', $SN, 28), @('Grade 1 fit', $LX, 11.5), @('75.5', $SN, 24), @('SUS usability', $LX, 11.5), @('n = 5 parents', $LXS, 10.5)),
+    @(@('TEACHERS · B2B', $LXE, 11.5), @('4.73 / 5', $SN, 28), @('teaching-design rubric', $LX, 11), @('n = 5 final rubric', $LXS, 10.5), @('9 teachers total', $LX, 10.5)),
+    @(@('LEARNERS · B2G & CSR', $LXE, 11.5), @('15 of 16', $SN, 28), @('happiest face', $LX, 11.5), @('14 of 16', $SN, 24), @('would play again', $LX, 11.5), @('n = 16 learners', $LXS, 10.5)))
   for ($i = 0; $i -lt 3; $i++) {
     $t = $TILES[$i]; $b = Box $s $t.n (40 + 196 * $i) 144 184 250 $t.f $t.l 3 0.12 7 $K.Brown 10
     $b.TextFrame2.MarginTop = 26
     Set-Text $b @($cols[$i] | ForEach-Object { P $_[0] $_[1] $_[2] $K.Ink -b:($_[1] -eq $SN) -sa 3 }) 2 1
   }
   $f = Box $s '!!Tile_Coral' 36 408 600 50 $K.Coral $K.CoralLip 3 0.3 6
-  Set-Text $f @(P '30 participants · 16 learners · 5 parents · 9 teachers · two rounds, 2026' $LXS 13 $K.Ink) 2 3
-  [void](TB $s $null 40 470 600 24 @(P 'Source: STD v1.0 & Round 1–2 survey sheets. Reactions and expert ratings; reading gains were not measured.' $LX 9.5 $K.Muted) 2 1)
+  Set-Text $f @(P '30 participants · 16 learners · 5 parents · 9 teachers · Rounds 1–2' $LXS 13 $K.Ink) 2 3
+  [void](TB $s $null 40 470 600 24 @(P 'STD v1.0 & survey sheets · Reactions and rubric ratings; reading gains not yet measured.' $LX 9.5 $K.Muted) 2 1)
   $q = Box $s '!!Phone_Card' 664 80 268 150 $K.Shell $K.ShellLip 2.5 0.14 6 $K.Brown 16
   Set-Text $q @((P ([char]0x201C + 'The app is very useful and engaging for Grade 1 learners.' + [char]0x201D) $LXS 15 $K.Ink -sa 6), (P ([char]0x2014 + ' Grade 1 reading teacher, Round 1') $LX 10.5 $K.Muted)) 1 3
-  [void](Pic $s $null 'mapprop_crayon_bridge.png' 676 296 230 230)
-  Lily $s 'waving' 726 220 150
+  [void](Pic $s $null 'mapprop_bridge_storybook.png' 664 294 264 264)
+  Lily $s 'waving' 728 286 136
 }
 function S11($s) {
   Bg $s 'day'; Pixar $s '03_Slide03_Pitch_9of10_NB.png' -Parked; Logo $s 22 16 40
@@ -291,10 +291,10 @@ function S12($s) {
   $g = Box $s '!!Gold_Hero' 49 66 862 40 $K.Gold $K.GoldLip 2.5 0.5 5
   Set-Text $g @(P 'Chapter 1 (M, S, A, I) free forever · unlock all 7 chapters online or offline' $LXE 13 $K.Ink) 2 3
   $cards = @(
-    @('B2C · FAMILY PASS', "$($peso)149 / mo", "or $($peso)999 one-time pass", 'Paid by GCash or ShopeePay voucher; less than three tutoring sessions.'),
-    @('B2B · SCHOOLS', "$($peso)450", 'per student per year', 'Annual licence for private schools; Teacher Analytics Dashboard on the roadmap.'),
-    @('B2G · LGU KITS', "$($peso)75,000", 'per barangay kit', "Funded through the Local School Board's Special Education Fund (SEF)."),
-    @('CSR SPONSORS', "$($peso)150,000", 'per adopted school', 'Turnkey offline phone or tablet kit with a co-branded impact report.'))
+    @('B2C · FAMILY PASS', "$($peso)149 / mo", "or $($peso)999 one-time pass", 'GCash / ShopeePay offline voucher · less than 3 tutor sessions.'),
+    @('B2B · SCHOOLS', "$($peso)450", 'per student per year', 'Annual school license · Teacher dashboard on roadmap.'),
+    @('B2G · LGU KITS', "$($peso)75,000", 'per barangay kit', 'Funded via Special Education Fund (SEF).'),
+    @('CSR SPONSORS', "$($peso)150,000", 'per adopted school', 'Turnkey offline kits + co-branded impact report.'))
   for ($i = 0; $i -lt 4; $i++) {
     $t = $TILES[$i]; $c = $cards[$i]
     $b = Box $s $t.n (49 + 220 * $i) 124 202 300 $t.f $t.l 3 0.1 7 $K.Brown 14
@@ -338,8 +338,8 @@ function S13($s) {
       if (-not $isMark -and $txt.StartsWith($ok)) { $t.TextFrame2.TextRange.Characters(1, 1).Font.Name = $SYM; $t.TextFrame2.TextRange.Characters(1, 1).Font.Fill.ForeColor.RGB = (C $K.GreenLip) }
     }
   }
-  $f = Box $s '!!Tile_Green' 40 494 470 30 $K.Green $K.GreenLip 2 0.5 4 $K.Brown 14
-  Set-Text $f @(P "Based on the team's review of 7 early-reading apps" $LXS 11.5 $K.Ink) 1 3
+  $f = Box $s '!!Tile_Green' 40 494 420 30 $K.Green $K.GreenLip 2 0.5 4 $K.Brown 14
+  Set-Text $f @(P 'Team review of 7 early-reading apps' $LXS 11.5 $K.Ink) 1 3
   Lily $s 'celebrating' 304 6 54
 }
 function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$card) {
@@ -367,9 +367,9 @@ function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$c
   Set-Text $c @((P $card.k $LXE 12.5 $K.Teal -sa 6), (P $card.h $SN 23 $K.Ink -b -sa 10), (P $card.t $LX 14.5 $K.Ink)) 1 1
   Lily $s $pose $lily[0] $lily[1] $lily[2]
 }
-function S14($s) { GtmSlide $s 0 'pointing' @(70, 304, 96) @{ k = 'PHASE 1 · PROPOSED SCHOOL PILOT'; h = ('Goal: 1' + [char]0x2013 + '5 Cebu schools'); t = 'Planned 6-week reading-fluency study (currently seeking Cebu elementary school partners).' } }
-function S15($s) { GtmSlide $s 1 'encouraging' @(216, 224, 96) @{ k = 'PHASE 2 · BRIGADA ESKWELA & PTA'; h = ([char]0x20B1 + '0 data · ' + [char]0x20B1 + '0 ads'); t = 'Teachers share playit.apk phone-to-phone with Nearby Share; parents install it without mobile data.' } }
-function S16($s) { GtmSlide $s 2 'celebrating' @(376, 144, 96) @{ k = 'PHASES 3' + [char]0x2013 + '4 · REGIONAL ' + [char]0x2192 + ' NATIONAL'; h = '20 schools + 3 CSR partners'; t = 'Then LGU kits through the Special Education Fund (RA 7160 Sec. 272), and Bisaya & Tagalog modules nationwide.' } }
+function S14($s) { GtmSlide $s 0 'pointing' @(70, 304, 96) @{ k = 'PHASE 1 · PROPOSED PILOT'; h = ('Goal: 1' + [char]0x2013 + '5 Cebu schools'); t = 'Planned 6-week fluency study · seeking Cebu school partners.' } }
+function S15($s) { GtmSlide $s 1 'encouraging' @(216, 224, 96) @{ k = 'PHASE 2 · BRIGADA ESKWELA'; h = ([char]0x20B1 + '0 data · ' + [char]0x20B1 + '0 ads'); t = ('Teachers share playit.apk via Nearby Share · ' + [char]0x20B1 + '0 mobile data.') } }
+function S16($s) { GtmSlide $s 2 'celebrating' @(376, 144, 96) @{ k = 'PHASES 3' + [char]0x2013 + '4 · SCALE'; h = '20 schools + 3 CSR partners'; t = 'LGU SEF kits (RA 7160 Sec. 272) nationwide + Bisaya & Tagalog modules.' } }
 function S17($s) {
   Bg $s 'teal'; Pixar $s '03_Slide03_Pitch_9of10_NB.png' -Parked
   [void](Box $s $null 19 13 46 46 $K.Shell '' 0 0.24 0)
@@ -377,11 +377,11 @@ function S17($s) {
   Headline $s 'Zero cloud burn, a fast path to profit' $K.Cream
   $peso = [char]0x20B1
   $g = Box $s '!!Gold_Hero' 48 76 270 138 $K.Gold $K.GoldLip 3 0.12 7 $K.Brown 14
-  Set-Text $g @((P '88%' $SN 34 $K.Ink -b), (P 'gross margin (projected)' $LXS 13 $K.Ink -sa 3), (P "Speech is checked on the phone: $($peso)0 cloud cost per learner" $LX 10.5 $K.Ink)) 2 3
+  Set-Text $g @((P '88%' $SN 34 $K.Ink -b), (P 'gross margin (projected)' $LXS 13 $K.Ink -sa 3), (P "On-device speech: $($peso)0 cloud cost" $LX 10.5 $K.Ink)) 2 3
   $c = Box $s '!!Phone_Card' 345 76 270 138 $K.Shell $K.GoldLip 3 0.12 7 $K.Gold 14
-  Set-Text $c @((P ('4.8' + [char]0x00D7) $SN 34 $K.Ink -b), (P 'LTV : CAC (projected)' $LXS 13 $K.Ink -sa 3), (P "School-led distribution: $($peso)245 CAC vs $($peso)1,200 LTV" $LX 10.5 $K.Ink)) 2 3
+  Set-Text $c @((P ('4.8' + [char]0x00D7) $SN 34 $K.Ink -b), (P 'LTV : CAC (projected)' $LXS 13 $K.Ink -sa 3), (P "School-led: $($peso)245 CAC · $($peso)1,200 LTV" $LX 10.5 $K.Ink)) 2 3
   $k3 = Box $s '!!KPI_3' 642 76 270 138 $K.Shell $K.GoldLip 3 0.12 7 $K.Gold 14
-  Set-Text $k3 @((P '985 passes' $SN 28 $K.Ink -b), (P 'break-even volume (~82 / mo)' $LXS 12.5 $K.Ink -sa 3), (P 'Or 2 schools + 1 LGU kit covers annual fixed dev overhead' $LX 10 $K.Ink)) 2 3
+  Set-Text $k3 @((P '985 passes' $SN 28 $K.Ink -b), (P 'break-even volume (~82 / mo)' $LXS 12.5 $K.Ink -sa 3), (P '2 schools + 1 LGU kit covers overhead' $LX 10.5 $K.Ink)) 2 3
   Lily $s 'waving' 878 6 62
   [void](TB $s $null 48 236 500 24 @(P 'Projected revenue' $LXE 14 $K.Cream) 1 3)
   [void](TB $s $null 48 270 88 40 @(P 'Year 1' $SN 16 $K.Cream -b) 1 3)
@@ -393,7 +393,7 @@ function S17($s) {
   [void](TB $s $null 48 384 88 36 @(P 'From' $LXS 12 $K.Cream) 1 3)
   $legend = @('B2C · families', 'B2B · schools', 'B2G · LGU kits', 'CSR · sponsors')
   for ($i = 0; $i -lt 4; $i++) { $t = $TILES[$i]; $b = Box $s $t.n (140 + 176 * $i) 384 162 36 $t.f $t.l 2.5 0.4 4 $K.Brown 6; Set-Text $b @(P $legend[$i] $LXS 12 $K.Ink) 2 3 }
-  [void](TB $s $null 48 442 864 44 @(P "Bottom-up Year 1 target ($($peso)1.45M): 625 family passes ($($peso)624K) + 4 private schools ($($peso)300K) + 3 LGU kits ($($peso)225K) + 2 CSR schools ($($peso)300K). Verified $($peso)0.00 cloud speech cost per learner." $LX 10.5 $K.Cream) 1 1)
+  [void](TB $s $null 48 442 864 44 @(P "Bottom-up Year 1 ($($peso)1.45M): 625 passes ($($peso)624K) + 4 schools ($($peso)300K) + 3 LGU kits ($($peso)225K) + 2 CSR schools ($($peso)300K) · $($peso)0 cloud cost." $LX 10.5 $K.Cream) 1 1)
 }
 function S18($s) {
   Bg $s 'cream'; Pixar $s '18_Slide18_Pitch_Daylight_NB.png'; Headline $s 'PlayIT' -Parked
