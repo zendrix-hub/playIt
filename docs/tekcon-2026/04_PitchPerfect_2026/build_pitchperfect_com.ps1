@@ -46,6 +46,15 @@ function Set-Text($shp, $paras, [int]$align = 1, [int]$anchor = 3) {
     $p = $paras[$k]; $r = $tr.Paragraphs($k + 1, 1)
     $r.Font.Name = $p.f; $r.Font.Size = $p.s; $r.Font.Bold = $(if ($p.b) { -1 } else { 0 }); $r.Font.Italic = $(if ($p.i) { -1 } else { 0 })
     $r.Font.Fill.ForeColor.RGB = (C $p.c)
+    if ($p.f -eq $SN -and $p.t.Contains([char]0x20B1)) {
+      for ($ci = 0; $ci -lt $p.t.Length; $ci++) {
+        if ($p.t[$ci] -eq [char]0x20B1) {
+          $ch = $r.Characters($ci + 1, 1)
+          $ch.Font.Name = $LXS
+          $ch.Font.Bold = 0
+        }
+      }
+    }
     $r.ParagraphFormat.Alignment = $align; $r.ParagraphFormat.SpaceBefore = 0; $r.ParagraphFormat.SpaceAfter = $p.sa
   }
   $shp.TextFrame2.VerticalAnchor = $anchor
@@ -94,7 +103,7 @@ function Bg($s, [string]$mode) {
 }
 # Full-bleed story picture (1376 x 768 -> 967.5 x 540); parked off-stage left on the app-world slides.
 function Pixar($s, [string]$file, [switch]$Parked) { [void](Pic $s '!!Bg_Pixar' $file $(if ($Parked) { -1000 } else { -3.75 }) 0 967.5 540) }
-function Logo($s, [double]$x, [double]$y, [double]$w) { [void](Pic $s '!!Logo_Badge' 'product_logo.png' $x $y $w $w) }
+function Logo($s, [double]$x, [double]$y, [double]$w) { [void](Pic $s '!!Logo_Badge' 'product_logo_v3.png' $x $y $w $w) }
 function Lily($s, [string]$pose, [double]$x, [double]$y, [double]$w, [switch]$Mirror) {
   $p = Pic $s '!!Lily_Guide' "lily_$pose.png" $x $y $w $w
   if ($Mirror) { $p.Flip(0) }
@@ -141,7 +150,9 @@ function S02($s) {
   ParkLily $s
 }
 function S03($s) {
-  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
+  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg'
+  [void](Box $s $null 899 13 48 48 $K.Shell '' 0 0.24 0)
+  Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
   $g = Box $s '!!Gold_Hero' 32 26 440 100 $K.Gold $K.GoldLip 3 0.18 7
   Set-Text $g @(P '9 out of 10' $SN 58 $K.Ink -b) 2 3
   $c = Box $s '!!Phone_Card' 32 140 440 66 $K.Shell $K.ShellLip 2 0.2 5 $K.Brown 14
@@ -159,7 +170,7 @@ function S04($s) {
   [void](Pic $s $null 'mapprop_nipa_hut.png' 18 412 112 112); [void](Pic $s $null 'mapprop_book_stack.png' 650 430 92 92); [void](Pic $s $null 'mapprop_palm_tree.png' 820 356 136 172)
   $g = Box $s '!!Gold_Hero' 290 16 380 36 $K.Gold $K.GoldLip 2 0.5 4
   Set-Text $g @(P 'AN OFFLINE-FIRST PHONICS COMPANION' $LXE 12 $K.Ink) 2 3
-  Logo $s 40 68 84; Wordmark $s 132 78 230 64 46
+  Logo $s 44 72 80; [void](Pic $s $null 'wordmark_v3_teal.png' 134 76 202 74.9)
   Phone $s 380.5 64 400 'screen_map.png'
   $specs = @(
     @{ t = $TILES[0]; x = 40; y = 172; a = '100% Offline'; b = 'No INTERNET permission in the app' },
@@ -295,11 +306,11 @@ function S12($s) {
 function S13($s) {
   Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
   Headline $s 'Why PlayIT wins'
-  $board = Box $s '!!Phone_Card' 40 66 880 422 $K.Shell $K.ShellLip 2.5 0.05 6
+  $board = Box $s '!!Phone_Card' 40 64 880 412 $K.Shell $K.ShellLip 2.5 0.05 6
   $heads = @('Cloud global apps', 'Flashcard apps', '', 'Private tutors')
   $colX = @(292, 446, 0, 600)
-  foreach ($i in 0, 1, 3) { $t = $TILES[$i]; $b = Box $s $t.n $colX[$i] 80 146 44 $t.f $t.l 2 0.25 4 $K.Brown 6; Set-Text $b @(P $heads[$i] $LXE 11.5 $K.Ink) 2 3 }
-  $g = Box $s '!!Gold_Hero' 754 76 150 404 $K.Gold $K.GoldLip 3 0.08 6 $K.Brown 6
+  foreach ($i in 0, 1, 3) { $t = $TILES[$i]; $b = Box $s $t.n $colX[$i] 78 146 42 $t.f $t.l 2 0.25 4 $K.Brown 6; Set-Text $b @(P $heads[$i] $LXE 11.5 $K.Ink) 2 3 }
+  $g = Box $s '!!Gold_Hero' 754 74 150 392 $K.Gold $K.GoldLip 3 0.08 6 $K.Brown 6
   $g.TextFrame2.MarginTop = 8
   Set-Text $g @((P 'PlayIT' $SN 20 $K.Ink -b), (P ([char]0x20B1 + '149/mo · ' + [char]0x20B1 + '999') $LXS 10.5 $K.Ink)) 2 1
   $ok = [string][char]0x2713; $no = [string][char]0x2715
@@ -311,21 +322,21 @@ function S13($s) {
     @('Cost of checking speech', 'High (cloud GPU)', ([char]0x20B1 + '0, no speech check'), ([char]0x20B1 + '3,000+ / mo'), ([char]0x20B1 + '0 per learner')))
   $xs = @(58, 292, 446, 600, 754); $ws = @(226, 146, 146, 146, 150)
   for ($r = 0; $r -lt 5; $r++) {
-    $y = 134 + 68 * $r
+    $y = 132 + 66 * $r
     $ln = $s.Shapes.AddLine(58, $y, 748, $y); $ln.Line.ForeColor.RGB = (C $K.Rule); $ln.Line.Weight = 1
     for ($c = 0; $c -lt 5; $c++) {
       $txt = $rows[$r][$c]
-      if ($c -eq 0) { [void](TB $s $null 64 $y 220 66 @(P $txt $LXS 13 $K.Ink) 1 3); continue }
+      if ($c -eq 0) { [void](TB $s $null 64 $y 220 64 @(P $txt $LXS 13 $K.Ink) 1 3); continue }
       $isMark = ($txt -eq $ok -or $txt -eq $no)
       $font = $(if ($isMark) { $SYM } else { $LXS }); $size = $(if ($isMark) { 20 } else { 11.5 })
       $col = $(if ($txt -eq $no) { $K.CoralLip } elseif ($txt -eq $ok) { $K.GreenLip } else { $K.Ink })
-      $t = TB $s $null ($xs[$c] + 6) $y ($ws[$c] - 12) 66 @(P $txt $font $size $col) 2 3
+      $t = TB $s $null ($xs[$c] + 6) $y ($ws[$c] - 12) 64 @(P $txt $font $size $col) 2 3
       if (-not $isMark -and $txt.StartsWith($ok)) { $t.TextFrame2.TextRange.Characters(1, 1).Font.Name = $SYM; $t.TextFrame2.TextRange.Characters(1, 1).Font.Fill.ForeColor.RGB = (C $K.GreenLip) }
     }
   }
-  $f = Box $s '!!Tile_Green' 40 498 470 30 $K.Green $K.GreenLip 2 0.5 4 $K.Brown 14
+  $f = Box $s '!!Tile_Green' 40 494 470 30 $K.Green $K.GreenLip 2 0.5 4 $K.Brown 14
   Set-Text $f @(P "Based on the team's review of 7 early-reading apps" $LXS 11.5 $K.Ink) 1 3
-  Lily $s 'celebrating' 790 4 76
+  Lily $s 'celebrating' 272 4 56
 }
 function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$card) {
   Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
@@ -346,7 +357,7 @@ function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$c
   $gy = $(if ($phase -eq 2) { 112 } else { 92 })
   $g = Box $s '!!Gold_Hero' 512 $gy 88 48 $K.Gold $K.GoldLip 2.5 0.3 5 $K.Brown 4
   Set-Text $g @(P 'GOAL' $SN 18 $K.Ink -b) 2 3
-  if ($phase -eq 2) { [void](Pic $s $null 'reward_confetti_burst.png' 596 34 54 54) }
+  if ($phase -eq 2) { [void](Pic $s $null 'reward_confetti_burst.png' 588 20 82 82) }
   $c = Box $s '!!Phone_Card' 650 84 280 212 $K.Shell $K.ShellLip 2.5 0.1 6 $K.Brown 18
   $c.TextFrame2.MarginTop = 16
   Set-Text $c @((P $card.k $LXE 12.5 $K.Teal -sa 6), (P $card.h $SN 23 $K.Ink -b -sa 10), (P $card.t $LX 14.5 $K.Ink)) 1 1
@@ -356,7 +367,9 @@ function S14($s) { GtmSlide $s 0 'pointing' @(70, 304, 96) @{ k = 'PHASE 1 · Q1
 function S15($s) { GtmSlide $s 1 'encouraging' @(216, 224, 96) @{ k = 'PHASE 2 · Q2 2027 · BRIGADA ESKWELA & PTA'; h = ([char]0x20B1 + '0 data · ' + [char]0x20B1 + '0 ads'); t = 'Teachers share playit.apk phone-to-phone with Nearby Share; parents install it without mobile data.' } }
 function S16($s) { GtmSlide $s 2 'celebrating' @(376, 144, 96) @{ k = 'PHASES 3' + [char]0x2013 + '4 · Q3 2027 ' + [char]0x2192 + ' 2028+'; h = '20 schools + 3 CSR partners'; t = 'Then LGU kits through the Special Education Fund, and Bisaya and Tagalog modules nationwide.' } }
 function S17($s) {
-  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked
+  [void](Box $s $null 19 13 46 46 $K.Shell '' 0 0.24 0)
+  Logo $s 22 16 40
   Headline $s 'Zero cloud burn, a fast path to profit' $K.Cream
   $peso = [char]0x20B1
   $g = Box $s '!!Gold_Hero' 48 76 270 138 $K.Gold $K.GoldLip 3 0.12 7 $K.Brown 14
@@ -365,7 +378,7 @@ function S17($s) {
   Set-Text $c @((P ('4.8' + [char]0x00D7) $SN 40 $K.Ink -b), (P 'LTV : CAC (projected)' $LXS 13 $K.Ink -sa 3), (P "School-led distribution: $($peso)245 per customer" $LX 10.5 $K.Ink)) 2 3
   $k3 = Box $s '!!KPI_3' 642 76 270 138 $K.Shell $K.GoldLip 3 0.12 7 $K.Gold 14
   Set-Text $k3 @((P 'Month 9' $SN 40 $K.Ink -b), (P 'break-even target' $LXS 13 $K.Ink -sa 3), (P ("From the team's Year 1" + [char]0x2013 + '2 projections') $LX 10.5 $K.Ink)) 2 3
-  Lily $s 'waving' 872 30 76
+  Lily $s 'waving' 878 6 62
   [void](TB $s $null 48 236 500 24 @(P 'Projected revenue' $LXE 14 $K.Cream) 1 3)
   [void](TB $s $null 48 270 88 40 @(P 'Year 1' $SN 18 $K.Cream -b) 1 3)
   [void](Box $s $null 140 270 172.5 40 $K.Gold $K.GoldLip 2.5 0.3 5)
@@ -381,15 +394,16 @@ function S17($s) {
 function S18($s) {
   Bg $s 'cream'; Pixar $s '06_Slide10_Bohol_Daylight_Approved.jpg'; Headline $s 'PlayIT' -Parked
   [void](Box $s '!!Gold_Hero' 18 18 272 504 $K.Gold $K.GoldLip 3 0.06 7)
-  Logo $s 34 30 54; Wordmark $s 96 32 180 50 34 $K.Shell
-  [void](TB $s $null 34 90 244 30 @(P 'One sound at a time.' $SN 19 $K.Ink -b) 1 3)
+  [void](Box $s $null 32 26 244 62 $K.Shell $K.ShellLip 2 0.25 4 $K.Brown 4)
+  Logo $s 48 33 48; [void](Pic $s $null 'wordmark_v3_teal.png' 106 32 148 54.9)
+  [void](TB $s $null 34 94 244 28 @(P 'One sound at a time.' $SN 19 $K.Ink -b) 2 3)
   [void](Box $s '!!Phone_Card' 32 128 244 196 $K.Shell $K.ShellLip 2.5 0.08 5)
   [void](Pic $s $null 'qr_app.png' 44 140 104 104); [void](Pic $s $null 'qr_pitch.png' 160 140 104 104)
   [void](TB $s $null 40 250 112 68 @((P 'Try the app' $LXE 11 $K.Ink -sa 2), (P 'playit.apk · Android 8.0+ · works offline' $LX 9 $K.Ink)) 2 1)
   [void](TB $s $null 156 250 112 68 @((P 'Watch the demo' $LXE 11 $K.Ink -sa 2), (P '2-minute pitch video' $LX 9 $K.Ink)) 2 1)
-  [void](TB $s $null 34 334 244 36 @(P 'Join our Q1 2027 Cebu pilot: 5 schools, 300 learners.' $LXS 11 $K.Ink) 2 3)
-  [void](Pic $s $null 'team_2d_clear.png' 84 374 140 92.4)
-  [void](TB $s $null 28 470 252 46 @((P 'Group 56 · CIT-U College of Computer Studies' $LXS 9 $K.Ink -sa 2), (P 'Zendrix Riva · Erik Samuel Bien · Ashlee Skye Durano' $LX 8 $K.Ink), (P 'Kaysean Miel · John James Palis · Adviser: Mr. Joemarie C. Amparo' $LX 8 $K.Ink)) 2 1)
+  [void](TB $s $null 34 332 244 34 @(P 'Join our Q1 2027 Cebu pilot: 5 schools, 300 learners.' $LXS 11 $K.Ink) 2 3)
+  [void](Pic $s $null 'team_2d_clear.png' 84 370 140 92.4)
+  [void](TB $s $null 22 466 264 50 @((P 'Group 56 · CIT-U College of Computer Studies' $LXS 8.5 $K.Ink -sa 2), (P 'Zendrix Riva · Erik Samuel Bien · Ashlee Skye Durano' $LX 7.5 $K.Ink), (P 'Kaysean Miel · John James Palis · Adviser: Mr. Joemarie C. Amparo' $LX 7.5 $K.Ink)) 2 1)
   ParkTiles $s 600
   Lily $s 'waving' 1000 300 120
 }
