@@ -94,7 +94,7 @@ function Bg($s, [string]$mode) {
 }
 # Full-bleed story picture (1920 x 1080 -> 960 x 540); parked off-stage left on the app-world slides.
 function Pixar($s, [string]$file, [switch]$Parked) { [void](Pic $s '!!Bg_Pixar' $file $(if ($Parked) { -1000 } else { 0 }) 0 960 540) }
-function Logo($s, [double]$x, [double]$y, [double]$w) { [void](Pic $s '!!Logo_Badge' 'product_logo_v4.png' $x $y $w $w) }
+function Logo($s, [double]$x, [double]$y, [double]$w) { [void](Pic $s '!!Logo_Badge' 'product_logo.png' $x $y $w $w) }
 function Lily($s, [string]$pose, [double]$x, [double]$y, [double]$w, [switch]$Mirror) {
   $p = Pic $s '!!Lily_Guide' "lily_$pose.png" $x $y $w $w
   if ($Mirror) { $p.Flip(0) }
