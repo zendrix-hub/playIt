@@ -122,12 +122,11 @@ function ParkLily($s, [string]$side = 'left') { if ($side -eq 'left') { Lily $s 
 # ---------- slides ----------
 function S01($s) {
   Bg $s 'dusk'; Pixar $s '01_Slide01_Bohol_Dusk_2D.png'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
-  $c = Box $s '!!Phone_Card' 28 24 446 138 $K.Ink '' 1.5 0.14 0 $K.Gold
+  $c = Box $s '!!Phone_Card' 28 24 468 134 $K.Ink '' 1.5 0.14 0 $K.Shell
   $c.Fill.Transparency = 0.14; $c.TextFrame2.MarginLeft = 104; $c.TextFrame2.MarginRight = 18
   Set-Text $c @(
-    (P 'Bohol · 7:30 PM' $LXS 11 $K.Gold -sa 4),
-    (P 'What happens when one letter sound has no one at home to answer it?' $LXE 17.5 $K.White -sa 5),
-    (P 'Meet Mia. Age 6. Grade 1.' $LX 12.5 $K.Cream))
+    (P 'Meet Mia. Age 6. Grade 1 in Bohol.' $SN 19.5 $K.White -b -sa 6),
+    (P 'Every night after dinner, her reading book stays open on a single stuck sound—while her mother works late at the sewing machine.' $LX 12.5 $K.Cream))
   $g = Box $s '!!Gold_Hero' 46 57 68 68 $K.Gold $K.GoldLip 2.5 0.22 5 $K.Brown 0
   Set-Text $g @(P 'Mm' $SN 26 $K.Ink -b) 2 3; $g.TextFrame2.WordWrap = 0
   ParkTiles $s 600
@@ -135,11 +134,11 @@ function S01($s) {
 }
 function S02($s) {
   Bg $s 'dusk'; Pixar $s '01_Slide01_Bohol_Dusk_2D.png'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
-  $c = Box $s '!!Phone_Card' 28 32 446 122 $K.Ink '' 1.5 0.14 0 $K.Shell
+  $c = Box $s '!!Phone_Card' 28 24 468 140 $K.Ink '' 1.5 0.14 0 $K.Gold
   $c.Fill.Transparency = 0.14; $c.TextFrame2.MarginLeft = 22; $c.TextFrame2.MarginRight = 18
   Set-Text $c @(
-    (P 'No 1-on-1 phonics coaching at home.' $SN 21 $K.White -b -sa 6),
-    (P 'When Mia closes that book tonight, she falls another day behind.' $LX 13.5 $K.Cream))
+    (P 'What happens when one letter sound has no one at home to answer it?' $SN 17.5 $K.Gold -b -sa 6),
+    (P 'No 1-on-1 phonics coaching. When Mia closes that book tonight, she falls another day behind.' $LX 13 $K.Cream))
   $g = Box $s '!!Gold_Hero' 326 392 60 60 $K.Gold $K.GoldLip 2.5 0.2 5 $K.Brown 0
   Set-Text $g @(P 'Mm' $SN 24 $K.Ink -b) 2 3; $g.TextFrame2.WordWrap = 0; $g.Rotation = -6
   ParkTiles $s 600
@@ -152,7 +151,7 @@ function S03($s) {
   $g = Box $s '!!Gold_Hero' 32 26 440 100 $K.Gold $K.GoldLip 3 0.18 7
   Set-Text $g @(P '9 out of 10' $SN 52 $K.Ink -b) 2 3
   $c = Box $s '!!Phone_Card' 32 140 440 66 $K.Shell $K.ShellLip 2 0.2 5 $K.Brown 14
-  Set-Text $c @((P 'Filipino children at age 10 struggle to read a simple text.' $LXS 14 $K.Ink -sa 2), (P 'World Bank, 2022' $LX 10 $K.Muted))
+  Set-Text $c @((P 'Filipino children at age 10 struggle to read a simple text.' $LXS 13.5 $K.Ink -sa 2), (P 'World Bank & UNESCO Learning Poverty Brief, June 2022 (90.9% rate)' $LX 9.5 $K.Muted))
   $co = Box $s '!!Tile_Coral' 500 26 390 84 $K.Coral $K.CoralLip 2.5 0.18 6 $K.Brown 16
   Set-Text $co @((P 'THE CONNECTIVITY WALL' $LXE 15 $K.Ink -sa 3), (P 'Cloud reading apps fail without steady Wi-Fi.' $LX 12.5 $K.Ink))
   $am = Box $s '!!Tile_Amber' 500 122 390 84 $K.Amber $K.AmberLip 2.5 0.18 6 $K.Brown 16
@@ -240,7 +239,7 @@ function S10($s) {
   Set-Text $g @(P 'THE BRIDGE TO THE CHILD' $SN 21 $K.Ink -b) 2 3
   $cols = @(
     @(@('PARENTS · B2C', $LXE, 11.5), @('4.6 / 5', $SN, 28), @('Grade 1 fit', $LX, 11.5), @('75.5', $SN, 24), @('SUS usability score', $LX, 11.5), @('n = 5 parents', $LXS, 10.5)),
-    @(@('TEACHERS · B2B', $LXE, 11.5), @('4.73 / 5', $SN, 28), @('teaching-design rubric', $LX, 11.5), @('n = 5 on the final rubric', $LXS, 10.5), @('9 teachers took part in all', $LX, 10.5)),
+    @(@('TEACHERS · B2B', $LXE, 11.5), @('4.73 / 5', $SN, 28), @('teaching-design rubric (4.725)', $LX, 11), @('n = 5 on the final rubric', $LXS, 10.5), @('9 teachers took part in all', $LX, 10.5)),
     @(@('LEARNERS · B2G & CSR', $LXE, 11.5), @('15 of 16', $SN, 28), @('chose the happiest face', $LX, 11.5), @('14 of 16', $SN, 24), @('would play again', $LX, 11.5), @('n = 16 Grade 1 learners', $LXS, 10.5)))
   for ($i = 0; $i -lt 3; $i++) {
     $t = $TILES[$i]; $b = Box $s $t.n (40 + 196 * $i) 144 184 250 $t.f $t.l 3 0.12 7 $K.Brown 10
@@ -249,7 +248,7 @@ function S10($s) {
   }
   $f = Box $s '!!Tile_Coral' 36 408 600 50 $K.Coral $K.CoralLip 3 0.3 6
   Set-Text $f @(P '30 participants · 16 learners · 5 parents · 9 teachers · two rounds, 2026' $LXS 13 $K.Ink) 2 3
-  [void](TB $s $null 40 470 600 24 @(P 'Reactions and expert ratings; reading gains were not measured.' $LX 10.5 $K.Muted) 2 1)
+  [void](TB $s $null 40 470 600 24 @(P 'Source: STD v1.0 & Round 1–2 survey sheets. Reactions and expert ratings; reading gains were not measured.' $LX 9.5 $K.Muted) 2 1)
   $q = Box $s '!!Phone_Card' 664 80 268 150 $K.Shell $K.ShellLip 2.5 0.14 6 $K.Brown 16
   Set-Text $q @((P ([char]0x201C + 'The app is very useful and engaging for Grade 1 learners.' + [char]0x201D) $LXS 15 $K.Ink -sa 6), (P ([char]0x2014 + ' Grade 1 reading teacher, Round 1') $LX 10.5 $K.Muted)) 1 3
   [void](Pic $s $null 'mapprop_crayon_bridge.png' 676 296 230 230)
@@ -260,19 +259,19 @@ function S11($s) {
   Headline $s 'Market opportunity'
   $peso = [char]0x20B1
   $b = Box $s '!!Tile_Blue' 58 80 828 72 $K.Blue $K.BlueLip 3 0.25 6 $K.Brown 18
-  Set-Text $b @((P 'TAM · 13.5M early learners' $LXE 16 $K.Ink -sa 1), (P 'Philippines and Southeast Asia' $LX 11.5 $K.Ink)) 1 3
+  Set-Text $b @((P 'TAM · 13.5M early learners' $LXE 16 $K.Ink -sa 1), (P 'Philippines and Southeast Asia (UNESCO UIS primary cohort)' $LX 11.5 $K.Ink)) 1 3
   [void](TB $s $null 690 80 180 72 @(P "$($peso)16.2B / yr" $LXE 24 $K.Ink) 3 3)
   $b = Box $s '!!Tile_Amber' 58 168 590 72 $K.Amber $K.AmberLip 3 0.25 6 $K.Brown 18
-  Set-Text $b @((P 'SAM · 2.4M Philippine Grade 1 learners' $LXE 16 $K.Ink -sa 1), (P 'Prepaid and patchy-Wi-Fi households' $LX 11.5 $K.Ink)) 1 3
+  Set-Text $b @((P 'SAM · 2.4M Philippine Grade 1 learners' $LXE 16 $K.Ink -sa 1), (P 'DepEd LIS & PSA cohort · prepaid & patchy-Wi-Fi homes' $LX 11.5 $K.Ink)) 1 3
   [void](TB $s $null 452 168 180 72 @(P "$($peso)2.88B / yr" $LXE 22 $K.Ink) 3 3)
   $b = Box $s '!!Tile_Green' 58 256 346 72 $K.Green $K.GreenLip 3 0.25 6 $K.Brown 18
-  Set-Text $b @((P 'SOM · 185K learners' $LXE 16 $K.Ink -sa 1), (P 'Region VII, Central Visayas' $LX 11.5 $K.Ink)) 1 3
+  Set-Text $b @((P 'SOM · 185K learners' $LXE 16 $K.Ink -sa 1), (P "Region VII · $($peso)222M / yr market" $LX 11.5 $K.Ink)) 1 3
   $b = Box $s '!!Tile_Coral' 420 256 228 72 $K.Coral $K.CoralLip 3 0.25 6 $K.Brown 12
-  Set-Text $b @((P ("$($peso)18M" + [char]0x2013 + "$($peso)36M") $SN 21 $K.Ink -b -sa 1), (P 'Cebu beachhead' $LXS 12 $K.Ink)) 2 3
+  Set-Text $b @((P ("$($peso)18M" + [char]0x2013 + "$($peso)36M") $SN 21 $K.Ink -b -sa 1), (P 'Cebu beachhead (8%–16%)' $LXS 11.5 $K.Ink)) 2 3
   $g = Box $s '!!Gold_Hero' 58 350 590 56 $K.Gold $K.GoldLip 2.5 0.3 5 $K.Brown 18
   Set-Text $g @(P "Tailwind: DepEd's National Learning Recovery Program and Catch-Up Fridays" $LXS 13 $K.Ink) 1 3
   $c = Box $s '!!Phone_Card' 58 424 590 48 $K.Shell $K.ShellLip 2 0.3 4 $K.Brown 18
-  Set-Text $c @(P "Team estimates: market size assumes about $($peso)1,200 per learner per year." $LX 11.5 $K.Muted) 1 3
+  Set-Text $c @(P "Sources: UNESCO UIS, DepEd LIS & PSA cohorts · Valued at $($peso)1,200 / learner / yr." $LX 11 $K.Muted) 1 3
   Lily $s 'pointing' 690 210 170 -Mirror
 }
 function S12($s) {
@@ -337,7 +336,7 @@ function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$c
   Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'Go-to-market: the classroom door'
   [void](Pic $s $null 'mapprop_book_stack.png' 846 424 96 96)
-  $hs = @(100, 180, 260, 340); $labels = @(@('Q1 2027', 'Cebu pilot'), @('Q2 2027', 'Zero-data sharing'), @(('Q3' + [char]0x2013 + 'Q4 2027'), '20 schools'), @('2028+', 'National'))
+  $hs = @(100, 180, 260, 340); $labels = @(@('Phase 1', 'Cebu school pilot'), @('Phase 2', 'Zero-data sharing'), @('Phase 3', '20 schools & CSR'), @('Phase 4', 'National scale'))
   # Phases not yet reached are drawn in solid lighter tints (a transparent face would let the lip shadow
   # show through behind the text).
   $tint = @(@('99CEE3', '8DB7C8'), @('F7C38E', 'E0AF7F'), @('93C795', '8BB18C'), @('F5A4A4', 'DD9695'))
@@ -358,9 +357,9 @@ function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$c
   Set-Text $c @((P $card.k $LXE 12.5 $K.Teal -sa 6), (P $card.h $SN 23 $K.Ink -b -sa 10), (P $card.t $LX 14.5 $K.Ink)) 1 1
   Lily $s $pose $lily[0] $lily[1] $lily[2]
 }
-function S14($s) { GtmSlide $s 0 'pointing' @(70, 304, 96) @{ k = 'PHASE 1 · Q1 2027 · CEBU PILOT'; h = '5 schools · 300 learners'; t = 'A planned 6-week reading-fluency study in five Cebu elementary schools.' } }
-function S15($s) { GtmSlide $s 1 'encouraging' @(216, 224, 96) @{ k = 'PHASE 2 · Q2 2027 · BRIGADA ESKWELA & PTA'; h = ([char]0x20B1 + '0 data · ' + [char]0x20B1 + '0 ads'); t = 'Teachers share playit.apk phone-to-phone with Nearby Share; parents install it without mobile data.' } }
-function S16($s) { GtmSlide $s 2 'celebrating' @(376, 144, 96) @{ k = 'PHASES 3' + [char]0x2013 + '4 · Q3 2027 ' + [char]0x2192 + ' 2028+'; h = '20 schools + 3 CSR partners'; t = 'Then LGU kits through the Special Education Fund, and Bisaya and Tagalog modules nationwide.' } }
+function S14($s) { GtmSlide $s 0 'pointing' @(70, 304, 96) @{ k = 'PHASE 1 · CEBU SCHOOL PILOT'; h = '5 schools · 300 learners'; t = 'A 6-week longitudinal reading-fluency study in five Cebu elementary schools.' } }
+function S15($s) { GtmSlide $s 1 'encouraging' @(216, 224, 96) @{ k = 'PHASE 2 · BRIGADA ESKWELA & PTA'; h = ([char]0x20B1 + '0 data · ' + [char]0x20B1 + '0 ads'); t = 'Teachers share playit.apk phone-to-phone with Nearby Share; parents install it without mobile data.' } }
+function S16($s) { GtmSlide $s 2 'celebrating' @(376, 144, 96) @{ k = 'PHASES 3' + [char]0x2013 + '4 · REGIONAL ' + [char]0x2192 + ' NATIONAL'; h = '20 schools + 3 CSR partners'; t = 'Then LGU kits through the Special Education Fund (RA 7160 Sec. 272), and Bisaya & Tagalog modules nationwide.' } }
 function S17($s) {
   Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked
   [void](Box $s $null 19 13 46 46 $K.Shell '' 0 0.24 0)
@@ -370,9 +369,9 @@ function S17($s) {
   $g = Box $s '!!Gold_Hero' 48 76 270 138 $K.Gold $K.GoldLip 3 0.12 7 $K.Brown 14
   Set-Text $g @((P '88%' $SN 34 $K.Ink -b), (P 'gross margin (projected)' $LXS 13 $K.Ink -sa 3), (P "Speech is checked on the phone: $($peso)0 cloud cost per learner" $LX 10.5 $K.Ink)) 2 3
   $c = Box $s '!!Phone_Card' 345 76 270 138 $K.Shell $K.GoldLip 3 0.12 7 $K.Gold 14
-  Set-Text $c @((P ('4.8' + [char]0x00D7) $SN 34 $K.Ink -b), (P 'LTV : CAC (projected)' $LXS 13 $K.Ink -sa 3), (P "School-led distribution: $($peso)245 per customer" $LX 10.5 $K.Ink)) 2 3
+  Set-Text $c @((P ('4.8' + [char]0x00D7) $SN 34 $K.Ink -b), (P 'LTV : CAC (projected)' $LXS 13 $K.Ink -sa 3), (P "School-led distribution: $($peso)245 CAC vs $($peso)1,200 LTV" $LX 10.5 $K.Ink)) 2 3
   $k3 = Box $s '!!KPI_3' 642 76 270 138 $K.Shell $K.GoldLip 3 0.12 7 $K.Gold 14
-  Set-Text $k3 @((P 'Month 9' $SN 34 $K.Ink -b), (P 'break-even target' $LXS 13 $K.Ink -sa 3), (P ("From the team's Year 1" + [char]0x2013 + '2 projections') $LX 10.5 $K.Ink)) 2 3
+  Set-Text $k3 @((P '985 passes' $SN 28 $K.Ink -b), (P 'break-even volume (~82 / mo)' $LXS 12.5 $K.Ink -sa 3), (P 'Or 2 schools + 1 LGU kit covers annual fixed dev overhead' $LX 10 $K.Ink)) 2 3
   Lily $s 'waving' 878 6 62
   [void](TB $s $null 48 236 500 24 @(P 'Projected revenue' $LXE 14 $K.Cream) 1 3)
   [void](TB $s $null 48 270 88 40 @(P 'Year 1' $SN 16 $K.Cream -b) 1 3)
@@ -384,7 +383,7 @@ function S17($s) {
   [void](TB $s $null 48 384 88 36 @(P 'From' $LXS 12 $K.Cream) 1 3)
   $legend = @('B2C · families', 'B2B · schools', 'B2G · LGU kits', 'CSR · sponsors')
   for ($i = 0; $i -lt 4; $i++) { $t = $TILES[$i]; $b = Box $s $t.n (140 + 176 * $i) 384 162 36 $t.f $t.l 2.5 0.4 4 $K.Brown 6; Set-Text $b @(P $legend[$i] $LXS 12 $K.Ink) 2 3 }
-  [void](TB $s $null 48 446 864 40 @(P "All figures on this slide are team projections, not results. The $($peso)0 cloud speech cost holds because speech is checked on the phone." $LX 11 $K.Cream) 1 1)
+  [void](TB $s $null 48 442 864 44 @(P "Bottom-up Year 1 target ($($peso)1.45M): 625 family passes ($($peso)624K) + 4 private schools ($($peso)300K) + 3 LGU kits ($($peso)225K) + 2 CSR schools ($($peso)300K). Verified $($peso)0.00 cloud speech cost per learner." $LX 10.5 $K.Cream) 1 1)
 }
 function S18($s) {
   Bg $s 'cream'; Pixar $s '06_Slide10_Bohol_Daylight_2D.png'; Headline $s 'PlayIT' -Parked
@@ -396,7 +395,7 @@ function S18($s) {
   [void](Pic $s $null 'qr_app.png' 44 140 104 104); [void](Pic $s $null 'qr_pitch.png' 160 140 104 104)
   [void](TB $s $null 40 250 112 68 @((P 'Try the app' $LXE 11 $K.Ink -sa 2), (P 'playit.apk · Android 8.0+ · works offline' $LX 9 $K.Ink)) 2 1)
   [void](TB $s $null 156 250 112 68 @((P 'Watch the demo' $LXE 11 $K.Ink -sa 2), (P '2-minute pitch video' $LX 9 $K.Ink)) 2 1)
-  [void](TB $s $null 34 332 244 34 @(P 'Join our Q1 2027 Cebu pilot: 5 schools, 300 learners.' $LXS 11 $K.Ink) 2 3)
+  [void](TB $s $null 34 332 244 34 @(P 'Partner with us for our Cebu school pilot: 5 schools, 300 learners.' $LXS 10.5 $K.Ink) 2 3)
   [void](Pic $s $null 'team_2d_clear.png' 84 370 140 92.4)
   [void](TB $s $null 22 466 264 50 @((P 'Group 56 · CIT-U College of Computer Studies' $LXS 8.5 $K.Ink -sa 2), (P 'Zendrix Riva · Erik Samuel Bien · Ashlee Skye Durano' $LX 7.5 $K.Ink), (P 'Kaysean Miel · John James Palis · Adviser: Mr. Joemarie C. Amparo' $LX 7.5 $K.Ink)) 2 1)
   ParkTiles $s 600
