@@ -103,7 +103,7 @@ function Bg($s, [string]$mode) {
 }
 # Full-bleed story picture (1376 x 768 -> 967.5 x 540); parked off-stage left on the app-world slides.
 function Pixar($s, [string]$file, [switch]$Parked) { [void](Pic $s '!!Bg_Pixar' $file $(if ($Parked) { -1000 } else { -3.75 }) 0 967.5 540) }
-function Logo($s, [double]$x, [double]$y, [double]$w) { [void](Pic $s '!!Logo_Badge' 'product_logo_v3.png' $x $y $w $w) }
+function Logo($s, [double]$x, [double]$y, [double]$w) { [void](Pic $s '!!Logo_Badge' 'product_logo_v4.png' $x $y $w $w) }
 function Lily($s, [string]$pose, [double]$x, [double]$y, [double]$w, [switch]$Mirror) {
   $p = Pic $s '!!Lily_Guide' "lily_$pose.png" $x $y $w $w
   if ($Mirror) { $p.Flip(0) }
@@ -130,7 +130,7 @@ function ParkLily($s, [string]$side = 'left') { if ($side -eq 'left') { Lily $s 
 
 # ---------- slides ----------
 function S01($s) {
-  Bg $s 'dusk'; Pixar $s '01_Slide01_Bohol_Dusk_Approved.jpg'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
+  Bg $s 'dusk'; Pixar $s '01_Slide01_Bohol_Dusk_2D.png'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
   $c = Box $s '!!Phone_Card' 24 24 486 122 $K.Ink '' 1.5 0.14 0 $K.Shell
   $c.Fill.Transparency = 0.18; $c.TextFrame2.MarginLeft = 96; $c.TextFrame2.MarginRight = 16
   Set-Text $c @((P 'Meet Mia. Age 6. Grade 1.' $SN 22 $K.White -b -sa 4), (P 'Every night, one stuck letter sound stops reading before it starts.' $LX 13.5 $K.Cream))
@@ -140,17 +140,17 @@ function S01($s) {
   ParkLily $s
 }
 function S02($s) {
-  Bg $s 'dusk'; Pixar $s '01_Slide01_Bohol_Dusk_Approved.jpg'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
+  Bg $s 'dusk'; Pixar $s '01_Slide01_Bohol_Dusk_2D.png'; Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
   $c = Box $s '!!Phone_Card' 16 40 486 116 $K.Ink '' 1.5 0.14 0 $K.Shell
   $c.Fill.Transparency = 0.18; $c.TextFrame2.MarginLeft = 20; $c.TextFrame2.MarginRight = 16
   Set-Text $c @((P 'No 1-on-1 phonics coaching.' $SN 26 $K.White -b -sa 4), (P 'Closed book. Tomorrow falls behind.' $LX 15 $K.Cream))
-  $g = Box $s '!!Gold_Hero' 424 316 60 60 $K.Gold $K.GoldLip 2.5 0.2 5 $K.Brown 0
+  $g = Box $s '!!Gold_Hero' 326 392 60 60 $K.Gold $K.GoldLip 2.5 0.2 5 $K.Brown 0
   Set-Text $g @(P 'Mm' $SN 26 $K.Ink -b) 2 3; $g.TextFrame2.WordWrap = 0; $g.Rotation = -6
   $i = 0; foreach ($t in $TILES) { [void](Box $s $t.n 926 (170 + 52 * $i) 40 44 $t.f $t.l 1.5 0.3 3); $i++ }
   ParkLily $s
 }
 function S03($s) {
-  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg'
+  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png'
   [void](Box $s $null 899 13 48 48 $K.Shell '' 0 0.24 0)
   Logo $s 902 16 42; Headline $s 'PlayIT' -Parked
   $g = Box $s '!!Gold_Hero' 32 26 440 100 $K.Gold $K.GoldLip 3 0.18 7
@@ -166,11 +166,11 @@ function S03($s) {
   ParkLily $s
 }
 function S04($s) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Headline $s 'PlayIT' -Parked
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Headline $s 'PlayIT' -Parked
   [void](Pic $s $null 'mapprop_nipa_hut.png' 18 412 112 112); [void](Pic $s $null 'mapprop_book_stack.png' 650 430 92 92); [void](Pic $s $null 'mapprop_palm_tree.png' 820 356 136 172)
   $g = Box $s '!!Gold_Hero' 290 16 380 36 $K.Gold $K.GoldLip 2 0.5 4
   Set-Text $g @(P 'AN OFFLINE-FIRST PHONICS COMPANION' $LXE 12 $K.Ink) 2 3
-  Logo $s 44 72 80; [void](Pic $s $null 'wordmark_v3_teal.png' 134 76 202 74.9)
+  Logo $s 44 72 80; [void](Pic $s $null 'wordmark_v4_teal.png' 134 76 202 74.9)
   Phone $s 380.5 64 400 'screen_map.png'
   $specs = @(
     @{ t = $TILES[0]; x = 40; y = 172; a = '100% Offline'; b = 'No INTERNET permission in the app' },
@@ -199,7 +199,7 @@ function Accordion($s, [int]$open, [hashtable]$body) {
   }
 }
 function StepSlide($s, [int]$open, [string]$screen, [string]$pose, [hashtable]$body) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'How Lily teaches: 4 steps for every letter'
   $g = Box $s '!!Gold_Hero' 760 20 150 32 $K.Gold $K.GoldLip 2 0.5 4
   Set-Text $g @(P ("STEP {0} OF 4" -f ($open + 1)) $LXE 12 $K.Ink) 2 3
@@ -224,7 +224,7 @@ function S08($s) {
   for ($i = 0; $i -lt 3; $i++) { [void](Pic $s $null 'reward_star.png' (402 + 40 * $i) 422 36 36) }
 }
 function S09($s) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'Parent Zone, and what is built today'
   $labels = @('1. Hear It', '2. Say It', '3. Find It', '4. Blend It')
   for ($i = 0; $i -lt 4; $i++) { $t = $TILES[$i]; $b = Box $s $t.n 380 (70 + 46 * $i) 530 38 $t.f $t.l 2 0.3 4 $K.Brown 20; Set-Text $b @(P $labels[$i] $LXE 13.5 $K.Ink) 1 3 }
@@ -239,7 +239,7 @@ function S09($s) {
   Lily $s 'celebrating' 268 395 110
 }
 function S10($s) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'Tested with 30 people: the bridge to Mia'
   $g = Box $s '!!Gold_Hero' 36 80 600 50 $K.Gold $K.GoldLip 3 0.3 6
   Set-Text $g @(P 'THE BRIDGE TO THE CHILD' $SN 21 $K.Ink -b) 2 3
@@ -261,7 +261,7 @@ function S10($s) {
   Lily $s 'waving' 726 220 150
 }
 function S11($s) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'Market opportunity'
   $peso = [char]0x20B1
   $b = Box $s '!!Tile_Blue' 58 80 828 72 $K.Blue $K.BlueLip 3 0.25 6 $K.Brown 18
@@ -281,7 +281,7 @@ function S11($s) {
   Lily $s 'pointing' 690 210 170 -Mirror
 }
 function S12($s) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'How PlayIT earns: 4 revenue streams'
   $peso = [char]0x20B1
   $g = Box $s '!!Gold_Hero' 49 66 862 40 $K.Gold $K.GoldLip 2.5 0.5 5
@@ -304,7 +304,7 @@ function S12($s) {
   ParkLily $s 'right'
 }
 function S13($s) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'Why PlayIT wins'
   $board = Box $s '!!Phone_Card' 40 64 880 412 $K.Shell $K.ShellLip 2.5 0.05 6
   $heads = @('Cloud global apps', 'Flashcard apps', '', 'Private tutors')
@@ -339,7 +339,7 @@ function S13($s) {
   Lily $s 'celebrating' 272 4 56
 }
 function GtmSlide($s, [int]$phase, [string]$pose, [double[]]$lily, [hashtable]$card) {
-  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked; Logo $s 22 16 40
+  Bg $s 'day'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked; Logo $s 22 16 40
   Headline $s 'Go-to-market: the classroom door'
   [void](Pic $s $null 'mapprop_book_stack.png' 846 424 96 96)
   $hs = @(100, 180, 260, 340); $labels = @(@('Q1 2027', 'Cebu pilot'), @('Q2 2027', 'Zero-data sharing'), @(('Q3' + [char]0x2013 + 'Q4 2027'), '20 schools'), @('2028+', 'National'))
@@ -367,7 +367,7 @@ function S14($s) { GtmSlide $s 0 'pointing' @(70, 304, 96) @{ k = 'PHASE 1 · Q1
 function S15($s) { GtmSlide $s 1 'encouraging' @(216, 224, 96) @{ k = 'PHASE 2 · Q2 2027 · BRIGADA ESKWELA & PTA'; h = ([char]0x20B1 + '0 data · ' + [char]0x20B1 + '0 ads'); t = 'Teachers share playit.apk phone-to-phone with Nearby Share; parents install it without mobile data.' } }
 function S16($s) { GtmSlide $s 2 'celebrating' @(376, 144, 96) @{ k = 'PHASES 3' + [char]0x2013 + '4 · Q3 2027 ' + [char]0x2192 + ' 2028+'; h = '20 schools + 3 CSR partners'; t = 'Then LGU kits through the Special Education Fund, and Bisaya and Tagalog modules nationwide.' } }
 function S17($s) {
-  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_Approved.jpg' -Parked
+  Bg $s 'teal'; Pixar $s '02_Slide02_Deep_Teal_Literacy_Gap_2D.png' -Parked
   [void](Box $s $null 19 13 46 46 $K.Shell '' 0 0.24 0)
   Logo $s 22 16 40
   Headline $s 'Zero cloud burn, a fast path to profit' $K.Cream
@@ -392,10 +392,10 @@ function S17($s) {
   [void](TB $s $null 48 446 864 40 @(P "All figures on this slide are team projections, not results. The $($peso)0 cloud speech cost holds because speech is checked on the phone." $LX 11 $K.Cream) 1 1)
 }
 function S18($s) {
-  Bg $s 'cream'; Pixar $s '06_Slide10_Bohol_Daylight_Approved.jpg'; Headline $s 'PlayIT' -Parked
+  Bg $s 'cream'; Pixar $s '06_Slide10_Bohol_Daylight_2D.png'; Headline $s 'PlayIT' -Parked
   [void](Box $s '!!Gold_Hero' 18 18 272 504 $K.Gold $K.GoldLip 3 0.06 7)
   [void](Box $s $null 32 26 244 62 $K.Shell $K.ShellLip 2 0.25 4 $K.Brown 4)
-  Logo $s 48 33 48; [void](Pic $s $null 'wordmark_v3_teal.png' 106 32 148 54.9)
+  Logo $s 48 33 48; [void](Pic $s $null 'wordmark_v4_teal.png' 106 32 148 54.9)
   [void](TB $s $null 34 94 244 28 @(P 'One sound at a time.' $SN 19 $K.Ink -b) 2 3)
   [void](Box $s '!!Phone_Card' 32 128 244 196 $K.Shell $K.ShellLip 2.5 0.08 5)
   [void](Pic $s $null 'qr_app.png' 44 140 104 104); [void](Pic $s $null 'qr_pitch.png' 160 140 104 104)
@@ -405,7 +405,7 @@ function S18($s) {
   [void](Pic $s $null 'team_2d_clear.png' 84 370 140 92.4)
   [void](TB $s $null 22 466 264 50 @((P 'Group 56 · CIT-U College of Computer Studies' $LXS 8.5 $K.Ink -sa 2), (P 'Zendrix Riva · Erik Samuel Bien · Ashlee Skye Durano' $LX 7.5 $K.Ink), (P 'Kaysean Miel · John James Palis · Adviser: Mr. Joemarie C. Amparo' $LX 7.5 $K.Ink)) 2 1)
   ParkTiles $s 600
-  Lily $s 'waving' 1000 300 120
+  Lily $s 'waving' 360 338 140
 }
 
 # ---------- speaker notes (timed script with click cues) ----------

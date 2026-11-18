@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 315" width="850" height="315">
+  <g transform="translate(10, 10)">
+    
+    <g>
+      <g fill="none" stroke="#FFFDF8" stroke-width="38" stroke-linecap="round" stroke-linejoin="round">
+        <!-- P (clean open circular counter so Lily's face is 100% the hero) -->
+        <line x1="42" y1="46" x2="42" y2="216"/>
+        <path d="M 42 46 L 84 46 A 56 56 0 0 1 84 158 L 42 158"/>
+        <!-- l (Featherly curved foot) -->
+        <path d="M 198 46 L 198 184 A 32 32 0 0 0 230 216"/>
+        <!-- a (single-story circular bowl + right vertical stem) -->
+        <circle cx="314" cy="160" r="56"/>
+        <line x1="370" y1="104" x2="370" y2="216"/>
+        <!-- y (circular U-cup + Featherly circular hook tail) -->
+        <path d="M 436 104 L 436 164 A 49 49 0 0 0 534 164 L 534 104"/>
+        <path d="M 534 104 L 534 224 A 48 48 0 0 1 486 272 L 478 272"/>
+      </g>
+      <g fill="none" stroke="#FFC53D" stroke-width="38" stroke-linecap="round" stroke-linejoin="round">
+        <!-- I -->
+        <line x1="604" y1="46" x2="604" y2="216"/>
+        <line x1="590" y1="46" x2="618" y2="46"/>
+        <line x1="590" y1="216" x2="618" y2="216"/>
+        <!-- T -->
+        <line x1="682" y1="46" x2="786" y2="46"/>
+        <line x1="734" y1="46" x2="734" y2="216"/>
+      </g>
+      
+    </g>
+  
+  </g>
+</svg>
