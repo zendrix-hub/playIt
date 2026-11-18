@@ -40,7 +40,7 @@ S13 · 3:30–4:00 · Why PlayIT wins · Morph #12
 Why do we win? Cloud apps charge around ₱500 a month and break without Wi-Fi. Offline flashcard apps can't hear whether a child said the word. Tutors cost ₱3,000 a month. Of seven reading apps we reviewed, none combined all three: working offline, the Marungko order, and checking the child's speech on the phone. PlayIT does—at zero cloud cost. [CLICK → S14]
 === 14
 S14 · 4:00–4:10 · Go-to-market, Phase 1 · Morph #13
-We go to market through the classroom door. Phase 1: a five-school, 300-learner longitudinal reading-fluency pilot right here in Cebu. [CLICK → S15]
+We go to market through the classroom door. Phase 1 is our proposed pilot: partnering with Cebu elementary schools for a 6-week reading-fluency study. [CLICK → S15]
 === 15
 S15 · 4:10–4:20 · Phase 2 · Morph #14
 Phase 2: during Brigada Eskwela and PTA nights, teachers share PlayIT phone-to-phone via Nearby Share—families install it at zero mobile data cost. [CLICK → S16]
@@ -52,4 +52,4 @@ S17 · 4:30–4:45 · Unit economics · Morph #16
 Because speech is checked on the phone at ₱0 cloud cost per learner, our projected unit economics reach an 88% gross margin and 4.8 times LTV to CAC. We need just 985 paid pass equivalents—about 82 a month, or two schools plus one LGU kit—to break even, scaling to a ₱1.45 million bottom-up Year 1 target. [CLICK → S18]
 === 18
 S18 · 4:45–5:00 · Every child reading · Morph #17
-With PlayIT, the dim table where Mia got stuck becomes the place she finds her voice. A working Android app in hand, built in Cebu, tested with real learners, parents and teachers—partner with us for our Cebu school pilot, one sound at a time. Thank you!
+With PlayIT, the dim table where Mia got stuck becomes the place she finds her voice. A working Android app in hand, built in Cebu, tested with real learners, parents and teachers—we are now seeking Cebu school partners for our pilot, one sound at a time. Thank you!

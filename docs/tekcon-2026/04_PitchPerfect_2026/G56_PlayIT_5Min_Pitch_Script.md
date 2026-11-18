@@ -31,17 +31,17 @@
 | S11 Market | 2:30–2:55 | With 13.5 million early learners across the Philippines and Southeast Asia (UNESCO UIS cohort), that bridge opens a ₱16.2 billion total addressable market, and ₱2.88 billion across 2.4 million Filipino Grade 1 learners (DepEd LIS and PSA cohort). In Region VII alone, 185,000 learners represent a ₱222 million regional market—where capturing an 8 to 16 percent Cebu beachhead unlocks ₱18 to ₱36 million. | CLICK → S12 |
 | S12 Revenue | 2:55–3:30 | We earn through four streams while keeping Chapter 1—M, S, A, I—free forever. Parents unlock all seven chapters for ₱149 a month or a ₱999 pass through GCash—less than three tutoring sessions. Private schools license at ₱450 per student a year, while LGU barangay kits at ₱75,000 funded via the Special Education Fund (RA 7160 Sec. 272) and ₱150,000 corporate CSR school adoptions deliver high-margin bulk impact. | CLICK → S13 |
 | S13 Why we win | 3:30–4:00 | Why do we win? Cloud apps charge around ₱500 a month and break without Wi-Fi. Offline flashcard apps can't hear whether a child said the word. Tutors cost ₱3,000 a month. Of seven reading apps we reviewed, none combined all three: working offline, the Marungko order, and checking the child's speech on the phone. PlayIT does—at zero cloud cost. | CLICK → S14 |
-| S14 GTM Phase 1 | 4:00–4:10 | We go to market through the classroom door. Phase 1: a five-school, 300-learner longitudinal reading-fluency pilot right here in Cebu. | CLICK → S15 |
+| S14 GTM Phase 1 | 4:00–4:10 | We go to market through the classroom door. Phase 1 is our proposed pilot: partnering with Cebu elementary schools for a 6-week reading-fluency study. | CLICK → S15 |
 | S15 GTM Phase 2 | 4:10–4:20 | Phase 2: during Brigada Eskwela and PTA nights, teachers share PlayIT phone-to-phone via Nearby Share—families install it at zero mobile data cost. | CLICK → S16 |
 | S16 GTM Phases 3–4 | 4:20–4:30 | Phases 3 and 4: we scale to 20 Visayas schools and three CSR partners, then expand nationally through LGU Special Education Fund kits and Bisaya and Tagalog modules. | CLICK → S17 |
 | S17 Unit economics | 4:30–4:45 | Because speech is checked on the phone at ₱0 cloud cost per learner, our projected unit economics reach an 88% gross margin and 4.8 times LTV to CAC. We need just 985 paid pass equivalents—about 82 a month, or two schools plus one LGU kit—to break even, scaling to a ₱1.45 million bottom-up Year 1 target. | CLICK → S18 |
-| S18 Every child reading | 4:45–5:00 | With PlayIT, the dim table where Mia got stuck becomes the place she finds her voice. A working Android app in hand, built in Cebu, tested with real learners, parents and teachers—partner with us for our Cebu school pilot, one sound at a time. Thank you! | (end) |
+| S18 Every child reading | 4:45–5:00 | With PlayIT, the dim table where Mia got stuck becomes the place she finds her voice. A working Android app in hand, built in Cebu, tested with real learners, parents and teachers—we are now seeking Cebu school partners for our pilot, one sound at a time. Thank you! | (end) |
 
 The same text is in each slide's speaker notes.
 
 ## Q&A defense notes
 
-**Is the audio licensed for commercial use?** Not all of it yet. Four clips in the capstone APK (the Blend It words AM, TUB, YAM and the short /i/) were made with the ElevenLabs Free plan, which allows non-commercial use with attribution (credited in the Parent Zone). We will replace them before the Q1 2027 pilot, for example with Apache-2.0 Kokoro-82M voices put through the same review as the rest of the audio. One Kokoro take of TUB failed that review before, so the swap needs its own check.
+**Is the audio licensed for commercial use?** Not all of it yet. Four clips in the capstone APK (the Blend It words AM, TUB, YAM and the short /i/) were made with the ElevenLabs Free plan, which allows non-commercial use with attribution (credited in the Parent Zone). We will replace them before a commercial release or school pilot, for example with Apache-2.0 Kokoro-82M voices put through the same review as the rest of the audio. One Kokoro take of TUB failed that review before, so the swap needs its own check.
 
 **How do you sell an unlock to a phone that is offline?** This is planned, not built. The idea is a signed activation code tied to the device and stored with the child's local data, bought through a GCash merchant or by SMS. After activation nothing needs the internet. The capstone build has no payment system.
 
@@ -55,7 +55,7 @@ The same text is in each slide's speaker notes.
 
 **Why is the speech check free to run?** Vosk runs on the phone. There is no cloud speech API, so there is no per-learner inference fee. The remaining costs are distribution, support and new content.
 
-**Did children learn to read better?** We do not claim that. The evaluation measured reactions and expert ratings. The planned Q1 2027 pilot is the first study that would measure reading fluency over time.
+**Did children learn to read better?** We do not claim that. The evaluation measured reactions and expert ratings. A future school pilot would be the first study to measure reading fluency over time.
 
 **Where does 4.73 come from?** From 5 teachers who completed the final 16-item rubric (exact mean 4.725). Nine teachers took part across both rounds. 15 of 16 learners chose the happiest face, but young children tend to choose that face; ease of play was lower (9 of 16).
 
