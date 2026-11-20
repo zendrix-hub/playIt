@@ -1,0 +1,30 @@
+=== 1
+P01 · 0:00–0:15 · Team & Intro (Warm, confident)
+Good day, judges—we are Group 56 from CIT-University: Zendrix Riva, Erik Samuel Bien, Ashlee Skye Durano, Kaysean Miel, and John James Palis, mentored by Mr. Joemarie Amparo. Today we present PlayIT. [CLICK → Slide 2]
+=== 2
+P02 · 0:15–0:40 · Meet Mia (Quiet, warm — draw them in) · Morph #1
+Picture a kitchen table in Bohol at seven-thirty tonight. That's Mia. She's six years old, in Grade 1—staring at one small letter under her reading lamp. One sound she can't remember. Crowded classroom, Nanay still at work, zero signal on the phone—so tonight, Mia closes the book. [CLICK → Slide 3]
+=== 3
+P03 · 0:40–1:10 · The Problem: 9 out of 10 (Firm, clear contrast) · Morph #2
+Mia is not the exception. According to the June 2022 World Bank and UNESCO Learning Poverty Brief, 90.9 percent—nine out of ten Filipino ten-year-olds—still struggle to read a simple text. Cloud apps freeze without steady Wi-Fi, and four-to-six-hundred-peso paywalls are built around foreign accents. [CLICK → Slide 4]
+=== 4
+P04 · 1:10–2:15 · Solution & Product Demo (Energy lifts — hopeful) · Morph #3
+So we built PlayIT—an offline-first Android 8 phonics companion guided by Lily the Tarsier, following DepEd's Marungko order: M, S, A, I first. In four steps per letter: Hear It models /m/; Say It runs offline Vosk speech recognition at zero cloud cost—showing mouth-shape cues on two misses without deducting hearts; Find It matches sounds to pictures; and Blend It snaps tiles into words like SAM in Room SQLite. Parents get plain-language mastery and a one-tap offline A4 PDF—verified by 691 passing tests out of 697 and zero INTERNET permission. [CLICK → Slide 5]
+=== 5
+P05 · 2:15–2:50 · Validation: The Bridge to Mia (N = 30) · Morph #4
+We evaluated PlayIT with thirty participants across Rounds 1 and 2—the bridge to Mia. Fifteen of sixteen Grade 1 learners picked the happiest face and fourteen asked to play again. Parents rated Grade 1 fit 4.6 out of 5 with a 75.5 usability score, and five teachers on our final sixteen-item rubric scored teaching design 4.73 out of 5 (9 teachers total across rounds; engagement and pedagogy measured, not reading gains yet). [CLICK → Slide 6]
+=== 6
+P06 · 2:50–3:15 · Market Opportunity: TAM / SAM / SOM · Morph #5
+Across the Philippines and Southeast Asia, 13.5 million early learners form a ₱16.2 billion TAM; 2.4 million Filipino Grade 1 learners form a ₱2.88 billion SAM; and 185,000 learners in Region VII anchor our ₱18 to ₱36 million Cebu beachhead, backed by DepEd's National Learning Recovery Program. [CLICK → Slide 7]
+=== 7
+P07 · 3:15–3:45 · Business Model: 4 Revenue Streams · Morph #6
+Chapter 1—M, S, A, I—stays free forever. Parents unlock all seven chapters for ₱149 a month or a ₱999 one-time GCash voucher; schools license at ₱450 per student yearly; alongside ₱75,000 LGU Special Education Fund kits and ₱150,000 CSR school adoptions. (Planned launch pricing; capstone APK has no payments yet.) [CLICK → Slide 8]
+=== 8
+P08 · 3:45–4:10 · Competitive Advantage · Morph #7
+Cloud apps stall without Wi-Fi. Offline flashcard apps can't hear whether a child pronounced the sound. Private tutors cost ₱3,000+ monthly. Across seven reading apps we reviewed, only PlayIT unites zero-internet offline use, on-device Vosk speech checking, DepEd Marungko alignment, and offline A4 reporting. [CLICK → Slide 9]
+=== 9
+P09 · 4:10–4:45 · Go-To-Market & Projected Unit Economics · Morph #8
+We launch through the classroom door: a proposed Q1 2027 Cebu pilot across one to five schools, Q2 Nearby Share spreading at zero mobile data cost during Brigada Eskwela, then Visayas and national LGU SEF scale with Bisaya and Tagalog modules. Because AI inference runs on the phone at ₱0 cloud cost, unit economics project an 88 percent gross margin, 4.8x LTV-to-CAC, break-even at 985 passes, and ₱1.45 million projected Year 1 revenue growing to ₱5.80 million in Year 2. [CLICK → Slide 10]
+=== 10
+P10 · 4:45–5:00 · Vision & Call to Action (Warm, slow close) · Morph #9
+Picture that Bohol table again—in morning light. With a working Android APK tested in Cebu, PlayIT turns any family phone into a patient phonics tutor, one sound at a time. Scan to try the APK or watch our two-minute demo, and partner with us for our Cebu pilot. Thank you.
